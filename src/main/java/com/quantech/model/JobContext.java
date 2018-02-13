@@ -32,17 +32,24 @@ public class JobContext {
     @ManyToOne
     private Patient patient;
 
+    private Integer bed;
+
+    @ManyToOne
+    private Ward ward;
+
     @NotNull
     @OneToMany(mappedBy = "jobContext")
     private List<Job> jobs;
 
     public JobContext() { this.jobs = new ArrayList<>(); }
 
-    public JobContext(String clinicalDetails, Boolean unwell, Date creationDate, Patient patient, List<Job> jobs) {
+    public JobContext(String clinicalDetails, Boolean unwell, Date creationDate, Patient patient, Integer bed, Ward ward, List<Job> jobs) {
         this.clinicalDetails = clinicalDetails;
         this.unwell = unwell;
         this.creationDate = creationDate;
         this.patient = patient;
+        this.bed = bed;
+        this.ward = ward;
         this.jobs = jobs;
     }
 
@@ -92,5 +99,21 @@ public class JobContext {
 
     public void setJobs(List<Job> jobs) {
         this.jobs = jobs;
+    }
+
+    public Integer getBed() {
+        return bed;
+    }
+
+    public void setBed(Integer bed) {
+        this.bed = bed;
+    }
+
+    public Ward getWard() {
+        return ward;
+    }
+
+    public void setWard(Ward ward) {
+        this.ward = ward;
     }
 }

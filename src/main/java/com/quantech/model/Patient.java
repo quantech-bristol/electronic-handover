@@ -32,8 +32,6 @@ public class Patient {
     @Column(unique = true)
     private Long nHSNumber;
 
-    private Integer bed;
-
     @ManyToOne
     private Ward ward;
 
@@ -42,13 +40,12 @@ public class Patient {
 
     public Patient() { this.jobContexts = new ArrayList<>(); }
 
-    public Patient(Title title, String firstName, String lastName, Long hospitalNumber, Long nHSNumber, Integer bed, Ward ward, List<JobContext> jobContexts) {
+    public Patient(Title title, String firstName, String lastName, Long hospitalNumber, Long nHSNumber, Ward ward, List<JobContext> jobContexts) {
         this.title = title;
         this.firstName = firstName;
         this.lastName = lastName;
         this.hospitalNumber = hospitalNumber;
         this.nHSNumber = nHSNumber;
-        this.bed = bed;
         this.ward = ward;
         this.jobContexts = jobContexts;
     }
@@ -99,14 +96,6 @@ public class Patient {
 
     public void setnHSNumber(Long nHSNumber) {
         this.nHSNumber = nHSNumber;
-    }
-
-    public Integer getBed() {
-        return bed;
-    }
-
-    public void setBed(Integer bed) {
-        this.bed = bed;
     }
 
     public Ward getWard() {

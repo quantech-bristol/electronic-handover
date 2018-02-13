@@ -5,9 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Job {
@@ -21,7 +19,8 @@ public class Job {
     @Type(type="text")
     private String description;
 
-    //private List<Category> categories;
+    @NotNull
+    private Category category;
 
     // YYYY-MM-DD HH:MM:SS
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,8 +41,9 @@ public class Job {
 
     public Job() { }
 
-    public Job(String description, Date creationDate, Date completionDate, JobContext jobContext, Doctor doctor) {
+    public Job(String description, Category category, Date creationDate, Date completionDate, JobContext jobContext, Doctor doctor) {
         this.description = description;
+        this.category = category;
         this.creationDate = creationDate;
         this.completionDate = completionDate;
         this.jobContext = jobContext;
@@ -96,5 +96,13 @@ public class Job {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
