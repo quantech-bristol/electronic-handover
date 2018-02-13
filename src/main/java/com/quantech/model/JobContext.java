@@ -45,4 +45,52 @@ public class JobContext {
         this.patient = patient;
         this.jobs = jobs;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getClinicalDetails() {
+        return clinicalDetails;
+    }
+
+    public void setClinicalDetails(String clinicalDetails) {
+        this.clinicalDetails = clinicalDetails;
+    }
+
+    public Boolean getUnwell() {
+        return unwell;
+    }
+
+    public void setUnwell(Boolean unwell) {
+        this.unwell = unwell;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
 }
