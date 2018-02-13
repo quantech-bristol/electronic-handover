@@ -11,8 +11,8 @@ to a system which manages the display and transfer of patient specific jobs.
 
 The ER diagram below shows the new database structure.
 
-<img src="docs/table-relationships.jpg" />
+<img src="docs/table-relationships.jpg" align="middle" />
 
 And the illustration below is our goal for the general UI.
 
-<img src="/Users/louis/electronic-handover/docs/ui-diag.png" />
+<img src="docs/ui-diag.png" align="middle" />
