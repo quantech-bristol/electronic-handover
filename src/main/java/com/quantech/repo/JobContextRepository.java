@@ -7,5 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface JobContextRepository extends CrudRepository<JobContext, Long> {
+    public JobContext findById(Long id);
+
     public List<JobContext> findByPatient(Patient patient);
 }

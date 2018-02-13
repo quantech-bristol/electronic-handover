@@ -1,5 +1,6 @@
 package com.quantech.service.JobsService;
 
+import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.Doctor;
 import com.quantech.model.Job;
 import com.quantech.model.JobContext;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,12 +75,38 @@ public class JobsServiceImpl implements JobsService {
 
     @Override
     public List<Job> getAllJobsOfContext(JobContext context) {
-        return null;
+        return jobRepository.findByJobContext(context);
     }
 
+    /**
+     * Saves the given job into the repository.
+     * @param job The handover to be saved.
+     * @throws NullPointerException If the job has a null description, category, creation date or job context.
+     * @throws IllegalArgumentException If the corresponding job context isn't in the repository.
+     */
     @Override
-    public void saveJob(Job job) {
-        // TODO
+    public void saveJob(Job job) throws NullPointerException, IllegalArgumentException {
+        if (job == null)
+            throw new NullPointerException("Error: job to be saved has null value.");
+
+        Object[] fields = new Object[]{job.getDescription(),
+                job.getCategory(),
+                job.getCreationDate(),
+                job.getJobContext()};
+        String[] fieldNames = new String[] {"description",
+                "category",
+                "creation date",
+                "job context"};
+
+        // Carry out field null checks.
+        for (int i = 0; i < fields.length; i++) {
+            EntityFieldHandler.nullCheck(fields[i],fieldNames[i]);
+        }
+
+        // Check if the job context is in the repository.
+        if (jobContextRepository.findById(job.getJobContext().getId()) != null) {
+            throw new IllegalArgumentException("Error: job context doesn't already exist in the database.");
+        }
     }
 
     @Override
