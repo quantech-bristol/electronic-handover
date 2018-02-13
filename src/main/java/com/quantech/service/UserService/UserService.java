@@ -1,9 +1,10 @@
-package com.quantech.service;
+package com.quantech.service.UserService;
 
 import com.quantech.config.SecurityRoles;
 import com.quantech.model.user.Title;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
+import com.quantech.model.user.UserInfo;
 import com.quantech.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService, IUserService {
 
     @Autowired
     UserRepository userRepository;
@@ -106,7 +107,7 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public void CheckValidity(BindingResult result, boolean creating, UserFormBackingObject ob)
+    public void CheckValidity(BindingResult result, boolean creating, UserInfo ob)
     {
         if(!nameIsValid(ob.getUsername(),ob.getId()))//If Username is already in use (but not by us)
         {
