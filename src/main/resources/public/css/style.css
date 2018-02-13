@@ -1,36 +1,6 @@
 /**********************************************************************************************************************/
 /* Misc */
 /**********************************************************************************************************************/
-/*
-h1 {
-    color:#005EB8;
-    font-size: 2.1vw;
-}
-
-h2 {
-    color:#005EB8;
-    font-size: 1.9vw;
-}
-
-h3 {
-    color:#005EB8;
-    font-size: 1.4vw;
-}
-
-h4 {
-    color:#FFF;
-    font-size:40px;
-    margin:0;
-}
-h5 {
-    color:#005EB8;
-    font-size:2.5vh;
-    line-height: 2vh;
-    vertical-align: middle;
-    margin-left:1vw;
-    margin-bottom: 1px;
-}
-*/
 
 body {
     background-color:#FFF;
@@ -38,58 +8,26 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-/**********************************************************************************************************************/
-/* Login page */
-/**********************************************************************************************************************/
-
-#login-background {
-    background-image: url(/images/hospital.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: top left;
-    width: 100%;
-    height: 100%;
-    display: block;
-    position: fixed;
+* {
+    -webkit-transition: all .15s ease-out;
+    -moz-transition: all .15s ease-out;
+    -ms-transition: all .15s ease-out;
+    -o-transition: all .15s ease-out;
+    transition: all .15s ease-out;
 }
 
-#login-main {
-    height: 100%;
-    width: 100%;
-}
-
-#login-form {
-    height: 100%;
-}
-
-#login-form-container {
-    width: 315px;
-    min-width: 315px;
-    height: 100%;
-    padding: 0px 10px 0px 0px;
-    text-align: right;
-}
-
-#login-form-container input[type="text"], input[type="password"] {
-    margin: 0px 5px;
-    border: 1px solid #004b9b;
-    height: 25px;
-    width: 120px;
-    font-size: 12px;
-}
-
-#electronic-handover {
-    width: 100%;
-    height: 80%;
-    text-align: center;
-    color: white;
-    font-size: 8vh;
-    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+*:hover {
+    -webkit-transition: all .08s ease-out;
+    -moz-transition: all .08s ease-out;
+    -ms-transition: all .08s ease-out;
+    -o-transition: all .08s ease-out;
+    transition: all .08s ease-out;
 }
 
 /**********************************************************************************************************************/
-/* Header bar */
+/* Header */
 /**********************************************************************************************************************/
+
 #header {
     background-color:#005EB8;
     height:50px;
@@ -109,7 +47,7 @@ body {
 
 #logo-container {
     display: block;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 100%;
     float: left;
 }
@@ -117,11 +55,46 @@ body {
 #logo-container #logo {
     height: 100%;
     padding: 10px 0px 10px 0px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
+}
+
+#menu-button-container {
+    display: block;
+    /*border: 1px solid black;*/
+    height: 100%;
+    float: left;
+}
+
+#menu-button-container ul {
+    list-style-type: none;
+    /*border: 1px solid black;*/
+    height: 100%;
+    display: table;
+    margin: 0;
+    padding: 0;
+}
+
+#menu-button-container ul li {
+    vertical-align: middle;
+    display: table-cell;
+    /*border: 1px solid black;*/
+    height: 100%;
+    padding: 0 1vw;
+    font-size: 18px;
+}
+
+#menu-button-container ul li a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+#menu-button-container ul li a:hover {
+    color: rgba(255, 255, 255, 1);
+    text-decoration: none;
 }
 
 #menu-container {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 100%;
     width: auto;
     overflow: hidden;
@@ -129,7 +102,7 @@ body {
 
 #menu-container ul {
     list-style-type: none;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 100%;
     display: table;
     margin: 0;
@@ -139,7 +112,7 @@ body {
 #menu-container ul li {
     vertical-align: middle;
     display: table-cell;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 100%;
     padding: 0 1vw;
     font-size: 18px;
@@ -157,9 +130,72 @@ body {
 
 #user-container {
     display: block;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     height: 100%;
     float: right;
+}
+
+#user-container ul {
+    list-style-type: none;
+    /*border: 1px solid black;*/
+    height: 100%;
+    display: table;
+    margin: 0;
+    padding: 0;
+}
+
+#user-container ul li {
+    vertical-align: middle;
+    display: table-cell;
+    /*border: 1px solid black;*/
+    height: 100%;
+    padding: 0 1vw;
+    font-size: 18px;
+}
+
+#user-container ul li a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+#user-container ul li a:hover {
+    color: rgba(255, 255, 255, 1);
+    text-decoration: none;
+}
+
+@media (min-width: 601px) {
+    #user-icon {
+        display: none;
+    }
+
+    #menu-button-container {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    #user-name {
+        display: none;
+    }
+
+    #menu-container ul {
+        display: none;
+    }
+}
+
+.fa-cog {
+    -webkit-transition:transform .7s ease-out;
+    -moz-transition:transform .7s ease-out;
+    -o-transition:transform .7s ease-out;
+    transition:transform .7s ease-out;
+}
+
+.fa-cog:hover {
+    transform: rotate(90deg);
+    -webkit-transition:transform .7s ease-out;
+    -moz-transition:transform .7s ease-out;
+    -o-transition:transform .7s ease-out;
+    transition:transform .7s ease-out;
 }
 
 /*
@@ -221,23 +257,6 @@ body {
 */
 
 /*
-.fa-cog {
-    -webkit-transition:transform .7s ease-out;
-    -moz-transition:transform .7s ease-out;
-    -o-transition:transform .7s ease-out;
-    transition:transform .7s ease-out;
-}
-
-.fa-cog:hover {
-    transform: rotate(90deg);
-    -webkit-transition:transform .7s ease-out;
-    -moz-transition:transform .7s ease-out;
-    -o-transition:transform .7s ease-out;
-    transition:transform .7s ease-out;
-}
-*/
-
-/*
 @media (min-width: 601px) {
 
     #handover-button-icon {
@@ -254,6 +273,55 @@ body {
 
 }
 */
+
+/**********************************************************************************************************************/
+/* Login page */
+/**********************************************************************************************************************/
+
+#login-background {
+    background-image: url(/images/hospital.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: fixed;
+}
+
+#login-main {
+    height: 100%;
+    width: 100%;
+}
+
+#login-form {
+    height: 100%;
+}
+
+#login-form-container {
+    width: 315px;
+    min-width: 315px;
+    height: 100%;
+    padding: 0px 10px 0px 0px;
+    text-align: right;
+}
+
+#login-form-container input[type="text"], input[type="password"] {
+    margin: 0px 5px;
+    border: 1px solid #004b9b;
+    height: 25px;
+    width: 120px;
+    font-size: 12px;
+}
+
+#electronic-handover {
+    width: 100%;
+    height: 80%;
+    text-align: center;
+    color: white;
+    font-size: 8vh;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
 
 /**********************************************************************************************************************/
 /* Sidebar */
@@ -760,14 +828,6 @@ a.sidebar-row:active {
     -ms-transition: all 0.5s;
     -o-transition: all 0.5s;
     transition: all 0.5s;
-}
-
-*:hover {
-    -webkit-transition: all .18s ease-out;
-    -moz-transition: all .18s ease-out;
-    -ms-transition: all .18s ease-out;
-    -o-transition: all .18s ease-out;
-    transition: all .18s ease-out;
 }
 
 .input-form {
