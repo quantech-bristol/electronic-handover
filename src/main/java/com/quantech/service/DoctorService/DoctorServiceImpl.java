@@ -1,8 +1,9 @@
-package com.quantech.service;
+package com.quantech.service.DoctorService;
 
 import com.quantech.model.Doctor;
 import com.quantech.model.Patient;
 import com.quantech.model.user.UserCore;
+import com.quantech.service.DoctorService.DoctorService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
