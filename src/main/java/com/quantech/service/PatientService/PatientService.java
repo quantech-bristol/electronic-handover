@@ -17,14 +17,6 @@ public interface PatientService {
     public List<Patient> getAllPatients();
 
     /**
-     * Returns all patients currently stored in the database with a such that a doctor has been assigned 1 or more jobs
-     * to complete for.
-     * @param doctor The doctor to filter by.
-     * @return A list of all patients currently stored in the database with jobs belonging to that doctor.
-     */
-    public List<Patient> getAllDoctorsPatients(Doctor doctor);
-
-    /**
      * Sort the given list of patients by their first name, alphabetically.
      * @param list The list of patients.
      * @return A sorted list of patients, by first name.
@@ -47,10 +39,10 @@ public interface PatientService {
 
     /**
      * Returns a patient corresponding to their hospital number.
-     * @param id The hospital number corresponding to the patient.
+     * @param hospNum The hospital number corresponding to the patient.
      * @return The patient corresponding to the hospital number if they exist, null otherwise.
      */
-    public Patient getPatientByHospitalNumber(Long id);
+    public Patient getPatientByHospitalNumber(Long hospNum);
 
     /**
      * Returns a patient corresponding to their hospital number.
@@ -116,14 +108,14 @@ public interface PatientService {
      * @param ward The ward to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> patientsWardIs(Ward ward);
+    public Predicate<Patient> latestWardIs(Ward ward);
 
     /**
      * A predicate that checks if the patient is on a given bed.
-     * @param str The bed to compare with.
+     * @param bed The bed to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> patientsBedIs(String str);
+    public Predicate<Patient> patientsBedIs(Integer bed);
 
     /**
      * A predicate that checks if the patient is unwell.
