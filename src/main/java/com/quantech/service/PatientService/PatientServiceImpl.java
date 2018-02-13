@@ -5,11 +5,9 @@ import com.quantech.model.JobContext;
 import com.quantech.model.Patient;
 import com.quantech.model.Ward;
 import com.quantech.repo.PatientRepository;
-import com.quantech.service.PatientService.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

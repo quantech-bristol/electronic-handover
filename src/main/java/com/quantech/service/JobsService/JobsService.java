@@ -146,6 +146,20 @@ public interface JobsService {
     public Predicate<Job> jobIsOfWard(Ward ward);
 
     /**
+     * Sorts the given list of jobs into order of creation date, oldest first.
+     * @param jobs List of jobs to be sorted.
+     * @return Sorted list of jobs.
+     */
+    public List<Job> sortJobsOldestFirst(List<Job> jobs);
+
+    /**
+     * Sorts the given list of jobs into order of creation date, newest first.
+     * @param jobs List of jobs to be sorted.
+     * @return Sorted list of jobs.
+     */
+    public List<Job> sortJobsNewestFirst(List<Job> jobs);
+
+    /**
      * Checks the validity of a patient's fields, and rejects the result value accordingly.
      * @param result The binding result formed from the view template.
      * @param job The job object created through the form.

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -190,6 +191,18 @@ public class JobsServiceImpl implements JobsService {
     @Override
     public Predicate<Job> jobIsOfWard(Ward ward) {
         return job -> job.getJobContext().getWard().equals(ward);
+    }
+
+    @Override
+    public List<Job> sortJobsOldestFirst(List<Job> jobs) {
+        jobs.sort(Comparator.comparing(Job::getCreationDate));
+        return jobs;
+    }
+
+    @Override
+    public List<Job> sortJobsNewestFirst(List<Job> jobs) {
+        jobs.sort((j1,j2) -> -j2.getCreationDate().compareTo(j1.getCreationDate()));
+        return jobs;
     }
 
     @Override
