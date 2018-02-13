@@ -73,4 +73,20 @@ public class Doctor {
     public void setUser(UserCore user) {
         this.user = user;
     }
+
+    /**
+     * First name getter.
+     * @return Doctor's first name.
+     */
+    public String getFirstName() {
+        return this.user.getFirstName();
+    }
+
+    /**
+     * Last name getter.
+     * @return Doctor's last name.
+     */
+    public String getLastName() {
+        return this.user.getLastName();
+    }
 }

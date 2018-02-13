@@ -17,20 +17,6 @@ public interface DoctorService {
     public List<Doctor> getAllDoctors();
 
     /**
-     * Sort the given list of doctors by their last date of renewal, most recent first.
-     * @param list The list of doctors.
-     * @return A sorted list of doctors, by first name.
-     */
-    public List<Doctor> sortDoctorsByDateRenewedMostRecentFirst(List<Doctor> list);
-
-    /**
-     * Sort the given list of doctors by their last date of renewal, most recent last.
-     * @param list The list of doctors.
-     * @return A sorted list of doctors, by first name.
-     */
-    public List<Doctor> sortDoctorsByDateRenewedMostRecentLast(List<Doctor> list);
-
-    /**
      * Sort the given list of doctors by their first name, alphabetically.
      * @param list The list of doctors.
      * @return A sorted list of doctors, by first name.
@@ -62,9 +48,9 @@ public interface DoctorService {
 
     /**
      * Deletes the doctor with the corresponding id from the repository.
-     * @param id The id corresponding to the doctor to be deleted.
+     * @param user The user corresponding to the doctor to be deleted.
      */
-    public void deleteDoctor(Long id);
+    public void deleteDoctor(UserCore user);
 
     /**
      * Returns a list of patients under the doctor's care.
