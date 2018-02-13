@@ -4,7 +4,6 @@ import com.quantech.model.Doctor;
 import com.quantech.model.Patient;
 import com.quantech.model.user.UserCore;
 import com.quantech.repo.DoctorRepository;
-import com.quantech.service.DoctorService.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service("doctorService")
 public class DoctorServiceImpl implements DoctorService {
@@ -87,25 +88,25 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<Doctor> filterDoctorsBy(List<Doctor> list, Predicate<Doctor> predicate) {
-        // TODO
-        return null;
+        return list.stream().filter(predicate).collect(Collectors.toList());
     }
 
     @Override
     public List<Doctor> filterDoctorsBy(List<Doctor> list, Iterable<Predicate<Doctor>> predicates) {
-        // TODO
-        return null;
+        Stream<Doctor> stream = list.stream();
+        for (Predicate<Doctor> p : predicates) {
+            stream = stream.filter(p);
+        }
+        return stream.collect(Collectors.toList());
     }
 
     @Override
     public Predicate<Doctor> doctorsFirstNameStartsWith(String str) {
-        // TODO
-        return null;
+        return doctor -> doctor.getFirstName().startsWith(str);
     }
 
     @Override
     public Predicate<Doctor> doctorsLastNameStartsWith(String str) {
-        // TODO
-        return null;
+        return doctor -> doctor.getLastName().startsWith(str);
     }
 }
