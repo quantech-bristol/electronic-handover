@@ -1,4 +1,31 @@
 /**********************************************************************************************************************/
+/* Colours */
+/**********************************************************************************************************************/
+/*
+
+https://www.england.nhs.uk/nhsidentity/identity-guidelines/colours/
+
+NHS BLUE #005EB8
+DARK BLUE #003087
+BRIGHT BLUE #0072CE
+LIGHT BLUE #41B6E6
+
+DARK GREY #425563
+MID GREY #768692
+LIGHT GREY #E8EDEE
+
+NHS GREEN #009639
+DARK GREEN #006747
+LIGHT GREEN #78BE20
+
+RED #DA291C
+ORANGE #ED8B00
+LIGHT ORANGE #FFB81C
+YELLOW #FAE100
+
+ */
+
+/**********************************************************************************************************************/
 /* Misc */
 /**********************************************************************************************************************/
 
@@ -54,7 +81,7 @@ body {
     background-color: #005EB8;
     height: 50px;
     width: 100%;
-    position: fixed;
+    position: relative;
     top: 0px;
     z-index: 999999;
     -moz-box-shadow:    0px 0px 4px 1px rgba(0, 0, 0, 0.3);
@@ -192,24 +219,6 @@ body {
     transition:transform .7s ease-out;
 }
 
-/*
-@media (min-width: 601px) {
-
-    #handover-button-icon {
-        display: none;
-    }
-
-}
-
-@media (max-width: 600px) {
-
-    #handover-button-text {
-        display: none;
-    }
-
-}
-*/
-
 /**********************************************************************************************************************/
 /* Login page */
 /**********************************************************************************************************************/
@@ -273,94 +282,32 @@ body {
 }
 
 /**********************************************************************************************************************/
-/* Sidebar */
+/* Topbar */
 /**********************************************************************************************************************/
 
-#sidebar{
-    top: 50px;
-    background-color: #E8EDEE;
-    float: left;
-    width: 20%;
-    height: 100%;
-    position: fixed;
-}
-
-#sidebarwrap {
-    font-size: 1vw;
-    padding-top: 10px;
-}
-
-.sidebar {
-    left: -20%;
-}
-
-.sidebar-open {
-    left: 0px;
-}
-
-#sidebar,#mainwindow,#topbar{
-    -webkit-transition: all 0.3s ease;
-    -moz-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-}
-
-.sidebar-row {
-    display: block;
-    /*padding: 0.95vh 0.8vw 0.7vh 1vw;*/
-    padding: 5px 10px 5px 20px;
-    /*padding-left: 10px;*/
-    font-size: 3.5vh;
-    -webkit-transition:background-color .25s ease-in-out;
-    -moz-transition:background-color .25s ease-in-out;
-    -o-transition:background-color .25s ease-in-out;
-    transition:background-color .25s ease-in-out;
-}
-
-a.sidebar-row:hover {
-    text-decoration: none;
-    background-color: #dee4ed;
-    -webkit-transition:background-color .25s ease-in-out;
-    -moz-transition:background-color .25s ease-in-out;
-    -o-transition:background-color .25s ease-in-out;
-    transition:background-color .25s ease-in-out;
-}
-
-a.sidebar-row:active {
-    text-decoration: none;
-    background-color: #d7dee8;
-    -webkit-transition:background-color .15s ease-in-out;
-    -moz-transition:background-color .15s ease-in-out;
-    -o-transition:background-color .15s ease-in-out;
-    transition:background-color .15s ease-in-out;
-}
-
-/**********************************************************************************************************************/
-/* Top/title bar */
-/**********************************************************************************************************************/
-
-#topbar {
-    background-color:#0072CE;
-    height:50px;
-    font-size:20px;
-    line-height: 50px;
-    color:#FFFFFF;
-    padding-left: 34px;
-}
-
-.topbar {
-    width: 100%;
-}
-
-/*
-.topbar-open {
-    width: 80vw;
-}
-*/
+/*#topbar {*/
+    /*background-color:#0072CE;*/
+    /*height:50px;*/
+    /*font-size:20px;*/
+    /*line-height: 50px;*/
+    /*color:#FFFFFF;*/
+    /*padding: 0 2vw;*/
+    /*width: 100%;*/
+/*}*/
 
 /**********************************************************************************************************************/
 /* Main window */
 /**********************************************************************************************************************/
 
+#main {
+    border: 1px solid black;
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 4vh 2vw;
+}
+
+/*
 #mainwindow {
     background-color: #FFFFFF;
     height: 100%;
@@ -372,13 +319,9 @@ a.sidebar-row:active {
     width: 100%;
     height: 100%;
 }
-
-/*
-.sidebar-mainwindow {
-    width: 80%;
-}
 */
 
+/*
 #bodywrap {
     padding: 2.5vh 1.5vw;
     width: 100%;
@@ -389,69 +332,111 @@ a.sidebar-row:active {
     width: 100%;
     height: 40px;
 }
+*/
+
+/**********************************************************************************************************************/
+/* Patients */
+/**********************************************************************************************************************/
+
+#patient-info {
+    border: 1px solid black;
+    width: 100%;
+}
+
+#patient-info tr td{
+    vertical-align: top;
+    padding: 5px 10px;
+}
+
+#patient-info tr:first-child {
+    width: 100%;
+    background-color: #E8EDEE;
+}
+
+#patient-info tr:first-child td {
+    font-size: 13px;
+}
+
+.patient-detail-row {
+    padding: 2px 0;
+}
+
+.patient-detail-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    color: #768692;
+    padding-right: 10px;
+}
+
+.patient-detail {
+    font-size: 14px;
+    color: #000000;
+    padding-right: 10px;
+}
 
 /**********************************************************************************************************************/
 /* Overview and admin boxes */
 /**********************************************************************************************************************/
 
-.overviewbox {
-    width: 100%;
-    min-height: 15vh;
-    padding: 8px 0px 8px 0px;
-    margin-bottom: 20px;
-    background: #E8EDEE;
-    /*border-radius: 8px;*/
-}
+/*.overviewbox {*/
+    /*width: 100%;*/
+    /*min-height: 15vh;*/
+    /*padding: 8px 0px 8px 0px;*/
+    /*margin-bottom: 20px;*/
+    /*background: #E8EDEE;*/
+    /*!*border-radius: 8px;*!*/
+/*}*/
 
-.overviewbox-wrapper {
-    width: 100%;
-}
+/*.overviewbox-wrapper {*/
+    /*width: 100%;*/
+/*}*/
 
-.overview-box-title {
-    font-size: 17px;
-    color: rgba(0, 94, 184, 1);
-    line-height: 17px;
-    vertical-align: middle;
-    margin-left:1vw;
-    margin-bottom: 1px;
-}
+/*.overview-box-title {*/
+    /*font-size: 17px;*/
+    /*color: rgba(0, 94, 184, 1);*/
+    /*line-height: 17px;*/
+    /*vertical-align: middle;*/
+    /*margin-left:1vw;*/
+    /*margin-bottom: 1px;*/
+/*}*/
 
-.overview-box-title a:hover {
-    text-decoration: none;
-    color: rgba(0, 94, 184, 0.8);
-}
+/*.overview-box-title a:hover {*/
+    /*text-decoration: none;*/
+    /*color: rgba(0, 94, 184, 0.8);*/
+/*}*/
 
-.line {
-    display: block;
-    height: 1px;
-    border-top: 1px solid rgba(0, 0, 0, 0.3);
-    margin-top: 10px;
-}
+/*.line {*/
+    /*display: block;*/
+    /*height: 1px;*/
+    /*border-top: 1px solid rgba(0, 0, 0, 0.3);*/
+    /*margin-top: 10px;*/
+/*}*/
 
-#admin-box {
-    padding: 15px;
-    color: #005EB8;
-    font-size: 15px;
-}
+/*#admin-box {*/
+    /*padding: 15px;*/
+    /*color: #005EB8;*/
+    /*font-size: 15px;*/
+/*}*/
 
-#admin-box a{
-    color: rgba(0, 94, 184, 1);
-}
+/*#admin-box a{*/
+    /*color: rgba(0, 94, 184, 1);*/
+/*}*/
 
-#admin-box a:hover{
-    text-decoration: none;
-    color: rgba(0, 94, 184, 0.8);
-}
+/*#admin-box a:hover{*/
+    /*text-decoration: none;*/
+    /*color: rgba(0, 94, 184, 0.8);*/
+/*}*/
 
-#add-patient-icon {
-    color: rgba(0, 94, 184, 1);
-    font-size: 19px;
-    padding: 2px 15px 0px 0px;
-}
+/*#add-patient-icon {*/
+    /*color: rgba(0, 94, 184, 1);*/
+    /*font-size: 19px;*/
+    /*padding: 2px 15px 0px 0px;*/
+/*}*/
 
-#add-patient-icon:hover {
-    color: rgba(0, 94, 184, 0.8);
-}
+/*#add-patient-icon:hover {*/
+    /*color: rgba(0, 94, 184, 0.8);*/
+/*}*/
 
 /**********************************************************************************************************************/
 /* Accordion */
