@@ -24,14 +24,36 @@ body {
     transition: all .08s ease-out;
 }
 
+.orange-button {
+    display: inline;
+    background-color: #ED8B00;
+    width: 100%;
+    height: 80%;
+    padding: 5px 10px 5px 10px;
+    margin-right: 10px;
+    border-radius: 42px;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    border: none;
+}
+
+
+.orange-button:hover {
+    text-decoration: none;
+    background-color: #FFB81C;
+}
+
 /**********************************************************************************************************************/
 /* Header */
 /**********************************************************************************************************************/
 
 #header {
-    background-color:#005EB8;
-    height:50px;
-    width:100%;
+    background-color: #005EB8;
+    height: 50px;
+    width: 100%;
     position: fixed;
     top: 0px;
     z-index: 999999;
@@ -43,6 +65,34 @@ body {
 
 .header-container {
     padding: 0 1vw 0 1vw;
+}
+
+.header-container ul {
+    list-style-type: none;
+    /*border: 1px solid black;*/
+    height: 100%;
+    display: table;
+    margin: 0;
+    padding: 0;
+}
+
+.header-container ul li {
+    vertical-align: middle;
+    display: table-cell;
+    /*border: 1px solid black;*/
+    height: 100%;
+    padding: 0 1vw;
+    font-size: 18px;
+}
+
+.header-container ul li a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+.header-container ul li a:hover {
+    color: rgba(255, 255, 255, 1);
+    text-decoration: none;
 }
 
 #logo-container {
@@ -65,67 +115,11 @@ body {
     float: left;
 }
 
-#menu-button-container ul {
-    list-style-type: none;
-    /*border: 1px solid black;*/
-    height: 100%;
-    display: table;
-    margin: 0;
-    padding: 0;
-}
-
-#menu-button-container ul li {
-    vertical-align: middle;
-    display: table-cell;
-    /*border: 1px solid black;*/
-    height: 100%;
-    padding: 0 1vw;
-    font-size: 18px;
-}
-
-#menu-button-container ul li a {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-}
-
-#menu-button-container ul li a:hover {
-    color: rgba(255, 255, 255, 1);
-    text-decoration: none;
-}
-
 #menu-container {
     /*border: 1px solid black;*/
     height: 100%;
     width: auto;
     overflow: hidden;
-}
-
-#menu-container ul {
-    list-style-type: none;
-    /*border: 1px solid black;*/
-    height: 100%;
-    display: table;
-    margin: 0;
-    padding: 0;
-}
-
-#menu-container ul li {
-    vertical-align: middle;
-    display: table-cell;
-    /*border: 1px solid black;*/
-    height: 100%;
-    padding: 0 1vw;
-    font-size: 18px;
-}
-
-#menu-container ul li a {
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-}
-
-#menu-container ul li a:hover {
-    color: rgba(255, 255, 255, 1);
-    text-decoration: none;
 }
 
 #user-container {
@@ -149,7 +143,7 @@ body {
     display: table-cell;
     /*border: 1px solid black;*/
     height: 100%;
-    padding: 0 1vw;
+    padding: 0 1.5vw;
     font-size: 18px;
 }
 
@@ -199,64 +193,6 @@ body {
 }
 
 /*
-.header-button {
-    background: none;
-    height: 100%;
-    border: none;
-    color: rgba(255,255,255,0.7);
-    font-size: 20px;
-    vertical-align: middle;
-    padding: 0px 10px 0px 10px;
-    border: 1px solid black;
-}
-*/
-
-/*
-.header-button:hover {
-    color: rgba(255,255,255,1);
-}
-*/
-
-/*
-.handover-button-text {
-    display: inline;
-    background-color: #ED8B00;
-    width: 100%;
-    height: 80%;
-    padding: 5px 10px 5px 10px;
-    margin-right: 10px;
-    border-radius: 42px;
-    color: white;
-    font-size: 13px;
-    text-align: center;
-    vertical-align: middle;
-    text-decoration: none;
-    border: none;
-    -webkit-transition: background-color .25s ease-out;
-    -moz-transition: background-color .25s ease-out;
-    -o-transition: background-color .25s ease-out;
-    transition: background-color .25s ease-out;
-}
-*/
-
-/*
-.handover-button-text:hover {
-    text-decoration: none;
-    background-color: #FFB81C;
-	-webkit-transition: background-color .25s ease-out;
-	-moz-transition: background-color .25s ease-out;
-	-o-transition: background-color .25s ease-out;
-	transition: background-color .25s ease-out;
-}
-*/
-
-/*
-.handover-button-shape:hover {
-    text-decoration: none;
-}
-*/
-
-/*
 @media (min-width: 601px) {
 
     #handover-button-icon {
@@ -294,24 +230,37 @@ body {
     width: 100%;
 }
 
-#login-form {
+#login-container {
+    display: block;
+    /*border: 1px solid black;*/
     height: 100%;
+    float: right;
 }
 
-#login-form-container {
-    width: 315px;
-    min-width: 315px;
-    height: 100%;
-    padding: 0px 10px 0px 0px;
-    text-align: right;
+#login-form-table {
+    /*border: 1px solid black;*/
+    height: 50px;
 }
 
-#login-form-container input[type="text"], input[type="password"] {
-    margin: 0px 5px;
-    border: 1px solid #004b9b;
-    height: 25px;
-    width: 120px;
-    font-size: 12px;
+#login-form-table tr td{
+    /*border: 1px solid black;*/
+    padding: 0 0.5vw;
+}
+
+#login-container input[type="text"], input[type="password"] {
+    background-color: rgba(255, 255, 255, 0.9);
+    min-width: 120px;
+    width: 12vw;
+}
+
+#login-container input[type="text"]::placeholder, input[type="password"]::placeholder {
+    color: rgba(0, 94, 184, 0.3);
+
+}
+
+#login-container input[type="text"]:focus, input[type="password"]:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 1);
 }
 
 #electronic-handover {
