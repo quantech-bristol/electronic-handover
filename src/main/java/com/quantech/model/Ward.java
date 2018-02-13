@@ -19,13 +19,12 @@ public class Ward {
     private String name;
 
     @OneToMany(mappedBy = "ward")
-    private List<Patient> patients;
+    private List<JobContext> jobContexts;
 
-    public Ward() { this.patients = new ArrayList<>(); }
+    public Ward() { this.jobContexts = new ArrayList<>(); }
 
-    public Ward(String name, List<Patient> patients) {
+    public Ward(String name) {
         this.name = name;
-        this.patients = patients;
     }
 
     /**
@@ -60,19 +59,11 @@ public class Ward {
         this.name = name;
     }
 
-    /**
-     * Patients getter.
-     * @return List of patients currently staying in ward.
-     */
-    public List<Patient> getPatients() {
-        return patients;
+    public List<JobContext> getJobContexts() {
+        return jobContexts;
     }
 
-    /**
-     * Patients setter.
-     * @param patients Patients currently part of ward.
-     */
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
+    public void setJobContexts(List<JobContext> jobContexts) {
+        this.jobContexts = jobContexts;
     }
 }

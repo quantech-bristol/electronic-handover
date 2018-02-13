@@ -32,21 +32,17 @@ public class Patient {
     @Column(unique = true)
     private Long nHSNumber;
 
-    @ManyToOne
-    private Ward ward;
-
     @OneToMany(mappedBy = "patient")
     private List<JobContext> jobContexts;
 
     public Patient() { this.jobContexts = new ArrayList<>(); }
 
-    public Patient(Title title, String firstName, String lastName, Long hospitalNumber, Long nHSNumber, Ward ward, List<JobContext> jobContexts) {
+    public Patient(Title title, String firstName, String lastName, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
         this.title = title;
         this.firstName = firstName;
         this.lastName = lastName;
         this.hospitalNumber = hospitalNumber;
         this.nHSNumber = nHSNumber;
-        this.ward = ward;
         this.jobContexts = jobContexts;
     }
 
@@ -148,22 +144,6 @@ public class Patient {
      */
     public void setNHSNumber(Long NHSNumber) {
         this.nHSNumber = nHSNumber;
-    }
-
-    /**
-     * Ward getter.
-     * @return The ward that the patient is currently staying in; null if they are not currently in a ward.
-     */
-    public Ward getWard() {
-        return ward;
-    }
-
-    /**
-     * Ward setter.
-     * @param ward The ward to currently assign the patient to.
-     */
-    public void setWard(Ward ward) {
-        this.ward = ward;
     }
 
     /**
