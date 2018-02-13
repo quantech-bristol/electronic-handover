@@ -184,5 +184,13 @@ public class Patient {
     public void setJobContexts(List<JobContext> jobContexts) {
         this.jobContexts = jobContexts;
     }
+
+    /**
+     * toString full name only
+     * @return string combining title, first name and surname.
+     */
+    public String getFullName() {
+        return this.title + ". " + this.firstName + " " + this.lastName;
+    }
 }
 
