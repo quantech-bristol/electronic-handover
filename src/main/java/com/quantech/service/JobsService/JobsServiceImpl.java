@@ -7,12 +7,11 @@ import com.quantech.model.JobContext;
 import com.quantech.model.Patient;
 import com.quantech.repo.JobContextRepository;
 import com.quantech.repo.JobRepository;
+import com.quantech.repo.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import javax.persistence.OneToMany;
-import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +23,9 @@ public class JobsServiceImpl implements JobsService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     @Override
     public Job getJob(Long id) {
@@ -78,12 +80,6 @@ public class JobsServiceImpl implements JobsService {
         return jobRepository.findByJobContext(context);
     }
 
-    /**
-     * Saves the given job into the repository.
-     * @param job The handover to be saved.
-     * @throws NullPointerException If the job has a null description, category, creation date or job context.
-     * @throws IllegalArgumentException If the corresponding job context isn't in the repository.
-     */
     @Override
     public void saveJob(Job job) throws NullPointerException, IllegalArgumentException {
         if (job == null)
@@ -110,8 +106,30 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
-    public void saveJobContext(JobContext context) {
-        // TODO
+    public void saveJobContext(JobContext context) throws NullPointerException, IllegalArgumentException {
+        if (context == null)
+            throw new NullPointerException("Error: context to be saved has null value.");
+
+        Object[] fields = new Object[]{context.getUnwell(),
+                context.getCreationDate(),
+                context.getPatient(),
+                context.getWard(),
+                context.getJobs()};
+        String[] fieldNames = new String[] {"unwell",
+                "creation date",
+                "patient",
+                "ward",
+                "jobs"};
+
+        // Carry out field null checks.
+        for (int i = 0; i < fields.length; i++) {
+            EntityFieldHandler.nullCheck(fields[i],fieldNames[i]);
+        }
+
+        // Check if the patient is in the repository.
+        if (patientRepository.findById(context.getPatient().getId()) != null) {
+            throw new IllegalArgumentException("Error: patient doesn't already exist in the database.");
+        }
     }
 
     @Override

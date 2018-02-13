@@ -80,7 +80,8 @@ public interface JobsService {
     /**
      * Saves the given job context into the repository.
      * @param context The new job context.
-     * @throws NullPointerException If the "unwell", creation date, patient, ward or jobs field.
+     * @throws NullPointerException If the "unwell", creation date, patient, ward or jobs field is null.
+     * @throws IllegalArgumentException If the patient isn't already in the database.
      */
     public void saveJobContext(JobContext context);
 

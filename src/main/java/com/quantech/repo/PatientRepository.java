@@ -8,4 +8,6 @@ public interface PatientRepository extends CrudRepository<Patient, Long> {
     public Patient findByHospitalNumber(Long hospNum);
 
     public Patient findByNHSNumber(Long nhsNum);
+
+    public Patient findById(Long id);
 }
