@@ -11,8 +11,12 @@ to a system which manages the display and transfer of patient specific jobs.
 
 The ER diagram below shows the new database structure.
 
-<img src="docs/table-relationships.jpg" align="middle" />
+<p align="center"> 
+<img src="docs/table-relationships.jpg" />
+</p>
 
 And the illustration below is our goal for the general UI.
 
-<img src="docs/ui-diag.png" align="middle" />
+<p align="center"> 
+<img src="docs/ui-diag.png" />
+</p>
