@@ -1,4 +1,4 @@
-package com.quantech.service;
+package com.quantech.service.WardService;
 
 import com.quantech.model.Ward;
 import com.quantech.repo.WardRepository;
