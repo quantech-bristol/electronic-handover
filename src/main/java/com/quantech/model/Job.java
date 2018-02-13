@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Job {
@@ -22,7 +21,7 @@ public class Job {
     private String description;
 
     @NotNull
-    private List<Category> categories;
+    private Category category;
 
     // YYYY-MM-DD HH:MM:SS
     @Temporal(TemporalType.TIMESTAMP)
@@ -42,16 +41,15 @@ public class Job {
     private Doctor doctor;
 
     public Job() {
-        this.categories = new ArrayList<>();
     }
 
-    public Job(String description, Date creationDate, Date completionDate, JobContext jobContext, Doctor doctor) {
+    public Job(String description, Category category, Date creationDate, Date completionDate, JobContext jobContext, Doctor doctor) {
         this.description = description;
+        this.category = category;
         this.creationDate = creationDate;
         this.completionDate = completionDate;
         this.jobContext = jobContext;
         this.doctor = doctor;
-        this.categories = new ArrayList<>();
     }
 
     /**
@@ -151,18 +149,18 @@ public class Job {
     }
 
     /**
-     * Categories setter
-     * @param categories A list of categories to set the job with.
+     * Category setter
+     * @param category Category to set the job with.
      */
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     /**
-     * Categories getter.
-     * @return The categories that the job is classed under.
+     * Category getter.
+     * @return The category that the job is classed under.
      */
-    public List<Category> getCategories() {
-        return this.categories;
+    public Category getCategory() {
+        return category;
     }
 }
