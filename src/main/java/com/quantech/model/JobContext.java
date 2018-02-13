@@ -34,6 +34,7 @@ public class JobContext {
 
     private Integer bed;
 
+    @NotNull
     @ManyToOne
     private Ward ward;
 
