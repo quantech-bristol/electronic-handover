@@ -1,4 +1,4 @@
-package com.quantech.service;
+package com.quantech.service.JobsService;
 
 import com.quantech.model.Doctor;
 import com.quantech.model.Job;
