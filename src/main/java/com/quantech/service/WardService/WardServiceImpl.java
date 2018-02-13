@@ -18,6 +18,7 @@ public class WardServiceImpl implements WardService {
      * Finds all wards currently stored in the repository.
      * @return A list of all wards currently stored, potentially corresponding to all wards in a hospital.
      */
+    @Override
     public List<Ward> getAllWards() {
         List<Ward> wards = new ArrayList<>();
         wardRepository.findAll().forEach(wards::add);
@@ -29,6 +30,7 @@ public class WardServiceImpl implements WardService {
      * @param id The id for which a ward is a associated with.
      * @return A ward corresponding to the id if one exists, null otherwise.
      */
+    @Override
     public Ward getWard(Long id) {
         return wardRepository.findOne(id);
     }
@@ -37,6 +39,7 @@ public class WardServiceImpl implements WardService {
      * Save a given ward into the repository.
      * @param ward The ward to be saved.
      */
+    @Override
     public void saveWard(Ward ward) {
         wardRepository.save(ward);
     }
@@ -45,6 +48,7 @@ public class WardServiceImpl implements WardService {
      * Deletes a given ward from the repository.
      * @param id The id corresponding to the ward that is to be deleted.
      */
+    @Override
     public void deleteWard(Long id) {
         wardRepository.delete(id);
     }

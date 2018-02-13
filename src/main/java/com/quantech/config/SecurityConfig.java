@@ -1,7 +1,7 @@
 package com.quantech.config;
 
 
-import com.quantech.service.UserService.UserService;
+import com.quantech.service.UserService.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserService userService;
+    UserServiceImpl userService;
     @Autowired
     CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
