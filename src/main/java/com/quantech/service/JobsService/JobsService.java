@@ -1,14 +1,12 @@
 package com.quantech.service.JobsService;
 
-import com.quantech.model.Doctor;
-import com.quantech.model.Job;
-import com.quantech.model.JobContext;
-import com.quantech.model.Patient;
-import jdk.nashorn.internal.scripts.JO;
+import com.quantech.misc.Category;
+import com.quantech.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public interface JobsService {
@@ -32,7 +30,7 @@ public interface JobsService {
      * @param doctor Doctor that has sent a handover.
      * @return A list of jobs that have yet to be picked up.
      */
-    public List<Job> getAllPendingJobsFrom(Doctor doctor);
+    // public List<Job> getAllPendingJobsFrom(Doctor doctor);
 
     /**
      * Get all jobs that a certain doctor has sent that has not yet been completed.
@@ -86,24 +84,66 @@ public interface JobsService {
     public void saveJobContext(JobContext context);
 
     /**
-     * Send a handover using a given job.
+     * Send a handover using a given job, making another doctor responsible for that job.
      * @param job The job to send.
      * @param doctor The doctor to handover to.
      */
     public void handoverJob(Job job, Doctor doctor);
 
     /**
-     * Send a handover using a given iterable of jobs.
+     * Send a handover using a given iterable of jobs, making that doctor responsible for those jobs.
      * @param job The jobs to send.
      * @param doctor The doctor to handover to.
      */
-    public void handoverJob(Iterable<Job> job, Doctor doctor);
+    public void handoverJobs(Iterable<Job> job, Doctor doctor);
 
     /**
      * Marks a given job as complete.
      * @param job The job to complete.
      */
     public void completeJob(Job job);
+
+    /**
+     * Filter list of a jobs by a given predicate.
+     * @param list A list of jobs.
+     * @param predicate A predicate to test the jobs against.
+     * @return A list of jobs filtered by the given predicate.
+     */
+    public List<Job> filterJobsBy(List<Job> list, Predicate<Job> predicate);
+
+    /**
+     * Filter list of a jobs by a given predicate.
+     * @param list A list of jobs.
+     * @param predicates A collection of predicates to test the jobs against, conjunctive.
+     * @return A list of jobs filtered by the given predicate.
+     */
+    public List<Job> filterJobsBy(List<Job> list, Iterable<Predicate<Job>> predicates);
+
+    /**
+     * A predicate that checks if a job has a specific category.
+     * @param category The category to check.
+     * @return The corresponding predicate object.
+     */
+    public Predicate<Job> jobIsOfCategory(Category category);
+
+    /**
+     * A predicate that checks if a job's patient is unwell.
+     * @return The corresponding predicate object.
+     */
+    public Predicate<Job> jobWherePatientIsUnwell();
+
+    /**
+     * A predicate that checks if a job's patient is well.
+     * @return The corresponding predicate object.
+     */
+    public Predicate<Job> jobWherePatientIsWell();
+
+    /**
+     * A predicate that checks if a job is to be carried out in a certain ward.
+     * @param ward A ward.
+     * @return The corresponding predicate object.
+     */
+    public Predicate<Job> jobIsOfWard(Ward ward);
 
     /**
      * Checks the validity of a patient's fields, and rejects the result value accordingly.

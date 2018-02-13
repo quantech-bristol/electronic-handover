@@ -1,10 +1,8 @@
 package com.quantech.service.JobsService;
 
+import com.quantech.misc.Category;
 import com.quantech.misc.EntityFieldHandler;
-import com.quantech.model.Doctor;
-import com.quantech.model.Job;
-import com.quantech.model.JobContext;
-import com.quantech.model.Patient;
+import com.quantech.model.*;
 import com.quantech.repo.JobContextRepository;
 import com.quantech.repo.JobRepository;
 import com.quantech.repo.PatientRepository;
@@ -13,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service("jobsService")
 public class JobsServiceImpl implements JobsService {
@@ -37,11 +38,13 @@ public class JobsServiceImpl implements JobsService {
         return jobRepository.findByDoctor(doctor);
     }
 
+    /*
     @Override
     public List<Job> getAllPendingJobsFrom(Doctor doctor) {
         // TODO
         return null;
     }
+    */
 
     @Override
     public List<Job> getAllUncompletedJobsFrom(Doctor doctor) {
@@ -134,17 +137,59 @@ public class JobsServiceImpl implements JobsService {
 
     @Override
     public void handoverJob(Job job, Doctor doctor) {
-        // TODO
+        if (job == null)
+            throw new NullPointerException("Error: job cannot be null.");
+        if (doctor == null)
+            throw new NullPointerException("Error: doctor cannot be null.");
+        job.setDoctor(doctor);
+        this.saveJob(job);
     }
 
     @Override
-    public void handoverJob(Iterable<Job> job, Doctor doctor) {
-        // TODO
+    public void handoverJobs(Iterable<Job> jobs, Doctor doctor) {
+        jobs.forEach(job -> this.handoverJob(job,doctor));
     }
 
     @Override
     public void completeJob(Job job) {
-        // TODO
+        if (job == null)
+            throw new NullPointerException("Error: job cannot have null value.");
+        job.setCompletionDate(new Date());
+        this.saveJob(job);
+    }
+
+    @Override
+    public List<Job> filterJobsBy(List<Job> list, Predicate<Job> predicate) {
+        return list.stream().filter(predicate).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Job> filterJobsBy(List<Job> list, Iterable<Predicate<Job>> predicates) {
+        Stream<Job> stream = list.stream();
+        for (Predicate<Job> p : predicates) {
+            stream = stream.filter(p);
+        }
+        return stream.collect(Collectors.toList());
+    }
+
+    @Override
+    public Predicate<Job> jobIsOfCategory(Category category) {
+        return job -> job.getCategory().equals(category);
+    }
+
+    @Override
+    public Predicate<Job> jobWherePatientIsUnwell() {
+        return job -> job.getJobContext().getUnwell();
+    }
+
+    @Override
+    public Predicate<Job> jobWherePatientIsWell() {
+        return job -> !job.getJobContext().getUnwell();
+    }
+
+    @Override
+    public Predicate<Job> jobIsOfWard(Ward ward) {
+        return job -> job.getJobContext().getWard().equals(ward);
     }
 
     @Override
