@@ -55,7 +55,12 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
-    public void saveJob(JobContext context, Job job) {
+    public void saveJob(Job job) {
+        // TODO
+    }
+
+    @Override
+    public void saveJobContext(JobContext context) {
         // TODO
     }
 
