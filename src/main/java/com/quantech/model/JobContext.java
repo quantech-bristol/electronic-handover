@@ -14,6 +14,7 @@ public class JobContext {
 
     @Id
     @GeneratedValue
+    @Column(name="ID")
     private Long id;
 
     // diagnosis, clinical issues, medical history relevant to jobs
@@ -42,9 +43,16 @@ public class JobContext {
     @OneToMany(mappedBy = "jobContext")
     private List<Job> jobs;
 
-    public JobContext() { this.jobs = new ArrayList<>(); }
+    @ManyToMany
+    @JoinTable(name="risk_joiner",joinColumns=@JoinColumn(name="RISK_ID", referencedColumnName="ID"),inverseJoinColumns=@JoinColumn(name="JOBC_ID", referencedColumnName="ID"))
+    private List<Risk> risks;
 
-    public JobContext(String clinicalDetails, Boolean unwell, Date creationDate, Patient patient, Integer bed, Ward ward, List<Job> jobs) {
+    public JobContext() {
+        this.jobs = new ArrayList<>();
+        this.risks = new ArrayList<>();
+    }
+
+    public JobContext(String clinicalDetails, Boolean unwell, Date creationDate, Patient patient, Integer bed, Ward ward, List<Job> jobs, List<Risk> risks) {
         this.clinicalDetails = clinicalDetails;
         this.unwell = unwell;
         this.creationDate = creationDate;
@@ -52,6 +60,7 @@ public class JobContext {
         this.bed = bed;
         this.ward = ward;
         this.jobs = jobs;
+        this.risks = risks;
     }
 
     /**
@@ -164,5 +173,13 @@ public class JobContext {
 
     public void setWard(Ward ward) {
         this.ward = ward;
+    }
+
+    public List<Risk> getRisks() {
+        return risks;
+    }
+
+    public void setRisks(List<Risk> risks) {
+        this.risks = risks;
     }
 }
