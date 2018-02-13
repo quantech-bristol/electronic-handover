@@ -32,24 +32,37 @@
 
 <nav th:fragment="header">
     <div id="header">
-        <table id="header-table">
-            <tr>
-                <td id="sidebar-button-container">
-                    <button id="showLeft" class="header-button"><i class="fa fa-bars"></i></button>
-                </td>
-                <td id="menu-container">
-                </td>
-                <td id="user-buttons-container">
-                    <a th:if="${#authentication.principal.isDoctor()}" class="handover-button-shape" th:href="@{/createHandover}">
-                        <div class="handover-button-text" id="handover-button-text">Create Handover</div>
-                        <div class="handover-button-text" id="handover-button-icon">+</div>
-                    </a>
-                    <a th:href="@{/MyUser}" class="header-button"><i class="fa fa-cog"></i></a>
-                    <a th:href="@{/logout}" class="header-button"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-                </td>
-            </tr>
-        </table>
+        <div class="header-container" id="logo-container">
+            <a th:href="@{/}"><img src="/images/quantech-clear.png" alt="Quantech" id="logo"/></a>
+        </div>
+        <div class="header-container" id="user-container">
+            test user
+        </div>
+        <div class="header-container" id="menu-container">
+            <ul>
+                <li>
+                    <!--<a th:href="@{/patient/all}" th:if="${#authentication.principal.isDoctor()}">My Patients</a>-->
+                    My Patients
+                </li>
+                <li>
+                    <!--<a th:href="@{/viewHandovers}" th:if="${#authentication.principal.isDoctor()}">Sent Handovers</a>-->
+                    Sent Handovers
+                </li>
+            </ul>
+        </div>
+
+
+        <!--
+        <a th:if="${#authentication.principal.isDoctor()}" class="handover-button-shape" th:href="@{/createHandover}">
+            <div class="handover-button-text" id="handover-button-text">Create New Handover</div>
+            <div class="handover-button-text" id="handover-button-icon">+</div>
+        </a>
+        <a th:href="@{/MyUser}" class="header-button"><i class="fa fa-cog"></i></a>
+        <a th:href="@{/logout}" class="header-button"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+        -->
     </div>
+
+
     <div id="spacer" style="height:50px;"></div>
 </nav>
 

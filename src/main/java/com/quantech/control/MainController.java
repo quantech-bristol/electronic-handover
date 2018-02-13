@@ -15,9 +15,8 @@ public class MainController {
     IAuthenticationFacade authenticator;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
-    @ResponseBody
     public String home() {
-        return "Hello World";
+        return "misc/home";
     }
 
     @RequestMapping(value="/login", method=RequestMethod.GET)

@@ -6,14 +6,14 @@
 
 <body>
     <div id="login-background">
-        <nav id="login-header">
+        <nav id="header">
             <table id="header-table">
                 <tr>
-                    <td id="menu-container">
-                        <span th:if="${param.error}">
-                            Incorrect username or password
-                        </span>
-                    </td>
+                    <!--<td id="menu-container">-->
+                        <!--<span th:if="${param.error}">-->
+                            <!--Incorrect username or password-->
+                        <!--</span>-->
+                    <!--</td>-->
                     <td id="login-form-container">
                         <form th:action="@{/login}" method="post">
                             <input type="text" name="username" placeholder="Username"/>
