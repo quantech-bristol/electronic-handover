@@ -32,34 +32,40 @@
 
 <nav th:fragment="header">
     <div id="header">
+        <div class="header-container" id="menu-button-container">
+            <ul>
+                <li>
+                    <a><i class="fa fa-bars"></i></a>
+                </li>
+            </ul>
+        </div>
         <div class="header-container" id="logo-container">
             <a th:href="@{/}"><img src="/images/quantech-clear.png" alt="Quantech" id="logo"/></a>
         </div>
         <div class="header-container" id="user-container">
-            test user
+            <ul>
+                <li>
+                    <a id="user-name">Dr Neal C</a>
+                    <a><i class="fa fa-user" id="user-icon"></i></a>
+                </li>
+                <li>
+                    <a><i class="fa fa-cog"></i></a>
+                </li>
+                <li>
+                    <a><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                </li>
+            </ul>
         </div>
         <div class="header-container" id="menu-container">
             <ul>
                 <li>
-                    <!--<a th:href="@{/patient/all}" th:if="${#authentication.principal.isDoctor()}">My Patients</a>-->
-                    My Patients
+                    <a>Patients</a>
                 </li>
                 <li>
-                    <!--<a th:href="@{/viewHandovers}" th:if="${#authentication.principal.isDoctor()}">Sent Handovers</a>-->
-                    Sent Handovers
+                    <a>Handovers</a>
                 </li>
             </ul>
         </div>
-
-
-        <!--
-        <a th:if="${#authentication.principal.isDoctor()}" class="handover-button-shape" th:href="@{/createHandover}">
-            <div class="handover-button-text" id="handover-button-text">Create New Handover</div>
-            <div class="handover-button-text" id="handover-button-icon">+</div>
-        </a>
-        <a th:href="@{/MyUser}" class="header-button"><i class="fa fa-cog"></i></a>
-        <a th:href="@{/logout}" class="header-button"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
-        -->
     </div>
 
 
