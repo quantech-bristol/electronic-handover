@@ -55,14 +55,20 @@ public class JobsServiceImpl implements JobsService {
 
     @Override
     public List<Job> getAllUncompletedJobsForPatient(Patient patient) {
-        // TODO
-        return null;
+        List<Job> jobs = new ArrayList<>();
+        jobContextRepository.findByPatient(patient).forEach(context -> jobs.addAll(context.getJobs()));
+        return jobs.stream()
+                .filter(job -> job.getCompletionDate() == null)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Job> getAllCompletedJobsForPatient(Patient patient) {
-        // TODO
-        return null;
+        List<Job> jobs = new ArrayList<>();
+        jobContextRepository.findByPatient(patient).forEach(context -> jobs.addAll(context.getJobs()));
+        return jobs.stream()
+                .filter(job -> job.getCompletionDate() != null)
+                .collect(Collectors.toList());
     }
 
     @Override
