@@ -1,6 +1,6 @@
 package com.quantech.misc;
 
-import com.quantech.entities.patient.Patient;
+import com.quantech.model.Job;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PdfGenerator {
 
-    public void patientAsPdf(List<Patient> patients) throws Exception {
+    public void patientAsPdf(List<Job> jobs) throws Exception {
 
         // set up thymeleaf rendering engine
         //
@@ -33,10 +33,10 @@ public class PdfGenerator {
         OutputStream outputStream = new FileOutputStream(out);
         // the context data is used to fill the thymeleaf template
         Context context = new Context();
-        context.setVariable("patients", patients);
+        context.setVariable("jobs", jobs);
 
         // make html file
-        String html = templateEngine.process("legacy/ui/Print/template", context);
+        String html = templateEngine.process("templates/misc/printjobs", context);
 
         renderer.setDocumentFromString(html);
         renderer.layout();

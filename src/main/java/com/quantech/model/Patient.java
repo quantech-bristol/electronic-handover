@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
+
 
 @Entity
 public class Patient {
@@ -24,6 +26,10 @@ public class Patient {
     @NotNull
     private String lastName;
 
+    @Temporal(TemporalType.DATE)
+    @NotNull
+    private Date birthDate;
+
     @NotNull
     @Column(unique = true)
     private Long hospitalNumber;
@@ -37,10 +43,11 @@ public class Patient {
 
     public Patient() { this.jobContexts = new ArrayList<>(); }
 
-    public Patient(Title title, String firstName, String lastName, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
+    public Patient(Title title, String firstName, String lastName, Date birthDate, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
         this.title = title;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.birthDate = birthDate;
         this.hospitalNumber = hospitalNumber;
         this.nHSNumber = nHSNumber;
         this.jobContexts = jobContexts;
@@ -108,6 +115,22 @@ public class Patient {
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    /**
+     * Birth date getter.
+     * @return Patient birth date.
+     */
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    /**
+     * Birth date setter.
+     * @param birthDate Patient birth date.
+     */
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     /**

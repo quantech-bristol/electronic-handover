@@ -15,4 +15,4 @@ The ER diagram below shows the new database structure.
 
 And the illustration below is our goal for the general UI.
 
-<img src="/Users/louis/electronic-handover/docs/UI Diagram.png" />
+<img src="/Users/louis/electronic-handover/docs/ui-diag.png" />
