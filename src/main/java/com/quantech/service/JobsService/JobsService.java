@@ -28,17 +28,18 @@ public interface JobsService {
     public List<Job> getAllJobsOfDoctor(Doctor doctor);
 
     /**
-     * Returns a list of jobs that still have not been accepted by their recipient doctors.
-     * @return A list of pending jobs.
-     */
-    public List<Job> getAllPendingFrom();
-
-    /**
      * Get all jobs that a certain doctor has sent that has not yet been accepted.
      * @param doctor Doctor that has sent a handover.
      * @return A list of jobs that have yet to be picked up.
      */
     public List<Job> getAllPendingJobsFrom(Doctor doctor);
+
+    /**
+     * Get all jobs that a certain doctor has sent that has not yet been completed.
+     * @param doctor Doctor that is responsible for a job.
+     * @return A list of jobs that have yet to be completed.
+     */
+    public List<Job> getAllUncompletedJobsFrom(Doctor doctor);
 
     /**
      * Finds a list of jobs that concern a specific patient.
