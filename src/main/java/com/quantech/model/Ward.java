@@ -59,10 +59,18 @@ public class Ward {
         this.name = name;
     }
 
+    /**
+     * @return List of JobContexts relating to a ward
+     */
     public List<JobContext> getJobContexts() {
         return jobContexts;
     }
 
+
+    /**
+     * JobContext setter.
+     * @param jobContexts List of JobContexts
+     */
     public void setJobContexts(List<JobContext> jobContexts) {
         this.jobContexts = jobContexts;
     }
