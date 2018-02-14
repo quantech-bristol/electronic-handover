@@ -300,7 +300,7 @@ body {
 /**********************************************************************************************************************/
 
 #main {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     display: block;
     height: 100%;
     width: 100%;
@@ -339,7 +339,7 @@ body {
 /**********************************************************************************************************************/
 
 #patient-info {
-    border: 1px solid black;
+    border: 1px solid #768692;
     width: 100%;
 }
 
@@ -351,6 +351,7 @@ body {
 #patient-info tr:first-child {
     width: 100%;
     background-color: #E8EDEE;
+    border: 1px solid #768692;
 }
 
 #patient-info tr:first-child td {
@@ -364,8 +365,8 @@ body {
 .patient-detail-title {
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 12px;
-    color: #768692;
+    font-size: 11px;
+    color: #425563;
     padding-right: 10px;
 }
 
