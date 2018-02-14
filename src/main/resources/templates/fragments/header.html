@@ -14,12 +14,14 @@
     <title th:text="${title}">Page Title</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen"/>
+          rel="stylesheet" media="screen" type="text/css"/>
+    <!-- Had to take this out as it was causing a bug-->
+    <!--th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"-->
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css}"
-          rel="stylesheet" media="screen"/>
+          rel="stylesheet" media="screen" type="text/css"/>
+    <!-- Had to take this out as it was causing a bug-->
+    <!--th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css}"-->
 
     <link th:href="@{/css/style.css}" rel="stylesheet" media="screen"/>
 
@@ -59,10 +61,10 @@
         <div class="header-container" id="menu-container">
             <ul>
                 <li>
-                    <a>Patients</a>
+                    <a th:href="@{/}">Patients</a>
                 </li>
                 <li>
-                    <a>Handovers</a>
+                    <a>Create Handover</a>
                 </li>
             </ul>
         </div>
