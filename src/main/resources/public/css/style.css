@@ -84,9 +84,11 @@ body {
 }
 
 input[type="text"], input[type="password"], input[type="email"] {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid #768692;
     min-width: 120px;
     width: 12vw;
+    height: 30px;
 }
 
 input[type="text"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder {
@@ -97,6 +99,29 @@ input[type="text"]::placeholder, input[type="password"]::placeholder, input[type
 input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
     outline: none;
     background-color: rgba(255, 255, 255, 1);
+}
+
+.custom-select {
+    border: 1px solid #768692;
+    width: 120px;
+    height: 30px;
+    border-radius: 0px;
+    /*overflow: hidden;*/
+    background-color: #FFFFFF;
+    display: inline-block;
+}
+
+.custom-select select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    -webkit-appearance: none;
+}
+
+.custom-select select:focus {
+    outline: none;
 }
 
 /**********************************************************************************************************************/
@@ -306,6 +331,50 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 
 /**********************************************************************************************************************/
+/* Main window */
+/**********************************************************************************************************************/
+
+#main {
+    /*border: 1px solid black;*/
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 4vh 2vw;
+}
+
+.main-box {
+    border: 1px solid #768692;
+    width: 100%;
+    margin-bottom: 4vh;
+}
+
+.main-box-header {
+    background-color: #E8EDEE;
+    border-bottom: 1px solid #768692;
+    width: 100%;
+    height: 35px;
+    padding: 0px 10px;
+    line-height: 35px;
+    font-size: 16px;
+    color: #005EB8;
+}
+
+.main-box-content {
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+}
+
+.main-box-content a {
+    color: black;
+}
+
+.main-box-content a:hover {
+    color: rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+}
+
+/**********************************************************************************************************************/
 /* Patients */
 /**********************************************************************************************************************/
 
@@ -351,38 +420,16 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 }
 
 /**********************************************************************************************************************/
-/* Main window */
+/* Create/Edit user */
 /**********************************************************************************************************************/
 
-#main {
-    /*border: 1px solid black;*/
-    display: block;
-    height: 100%;
-    width: 100%;
-    padding: 4vh 2vw;
+#user-details-entry {
+    border: 1px solid black;
 }
 
-.main-box {
-    border: 1px solid #768692;
-    width: 100%;
-    margin-bottom: 4vh;
-}
-
-.main-box-header {
-    background-color: #E8EDEE;
-    border-bottom: 1px solid #768692;
-    width: 100%;
-    height: 35px;
-    padding: 0px 10px;
-    line-height: 35px;
-    font-size: 16px;
-    color: #005EB8;
-}
-
-.main-box-content {
-    display: block;
-    width: 100%;
-    padding: 5px 10px;
+#user-details-entry tr td {
+    border: 1px solid black;
+    padding: 5px;
 }
 
 /**********************************************************************************************************************/
