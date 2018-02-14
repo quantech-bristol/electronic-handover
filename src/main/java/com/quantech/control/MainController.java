@@ -23,15 +23,15 @@ public class MainController {
     IAuthenticationFacade authenticator;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String home(Model model) {
+    public String home() {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
         if (user.isDoctor()) {
-            //Get all patients with an uncompleted job related to the doctor
+            return "misc/home";
+        } else if (user.isAdmin()) {
+            return "redirect:/admin";
+        } else {
+            return "misc/home";
         }
-        if (user.isAdmin()) {
-            //
-        }
-        return "misc/home";
     }
 
     @RequestMapping(value="/login", method=RequestMethod.GET)

@@ -268,18 +268,15 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
 
 #login-container {
     display: block;
-    /*border: 1px solid black;*/
     height: 100%;
     float: right;
 }
 
 #login-form-table {
-    /*border: 1px solid black;*/
     height: 50px;
 }
 
 #login-form-table tr td{
-    /*border: 1px solid black;*/
     padding: 0 0.5vw;
 }
 
@@ -307,20 +304,6 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     font-size: 8vh;
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
 }
-
-/**********************************************************************************************************************/
-/* Topbar */
-/**********************************************************************************************************************/
-
-/*#topbar {*/
-    /*background-color:#0072CE;*/
-    /*height:50px;*/
-    /*font-size:20px;*/
-    /*line-height: 50px;*/
-    /*color:#FFFFFF;*/
-    /*padding: 0 2vw;*/
-    /*width: 100%;*/
-/*}*/
 
 /**********************************************************************************************************************/
 /* Patients */
@@ -402,210 +385,11 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     padding: 5px 10px;
 }
 
-/*.overviewbox {*/
-    /*width: 100%;*/
-    /*min-height: 15vh;*/
-    /*padding: 8px 0px 8px 0px;*/
-    /*margin-bottom: 20px;*/
-    /*background: #E8EDEE;*/
-    /*!*border-radius: 8px;*!*/
-/*}*/
-
-/*.overviewbox-wrapper {*/
-    /*width: 100%;*/
-/*}*/
-
-/*.overview-box-title {*/
-    /*font-size: 17px;*/
-    /*color: rgba(0, 94, 184, 1);*/
-    /*line-height: 17px;*/
-    /*vertical-align: middle;*/
-    /*margin-left:1vw;*/
-    /*margin-bottom: 1px;*/
-/*}*/
-
-/*.overview-box-title a:hover {*/
-    /*text-decoration: none;*/
-    /*color: rgba(0, 94, 184, 0.8);*/
-/*}*/
-
-/*.line {*/
-    /*display: block;*/
-    /*height: 1px;*/
-    /*border-top: 1px solid rgba(0, 0, 0, 0.3);*/
-    /*margin-top: 10px;*/
-/*}*/
-
-/*#admin-box {*/
-    /*padding: 15px;*/
-    /*color: #005EB8;*/
-    /*font-size: 15px;*/
-/*}*/
-
-/*#admin-box a{*/
-    /*color: rgba(0, 94, 184, 1);*/
-/*}*/
-
-/*#admin-box a:hover{*/
-    /*text-decoration: none;*/
-    /*color: rgba(0, 94, 184, 0.8);*/
-/*}*/
-
-/*#add-patient-icon {*/
-    /*color: rgba(0, 94, 184, 1);*/
-    /*font-size: 19px;*/
-    /*padding: 2px 15px 0px 0px;*/
-/*}*/
-
-/*#add-patient-icon:hover {*/
-    /*color: rgba(0, 94, 184, 0.8);*/
-/*}*/
-
-/**********************************************************************************************************************/
-/* Accordion */
-/**********************************************************************************************************************/
-
-.ac-container label {
-    padding: .7em 2em;
-    position: relative;
-    z-index: 20;
-    display: block;
-    cursor: pointer;
-    color:#555555;
-    letter-spacing: 1px;
-    line-height: 33px;
-    font-size: 1em;
-    background: #E8EDEE;
-}
-
-.ac-container label:hover {
-    background: #d2d7d8;
-    color: #000;
-}
-
-.ac-container input:checked + label, .ac-container input:checked + label:hover {
-    color: #000;
-    text-shadow: 0px 1px 1px rgba(255,255,255, 0.6);
-    box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3), 0px 2px 2px rgba(0,0,0,0.1);
-    background: #f0f2f4;
-}
-
-.ac-container label:after, .ac-container input:checked + label:hover:after {
-    content: '';
-    position: absolute;
-    right: 25px;
-    top: 22px;
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-top: 6px dashed;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    transition: .5s all;
-    -webkit-transition: .5s all;
-    -moz-transition: .5s all;
-    -o-transition: .5s all;
-    -ms-transition: .5s all;
-}
-
-.ac-container input:checked + label:after {
-    content: '';
-    position: absolute;
-    right: 25px;
-    top: 22px;
-    display: inline-block;
-    width: 0;
-    height: 0;
-    border-top: 6px dashed;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    transform: rotate(180deg);
-    -webkit-transform: rotate(180deg);
-    -moz-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-}
-
-.ac-container input {
-    display: none;
-}
-
-.ac-container article {
-    background: #FFFFFF;
-    margin-top: -1px;
-    overflow: hidden;
-    height: 0px;
-    position: relative;
-    z-index: 10;
-    -webkit-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-    -moz-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-    -o-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-    -ms-transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-    transition: height 0.3s ease-in-out, box-shadow 0.6s linear;
-}
-
-.ac-container article p {
-    line-height: 23px;
-    font-size: 14px;
-    padding: 15px 20px;
-    color: #999;
-    background-color: #E8EDEE;
-}
-
-.ac-container input:checked ~ article {
-    -webkit-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-    -moz-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-    -o-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-    -ms-transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-    transition: height 0.5s ease-in-out, box-shadow 0.1s linear;
-    box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3);
-}
-
-.ac-container input:checked ~ article.ac-small {
-    height: auto;
-}
-
-.ac-container input:checked ~ article.ac-medium {
-    height: 180px;
-}
-
-.ac-container input:checked ~ article.ac-large {
-    height: 230px;
-}
-
-.ac-small ul {
-    padding: 0;
-    /*-- border-bottom: 2px solid #272b2d; --*/
-}
-
-.ac-small ul li {
-    list-style-type: none;
-    font-size: 14px;
-    color: #555555;
-    text-decoration: none;
-    text-transform: capitalize;
-    display: block;
-    padding: 0.9em 0 0.9em 2em;
-    background: #FFFFFF;
-}
-
-.ac-small ul li a:hover {
-    background: #bdc1c2;
-    color: #fff;
-}
-
-.w3l-accordion-mk {
-    padding-right: 0;
-}
-
-.bodywrap.h1 {
-    margin: 0;
-}
-
 /**********************************************************************************************************************/
 /* Patient titles */
 /**********************************************************************************************************************/
 
+/*
 @media (min-width: 601px) {
     #patient-title-table-name {
         display: none;
@@ -664,11 +448,13 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     white-space:nowrap;
     font-size: 14px;
 }
+*/
 
 /**********************************************************************************************************************/
 /* Patient details */
 /**********************************************************************************************************************/
 
+/*
 @media (min-width: 801px) {
     #patient-info-table-1-col {
         display: none;
@@ -752,41 +538,4 @@ input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focu
     padding-right: 5px;
     color: rgba(85, 85, 85, 1);
 }
-
-/**********************************************************************************************************************/
-/* Other */
-/**********************************************************************************************************************/
-
-.login-form p {
-    font-size: 0.9em;
-    text-align: center;
-    line-height: 1.9em;
-    color: #fff;
-    margin-top: 1em;
-}
-
-.agileits_signin_form input[type="submit"]:hover {
-    background:#4cd4b0;
-}
-
-.roundedbutton {
-
-    padding: 10px 0;
-    width: 36%;
-    font-size: 1em;
-    border: none;
-    color: #fff;
-    background: #000;
-    outline: none;
-    font-weight: 600;
-    letter-spacing: 1px;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    -ms-transition: all 0.5s;
-    -o-transition: all 0.5s;
-    transition: all 0.5s;
-}
-
-.input-form {
-    margin-top: 2.5vh;
-}
+*/
