@@ -28,6 +28,9 @@ public class MainController {
         if (user.isDoctor()) {
             //Get all patients with an uncompleted job related to the doctor
         }
+        if (user.isAdmin()) {
+            //
+        }
         return "misc/home";
     }
 
@@ -45,49 +48,9 @@ public class MainController {
         return "redirect:/login?logout";
     }
 
-    @GetMapping(value="/createHandover")
-    public String createHandover() {
-        return "job/handover";
-    }
-
     @GetMapping(value="/settings")
     public String editSettings() {
         return "user/settings";
-    }
-
-    @GetMapping(value="/admin")
-    public String adminPage() {
-        return "admin/admin";
-    }
-
-    @GetMapping(value="/admin/createUser")
-    public String createUser() {
-        return "user/createUser";
-    }
-
-    @GetMapping(value="/admin/editUsers")
-    public String editUsers() {
-        return "user/editUsers";
-    }
-
-    @GetMapping(value="/admin/createWard")
-    public String createWard() {
-        return "ward/createWard";
-    }
-
-    @GetMapping(value="/admin/editWards")
-    public String editWards() {
-        return "ward/editWards";
-    }
-
-    @GetMapping(value="/admin/manageCategories")
-    public String manageCategories() {
-        return "job/manageCategories";
-    }
-
-    @GetMapping(value="/admin/manageRisks")
-    public String manageRisks() {
-        return "job/manageRisks";
     }
 
 }
