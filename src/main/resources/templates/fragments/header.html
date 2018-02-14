@@ -48,7 +48,7 @@
         <div class="header-container" id="user-container">
             <ul>
                 <li>
-                    <span id="user-name">Dr Neal C</span>
+                    <span th:text="${#authentication.principal.getFullName()}" id="user-name">Dr Neal C</span>
                     <a><i class="fa fa-user" id="user-icon"></i></a>
                 </li>
                 <li>

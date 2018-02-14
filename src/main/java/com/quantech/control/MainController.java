@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,9 +23,8 @@ public class MainController {
     IAuthenticationFacade authenticator;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String home() {
+    public String home(Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
-        //Add to model, get full name
         if (user.isDoctor()) {
             //Get all patients with an uncompleted job related to the doctor
         }
