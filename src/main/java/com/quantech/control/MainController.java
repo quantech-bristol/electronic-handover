@@ -49,5 +49,10 @@ public class MainController {
         return "misc/createHandover";
     }
 
+    @GetMapping(value="/settings")
+    public String editSettings() {
+        return "misc/settings";
+    }
+
 
 }
