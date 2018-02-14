@@ -46,23 +46,19 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/createUser")
-    public String createUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Model model, Errors errors) {
+    public String createUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors) {
         userService.CheckValidity(result, true, user);
-//        if (errors.hasErrors()) {
-//            model.addAttribute("postUrl", "/admin/createUser");
-//            model.addAttribute("title", "CreateUser");
-//            model.addAttribute("ShowRoles", true);
-//            return "user/createUser";
-//        }
-//        else {
-        UserCore newUser = user.ToUserCore();
-        userService.saveUser(newUser);
-        if(newUser.hasAuth(SecurityRoles.Doctor)) {
-            Doctor newDoc = new Doctor(newUser);
-            doctorService.saveDoctor(newDoc);
+        if (errors.hasErrors()) {
+            return "user/createUser";
+        } else {
+            UserCore newUser = user.ToUserCore();
+            userService.saveUser(newUser);
+            if (newUser.hasAuth(SecurityRoles.Doctor)) {
+                Doctor newDoc = new Doctor(newUser);
+                doctorService.saveDoctor(newDoc);
+            }
+            return "redirect:/admin";
         }
-        return "redirect:/admin";
-//        }
     }
 
     @GetMapping(value="/admin/editUsers")

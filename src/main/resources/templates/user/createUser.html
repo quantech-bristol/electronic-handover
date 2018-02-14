@@ -25,15 +25,8 @@
                                 <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
                             </select>
                         </td>
-                        <!--<td> <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></td>-->
+                        <td><span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></td>
                     </tr>
-                    <!--<tr class="form-group" th:if="${ShowRoles}">-->
-                        <!--<td><th:block th:each="role : ${T(com.quantech.Configurations.SecurityRoles).values()}">-->
-                        <!--<td>  <label th:text="${role}" ></label>-->
-                            <!--<input type="checkbox"  id="${role}" name = "roles" th:field ="*{authorityStrings}" th:value="${role}"  /></td>-->
-                        <!--</th:block></td>-->
-                        <!--<td> <span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span></td>-->
-                    <!--</tr>-->
                     <tr>
                         <td>
                             <label for="firstName">First Name</label>
@@ -41,7 +34,7 @@
                         <td>
                             <input type="text" th:field="*{firstName}" id="firstName" placeholder="first name"/>
                         </td>
-                        <!--<td><span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span></td>-->
+                        <td><span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span></td>
                     </tr>
                     <tr class="form-group">
                         <td>
@@ -50,7 +43,7 @@
                         <td>
                             <input type="text" th:field="*{lastName}" id="lastName" placeholder="last name"/>
                         </td>
-                        <!--<td> <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span></td>-->
+                        <td><span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span></td>
                     </tr>
                     <tr>
                         <td>
@@ -59,7 +52,7 @@
                         <td>
                             <input type="text" th:field="*{username}" id="username" placeholder="username"/>
                         </td>
-                        <!--<td> <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span></td>-->
+                        <td><span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span></td>
                     </tr>
                     <tr>
                         <td>
@@ -68,36 +61,19 @@
                         <td>
                             <input type="password" th:field="*{password}" id="password" placeholder="password"/>
                         </td>
-                        <!--<td> <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>-->
+                        <td><span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
                     </tr>
-                    <!--<tr>-->
-                        <!--<td>-->
-                            <!--<label for="Roles">Roles</label>-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--<select class = "form-control" id = "Roles" name = "Roles" th:field = "*{title}">-->
-                                <!--<option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>-->
-                            <!--</select>-->
-                        <!--</td>-->
-                        <!--&lt;!&ndash;<td> <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></td>&ndash;&gt;-->
-                    <!--</tr>-->
-
-
-                    <!--<tr th:if="${ShowRoles}">-->
                     <tr>
                         <td>
                             <th:block th:each="role : ${T(com.quantech.config.SecurityRoles).values()}">
                                 <div>
                                     <label th:text="${role}"></label>
-                                    <!--<input type="checkbox"  id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>-->
                                     <input type="checkbox"  id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
                                 </div>
                             </th:block>
                         </td>
-                        <!--<td> <span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span></td>-->
+                        <td><span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span></td>
                     </tr>
-
-
                     <tr>
                         <td>
                             <label for="email">Email</label>
@@ -105,11 +81,11 @@
                         <td>
                             <input type="email" th:field="*{email}" id="email" placeholder="email"/>
                         </td>
-                        <!--<td> <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span></td>-->
+                        <td><span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span></td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button class="orange-button" type="submit">Submit</button>
                         </td>
                     </tr>
                 </table>
