@@ -21,6 +21,11 @@ public class Doctor {
 
     public Doctor() { this.jobs = new ArrayList<>(); }
 
+    public Doctor(UserCore user) {
+        this.user = user;
+        this.jobs = new ArrayList<>();
+    }
+
     public Doctor(List<Job> jobs, UserCore user) {
         this.jobs = jobs;
         this.user = user;

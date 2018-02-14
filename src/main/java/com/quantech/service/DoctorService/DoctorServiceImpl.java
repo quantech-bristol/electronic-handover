@@ -73,6 +73,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void saveDoctor(Doctor doctor) throws NullPointerException, IllegalArgumentException {
         // TODO
+        doctorRepository.save(doctor);
     }
 
     @Override

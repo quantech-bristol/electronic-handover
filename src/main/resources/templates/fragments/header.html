@@ -61,16 +61,13 @@
         </div>
         <div class="header-container" id="menu-container">
             <ul>
-                <!--<li th:if="${#authentication.principal.isDoctor()}">-->
-                <li>
+                <li th:if="${#authentication.principal.isDoctor()}">
                     <a th:href="@{/}">My Jobs</a>
                 </li>
-                <!--<li th:if="${#authentication.principal.isDoctor()}">-->
-                <li>
+                <li th:if="${#authentication.principal.isDoctor()}">
                     <a th:href="@{/createHandover}">Create Handover</a>
                 </li>
-                <!--<li th:if="${#authentication.principal.isAdmin()}">-->
-                <li>
+                <li th:if="${#authentication.principal.isAdmin()}">
                     <a th:href="@{/admin}">Admin</a>
                 </li>
             </ul>
