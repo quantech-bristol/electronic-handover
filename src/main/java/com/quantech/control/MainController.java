@@ -60,5 +60,15 @@ public class MainController {
         return "admin/admin";
     }
 
+    @GetMapping(value="/createUser")
+    public String createUser() {
+        return "admin/createUser";
+    }
+
+    @GetMapping(value="/editUsers")
+    public String editUsers() {
+        return "admin/editUsers";
+    }
+
 
 }

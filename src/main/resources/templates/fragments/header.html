@@ -42,7 +42,8 @@
             </ul>
         </div>
         <div class="header-container" id="logo-container">
-            <a th:href="@{/}"><img src="/images/quantech-clear.png" alt="Quantech" id="logo"/></a>
+            <!--<a th:href="@{/}"><img src="/images/quantech-clear.png" alt="Quantech" id="logo"/></a>-->
+            <img src="/images/quantech-clear.png" alt="Quantech" id="logo"/>
         </div>
         <div class="header-container" id="user-container">
             <ul>
@@ -60,12 +61,15 @@
         </div>
         <div class="header-container" id="menu-container">
             <ul>
+                <!--<li th:if="${#authentication.principal.isDoctor()}">-->
                 <li>
                     <a th:href="@{/}">Patients</a>
                 </li>
+                <!--<li th:if="${#authentication.principal.isDoctor()}">-->
                 <li>
                     <a th:href="@{/createHandover}">Create Handover</a>
                 </li>
+                <!--<li th:if="${#authentication.principal.isAdmin()}">-->
                 <li>
                     <a th:href="@{/admin}">Admin</a>
                 </li>

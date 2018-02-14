@@ -9,10 +9,30 @@
 <div id="main">
     <div class="main-box">
         <div class="main-box-header">
-            Title
+            User Options
         </div>
         <div class="main-box-content">
-            Content
+            <a th:href="@{/createUser}">Create new user</a><br/>
+            <a th:href="@{/editUsers}">Edit existing users</a>
+        </div>
+    </div>
+    <div class="main-box">
+        <div class="main-box-header">
+            Ward Options
+        </div>
+        <div class="main-box-content">
+            Create wards<br/>
+            Edit existing wards<br/>
+            Delete wards (put into edit?)
+        </div>
+    </div>
+    <div class="main-box">
+        <div class="main-box-header">
+            Job Options
+        </div>
+        <div class="main-box-content">
+            Add/edit/delete job categories<br/>
+            Add/edit/delete risks
         </div>
     </div>
 </div>

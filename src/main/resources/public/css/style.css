@@ -73,6 +73,16 @@ body {
     background-color: #FFB81C;
 }
 
+.back-button {
+    font-size: 18px;
+    padding-right: 5px;
+    color: #005EB8;
+}
+
+.back-button:hover {
+    color: #0072CE;
+}
+
 /**********************************************************************************************************************/
 /* Header */
 /**********************************************************************************************************************/
@@ -96,7 +106,6 @@ body {
 
 .header-container ul {
     list-style-type: none;
-    /*border: 1px solid black;*/
     height: 100%;
     display: table;
     margin: 0;
@@ -106,7 +115,6 @@ body {
 .header-container ul li {
     vertical-align: middle;
     display: table-cell;
-    /*border: 1px solid black;*/
     height: 100%;
     padding: 0 1vw;
     font-size: 18px;
@@ -124,7 +132,6 @@ body {
 
 #logo-container {
     display: block;
-    /*border: 1px solid black;*/
     height: 100%;
     float: left;
 }
@@ -132,18 +139,15 @@ body {
 #logo-container #logo {
     height: 100%;
     padding: 10px 0px 10px 0px;
-    /*border: 1px solid black;*/
 }
 
 #menu-button-container {
     display: block;
-    /*border: 1px solid black;*/
     height: 100%;
     float: left;
 }
 
 #menu-container {
-    /*border: 1px solid black;*/
     height: 100%;
     width: auto;
     overflow: hidden;
@@ -151,14 +155,12 @@ body {
 
 #user-container {
     display: block;
-    /*border: 1px solid black;*/
     height: 100%;
     float: right;
 }
 
 #user-container ul {
     list-style-type: none;
-    /*border: 1px solid black;*/
     height: 100%;
     display: table;
     margin: 0;
@@ -168,7 +170,6 @@ body {
 #user-container ul li {
     vertical-align: middle;
     display: table-cell;
-    /*border: 1px solid black;*/
     height: 100%;
     padding: 0 1.5vw;
     font-size: 18px;
@@ -306,18 +307,6 @@ body {
 /*}*/
 
 /**********************************************************************************************************************/
-/* Main window */
-/**********************************************************************************************************************/
-
-#main {
-    /*border: 1px solid black;*/
-    display: block;
-    height: 100%;
-    width: 100%;
-    padding: 4vh 2vw;
-}
-
-/**********************************************************************************************************************/
 /* Patients */
 /**********************************************************************************************************************/
 
@@ -339,7 +328,8 @@ body {
 }
 
 #patient-info tr:first-child td {
-    font-size: 14px;
+    font-size: 16px;
+    color: #005EB8;
     vertical-align: middle;
 }
 
@@ -362,12 +352,21 @@ body {
 }
 
 /**********************************************************************************************************************/
-/* Boxes */
+/* Main window */
 /**********************************************************************************************************************/
+
+#main {
+    /*border: 1px solid black;*/
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 4vh 2vw;
+}
 
 .main-box {
     border: 1px solid #768692;
     width: 100%;
+    margin-bottom: 4vh;
 }
 
 .main-box-header {
@@ -377,7 +376,8 @@ body {
     height: 35px;
     padding: 0px 10px;
     line-height: 35px;
-    font-size: 14px;
+    font-size: 16px;
+    color: #005EB8;
 }
 
 .main-box-content {
