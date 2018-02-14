@@ -60,15 +60,34 @@ public class MainController {
         return "admin/admin";
     }
 
-    @GetMapping(value="/createUser")
+    @GetMapping(value="/admin/createUser")
     public String createUser() {
-        return "admin/createUser";
+        return "user/createUser";
     }
 
-    @GetMapping(value="/editUsers")
+    @GetMapping(value="/admin/editUsers")
     public String editUsers() {
-        return "admin/editUsers";
+        return "user/editUsers";
     }
 
+    @GetMapping(value="/admin/createWard")
+    public String createWard() {
+        return "ward/createWard";
+    }
+
+    @GetMapping(value="/admin/editWards")
+    public String editWards() {
+        return "ward/editWards";
+    }
+
+    @GetMapping(value="/admin/manageCategories")
+    public String manageCategories() {
+        return "job/manageCategories";
+    }
+
+    @GetMapping(value="/admin/manageRisks")
+    public String manageRisks() {
+        return "job/manageRisks";
+    }
 
 }

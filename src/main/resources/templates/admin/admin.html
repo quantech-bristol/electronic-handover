@@ -12,8 +12,8 @@
             User Options
         </div>
         <div class="main-box-content">
-            <a th:href="@{/createUser}">Create new user</a><br/>
-            <a th:href="@{/editUsers}">Edit existing users</a>
+            <a th:href="@{/admin/createUser}">Create new user</a><br/>
+            <a th:href="@{/admin/editUsers}">Edit existing users</a>
         </div>
     </div>
     <div class="main-box">
@@ -21,9 +21,8 @@
             Ward Options
         </div>
         <div class="main-box-content">
-            Create wards<br/>
-            Edit existing wards<br/>
-            Delete wards (put into edit?)
+            <a th:href="@{/admin/createWard}">Create wards</a><br/>
+            <a th:href="@{/admin/editWards}">Edit existing wards</a><br/>
         </div>
     </div>
     <div class="main-box">
@@ -31,8 +30,8 @@
             Job Options
         </div>
         <div class="main-box-content">
-            Add/edit/delete job categories<br/>
-            Add/edit/delete risks
+            <a th:href="@{/admin/manageCategories}">Manage job categories</a><br/>
+            <a th:href="@{/admin/manageRisks}">Manage risks</a>
         </div>
     </div>
 </div>
