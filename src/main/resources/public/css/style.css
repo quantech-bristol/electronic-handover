@@ -184,25 +184,35 @@ body {
     text-decoration: none;
 }
 
+#user-name {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/*Replace username with icon*/
 @media (min-width: 601px) {
     #user-icon {
         display: none;
     }
-
-    #menu-button-container {
-        display: none;
-    }
 }
-
 @media (max-width: 600px) {
     #user-name {
         display: none;
     }
+}
+/**/
 
+/*Hide menu and show hamburger*/
+@media (min-width: 801px) {
+    #menu-button-container {
+        display: none;
+    }
+}
+@media (max-width: 800px) {
     #menu-container ul {
         display: none;
     }
 }
+/**/
 
 .fa-cog {
     -webkit-transition:transform .7s ease-out;

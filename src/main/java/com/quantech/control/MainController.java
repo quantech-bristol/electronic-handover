@@ -24,6 +24,7 @@ public class MainController {
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home() {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        //Add to model, get full name
         if (user.isDoctor()) {
             //Get all patients with an uncompleted job related to the doctor
         }
@@ -46,12 +47,17 @@ public class MainController {
 
     @GetMapping(value="/createHandover")
     public String createHandover() {
-        return "misc/createHandover";
+        return "job/handover";
     }
 
     @GetMapping(value="/settings")
     public String editSettings() {
         return "misc/settings";
+    }
+
+    @GetMapping(value="/admin")
+    public String adminPage() {
+        return "misc/admin";
     }
 
 
