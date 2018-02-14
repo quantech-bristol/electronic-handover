@@ -1,7 +1,6 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
-import com.quantech.misc.Category;
 import com.quantech.model.user.UserCore;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +48,6 @@ public class MainController {
     public String createHandover() {
         return "misc/createHandover";
     }
+
 
 }
