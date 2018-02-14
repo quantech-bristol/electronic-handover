@@ -317,33 +317,6 @@ body {
     padding: 4vh 2vw;
 }
 
-/*
-#mainwindow {
-    background-color: #FFFFFF;
-    height: 100%;
-    position: relative;
-}
-
-.mainwindow {
-    float: right;
-    width: 100%;
-    height: 100%;
-}
-*/
-
-/*
-#bodywrap {
-    padding: 2.5vh 1.5vw;
-    width: 100%;
-}
-
-#bodywrap input {
-    background-color: #F0F2F4;
-    width: 100%;
-    height: 40px;
-}
-*/
-
 /**********************************************************************************************************************/
 /* Patients */
 /**********************************************************************************************************************/
@@ -362,10 +335,12 @@ body {
     width: 100%;
     background-color: #E8EDEE;
     border: 1px solid #768692;
+    height: 35px;
 }
 
 #patient-info tr:first-child td {
-    font-size: 13px;
+    font-size: 14px;
+    vertical-align: middle;
 }
 
 .patient-detail-row {
@@ -387,8 +362,29 @@ body {
 }
 
 /**********************************************************************************************************************/
-/* Overview and admin boxes */
+/* Boxes */
 /**********************************************************************************************************************/
+
+.main-box {
+    border: 1px solid #768692;
+    width: 100%;
+}
+
+.main-box-header {
+    background-color: #E8EDEE;
+    border-bottom: 1px solid #768692;
+    width: 100%;
+    height: 35px;
+    padding: 0px 10px;
+    line-height: 35px;
+    font-size: 14px;
+}
+
+.main-box-content {
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+}
 
 /*.overviewbox {*/
     /*width: 100%;*/
