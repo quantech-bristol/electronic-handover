@@ -52,12 +52,12 @@ public class MainController {
 
     @GetMapping(value="/settings")
     public String editSettings() {
-        return "misc/settings";
+        return "user/settings";
     }
 
     @GetMapping(value="/admin")
     public String adminPage() {
-        return "misc/admin";
+        return "admin/admin";
     }
 
 
