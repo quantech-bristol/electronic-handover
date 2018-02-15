@@ -1,5 +1,6 @@
 package com.quantech.service.PatientService;
 
+import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.Doctor;
 import com.quantech.model.JobContext;
 import com.quantech.model.Patient;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -55,7 +57,92 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void savePatient(Patient patient) throws NullPointerException, IllegalArgumentException {
+        if (patient == null)
+            throw new NullPointerException("Error: patient object cannot be null.");
+
+        // Check that the fields that cannot be null aren't as such.
+        Object[] fields = new Object[]{patient.getTitle(),
+                patient.getBirthDate(),
+                patient.getFirstName(),
+                patient.getLastName()};
+        String[] fieldNames = new String[] {"title",
+                "date of birth",
+                "first name",
+                "last name"};
+
+        // Carry out field null checks.
+        for (int i = 0; i < fields.length; i++) {
+            EntityFieldHandler.nullCheck(fields[i],fieldNames[i]);
+        }
+
+        // Identification numbers cannot both be null.
+        if (patient.getHospitalNumber() == null && patient.getNHSNumber() == null)
+            throw new IllegalArgumentException("Error: patient requires either a hospital number or an NHS number");
+
+        // Check that the NHS number of the patient is valid, if it exists.
+        if (patient.getNHSNumber() != null)
+            NHSNumberValidityCheck(patient.getNHSNumber());
+
+        // Check that the patient's date of birth isn't in the future.
+        if (patient.getBirthDate().after(new Date()))
+            throw new IllegalArgumentException("Error: patient's date of birth cannot be in the future.");
+
+        // Now that all check have passed, save the patient.
         patientRepository.save(patient);
+    }
+
+    // Used to check that an NHS number is valid before setting an attribute to be equal to it.
+    private void NHSNumberValidityCheck(Long NHSNumber) {
+        int digits = NHSNumber.toString().length();
+
+        if (digits > 10)
+            throw new IllegalArgumentException("Error: NHS number has too many digits.");
+
+        // Check that the checksum is correct.
+        if ( !checksumCorrect(NHSNumber) )
+            throw new IllegalArgumentException("Error: NHS number is not valid (checksum does not match)");
+    }
+
+    // Checks that the checksum of the NHS number is correct.
+    private int checkDigit(Long n) {
+        String digits = n.toString();
+
+        if (digits.length() < 10) {
+            StringBuilder zeros = new StringBuilder();
+            for (int i = 0; i < 10 - digits.length(); i++) {
+                zeros.append('0');
+            }
+            digits = zeros.toString() + digits;
+        }
+
+        // Applying Modulus 11 algorithm:
+        // Source: http://www.datadictionary.nhs.uk/data_dictionary/attributes/n/nhs/nhs_number_de.asp?shownav=1
+        // 1- Apply factors:
+        int sum = 0; int factor = 10;
+        for (int i = 0; i < 9; i++) {
+            int dig = Character.getNumericValue(digits.charAt(i));
+            sum += dig*factor;
+            factor--;
+        }
+        // 2- Find the remainder of dividing by 11.
+        int r = sum % 11;
+        // 3- Take the remainder away from 11 to get the check digit.
+        int checkDigit = 11 - r;
+        // 4- If the value is 10 then the check digit used is 0. If it is 0, then the number is invalid.
+        if (checkDigit == 10)
+            return -1;
+        if (checkDigit == 11)
+            checkDigit = 0;
+        // 5- Check the remainder matches the check digit.
+        return checkDigit;
+    }
+
+    // Checks if the check digit generated from an NHS number matches the checksum provided in the number.
+    private boolean checksumCorrect(Long n) {
+        String digits = n.toString();
+        int checkSum = Character.getNumericValue(digits.charAt(digits.length()-1));
+        int checkDigit = checkDigit(n);
+        return (checkSum == checkDigit && checkDigit != -1);
     }
 
     @Override
