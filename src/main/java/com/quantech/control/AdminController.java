@@ -42,14 +42,14 @@ public class AdminController {
     public String createUser(Model model) {
         model.addAttribute("usercore", new UserFormBackingObject());
         model.addAttribute("postUrl", "/admin/createUser");
-        return "user/createUser";
+        return "admin/createUser";
     }
 
     @PostMapping(value="/admin/createUser")
     public String createUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors) {
         userService.CheckValidity(result, true, user);
         if (errors.hasErrors()) {
-            return "user/createUser";
+            return "admin/createUser";
         } else {
             UserCore newUser = user.ToUserCore();
             userService.saveUser(newUser);
@@ -63,27 +63,22 @@ public class AdminController {
 
     @GetMapping(value="/admin/editUsers")
     public String editUsers() {
-        return "user/editUsers";
+        return "admin/editUsers";
     }
 
-    @GetMapping(value="/admin/createWard")
+    @GetMapping(value="/admin/manageWards")
     public String createWard() {
-        return "ward/createWard";
-    }
-
-    @GetMapping(value="/admin/editWards")
-    public String editWards() {
-        return "ward/editWards";
+        return "admin/manageWards";
     }
 
     @GetMapping(value="/admin/manageCategories")
     public String manageCategories() {
-        return "job/manageCategories";
+        return "admin/manageCategories";
     }
 
     @GetMapping(value="/admin/manageRisks")
     public String manageRisks() {
-        return "job/manageRisks";
+        return "admin/manageRisks";
     }
 
 }

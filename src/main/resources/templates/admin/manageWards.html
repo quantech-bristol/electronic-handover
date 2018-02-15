@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:include="fragments/header :: head (title='Create Ward')">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="main">
+    <div class="main-box">
+        <div class="main-box-header">
+            <a th:href="@{/admin}" class="back-button"><i class="fa fa-arrow-circle-left"></i></a>
+            Manage Wards
+        </div>
+        <div class="main-box-content">
+            Add wards<br/>
+            Search for existing wards<br/>
+            Edit or delete chosen ward
+            <!--<form action="#" th:action="@{/addWard}" th:object="${ward}" method="post" class="form-inline">-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<td><label for="patienttitle">Ward name</label></td>-->
+                        <!--<td><input type="text" th:field="*{name}" class="form-control" id="patienttitle" placeholder="Enter ward name"/></td>-->
+                    <!--</tr>-->
+                    <!--<tr><td><button type="submit" class="btn btn-primary">Submit</button></td></tr>-->
+                <!--</table>-->
+            <!--</form>-->
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

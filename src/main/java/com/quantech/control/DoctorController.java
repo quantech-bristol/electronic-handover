@@ -24,7 +24,7 @@ public class DoctorController {
 
     @GetMapping(value="/createHandover")
     public String createHandover() {
-        return "job/handover";
+        return "doctor/handover";
     }
 
 }
