@@ -3,10 +3,12 @@ package com.quantech.control;
 import com.quantech.config.SecurityRoles;
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.Doctor;
+import com.quantech.model.Ward;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
 import com.quantech.service.UserService.UserServiceImpl;
+import com.quantech.service.WardService.WardServiceImpl;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -32,6 +34,9 @@ public class AdminController {
 
     @Autowired
     DoctorServiceImpl doctorService;
+
+    @Autowired
+    WardServiceImpl wardService;
 
     @GetMapping(value="/admin")
     public String adminPage() {
@@ -67,7 +72,17 @@ public class AdminController {
     }
 
     @GetMapping(value="/admin/manageWards")
-    public String createWard() {
+    public String manageWards(Model model) {
+        model.addAttribute("newWard", new Ward());
+        model.addAttribute("wards", wardService.getAllWards());
+        return "admin/manageWards";
+    }
+
+    @PostMapping(value="/admin/manageWards")
+    public String addWard(@ModelAttribute Ward ward, Model model) {
+        wardService.saveWard(ward);
+        model.addAttribute("newWard", new Ward());
+        model.addAttribute("wards", wardService.getAllWards());
         return "admin/manageWards";
     }
 
