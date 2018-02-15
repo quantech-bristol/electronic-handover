@@ -7,20 +7,62 @@
 <body>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
-    <div class="main-box">
-        <div class="main-box-header">
-            Settings
-        </div>
-        <div class="main-box-content">
-            Title <!-- only editable by admin? -->
-            First name <!-- only editable by admin? -->
-            Last name <!-- only editable by admin? -->
-            Username <!-- editable -->
-            Change password
-            Email <!-- only editable by admin? -->
-            Authority <!-- only visible and editable by admin -->
-        </div>
-    </div>
+    <table id="patient-info">
+        <tr>
+            <td>Name</td>
+            <td>Username</td>
+            <td>Email</td>
+            <td>New Password</td>
+            <td>Confirm New Password</td>
+            <td>Current Password</td>
+        </tr>
+        <!--Thymeleaf for each clause-->
+        <tr>
+            <td>
+                <div class="patient-details">
+                    <div class="patient-detail-row">
+                        <span th:text="${#authentication.principal.getFullName()}" class="patient-detail"></span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="patient-details">
+                    <div class="patient-detail-row">
+                        <span th:text="${#authentication.principal.getUsername()}" class="patient-detail"></span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="patient-details">
+                    <div class="patient-detail-row">
+                        <span th:text="${#authentication.principal.getEmail()}" class="patient-detail"></span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="patient-details">
+                    <div class="patient-detail-row">
+                        <span class="patient-detail">Enter New Password</span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="patient-details">
+                    <div class="patient-detail-row">
+                        <span class="patient-detail">Confirm New Password</span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="patient-details">
+                    <div class="patient-detail-row">
+                        <span class="patient-detail">Enter Current Password</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+    </table>
 </div>
 
 </body>

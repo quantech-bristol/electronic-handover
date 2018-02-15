@@ -42,13 +42,13 @@
             </ul>
         </div>
         <div class="header-container" id="logo-container">
-            <!--<a th:href="@{/}"><img src="/images/quantech-clear.png" alt="Quantech" id="logo"/></a>-->
-            <img src="/images/quantech-clear.png" alt="Quantech" id="logo"/>
+            <a th:href="@{/}"><img src="/images/quantech-clear.png" alt="Quantech" id="logo"/></a>
+            <!--img src="/images/quantech-clear.png" alt="Quantech" id="logo"/>-->
         </div>
         <div class="header-container" id="user-container">
             <ul>
                 <li>
-                    <span th:text="${#authentication.principal.getFullName()}" id="user-name">Dr Neal C</span>
+                    <span th:text="${#authentication.principal.getFullName()}" id="user-name"></span>
                     <a><i class="fa fa-user" id="user-icon"></i></a>
                 </li>
                 <li>
