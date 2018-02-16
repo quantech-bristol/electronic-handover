@@ -10,16 +10,37 @@
     <div class="main-box">
         <div class="main-box-header">
             <a th:href="@{/admin}" class="back-button"><i class="fa fa-arrow-circle-left"></i></a>
-            Manage Job Categories
+            New Job Category
         </div>
         <div class="main-box-content">
             <form action="#" th:action="@{/admin/addCategory}" th:object="${newCat}" method="post" class="form-inline">
-                <input type="text" th:field="*{summary}" class="form-control" placeholder="Enter Category name"/>
+                <table>
+                    <tr>
+                        <td><label for="name">Category summary</label></td>
+                        <td><input type="text" th:field="*{summary}" id="name" placeholder="category summary"/></td>
+                    </tr>
+                    <tr><td><button class="orange-button" type="submit">Submit</button></td></tr>
+                </table>
             </form>
             Searchable list of categories with option to change name or remove
         </div>
     </div>
-
+    <div class="main-box">
+        <div class="main-box-header">
+            Existing Categories
+        </div>
+        <div class="main-box-content">
+            <table>
+                <tr th:each="cat : ${categories}">
+                    <td>
+                        <span th:text="${cat.summary}"></span>
+                    </td>
+                </tr>
+            </table>
+            <!--Search for existing categories<br/>-->
+            <!--Edit or delete category-->
+        </div>
+    </div>
 </div>
 
 </body>
