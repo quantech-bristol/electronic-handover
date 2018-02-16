@@ -170,23 +170,40 @@ public class PatientTest {
         p.setTitle(Title.Miss);
 
         Boolean thrown = false;
-        System.out.println(p.getNHSNumber());
-        System.out.println("\n\n\n\n\n");
+        try {
             patientService.savePatient(p);
-
+        } catch (Exception e) {
+            thrown = true;
+        }
+        Assert.assertFalse(thrown);
     }
 
     @Test
     // Should be able to detect when only some of the fields of the patient are null. (In this case it's the birth and admission dates)
     public void checkTwoNullFieldsDetectedInPatient() {
-        // TODO
+        Patient p = new Patient();
+        p.setId(1L);
+        p.setBirthDate(new Date());
+        p.setHospitalNumber(8L);
+        p.setTitle(Title.Miss);
+
+        boolean thrown = false;
+        try {
+            patientService.savePatient(p);
+        } catch (NullPointerException e) {
+            thrown = true;
+        }
+        Assert.assertTrue(thrown);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // Making sure patients are deleted properly.
     public void deletePatientTest() {
-        // TODO
+        patientService.deletePatient(3L);
+        List<Patient> p1 = getPatientsFromRepository(new long[]{1L,2L,4L,5L,6L,7L,8L,9L});
+        List<Patient> p2 = patientService.getAllPatients();
+        Assert.assertTrue(sameContents(p1,p2));
     }
 
     @Test
