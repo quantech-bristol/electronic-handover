@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 
 @Controller
 public class MainController {
@@ -39,6 +40,10 @@ public class MainController {
 
     @RequestMapping(value="/logout")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+
+        // delete the sensitive patient data when user logs out
+        File pdf = new File("pdfout.pdf");
+        pdf.delete();
 
         // handle logout if previously logged in
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

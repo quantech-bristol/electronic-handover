@@ -7,5 +7,3 @@ BACK-END TODO
 - Track specific time a handover should be completed by
 - Generic TODO list
 - Track details of the creation/edit of any patient or handover
-- Allow duplication of bed numbers
-
