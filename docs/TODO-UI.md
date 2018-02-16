@@ -1,25 +1,32 @@
 UI TODO
 
-PATIENTS
+Patients
 - Turn patient/handover details into a table/excel format instead of accordion
 
-USERS
-- Styling for create user page
-- Implementation/styling of edit users page
+Create User
+- Styling
 
-WARDS
-- Implementation/styling of create ward page
-- Implementation/styling of edit wards page
+Edit Users
+- Implementation of edit
+- Implementation of delete
+- Styling
 
-HANDOVER
+Manage Wards
+- Styling
+- Implement edit/delete wards
+
+Create Handover
 - Edit/add patients details whilst creating handover
 
-JOBS
-- Implementation/styling of manage categories page
-- Implementation/styling of manage risks page
+Admin
+- Implement edit risks
+- Implement delete risks
+- Implement add category
+- Implement edit categories
+- Implement delete categories
 - Risks a checklist instead of text input
 
-MISC
+Misc
 - Generic TODO list
 - Pop up confirmations on some pages
 - Highlight current page in header bar (patients, create handover etc), needs js?
