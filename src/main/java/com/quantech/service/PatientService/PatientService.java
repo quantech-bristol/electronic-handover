@@ -62,6 +62,14 @@ public interface PatientService {
     public void savePatient(Patient patient) throws NullPointerException, IllegalArgumentException;
 
     /**
+     * Checks if a given NHS number is valid, by checking to see if it has the correct checksum.
+     * Only works on numbers with the correct length (10 digits).
+     * @param nhsNumber The NHS number.
+     * @return True if it is correct, false otherwise.
+     */
+    public boolean checksumCorrect(Long nhsNumber);
+
+    /**
      * Deletes a given patient from the repository.
      * @param patient The patient to be removed from the repository.
      */
@@ -108,7 +116,7 @@ public interface PatientService {
      * @param ward The ward to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> latestWardIs(Ward ward);
+    public Predicate<Patient> patientInWard(Ward ward);
 
     /**
      * A predicate that checks if the patient is on a given bed.

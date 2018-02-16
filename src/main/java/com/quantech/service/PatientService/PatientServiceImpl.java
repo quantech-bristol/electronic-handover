@@ -60,28 +60,28 @@ public class PatientServiceImpl implements PatientService {
         if (patient == null)
             throw new NullPointerException("Error: patient object cannot be null.");
 
-        // Check that the fields that cannot be null aren't as such.
-        Object[] fields = new Object[]{patient.getTitle(),
-                patient.getBirthDate(),
-                patient.getFirstName(),
-                patient.getLastName()};
-        String[] fieldNames = new String[] {"title",
-                "date of birth",
-                "first name",
-                "last name"};
+        // Check if date of birth is null.
+        EntityFieldHandler.nullCheck(patient.getBirthDate(),"date of birth");
 
-        // Carry out field null checks.
-        for (int i = 0; i < fields.length; i++) {
-            EntityFieldHandler.nullCheck(fields[i],fieldNames[i]);
-        }
+        // Check if the first name is null;
+        String name = patient.getFirstName();
+        EntityFieldHandler.nameValidityCheck(name);
+        patient.setFirstName(EntityFieldHandler.putNameIntoCorrectForm(name));
 
-        // Identification numbers cannot both be null.
-        if (patient.getHospitalNumber() == null && patient.getNHSNumber() == null)
-            throw new IllegalArgumentException("Error: patient requires either a hospital number or an NHS number");
+        // Check if the last name is null;
+        name = patient.getLastName();
+        EntityFieldHandler.nameValidityCheck(name);
+        patient.setLastName(EntityFieldHandler.putNameIntoCorrectForm(name));
 
         // Check that the NHS number of the patient is valid, if it exists.
-        if (patient.getNHSNumber() != null)
+        if (patient.getNHSNumber() != null) {
             NHSNumberValidityCheck(patient.getNHSNumber());
+        }
+        else {
+            // Identification numbers cannot both be null.
+            if (patient.getHospitalNumber() == null)
+                throw new IllegalArgumentException("Error: patient requires either a hospital number or an NHS number");
+        }
 
         // Check that the patient's date of birth isn't in the future.
         if (patient.getBirthDate().after(new Date()))
@@ -138,7 +138,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     // Checks if the check digit generated from an NHS number matches the checksum provided in the number.
-    private boolean checksumCorrect(Long n) {
+    public boolean checksumCorrect(Long n) {
         String digits = n.toString();
         int checkSum = Character.getNumericValue(digits.charAt(digits.length()-1));
         int checkDigit = checkDigit(n);
@@ -180,19 +180,18 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Predicate<Patient> latestWardIs(Ward ward) {
+    public Predicate<Patient> patientInWard(Ward ward) {
         return p -> {
-            List<JobContext> contexts = sortContextsByDateCreatedMostRecentFirst(p.getJobContexts());
-            return (contexts.get(0).getId() == ward.getId());
+            List<Ward> w = p.getJobContexts().stream().map(JobContext::getWard).collect(Collectors.toList());
+            return w.contains(ward);
         };
     }
 
     @Override
     public Predicate<Patient> patientsBedIs(Integer bed) {
         return p -> {
-            List<JobContext> contexts = sortContextsByDateCreatedMostRecentFirst(p.getJobContexts());
-            if (contexts.get(0) == null) return false;
-            else return (contexts.get(0).getBed() == bed);
+            List w = p.getJobContexts().stream().map(JobContext::getBed).collect(Collectors.toList());
+            return w.contains(bed);
         };
     }
 

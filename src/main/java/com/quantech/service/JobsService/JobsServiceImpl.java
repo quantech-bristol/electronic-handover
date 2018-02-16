@@ -1,6 +1,6 @@
 package com.quantech.service.JobsService;
 
-import com.quantech.misc.Category;
+import com.quantech.model.Category;
 import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.*;
 import com.quantech.repo.JobContextRepository;
