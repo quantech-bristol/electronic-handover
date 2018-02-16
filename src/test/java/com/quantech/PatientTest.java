@@ -4,8 +4,10 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.Patient;
+import com.quantech.model.Ward;
 import com.quantech.model.user.Title;
 import com.quantech.repo.PatientRepository;
+import com.quantech.repo.WardRepository;
 import com.quantech.service.PatientService.PatientService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,6 +39,8 @@ public class PatientTest {
     PatientService patientService;
     @Autowired
     PatientRepository patientRepository;
+    @Autowired
+    WardRepository wardRepository;
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
@@ -303,27 +307,26 @@ public class PatientTest {
     @DatabaseSetup("/dataSet1.xml")
     // Filtering by ward.
     public void filterPatientsByWardTest() {
-        // TODO
+        Ward w = wardRepository.findById(1L);
+        Assert.assertTrue(patientService.patientInWard(w).test(patientService.getPatientById(1L)));
+        Assert.assertTrue(patientService.getAllPatients().size() > 0);
+        List<Patient> p1 = getPatientsFromRepository(new long[]{1L,2L,3L});
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),patientService.patientInWard(w));
+        Assert.assertEquals(p1,p2);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // Filtering by ward and bed.
     public void filterPatientsByWardAndBedTest() {
-        // TODO
-    }
+        Ward w = wardRepository.findById(1L);
+        Set<Predicate<Patient>> pred = new HashSet<>();
+        pred.add(patientService.patientInWard(w));
+        pred.add(patientService.patientsBedIs(1));
 
-    @Test
-    @DatabaseSetup("/dataSet1.xml")
-    // Filtering by doctor.
-    public void filterPatientsByDoctorTest() {
-        // TODO
-    }
-
-    @Test
-    // Test that the check digit generated from a valid NHS number is in fact correct.
-    public void checkDigitCorrectTest() {
-        // TODO
+        List<Patient> p1 = getPatientsFromRepository(new long[]{1L});
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),pred);
+        Assert.assertEquals(p1,p2);
     }
 
     @Test
@@ -410,11 +413,10 @@ public class PatientTest {
     @Test
     // Errors thrown when an empty name field is attempted.
     public void emptyNameThrowsErrorTest() {
-        /*
         boolean thrown = false;
         Patient p = new Patient();
         try {
-            p.setFirstName("");
+            EntityFieldHandler.nameValidityCheck("");
         } catch (IllegalArgumentException e) {
             thrown = true;
         }
@@ -422,20 +424,11 @@ public class PatientTest {
         thrown = false;
 
         try {
-            p.setFirstName("     ");
+            EntityFieldHandler.nameValidityCheck("          ");
         } catch (IllegalArgumentException e) {
             thrown = true;
         }
         Assert.assertTrue(thrown);
-        thrown = false;
-
-        try {
-            p.setFirstName(" ");
-        } catch (IllegalArgumentException e) {
-            thrown = true;
-        }
-        Assert.assertTrue(thrown);
-        */
     }
 
     // Use this to create a list of patients with a certain sequence of IDs.

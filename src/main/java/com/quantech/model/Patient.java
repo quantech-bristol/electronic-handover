@@ -39,7 +39,7 @@ public class Patient {
     @Column(unique = true)
     private Long nHSNumber;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<JobContext> jobContexts;
 
     public Patient() { this.jobContexts = new ArrayList<>(); }

@@ -65,12 +65,12 @@ public class PatientServiceImpl implements PatientService {
 
         // Check if the first name is null;
         String name = patient.getFirstName();
-        EntityFieldHandler.nullCheck(name,"first name");
+        EntityFieldHandler.nameValidityCheck(name);
         patient.setFirstName(EntityFieldHandler.putNameIntoCorrectForm(name));
 
         // Check if the last name is null;
         name = patient.getLastName();
-        EntityFieldHandler.nullCheck(name,"last name");
+        EntityFieldHandler.nameValidityCheck(name);
         patient.setLastName(EntityFieldHandler.putNameIntoCorrectForm(name));
 
         // Check that the NHS number of the patient is valid, if it exists.
@@ -180,19 +180,18 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Predicate<Patient> latestWardIs(Ward ward) {
+    public Predicate<Patient> patientInWard(Ward ward) {
         return p -> {
-            List<JobContext> contexts = sortContextsByDateCreatedMostRecentFirst(p.getJobContexts());
-            return (contexts.get(0).getId() == ward.getId());
+            List<Ward> w = p.getJobContexts().stream().map(JobContext::getWard).collect(Collectors.toList());
+            return w.contains(ward);
         };
     }
 
     @Override
     public Predicate<Patient> patientsBedIs(Integer bed) {
         return p -> {
-            List<JobContext> contexts = sortContextsByDateCreatedMostRecentFirst(p.getJobContexts());
-            if (contexts.get(0) == null) return false;
-            else return (contexts.get(0).getBed() == bed);
+            List w = p.getJobContexts().stream().map(JobContext::getBed).collect(Collectors.toList());
+            return w.contains(bed);
         };
     }
 

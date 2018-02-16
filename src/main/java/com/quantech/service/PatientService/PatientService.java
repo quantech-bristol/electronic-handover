@@ -116,7 +116,7 @@ public interface PatientService {
      * @param ward The ward to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> latestWardIs(Ward ward);
+    public Predicate<Patient> patientInWard(Ward ward);
 
     /**
      * A predicate that checks if the patient is on a given bed.

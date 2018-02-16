@@ -106,4 +106,27 @@
              nhsnumber="7118149209"
              hospital_number="9"
              title="0"/>
+
+    <job_context id="1"
+                 bed="1"
+                 clinical_details="Ill"
+                 creation_date="2018-01-01"
+                 unwell="true"
+                 patient_id="1"
+                 ward_id="1"/>
+    <job_context id="2"
+                 bed="2"
+                 clinical_details="Ill"
+                 creation_date="2018-01-01"
+                 unwell="true"
+                 patient_id="2"
+                 ward_id="1"/>
+    <job_context id="3"
+                 bed="3"
+                 clinical_details="Ill"
+                 creation_date="2018-01-01"
+                 unwell="true"
+                 patient_id="3"
+                 ward_id="1"/>
+    />
 </dataset>
