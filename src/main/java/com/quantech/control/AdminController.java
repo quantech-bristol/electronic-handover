@@ -99,6 +99,7 @@ public class AdminController {
     @GetMapping(value="/admin/manageCategories")
     public String manageCategories(Model model) {
         model.addAttribute("newCat", new Category());
+        model.addAttribute("categories", categoryService.getAllCategories());
 
         return "admin/manageCategories";
     }
