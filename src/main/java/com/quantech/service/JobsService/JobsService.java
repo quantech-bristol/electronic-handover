@@ -1,6 +1,6 @@
 package com.quantech.service.JobsService;
 
-import com.quantech.misc.Category;
+import com.quantech.model.Category;
 import com.quantech.model.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;

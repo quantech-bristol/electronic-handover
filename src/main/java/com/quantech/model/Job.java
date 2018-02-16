@@ -1,11 +1,9 @@
 package com.quantech.model;
 
-import com.quantech.misc.Category;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
@@ -21,6 +19,7 @@ public class Job {
     private String description;
 
     @NotNull
+    @ManyToOne
     private Category category;
 
     // YYYY-MM-DD HH:MM:SS
