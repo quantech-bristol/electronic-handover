@@ -210,56 +210,92 @@ public class PatientTest {
     @DatabaseSetup("/dataSet1.xml")
     // Making sure that the method of filtering the patients by the start of their first name works.
     public void filterPatientsByStartOfFirstNameIsATest() {
-        // TODO
+        List<Patient> p1 = getPatientsFromRepository(new long[]{1L,2L,4L,5L,7L});
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),
+                patientService.patientsFirstNameStartsWith("A"));
+        Assert.assertEquals(p1,p2);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // Making sure that the method of filtering the patients by the start of their first name works.
     public void filterPatientsByStartOfFirstNameIsChaTest() {
-        // TODO
+        List<Patient> p1 = getPatientsFromRepository(new long[]{6L});
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),
+                patientService.patientsFirstNameStartsWith("Cha"));
+        Assert.assertEquals(p1,p2);
     }
 
     @DatabaseSetup("/dataSet1.xml")
-    // Making sure that filtering for "Cha" and "C" only gives strings that match "Cha", and ordering of predicates
+    // Making sure that filtering for "Ari" and "A" only gives strings that match "Ari", and ordering of predicates
     // doesn't matter.
-    public void filterPatientsByStartOfFirstNameIsChaAndCTest() {
-        // TODO
+    public void filterPatientsByStartOfFirstNameIsAriAndATest() {
+        List<Patient> p1 = getPatientsFromRepository(new long[]{4L});
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),
+                patientService.patientsFirstNameStartsWith("Ari"));
+        p2 = patientService.filterPatientsBy(p2, patientService.patientsFirstNameStartsWith("A"));
+        Assert.assertEquals(p1,p2);
+
+        p2 = patientService.filterPatientsBy(patientService.getAllPatients(),
+                patientService.patientsFirstNameStartsWith("A"));
+        p2 = patientService.filterPatientsBy(p2, patientService.patientsFirstNameStartsWith("Ari"));
+        Assert.assertEquals(p1,p2);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // When predicates conflict one another, the filter should yield an empty list.
     public void filterPatientsByStartOfDifferentFirstNameTest() {
-        // TODO
+        Set<Predicate<Patient>> pred = new HashSet<>();
+        pred.add(patientService.patientsFirstNameStartsWith("A"));
+        pred.add(patientService.patientsFirstNameStartsWith("Z"));
+
+        List<Patient> p = patientService.filterPatientsBy(patientService.getAllPatients(),pred);
+        Assert.assertEquals(new ArrayList<Patient>(),p);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // Making sure last name filter is working properly.
     public void filterPatientsByStartOfLastNameHaTest() {
-        // TODO
+        List<Patient> p1 = getPatientsFromRepository(new long[]{4L,6L});
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),
+                patientService.patientsLastNameStartsWith("Ha"));
+        Assert.assertEquals(p1,p2);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // When patient fulfilling predicate isn't found, return empty list.
     public void filterPatientsByStartOfLastNameNoneFoundTest() {
-        // TODO
+        List<Patient> p = patientService.filterPatientsBy(patientService.getAllPatients(),
+                patientService.patientsLastNameStartsWith("abcdefg"));
+        Assert.assertEquals(new ArrayList<Patient>(),p);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // Different filters working in conjunction should be fine.
     public void filterPatientsByStartOfFirstAndLastNameTest() {
-        // TODO
+        Set<Predicate<Patient>> pred = new HashSet<>();
+        pred.add(patientService.patientsFirstNameStartsWith("A"));
+        pred.add(patientService.patientsLastNameStartsWith("B"));
+
+        List<Patient> p1 = getPatientsFromRepository(new long[]{1L,2L,5L});
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),pred);
+        Assert.assertEquals(p1,p2);
     }
 
     @Test
     @DatabaseSetup("/dataSet1.xml")
     // When a patient that doesn't fulfil multiple predicates isn't found, return empty list.
     public void filterPatientsByStartOfFirstAndLastNameNoneFoundTest() {
-        // TODO
+        Set<Predicate<Patient>> pred = new HashSet<>();
+        pred.add(patientService.patientsFirstNameStartsWith("abcd"));
+        pred.add(patientService.patientsLastNameStartsWith("wxyz"));
+
+        List<Patient> p2 = patientService.filterPatientsBy(patientService.getAllPatients(),pred);
+        Assert.assertEquals(new ArrayList<>(),p2);
     }
 
     @Test
@@ -284,13 +320,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
-    // Filtering by a combination of predicates (conjunctive).
-    public void filterPatientsByFirstNameLastNameDoctorTest() {
-        // TODO
-    }
-
-    @Test
     // Test that the check digit generated from a valid NHS number is in fact correct.
     public void checkDigitCorrectTest() {
         // TODO
@@ -299,8 +328,13 @@ public class PatientTest {
     @Test
     // Check that NHS numbers that are invalid are flagged as such.
     public void nhsNumbersInvalidTest() {
-        /*
         Patient p = new Patient();
+        p.setId(1L);
+        p.setBirthDate(new Date());
+        p.setFirstName("Nuha");
+        p.setLastName("Tumia");
+        p.setHospitalNumber(8L);
+        p.setTitle(Title.Miss);
 
         long test1 = 19999999991919L;
         long test2 = 7665993754L;
@@ -311,6 +345,7 @@ public class PatientTest {
 
         try {
             p.setNHSNumber(test1);
+            patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
             thrown = true;
         }
@@ -319,6 +354,7 @@ public class PatientTest {
 
         try {
             p.setNHSNumber(test2);
+            patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
             thrown = true;
         }
@@ -327,6 +363,7 @@ public class PatientTest {
 
         try {
             p.setNHSNumber(test3);
+            patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
             thrown = true;
         }
@@ -335,11 +372,11 @@ public class PatientTest {
 
         try {
             p.setNHSNumber(test4);
+            patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
             thrown = true;
         }
         Assert.assertFalse(thrown);
-        */
     }
 
     @Test

@@ -140,7 +140,7 @@ public class PatientServiceImpl implements PatientService {
     }
 
     // Checks if the check digit generated from an NHS number matches the checksum provided in the number.
-    private boolean checksumCorrect(Long n) {
+    public boolean checksumCorrect(Long n) {
         String digits = n.toString();
         int checkSum = Character.getNumericValue(digits.charAt(digits.length()-1));
         int checkDigit = checkDigit(n);
