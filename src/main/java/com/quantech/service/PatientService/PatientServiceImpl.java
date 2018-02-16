@@ -60,20 +60,18 @@ public class PatientServiceImpl implements PatientService {
         if (patient == null)
             throw new NullPointerException("Error: patient object cannot be null.");
 
-        // Check that the fields that cannot be null aren't as such.
-        Object[] fields = new Object[]{patient.getTitle(),
-                patient.getBirthDate(),
-                patient.getFirstName(),
-                patient.getLastName()};
-        String[] fieldNames = new String[] {"title",
-                "date of birth",
-                "first name",
-                "last name"};
+        // Check if date of birth is null.
+        EntityFieldHandler.nullCheck(patient.getBirthDate(),"date of birth");
 
-        // Carry out field null checks.
-        for (int i = 0; i < fields.length; i++) {
-            EntityFieldHandler.nullCheck(fields[i],fieldNames[i]);
-        }
+        // Check if the first name is null;
+        String name = patient.getFirstName();
+        EntityFieldHandler.nullCheck(name,"first name");
+        patient.setFirstName(EntityFieldHandler.putNameIntoCorrectForm(name));
+
+        // Check if the last name is null;
+        name = patient.getLastName();
+        EntityFieldHandler.nullCheck(name,"last name");
+        patient.setLastName(EntityFieldHandler.putNameIntoCorrectForm(name));
 
         // Check that the NHS number of the patient is valid, if it exists.
         if (patient.getNHSNumber() != null) {

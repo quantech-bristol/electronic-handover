@@ -2,6 +2,7 @@ package com.quantech;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.Patient;
 import com.quantech.model.user.Title;
 import com.quantech.repo.PatientRepository;
@@ -333,7 +334,6 @@ public class PatientTest {
         p.setBirthDate(new Date());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
-        p.setHospitalNumber(8L);
         p.setTitle(Title.Miss);
 
         long test1 = 19999999991919L;
@@ -353,6 +353,7 @@ public class PatientTest {
         thrown = false;
 
         try {
+            p.setId(2L);
             p.setNHSNumber(test2);
             patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
@@ -362,6 +363,7 @@ public class PatientTest {
         thrown = false;
 
         try {
+            p.setId(3L);
             p.setNHSNumber(test3);
             patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
@@ -371,6 +373,7 @@ public class PatientTest {
         thrown = false;
 
         try {
+            p.setId(4L);
             p.setNHSNumber(test4);
             patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
@@ -382,39 +385,26 @@ public class PatientTest {
     @Test
     // Checking that first names and last names are being formatted in the correct way.
     public void patientNameFormattedCorrectlyTest() {
-        /*
-        Patient p = new Patient();
+        Assert.assertEquals("Nuha", EntityFieldHandler.putNameIntoCorrectForm("nUHa"));
+        Assert.assertEquals("Tumia", EntityFieldHandler.putNameIntoCorrectForm("TumIA"));
 
-        p.setFirstName("nUHa");
-        p.setLastName("TumIA");
-        Assert.assertEquals("Nuha",p.getFirstName());
-        Assert.assertEquals("Tumia",p.getLastName());
+        Assert.assertEquals("Sally-Anne", EntityFieldHandler.putNameIntoCorrectForm("      sally-anne       "));
+        Assert.assertEquals("Tyson", EntityFieldHandler.putNameIntoCorrectForm("tyson"));
 
-        p.setFirstName("      sally-anne       ");
-        p.setLastName("tyson");
-        Assert.assertEquals("Sally-Anne",p.getFirstName());
-        Assert.assertEquals("Tyson",p.getLastName());
+        Assert.assertEquals("Sally-Anne", EntityFieldHandler.putNameIntoCorrectForm("sally-anne"));
+        Assert.assertEquals("Tyson", EntityFieldHandler.putNameIntoCorrectForm("tyson"));
 
-        p.setFirstName("sally-anne");
-        p.setLastName("tyson");
-        Assert.assertEquals("Sally-Anne",p.getFirstName());
-        Assert.assertEquals("Tyson",p.getLastName());
+        Assert.assertEquals("Sally-Anne", EntityFieldHandler.putNameIntoCorrectForm("sally   -  anne"));
+        Assert.assertEquals("Tyson", EntityFieldHandler.putNameIntoCorrectForm("tyson"));
 
-        p.setFirstName("sally   -  anne");
-        p.setLastName("tyson");
-        Assert.assertEquals("Sally-Anne",p.getFirstName());
-        Assert.assertEquals("Tyson",p.getLastName());
+        Assert.assertEquals("Sally-Anne", EntityFieldHandler.putNameIntoCorrectForm("sally   -  anne"));
+        Assert.assertEquals("Tyson", EntityFieldHandler.putNameIntoCorrectForm("tyson"));
 
-        p.setFirstName("CAMERON");
-        p.setLastName("O'HARA");
-        Assert.assertEquals("Cameron",p.getFirstName());
-        Assert.assertEquals("O'Hara",p.getLastName());
+        Assert.assertEquals("Cameron", EntityFieldHandler.putNameIntoCorrectForm("CAMERON"));
+        Assert.assertEquals("O'Hara", EntityFieldHandler.putNameIntoCorrectForm("O'HARA"));
 
-        p.setFirstName("            Nabil    Suliman            ");
-        p.setLastName("Tumia        ");
-        Assert.assertEquals("Nabil Suliman",p.getFirstName());
-        Assert.assertEquals("Tumia",p.getLastName());
-    */
+        Assert.assertEquals("Nabil Suliman", EntityFieldHandler.putNameIntoCorrectForm("            Nabil    Suliman            "));
+        Assert.assertEquals("Tumia", EntityFieldHandler.putNameIntoCorrectForm("Tumia        "));
     }
 
     @Test
