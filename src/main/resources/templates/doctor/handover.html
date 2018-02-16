@@ -13,9 +13,21 @@
             <!--<i class="fa fa-handshake-o"></i>-->
         </div>
         <div class="main-box-content">
-            <form action="#" method="post">
+            <form action="#" th:action="@{/createHandover}" method="post">
                 <div> <!-- Add or choose patient -->
-                    Create new patient or choose existing patient
+                    Create new patient or choose existing patient<br/>
+                    <div class="custom-select">
+                        <select id="title" name="title" th:field = "*{patient.title}">
+                            <option value="" hidden="true">title</option>
+                            <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
+                        </select>
+                    </div>
+                    <input type="text" th:field="*{patient.firstName}" id="firstName" name="firstName" placeholder="first name"/>
+                    <input type="text" th:field="*{patient.lastName}" id="lastName" name="lastName" placeholder="last name"/>
+                    <!--CHANGE DATE TO THREE TEXT BOXES, DD, MM, YYYY AND CONVERT TO SINGLE DATE-->
+                    <input type="date" th:field="*{patient.birthDate}" id="birthDate" name="birthDate" placeholder="date of birth"/>
+                    <input type="number" th:field="*{patient.hospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
+                    <input type="number" th:field="*{patient.NHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
                 </div>
                 <div> <!-- Add or choose/edit job context -->
                     Clinical information
