@@ -163,9 +163,9 @@ public class Patient {
     /**
      * Sets the NHS number of the patient.
      *
-     * @param NHSNumber The NHS number to provide the patient.
+     * @param nHSNumber The NHS number to provide the patient.
      */
-    public void setNHSNumber(Long NHSNumber) {
+    public void setNHSNumber(Long nHSNumber) {
         this.nHSNumber = nHSNumber;
     }
 
