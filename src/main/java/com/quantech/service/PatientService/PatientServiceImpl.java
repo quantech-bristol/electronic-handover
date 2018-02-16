@@ -75,13 +75,15 @@ public class PatientServiceImpl implements PatientService {
             EntityFieldHandler.nullCheck(fields[i],fieldNames[i]);
         }
 
-        // Identification numbers cannot both be null.
-        if (patient.getHospitalNumber() == null && patient.getNHSNumber() == null)
-            throw new IllegalArgumentException("Error: patient requires either a hospital number or an NHS number");
-
         // Check that the NHS number of the patient is valid, if it exists.
-        if (patient.getNHSNumber() != null)
+        if (patient.getNHSNumber() != null) {
             NHSNumberValidityCheck(patient.getNHSNumber());
+        }
+        else {
+            // Identification numbers cannot both be null.
+            if (patient.getHospitalNumber() == null)
+                throw new IllegalArgumentException("Error: patient requires either a hospital number or an NHS number");
+        }
 
         // Check that the patient's date of birth isn't in the future.
         if (patient.getBirthDate().after(new Date()))

@@ -30,7 +30,6 @@ public class Patient {
     @NotNull
     private Date birthDate;
 
-    @NotNull
     @Column(unique = true)
     private Long hospitalNumber;
 
