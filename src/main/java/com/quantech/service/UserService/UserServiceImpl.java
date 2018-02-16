@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,5 +143,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             result.rejectValue("email","email.usercore","You must specify an email.");
         }
 
+    }
+
+    @Override
+    public List<UserCore> findMatchesFromFilter(UserInfo ob)
+    {
+        List<UserCore> userInfo = userRepository.findUserCoresByFirstNameContainsAndLastNameContainsAndEmailContainsAndUsernameContains(ob.getFirstName(), ob.getLastName(), ob.getEmail(), ob.getUsername());
+        return userInfo;
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteUserById(Long id) {
+        userRepository.deleteById(id);
+        return true;
     }
 }

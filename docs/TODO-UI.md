@@ -7,8 +7,6 @@ Create User
 - Styling
 
 Edit Users
-- Implementation of edit
-- Implementation of delete
 - Styling
 
 Manage Wards

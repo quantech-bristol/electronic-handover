@@ -31,4 +31,10 @@ public interface UserService
     public boolean emailIsValid(String s, Long validForUserId);
 
     public void CheckValidity(BindingResult result, boolean creating, UserInfo ob);
+
+    public List<UserCore> findMatchesFromFilter(UserInfo ob);
+
+    public boolean deleteUserById(Long id);
+
+
 }

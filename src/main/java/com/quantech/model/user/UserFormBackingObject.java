@@ -43,7 +43,7 @@ public class UserFormBackingObject implements UserInfo
     public UserFormBackingObject(UserInfo core)
     {
         this.username = core.getUsername();
-        this.password = core.getPassword();
+      //  this.password = core.getPassword();
         this.authorityStrings = core.getAuthorityStrings();
         this.id = core.getId();
         this.email = core.getEmail();

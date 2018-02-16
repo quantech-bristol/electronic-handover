@@ -8,26 +8,17 @@
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
     <div class="main-box">
-        <div class="main-box-header" th:text = "${Title}">
+        <div class="main-box-header" >
             <a th:href="@{/admin}" class="back-button"><i class="fa fa-arrow-circle-left"></i></a>
-            Create User
+            Insert user details to filter for
         </div>
         <div class="main-box-content">
             <form action="#" th:action="${postUrl}" th:object="${usercore}" method="post">
-                <input type="hidden" th:field="*{id}" th:value="*{id}" id="id"/>
                 <table id="user-details-entry">
                     <tr>
                         <td colspan="3">Name</td>
                     </tr>
                     <tr>
-                        <td>
-                            <div class="custom-select" style="width: 80px;">
-                                <select id="titles" name="titles" th:field = "*{title}">
-                                    <option value="" hidden="true">title</option>
-                                    <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
-                                </select>
-                            </div>
-                        </td>
                         <td>
                             <input type="text" th:field="*{firstName}" id="firstName" style="width: 110px;" placeholder="first name"/>
                         </td>
@@ -42,40 +33,18 @@
                         <td colspan="3"><input type="text" th:field="*{username}" id="username" placeholder="username"/></td>
                     </tr>
                     <tr>
-                        <td colspan="3">Password</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><input type="password"  th:type = "password" th:field="*{password}" id="password" placeholder="password"/></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Roles</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <th:block th:each="role : ${T(com.quantech.config.SecurityRoles).values()}">
-                                <div>
-                                    <span th:text="${role}"></span>
-                                    <input type="checkbox"  id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
-                                </div>
-                            </th:block>
-                        </td>
-                    </tr>
-                    <tr>
                         <td colspan="3">Email</td>
                     </tr>
                     <tr>
-                        <td colspan="3"><input type="email" th:field="*{email}" id="email" placeholder="email"/></td>
+                        <td colspan="3"><input type="text" th:field="*{email}" id="email" placeholder="email"/></td>
                     </tr>
                     <tr>
                         <td colspan="3"><button class="orange-button" type="submit">Submit</button></td>
                     </tr>
                 </table>
-                <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
                 <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                 <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                 <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
-                <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-                <span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span>
                 <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
             </form>
         </div>
