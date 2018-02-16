@@ -2,6 +2,8 @@ package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.user.UserCore;
+import com.quantech.model.user.UserFormBackingObject;
+import com.quantech.service.UserService.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,10 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -22,6 +21,9 @@ public class MainController {
 
     @Autowired
     IAuthenticationFacade authenticator;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home() {
@@ -54,8 +56,19 @@ public class MainController {
     }
 
     @GetMapping(value="/settings")
-    public String editSettings() {
+    public String editSettings(Model model) {
+        UserFormBackingObject user = new UserFormBackingObject((UserCore) authenticator.getAuthentication().getPrincipal());
+        user.setPassword(null);
+        model.addAttribute("user", user);
         return "user/settings";
+    }
+
+    @PostMapping(value="/settings")
+    public String changePassword(@ModelAttribute UserFormBackingObject user) {
+        UserCore newUser = (UserCore) authenticator.getAuthentication().getPrincipal();
+        newUser.setPassword(user.getPassword());
+        userService.saveUser(newUser);
+        return "redirect:/settings";
     }
 
 }
