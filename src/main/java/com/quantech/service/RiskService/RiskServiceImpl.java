@@ -3,10 +3,12 @@ package com.quantech.service.RiskService;
 import com.quantech.model.Risk;
 import com.quantech.repo.RiskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service("riskService")
 public class RiskServiceImpl implements RiskService {
 
     @Autowired

@@ -3,10 +3,12 @@ package com.quantech.control;
 import com.quantech.config.SecurityRoles;
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.Doctor;
+import com.quantech.model.Risk;
 import com.quantech.model.Ward;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
+import com.quantech.service.RiskService.RiskServiceImpl;
 import com.quantech.service.UserService.UserServiceImpl;
 import com.quantech.service.WardService.WardServiceImpl;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -37,6 +39,9 @@ public class AdminController {
 
     @Autowired
     WardServiceImpl wardService;
+
+    @Autowired
+    RiskServiceImpl riskService;
 
     @GetMapping(value="/admin")
     public String adminPage() {
@@ -92,7 +97,17 @@ public class AdminController {
     }
 
     @GetMapping(value="/admin/manageRisks")
-    public String manageRisks() {
+    public String manageRisks(Model model) {
+        model.addAttribute("newRisk", new Risk());
+        model.addAttribute("risks", riskService.getAllRisks());
+        return "admin/manageRisks";
+    }
+
+    @PostMapping(value="/admin/manageRisks")
+    public String addRisk(@ModelAttribute Risk risk, Model model) {
+        riskService.saveRisk(risk);
+        model.addAttribute("newRisk", new Risk());
+        model.addAttribute("risks", riskService.getAllRisks());
         return "admin/manageRisks";
     }
 
