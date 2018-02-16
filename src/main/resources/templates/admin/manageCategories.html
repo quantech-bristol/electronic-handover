@@ -13,7 +13,9 @@
             Manage Job Categories
         </div>
         <div class="main-box-content">
-            Text box to add new<br/>
+            <form action="#" th:action="@{/admin/addCategory}" th:object="${newCat}" method="post" class="form-inline">
+                <input type="text" th:field="*{summary}" class="form-control" placeholder="Enter Category name"/>
+            </form>
             Searchable list of categories with option to change name or remove
         </div>
     </div>

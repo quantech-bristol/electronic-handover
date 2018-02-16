@@ -2,11 +2,13 @@ package com.quantech.control;
 
 import com.quantech.config.SecurityRoles;
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
+import com.quantech.model.Category;
 import com.quantech.model.Doctor;
 import com.quantech.model.Risk;
 import com.quantech.model.Ward;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
+import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
 import com.quantech.service.RiskService.RiskServiceImpl;
 import com.quantech.service.UserService.UserServiceImpl;
@@ -42,6 +44,9 @@ public class AdminController {
 
     @Autowired
     RiskServiceImpl riskService;
+
+    @Autowired
+    CategoryServiceImpl categoryService;
 
     @GetMapping(value="/admin")
     public String adminPage() {
@@ -92,8 +97,15 @@ public class AdminController {
     }
 
     @GetMapping(value="/admin/manageCategories")
-    public String manageCategories() {
+    public String manageCategories(Model model) {
+        model.addAttribute("newCat", new Category());
+
         return "admin/manageCategories";
+    }
+    @RequestMapping(value="/admin/addCategory", method=RequestMethod.POST)
+    public String addCategory(@ModelAttribute Category category) {
+        categoryService.saveCategory(category);
+        return "redirect:/admin/manageCategories";
     }
 
     @GetMapping(value="/admin/manageRisks")
