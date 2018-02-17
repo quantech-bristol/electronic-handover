@@ -16,6 +16,25 @@
             <form action="#" th:action="@{/createHandover}" method="post">
                 <div> <!-- Add or choose patient -->
                     Create new patient or choose existing patient<br/>
+                    <input type="radio" name="tab" value="new" onclick="show1();" checked="checked" />
+                    New
+                    <input type="radio" name="tab" value="existing" onclick="show2();" />
+                    Existing
+
+                    <div id="newPatient" style="display: block">New Patient Selected</div>
+                    <div id="existingPatient" style="display: none">Existing Patient Selected</div>
+
+                    <script>
+                        function show1(){
+                            document.getElementById('newPatient').style.display = 'block';
+                            document.getElementById('existingPatient').style.display = 'none';
+                        }
+                        function show2(){
+                            document.getElementById('newPatient').style.display ='none';
+                            document.getElementById('existingPatient').style.display = 'block';
+                        }
+                    </script>
+
                     <div class="custom-select">
                         <select id="title" name="title" th:field = "*{patient.title}">
                             <option value="" hidden="true">title</option>

@@ -36,4 +36,10 @@ public class DoctorController {
         return "redirect:/";
     }
 
+    @GetMapping("/patient/hospitalNumber={id}")
+    public String viewPatient(@PathVariable Long id, Model model) {
+        model.addAttribute("patient", patientService.getPatientByHospitalNumber(id));
+        return "doctor/viewPatient";
+    }
+
 }
