@@ -84,7 +84,7 @@ public class DoctorServiceImpl implements DoctorService {
             throw new NullPointerException("Error: doctor object is null.");
         EntityFieldHandler.nullCheck(doctor.getUser(),"user");
 
-        if (doctorRepository.findByUser(doctor.getUser()) != null)
+        if (doctorRepository.findByUser_id(doctor.getUser().getId()) != null)
             throw new IllegalArgumentException("Error: user is already associated with a doctor");
 
         if (!doctor.getUser().isDoctor())

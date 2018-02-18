@@ -2,8 +2,10 @@ package com.quantech;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.quantech.config.SecurityRoles;
 import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.Doctor;
+import com.quantech.model.user.UserCore;
 import com.quantech.repo.DoctorRepository;
 import com.quantech.repo.UserRepository;
 import com.quantech.service.DoctorService.DoctorService;
@@ -18,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
+import javax.print.Doc;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ import java.util.List;
                          TransactionalTestExecutionListener.class, // use transactional test execution
                          DbUnitTestExecutionListener.class})       // to read data sets from file
 @ActiveProfiles("test")       // use application-test.yml properties (in-memory DB)
+@DatabaseSetup("/dataSet1.xml")
 @Transactional                // rollback DB in between tests
 public class DoctorTest {
     @Autowired
@@ -39,77 +43,110 @@ public class DoctorTest {
     UserRepository userRepository;
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
-    // Making sure the service sorts the list of doctors properly; most recently renewed first.:
-    public void sortByMostRecentlyRenewedFirstTest() {
-        // TODO
+    public void saveDoctorTest() {
+        UserCore u = userRepository.getUserCoreByIdEquals(6L);
+        u.addAuth(SecurityRoles.Doctor);
+        userRepository.save(u);
+
+        Doctor d = new Doctor();
+        d.setUser(u);
+        doctorService.saveDoctor(d);
+        // Check that the doctor can be saved successfully.
+        Assert.assertTrue(doctorRepository.findByUser_id(6L) == d);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
-    // Making sure the service sorts the list of doctors properly; least recently renewed first.:
-    public void sortByLeastRecentlyRenewedFirstTest() {
-        // TODO
+    // Testing that a doctor cannot be saved with a user object that has an existing doctor associated.
+    public void saveExistingDoctorTest() {
+        UserCore u = userRepository.getUserCoreByIdEquals(5L);
+        Doctor d = new Doctor();
+        d.setUser(u);
+
+        boolean thrown = false;
+
+        try {
+            doctorService.saveDoctor(d);
+        } catch (IllegalArgumentException e) {
+            thrown = true;
+        }
+        // Check that the correct exception was thrown.
+        Assert.assertTrue(thrown);
+        // Check that the new doctor wasn't saved.
+        Assert.assertTrue(doctorRepository.findByUser_id(5L) != d);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
-    // Making sure ordering of sort doesn't matter when applying:
-    public void sortByLeastRecentlyRenewedThenMostRecentlyRenewedFirstTest() {
-        // TODO
+    // Checking that a doctor object cannot be associated with a user with no doctor permissions.
+    public void saveDoctorCorrectPermissionsTest() {
+        UserCore u = userRepository.getUserCoreByIdEquals(6L);
+        Doctor d = new Doctor();
+        d.setUser(u);
+
+        boolean thrown = false;
+
+        try {
+            doctorService.saveDoctor(d);
+        } catch (IllegalArgumentException e) {
+            thrown = true;
+        }
+        // Check that the correct exception was thrown.
+        Assert.assertTrue(thrown);
+        // Check that the new doctor wasn't saved.
+        Assert.assertTrue(doctorRepository.findByUser_id(6L) != d);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
     // Making sure the service sorts the list of doctors properly; alphabetically by first name.
     public void sortByFirstNameTest() {
-        // TODO
+        List<Doctor> d1 = getDoctorsFromRepository(new long[]{1L,3L,2L,5L,4L});
+        List<Doctor> d2 = doctorService.sortDoctorsByFirstName(doctorService.getAllDoctors());
+
+        Assert.assertEquals(d1,d2);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
     // Making sure the service sorts the list of doctors properly; alphabetically by last name.
     public void sortByLastNameTest() {
-        // TODO
+        List<Doctor> d1 = getDoctorsFromRepository(new long[]{4L,2L,1L,3L,5L});
+        List<Doctor> d2 = doctorService.sortDoctorsByLastName(doctorService.getAllDoctors());
+
+        Assert.assertEquals(d1,d2);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
-    // Making sure filtering works - start of first name.
+    // Making sure filtering works - start of first name. Filtering was fully tested using patient tests.
     public void filterDoctorsByStartOfFirstNameTest() {
-        // TODO
+        List<Doctor> d1 = getDoctorsFromRepository(new long[]{1L,2L,3L});
+        List<Doctor> d2 = doctorService.filterDoctorsBy(doctorService.getAllDoctors(),doctorService.doctorsFirstNameStartsWith("A"));
+
+        Assert.assertEquals(d1,d2);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
     // Making sure filtering works - start of last name.
     public void filterDoctorsByStartOfLastNameTest() {
-        // TODO
+        List<Doctor> d1 = getDoctorsFromRepository(new long[]{1L,2L,3L});
+        List<Doctor> d2 = doctorService.filterDoctorsBy(doctorService.getAllDoctors(),doctorService.doctorsFirstNameStartsWith("A"));
+
+        Assert.assertEquals(d1,d2);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
     // Making sure filtering works - renewed after date.
     public void filterDoctorsByRenewedAfterTest() {
-        // TODO
+        List<Doctor> d1 = getDoctorsFromRepository(new long[]{3L,5L});
+        List<Doctor> d2 = doctorService.filterDoctorsBy(doctorService.getAllDoctors(),doctorService.doctorsLastNameStartsWith("X"));
+
+        Assert.assertEquals(d1,d2);
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
-    // Making sure filtering works - renewed before date.
-    public void filterDoctorsByRenewedBeforeTest() {
-        // TODO
-    }
-
-    @Test
-    @DatabaseSetup("/dataSet3.xml")
     // Making sure filtering works - doctor team.
     public void filterDoctorsByTeamTest() {
         // TODO
     }
 
     @Test
-    @DatabaseSetup("/dataSet3.xml")
     // Making sure filtering works - doctor teams.
     public void filterDoctorsByTeamsTest() {
         // TODO
@@ -118,7 +155,6 @@ public class DoctorTest {
     @Test
     // Check if invalid email addresses are detected.
     public void invalidEmailCheckTest() {
-        // TODO
         String e1 = "nuhat@bristol.com";
         String e2 = "nuhat@bristol.ac.uk";
         String e3 = "nuha-t@bristol.co.uk";

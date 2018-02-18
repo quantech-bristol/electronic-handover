@@ -4,8 +4,8 @@
             id="1"
             email="email1@hotmail.com"
             enabled="true"
-            first_name="User1"
-            last_name="Name"
+            first_name="A"
+            last_name="Wx"
             password="password"
             title="0"
             username="user1"
@@ -14,8 +14,8 @@
             id="2"
             email="email2@hotmail.com"
             enabled="true"
-            first_name="User2"
-            last_name="Name"
+            first_name="Ab"
+            last_name="W"
             password="password"
             title="0"
             username="user2"
@@ -24,11 +24,41 @@
             id="3"
             email="email3@hotmail.com"
             enabled="true"
-            first_name="User3"
-            last_name="Name"
+            first_name="A"
+            last_name="X"
             password="password"
             title="0"
             username="user3"
+    />
+    <user_core
+            id="4"
+            email="email4@hotmail.com"
+            enabled="true"
+            first_name="Cq"
+            last_name="A"
+            password="password"
+            title="0"
+            username="user4"
+    />
+    <user_core
+            id="5"
+            email="email5@hotmail.com"
+            enabled="true"
+            first_name="B"
+            last_name="X"
+            password="password"
+            title="0"
+            username="user5"
+    />
+    <user_core
+            id="6"
+            email="email6@hotmail.com"
+            enabled="true"
+            first_name="B"
+            last_name="X"
+            password="password"
+            title="0"
+            username="user6"
     />
 
     <doctor
@@ -37,6 +67,15 @@
     <doctor
             id="2"
             user_id="2"/>
+    <doctor
+            id="3"
+            user_id="3"/>
+    <doctor
+            id="4"
+            user_id="4"/>
+    <doctor
+            id="5"
+            user_id="5"/>
 
     <ward id="1"
           name="ward1"/>
