@@ -104,6 +104,9 @@ public class PatientServiceImpl implements PatientService {
         if (digits > 10)
             throw new IllegalArgumentException("Error: NHS number has too many digits.");
 
+        if (NHSNumber < 0)
+            throw new IllegalArgumentException("Error: NHS number cannot be negative.");
+
         // Check that the checksum is correct.
         if ( !checksumCorrect(NHSNumber) )
             throw new IllegalArgumentException("Error: NHS number is not valid (checksum does not match)");
