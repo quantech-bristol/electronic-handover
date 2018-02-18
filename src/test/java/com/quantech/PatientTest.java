@@ -21,6 +21,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -104,7 +105,7 @@ public class PatientTest {
     // Make sure that no null fields are detected when there aren't any.
     public void checkNoNullFieldsDetectedInPatient() {
         Patient p = new Patient();
-        p.setBirthDate(new Date());
+        p.setBirthDate(LocalDate.now());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
         p.setNHSNumber(2790585245L);
@@ -125,7 +126,7 @@ public class PatientTest {
     // Should be allowed to have one of hospital number and nhs number null, as they are identifiers.
     public void allowedNullNHSNumberTest() {
         Patient p = new Patient();
-        p.setBirthDate(new Date());
+        p.setBirthDate(LocalDate.now());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
         p.setHospitalNumber(8000L);
@@ -144,7 +145,7 @@ public class PatientTest {
     // Patient shouldn't be allowed to have both hospital and nhs number as null.
     public void bothNumbersNullTest() {
         Patient p = new Patient();
-        p.setBirthDate(new Date());
+        p.setBirthDate(LocalDate.now());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
         p.setTitle(Title.Miss);
@@ -162,7 +163,7 @@ public class PatientTest {
     // Should be allowed to have one of hospital number and nhs number null, as they are identifiers.
     public void allowedNullHospitalNumberTest() {
         Patient p = new Patient();
-        p.setBirthDate(new Date());
+        p.setBirthDate(LocalDate.now());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
         p.setNHSNumber(2790585245L);
@@ -181,7 +182,7 @@ public class PatientTest {
     // Should be able to detect when only some of the fields of the patient are null. (In this case it's the birth and admission dates)
     public void checkTwoNullFieldsDetectedInPatient() {
         Patient p = new Patient();
-        p.setBirthDate(new Date());
+        p.setBirthDate(LocalDate.now());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
         p.setTitle(Title.Miss);
@@ -317,7 +318,7 @@ public class PatientTest {
     // Check that NHS numbers that are invalid are flagged as such.
     public void nhsNumbersInvalidTest() {
         Patient p = new Patient();
-        p.setBirthDate(new Date());
+        p.setBirthDate(LocalDate.now());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
         p.setTitle(Title.Miss);

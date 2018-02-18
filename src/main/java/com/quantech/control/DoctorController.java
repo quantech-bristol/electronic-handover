@@ -34,10 +34,6 @@ public class DoctorController {
     @PostMapping(value="/createHandover")
     public String createHandover(@ModelAttribute("patient") PatientFormBackingObject patient) {
         Patient pt = patient.toPatient();
-        System.out.println(pt.getBirthDate());
-        System.out.println(patient.getDay());
-        System.out.println(patient.getMonth());
-        System.out.println(patient.getYear());
         patientService.savePatient(pt);
         return "redirect:/";
     }
