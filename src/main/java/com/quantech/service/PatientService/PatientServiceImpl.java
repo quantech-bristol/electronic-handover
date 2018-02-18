@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -90,7 +91,7 @@ public class PatientServiceImpl implements PatientService {
         }
 
         // Check that the patient's date of birth isn't in the future.
-        if (patient.getBirthDate().after(new Date()))
+        if (patient.getBirthDate().isAfter(LocalDate.now()))
             throw new IllegalArgumentException("Error: patient's date of birth cannot be in the future.");
 
         // Now that all check have passed, save the patient.

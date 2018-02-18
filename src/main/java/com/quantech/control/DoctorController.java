@@ -2,6 +2,7 @@ package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.Patient;
+import com.quantech.model.PatientFormBackingObject;
 import com.quantech.model.user.UserCore;
 import com.quantech.service.PatientService.PatientServiceImpl;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -26,13 +27,18 @@ public class DoctorController {
 
     @GetMapping(value="/createHandover")
     public String createHandover(Model model) {
-        model.addAttribute("patient", new Patient());
+        model.addAttribute("patient", new PatientFormBackingObject());
         return "doctor/handover";
     }
 
     @PostMapping(value="/createHandover")
-    public String createHandover(@ModelAttribute("patient") Patient patient) {
-        patientService.savePatient(patient);
+    public String createHandover(@ModelAttribute("patient") PatientFormBackingObject patient) {
+        Patient pt = patient.toPatient();
+        System.out.println(pt.getBirthDate());
+        System.out.println(patient.getDay());
+        System.out.println(patient.getMonth());
+        System.out.println(patient.getYear());
+        patientService.savePatient(pt);
         return "redirect:/";
     }
 

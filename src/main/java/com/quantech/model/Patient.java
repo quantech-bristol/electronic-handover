@@ -1,11 +1,13 @@
 package com.quantech.model;
 
 import com.quantech.model.user.Title;
+import org.apache.tomcat.jni.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -27,10 +29,9 @@ public class Patient {
     @NotNull
     private String lastName;
 
-    @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column(unique = true,nullable = true)
     private Long hospitalNumber;
@@ -44,7 +45,7 @@ public class Patient {
 
     public Patient() { this.jobContexts = new ArrayList<>(); }
 
-    public Patient(Title title, String firstName, String lastName, Date birthDate, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
+    public Patient(Title title, String firstName, String lastName, LocalDate birthDate, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
         this.title = title;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -122,7 +123,7 @@ public class Patient {
      * Birth date getter.
      * @return Patient birth date.
      */
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
@@ -130,7 +131,7 @@ public class Patient {
      * Birth date setter.
      * @param birthDate Patient birth date.
      */
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

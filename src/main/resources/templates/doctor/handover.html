@@ -44,7 +44,9 @@
                     <input type="text" th:field="*{patient.firstName}" id="firstName" name="firstName" placeholder="first name"/>
                     <input type="text" th:field="*{patient.lastName}" id="lastName" name="lastName" placeholder="last name"/>
                     <!--CHANGE DATE TO THREE TEXT BOXES, DD, MM, YYYY AND CONVERT TO SINGLE DATE-->
-                    <input type="date" th:field="*{patient.birthDate}" id="birthDate" name="birthDate" placeholder="date of birth"/>
+                    <input type="text" th:field="*{patient.day}" id="day" name="day" placeholder="date of birth"/>
+                    <input type="text" th:field="*{patient.month}" id="month" name="day" placeholder="date of birth"/>
+                    <input type="text" th:field="*{patient.year}" id="year" name="day" placeholder="date of birth"/>
                     <input type="number" th:field="*{patient.hospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
                     <input type="number" th:field="*{patient.NHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
                 </div>

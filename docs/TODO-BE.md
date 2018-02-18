@@ -1,7 +1,6 @@
 BACK-END TODO
 - Implement HTTPS
 - Hash passwords
-- Risks become predefined database containing id, name and severity
 - Ability to update/change a handover before its accepted
 - Track specific time a handover should be completed by
 - Generic TODO list
