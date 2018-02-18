@@ -1,9 +1,14 @@
 package com.quantech.service.DoctorService;
 
+import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.Doctor;
+import com.quantech.model.Job;
+import com.quantech.model.JobContext;
 import com.quantech.model.Patient;
 import com.quantech.model.user.UserCore;
 import com.quantech.repo.DoctorRepository;
+import com.quantech.repo.JobContextRepository;
+import com.quantech.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +24,8 @@ import java.util.stream.Stream;
 public class DoctorServiceImpl implements DoctorService {
     @Autowired
     DoctorRepository doctorRepository;
+    @Autowired
+    JobContextRepository jobContextRepository;
 
     @Override
     public List<Doctor> getAllDoctors() {
@@ -73,7 +80,16 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public void saveDoctor(Doctor doctor) throws NullPointerException, IllegalArgumentException {
-        // TODO
+        if (doctor == null)
+            throw new NullPointerException("Error: doctor object is null.");
+        EntityFieldHandler.nullCheck(doctor.getUser(),"user");
+
+        if (doctorRepository.findByUser(doctor.getUser()) != null)
+            throw new IllegalArgumentException("Error: user is already associated with a doctor");
+
+        if (!doctor.getUser().isDoctor())
+            throw new IllegalArgumentException("Error: associated user doesn't have doctor permissions");
+
         doctorRepository.save(doctor);
     }
 
@@ -84,9 +100,14 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<Patient> getPatientsUnderCareOf(UserCore user) {
-        // TODO
-        return null;
+    public List<Patient> getPatientsUnderCareOf(Doctor doctor) {
+        List<Patient> p = new ArrayList<>();
+        for(Job j : doctor.getJobs()) {
+            Patient patient = j.getJobContext().getPatient();
+            if (!p.contains(patient))
+                p.add(patient);
+        }
+        return p;
     }
 
     @Override

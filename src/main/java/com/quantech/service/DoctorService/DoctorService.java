@@ -57,7 +57,7 @@ public interface DoctorService {
      * @param user The user object of the given doctor.
      * @return A list of patients under the doctor's care.
      */
-    public List<Patient> getPatientsUnderCareOf(UserCore user);
+    public List<Patient> getPatientsUnderCareOf(Doctor doctor);
 
     /**
      * Filter list of a doctors by a given predicate.
