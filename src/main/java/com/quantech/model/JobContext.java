@@ -41,7 +41,7 @@ public class JobContext {
     private Ward ward;
 
     @NotNull
-    @OneToMany(mappedBy = "jobContext")
+    @OneToMany(mappedBy = "jobContext", cascade = CascadeType.REMOVE)
     private List<Job> jobs;
 
     @ManyToMany

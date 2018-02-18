@@ -167,5 +167,26 @@
                  unwell="true"
                  patient_id="3"
                  ward_id="1"/>
+
+    <category    id="1"
+                 summary="category"/>
+    <job         id="1"
+                 description="job"
+                 category_id="1"
+                 creation_date="2018-01-01"
+                 job_context_id="1"
+                 doctor_id="1"/>
+    <job         id="2"
+                 description="job"
+                 category_id="1"
+                 creation_date="2018-01-01"
+                 job_context_id="2"
+                 doctor_id="1"/>
+    <job         id="3"
+                 description="job"
+                 category_id="1"
+                 creation_date="2018-01-01"
+                 job_context_id="3"
+                 doctor_id="1"/>
     />
 </dataset>

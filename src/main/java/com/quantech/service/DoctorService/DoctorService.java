@@ -54,7 +54,7 @@ public interface DoctorService {
 
     /**
      * Returns a list of patients under the doctor's care.
-     * @param user The user object of the given doctor.
+     * @param doctor The doctor object of the given doctor.
      * @return A list of patients under the doctor's care.
      */
     public List<Patient> getPatientsUnderCareOf(Doctor doctor);
