@@ -1,6 +1,7 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
+import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
 import com.quantech.service.UserService.UserService;
@@ -57,17 +58,19 @@ public class MainController {
 
     @GetMapping(value="/settings")
     public String editSettings(Model model) {
-        UserFormBackingObject user = new UserFormBackingObject((UserCore) authenticator.getAuthentication().getPrincipal());
-        user.setPassword(null);
-        model.addAttribute("user", user);
+        ChangePassword change = new ChangePassword();
+        model.addAttribute("change", change);
         return "user/settings";
     }
 
     @PostMapping(value="/settings")
-    public String changePassword(@ModelAttribute UserFormBackingObject user) {
+    public String changePassword(@ModelAttribute ChangePassword user) {
         UserCore newUser = (UserCore) authenticator.getAuthentication().getPrincipal();
-        newUser.setPassword(user.getPassword());
-        userService.saveUser(newUser);
+        if (user.getInitial().equals(user.getConfirm()) && newUser.getPassword().equals(user.getCurrent())) {
+            newUser.setPassword(user.getInitial());
+            userService.saveUser(newUser);
+            return "redirect:/";
+        }
         return "redirect:/settings";
     }
 

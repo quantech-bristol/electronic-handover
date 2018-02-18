@@ -9,6 +9,9 @@ Create User
 Edit Users
 - Styling
 
+Settings
+- Some confirmation of password being successfully changed
+
 Manage Wards
 - Styling
 - Implement edit/delete wards
