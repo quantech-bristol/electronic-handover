@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service("userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -157,5 +158,61 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public boolean deleteUserById(Long id) {
         userRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<UserCore> sortUsersByFirstName(List<UserCore> list) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public List<UserCore> sortUsersByLastName(List<UserCore> list) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public List<UserCore> sortUsersByUsername(List<UserCore> list) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public List<UserCore> filterUsersBy(List<UserCore> list, Predicate<UserCore> predicate) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public List<UserCore> filterUsersBy(List<UserCore> list, Iterable<Predicate<UserCore>> predicates) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public Predicate<UserCore> usersFirstNameStartsWith(String str) {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public Predicate<UserCore> usersLastNameStartsWith(String str) {
+        return null;
+    }
+
+    @Override
+    public Predicate<UserCore> usersUserameStartsWith(String str) {
+        return null;
+    }
+
+    @Override
+    public Predicate<UserCore> userIsDoctor() {
+        return null;
+    }
+
+    @Override
+    public Predicate<UserCore> userIsAdmin() {
+        return null;
     }
 }

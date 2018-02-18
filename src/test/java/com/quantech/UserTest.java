@@ -74,16 +74,6 @@ public class UserTest {
     }
 
     @Test
-    public void findUserByUsernameTest() {
-        // TODO
-    }
-
-    @Test
-    public void findUserByEmailTest() {
-        // TODO
-    }
-
-    @Test
     public void filterUsersByFirstNameStartsWithTest() {
         // TODO
     }
@@ -100,6 +90,16 @@ public class UserTest {
 
     @Test
     public void filterUsersByPermissionsTest() {
+        // TODO
+    }
+
+    @Test
+    public void sortUsersByFirstNameTest(){
+        // TODO
+    }
+
+    @Test
+    public void sortUsersByLastNameTest() {
         // TODO
     }
 }
