@@ -15,9 +15,11 @@ import java.util.List;
 public interface UserService
 {
     public void insertRootUser();
+
     public void deleteUser(String user) ;
 
     public void editPassword(String user, String newPass);
+
     public boolean saveUser(UserCore user);
 
     public List<UserCore> getAllUsers() ;
