@@ -5,8 +5,10 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.quantech.config.SecurityRoles;
 import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.Doctor;
+import com.quantech.model.Patient;
 import com.quantech.model.user.UserCore;
 import com.quantech.repo.DoctorRepository;
+import com.quantech.repo.PatientRepository;
 import com.quantech.repo.UserRepository;
 import com.quantech.service.DoctorService.DoctorService;
 import org.junit.Assert;
@@ -41,6 +43,8 @@ public class DoctorTest {
     DoctorRepository doctorRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PatientRepository patientRepository;
 
     @Test
     public void saveDoctorTest() {
@@ -193,6 +197,24 @@ public class DoctorTest {
             Assert.assertTrue(thrown);
             thrown = false;
         }
+    }
+
+    @Test
+    public void getPatientsUnderCareOfDoctorTest(){
+        Doctor d = doctorRepository.findById(1L);
+        List<Patient> p1 = getPatientsFromRepository(new long[]{1L,2L,3L});
+        List<Patient> p2 = doctorService.getPatientsUnderCareOf(d);
+
+        Assert.assertEquals(p1,p2);
+    }
+
+    // Use this to create a list of patients with a certain sequence of IDs.
+    private List<Patient> getPatientsFromRepository(long[] ids) {
+        List<Patient> l1 = new ArrayList<>();
+        for (long id : ids) {
+            l1.add(patientRepository.findById(id));
+        }
+        return l1;
     }
 
     // Use this to create a list of patients with a certain sequence of IDs.
