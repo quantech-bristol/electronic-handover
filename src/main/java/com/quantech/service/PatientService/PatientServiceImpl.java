@@ -7,6 +7,7 @@ import com.quantech.model.Patient;
 import com.quantech.model.Ward;
 import com.quantech.repo.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -76,11 +77,16 @@ public class PatientServiceImpl implements PatientService {
         // Check that the NHS number of the patient is valid, if it exists.
         if (patient.getNHSNumber() != null) {
             NHSNumberValidityCheck(patient.getNHSNumber());
+            //if (patientRepository.findByNHSNumber(patient.getNHSNumber()) != null)
+            //    throw new DataIntegrityViolationException("Error: Patient with given NHS number already exists.");
         }
         else {
             // Identification numbers cannot both be null.
             if (patient.getHospitalNumber() == null)
                 throw new IllegalArgumentException("Error: patient requires either a hospital number or an NHS number");
+            //else
+            //    if (patientRepository.findByHospitalNumber(patient.getHospitalNumber()) != null)
+            //        throw new DataIntegrityViolationException("Error: Patient with given hospital number already exists");
         }
 
         // Check that the patient's date of birth isn't in the future.

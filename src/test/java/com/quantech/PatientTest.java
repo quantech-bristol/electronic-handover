@@ -14,7 +14,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.access.method.P;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -33,6 +32,7 @@ import java.util.function.Predicate;
                          TransactionalTestExecutionListener.class,       // use transactional test execution
                          DbUnitTestExecutionListener.class})             // to read data sets from file
 @ActiveProfiles("test")                                                  // use application-test.yml properties (in-memory DB)
+@DatabaseSetup("/dataSet1.xml")
 @Transactional                                                           // rollback DB in between tests
 public class PatientTest {
     @Autowired
@@ -43,7 +43,6 @@ public class PatientTest {
     WardRepository wardRepository;
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Making sure the service obtains patients by ID properly.
     public void samePatientReturnedTest() {
         Patient[] p1 = new Patient[]{patientRepository.findById(1L),
@@ -61,7 +60,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Make sure that the service returns all patients actually in the database.
     public void allPatientsReturnedTest() {
         List<Patient> p1 = getPatientsFromRepository(new long[]{1L,2L,3L,4L,5L,6L,7L,8L,9L});
@@ -70,13 +68,6 @@ public class PatientTest {
     }
 
     @Test
-    // Make sure that the service actually returns an empty list when there are no patients in the database.
-    public void allPatientsReturnedEmptyTest() {
-        Assert.assertEquals(new ArrayList<Patient>(),patientService.getAllPatients());
-    }
-
-    @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Check that the service does actually properly sort the patients alphabetically by their first names, even when
     // some of the first names have the same value.
     public void sortPatientsByFirstNameCorrectOrder() {
@@ -87,7 +78,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Check that the service does actually properly sort the patients alphabetically by their last names.
     public void sortPatientsByLastNameCorrectOrder() {
         List<Patient> p1 = getPatientsFromRepository(new long[]{1L,5L,2L,7L,3L,6L,4L,9L,8L});
@@ -99,7 +89,7 @@ public class PatientTest {
     // Check that the patient service detects when all fields of the patient are null, and the patient isn't in the DB.
     public void checkAllNullFieldsDetectedInPatient() {
         Patient p = new Patient();
-        p.setId(1L);
+        p.setId(10L);
         boolean thrown = false;
         try {
             patientService.savePatient(p);
@@ -107,20 +97,18 @@ public class PatientTest {
             thrown = true;
         }
         Assert.assertTrue(thrown);
-        Assert.assertFalse(patientRepository.exists(1L));
+        Assert.assertFalse(patientRepository.exists(10L));
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Make sure that no null fields are detected when there aren't any.
     public void checkNoNullFieldsDetectedInPatient() {
         Patient p = new Patient();
-        p.setId(1L);
         p.setBirthDate(new Date());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
-        p.setNHSNumber(6104120806L);
-        p.setHospitalNumber(8L);
+        p.setNHSNumber(2790585245L);
+        p.setHospitalNumber(80L);
         p.setTitle(Title.Miss);
 
         boolean thrown = false;
@@ -137,11 +125,10 @@ public class PatientTest {
     // Should be allowed to have one of hospital number and nhs number null, as they are identifiers.
     public void allowedNullNHSNumberTest() {
         Patient p = new Patient();
-        p.setId(1L);
         p.setBirthDate(new Date());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
-        p.setHospitalNumber(8L);
+        p.setHospitalNumber(8000L);
         p.setTitle(Title.Miss);
 
         boolean thrown = false;
@@ -151,10 +138,18 @@ public class PatientTest {
             thrown = true;
         }
         Assert.assertFalse(thrown);
+    }
 
-        p.setNHSNumber(null);
+    @Test
+    // Patient shouldn't be allowed to have both hospital and nhs number as null.
+    public void bothNumbersNullTest() {
+        Patient p = new Patient();
+        p.setBirthDate(new Date());
+        p.setFirstName("Nuha");
+        p.setLastName("Tumia");
+        p.setTitle(Title.Miss);
 
-        thrown = false;
+        boolean thrown = false;
         try {
             patientService.savePatient(p);
         } catch (Exception e) {
@@ -167,17 +162,16 @@ public class PatientTest {
     // Should be allowed to have one of hospital number and nhs number null, as they are identifiers.
     public void allowedNullHospitalNumberTest() {
         Patient p = new Patient();
-        p.setId(1L);
         p.setBirthDate(new Date());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
-        p.setNHSNumber(6104120806L);
+        p.setNHSNumber(2790585245L);
         p.setTitle(Title.Miss);
 
         Boolean thrown = false;
         try {
             patientService.savePatient(p);
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             thrown = true;
         }
         Assert.assertFalse(thrown);
@@ -187,22 +181,21 @@ public class PatientTest {
     // Should be able to detect when only some of the fields of the patient are null. (In this case it's the birth and admission dates)
     public void checkTwoNullFieldsDetectedInPatient() {
         Patient p = new Patient();
-        p.setId(1L);
         p.setBirthDate(new Date());
-        p.setHospitalNumber(8L);
+        p.setFirstName("Nuha");
+        p.setLastName("Tumia");
         p.setTitle(Title.Miss);
 
         boolean thrown = false;
         try {
             patientService.savePatient(p);
-        } catch (NullPointerException e) {
+        } catch (IllegalArgumentException e) {
             thrown = true;
         }
         Assert.assertTrue(thrown);
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Making sure patients are deleted properly.
     public void deletePatientTest() {
         patientService.deletePatient(3L);
@@ -212,7 +205,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Making sure that the method of filtering the patients by the start of their first name works.
     public void filterPatientsByStartOfFirstNameIsATest() {
         List<Patient> p1 = getPatientsFromRepository(new long[]{1L,2L,4L,5L,7L});
@@ -222,7 +214,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Making sure that the method of filtering the patients by the start of their first name works.
     public void filterPatientsByStartOfFirstNameIsChaTest() {
         List<Patient> p1 = getPatientsFromRepository(new long[]{6L});
@@ -231,7 +222,7 @@ public class PatientTest {
         Assert.assertEquals(p1,p2);
     }
 
-    @DatabaseSetup("/dataSet1.xml")
+    @Test
     // Making sure that filtering for "Ari" and "A" only gives strings that match "Ari", and ordering of predicates
     // doesn't matter.
     public void filterPatientsByStartOfFirstNameIsAriAndATest() {
@@ -248,7 +239,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // When predicates conflict one another, the filter should yield an empty list.
     public void filterPatientsByStartOfDifferentFirstNameTest() {
         Set<Predicate<Patient>> pred = new HashSet<>();
@@ -260,7 +250,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Making sure last name filter is working properly.
     public void filterPatientsByStartOfLastNameHaTest() {
         List<Patient> p1 = getPatientsFromRepository(new long[]{4L,6L});
@@ -270,7 +259,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // When patient fulfilling predicate isn't found, return empty list.
     public void filterPatientsByStartOfLastNameNoneFoundTest() {
         List<Patient> p = patientService.filterPatientsBy(patientService.getAllPatients(),
@@ -279,7 +267,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Different filters working in conjunction should be fine.
     public void filterPatientsByStartOfFirstAndLastNameTest() {
         Set<Predicate<Patient>> pred = new HashSet<>();
@@ -292,7 +279,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // When a patient that doesn't fulfil multiple predicates isn't found, return empty list.
     public void filterPatientsByStartOfFirstAndLastNameNoneFoundTest() {
         Set<Predicate<Patient>> pred = new HashSet<>();
@@ -304,7 +290,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Filtering by ward.
     public void filterPatientsByWardTest() {
         Ward w = wardRepository.findById(1L);
@@ -316,7 +301,6 @@ public class PatientTest {
     }
 
     @Test
-    @DatabaseSetup("/dataSet1.xml")
     // Filtering by ward and bed.
     public void filterPatientsByWardAndBedTest() {
         Ward w = wardRepository.findById(1L);
@@ -333,7 +317,6 @@ public class PatientTest {
     // Check that NHS numbers that are invalid are flagged as such.
     public void nhsNumbersInvalidTest() {
         Patient p = new Patient();
-        p.setId(1L);
         p.setBirthDate(new Date());
         p.setFirstName("Nuha");
         p.setLastName("Tumia");
@@ -341,8 +324,8 @@ public class PatientTest {
 
         long test1 = 19999999991919L;
         long test2 = 7665993754L;
-        long test3 = 27L;
-        long test4 = 1328725170L;
+        long test3 = 35L;
+        long test4 = 1014392802L;
 
         boolean thrown = false;
 
@@ -356,7 +339,6 @@ public class PatientTest {
         thrown = false;
 
         try {
-            p.setId(2L);
             p.setNHSNumber(test2);
             patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
@@ -366,7 +348,6 @@ public class PatientTest {
         thrown = false;
 
         try {
-            p.setId(3L);
             p.setNHSNumber(test3);
             patientService.savePatient(p);
         } catch (IllegalArgumentException e) {
@@ -376,7 +357,6 @@ public class PatientTest {
         thrown = false;
 
         try {
-            p.setId(4L);
             p.setNHSNumber(test4);
             patientService.savePatient(p);
         } catch (IllegalArgumentException e) {

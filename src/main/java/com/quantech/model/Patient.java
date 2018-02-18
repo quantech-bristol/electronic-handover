@@ -32,11 +32,11 @@ public class Patient {
     @NotNull
     private Date birthDate;
 
-    @Column(unique = true)
+    @Column(unique = true,nullable = true)
     private Long hospitalNumber;
 
     // optional but unique ??
-    @Column(unique = true)
+    @Column(unique = true,nullable = true)
     private Long nHSNumber;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)

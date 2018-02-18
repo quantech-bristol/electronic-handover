@@ -58,6 +58,8 @@ public interface PatientService {
      * @throws IllegalArgumentException If either the hospital number or the NHS number haven't been set.
      * @throws IllegalArgumentException If the patient's given NHS number is not valid, that is, its' checksum doesn't match.
      * @throws IllegalArgumentException If the patient's date of birth is in the future.
+     * @throws org.springframework.dao.DataIntegrityViolationException If a patient with a given non-null NHS number already exists.
+     * @throws org.springframework.dao.DataIntegrityViolationException If a patient with a given non-null hospital number already exists.
      */
     public void savePatient(Patient patient) throws NullPointerException, IllegalArgumentException;
 
