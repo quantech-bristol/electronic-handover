@@ -15,67 +15,73 @@
                 <td>Clinical details</td>
                 <td>Jobs</td>
             </tr>
-            <!--Thymeleaf for each clause-->
-            <tr>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">Name</span>
-                            <span class="patient-detail"><a th:href="@{/patient/hospitalNumber=} + '11111'">Mr John Smith</a></span>
+            <div  th:each="patient,iterStat : ${patients}">
+                <!--Thymeleaf for each clause-->
+                <tr>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">Name</span>
+                                <span class="patient-detail"><a th:href="@{/patient/hospitalNumber=} + '11111'"><span th:text="${patient.FullName}"/></a></span>
+                            </div>
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">DoB</span>
+                                <span class="patient-detail"><span th:text="${patient.birthDate}"/></span>
+                                <span class="patient-detail-title">Age</span>
+                                <span class="patient-detail">29</span> <!-- function using age -->
+                            </div>
+                            <div class="patient-detail-row"> <!-- if not null -->
+                                <span class="patient-detail-title">Hospital Number</span>
+                                <span class="patient-detail"><span th:text="${patient.hospitalNumber}"/></span>
+                            </div>
+                            <div class="patient-detail-row"> <!-- if not null -->
+                                <span class="patient-detail-title">NHS Number</span>
+                                <span class="patient-detail"><span th:text="${patient.nHSNumber}"/></span>
+                            </div>
                         </div>
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">DoB</span>
-                            <span class="patient-detail">21/10/89</span>
-                            <span class="patient-detail-title">Age</span>
-                            <span class="patient-detail">29</span> <!-- function using age -->
+                    </td>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">Ward</span>
+                                <span class="patient-detail">Cotswold</span>
+                            </div>
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">Bed</span>
+                                <span class="patient-detail">7</span>
+                            </div>
                         </div>
-                        <div class="patient-detail-row"> <!-- if not null -->
-                            <span class="patient-detail-title">Hospital Number</span>
-                            <span class="patient-detail">743210</span>
+                    </td>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
+                            </div>
                         </div>
-                        <div class="patient-detail-row"> <!-- if not null -->
-                            <span class="patient-detail-title">NHS Number</span>
-                            <span class="patient-detail">6702915632</span>
+                    </td>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title" style="color: #DA291C;">Sepsis</span>
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">Ward</span>
-                            <span class="patient-detail">Cotswold</span>
-                        </div>
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">Bed</span>
-                            <span class="patient-detail">7</span>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title" style="color: #DA291C;">Sepsis</span>
-                        </div>
-                    </div>
-                </td>
-                <td>Details, category, date/deadline and completed or not</td>
-            </tr>
-            <!--Thymeleaf for each clause-->
-            <tr>
-                <td><!--Patient Details--></td>
-                <td><!--Inpatient Details--></td>
-                <td><!--Clinical Status--></td>
-                <td><!--Clinical details--></td>
-                <td><!--Jobs--></td>
-            </tr>
+                    </td>
+                    <td>Details, category, date/deadline and completed or not</td>
+                </tr>
+                <!--Thymeleaf for each clause-->
+                <tr>
+                    <td><!--Patient Details--></td>
+                    <td><!--Inpatient Details--></td>
+                    <td><!--Clinical Status--></td>
+                    <td><!--Clinical details--></td>
+                    <td><!--Jobs--></td>
+                </tr>
+                <tr class="line">
+                    <td colspan="5"></td>
+                </tr>
+            </div>
         </table>
+
 
     </div>
 

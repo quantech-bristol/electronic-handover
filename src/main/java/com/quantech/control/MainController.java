@@ -1,9 +1,11 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
+import com.quantech.model.Patient;
 import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
+import com.quantech.service.PatientService.PatientServiceImpl;
 import com.quantech.service.UserService.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -26,9 +29,14 @@ public class MainController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    PatientServiceImpl patientService;
+
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String home() {
+    public String home(Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        List<Patient> patients = patientService.getAllPatients();
+        model.addAttribute("patients", patients);
         if (user.isDoctor()) {
             return "misc/home";
         } else if (user.isAdmin()) {
