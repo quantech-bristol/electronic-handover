@@ -156,11 +156,22 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/manageWards")
-    public String addWard(@ModelAttribute Ward ward, Model model) {
+    public String addWard(@ModelAttribute Ward ward) {
         wardService.saveWard(ward);
-        model.addAttribute("newWard", new Ward());
-        model.addAttribute("wards", wardService.getAllWards());
-        return "admin/manageWards";
+        return "redirect:/admin/manageWards";
+    }
+
+    @PostMapping(value="/admin/renameWard")
+    public String renameWard(@ModelAttribute Ward ward, @RequestParam(value = "id", required=true) Long id) {
+        ward.setId(id);
+        wardService.saveWard(ward);
+        return "redirect:/admin/manageWards";
+    }
+
+    @GetMapping(value="/admin/deleteWard")
+    public String deleteWard(@ModelAttribute Ward ward, @RequestParam(value = "id", required=true) Long id) {
+        wardService.deleteWard(id);
+        return "redirect:/admin/manageWards";
     }
 
     @GetMapping(value="/admin/manageCategories")
