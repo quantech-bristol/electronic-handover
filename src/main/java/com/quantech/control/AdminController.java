@@ -195,11 +195,21 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/manageRisks")
-    public String addRisk(@ModelAttribute Risk risk, Model model) {
+    public String addRisk(@ModelAttribute Risk risk) {
         riskService.saveRisk(risk);
-        model.addAttribute("newRisk", new Risk());
-        model.addAttribute("risks", riskService.getAllRisks());
-        return "admin/manageRisks";
+        return "redirect:/admin/manageRisks";
     }
 
+    @PostMapping(value="/admin/renameRisk")
+    public String renameRisk(@ModelAttribute Risk risk, @RequestParam(value = "id", required=true) Long id) {
+        risk.setId(id);
+        riskService.saveRisk(risk);
+        return "redirect:/admin/manageRisks";
+    }
+
+    @GetMapping(value="/admin/deleteRisk")
+    public String deleteRisk(@ModelAttribute Risk risk, @RequestParam(value = "id", required=true) Long id) {
+        riskService.deleteRisk(id);
+        return "redirect:/admin/manageRisks";
+    }
 }

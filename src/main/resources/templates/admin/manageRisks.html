@@ -33,18 +33,40 @@
             Existing Risks
         </div>
         <div class="main-box-content">
-            <table>
-                <tr th:each="risk : ${risks}">
+            <table width="100%">
+                <colgroup>
+                    <col span="1" width="15%" />
+                    <col span="1" width="15%" />
+                    <col span="1" width="50%" />
+                </colgroup>
+                <tbody>
+                <tr th:each="risk,iterStat : ${risks}">
                     <td>
                         <span th:text="${risk.name}"></span>
                     </td>
+                    <td>
+                        <span th:text="${risk.acronym}"></span>
+                    </td>
+                    <td>
+                        <button th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${risks.size()}+');'" style="display: block">Edit</button>
+                        <form th:action="@{/admin/renameRisk(id=${risk.id})}" method="post" class="form-inline"
+                              th:id="input+${iterStat.count}" style="display: none">
+                            <input type="text" placeholder="new name" th:field="*{newRisk.name}" />
+                            <input type="text" placeholder="new acronym" th:field="*{newRisk.acronym}" />
+                            <input type="submit" value="Submit" />
+                        </form>
+                    </td>
+                    <td style="text-align: right;">
+                        <a th:href="@{/admin/deleteRisk(id=${risk.id})}">Delete</a>
+                    </td>
                 </tr>
+                </tbody>
             </table>
             <!--Search for existing risks<br/>-->
             <!--Edit or delete risk-->
         </div>
     </div>
 </div>
-
+<script src="/js/editEntries.js"></script>
 </body>
 </html>

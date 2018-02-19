@@ -12,16 +12,10 @@ Edit Users
 Settings
 - Some confirmation of password being successfully changed
 
-Manage Wards
-- Styling
-- Implement edit/delete wards
-
 Create Handover
 - Edit/add patients details whilst creating handover
 
 Admin
-- Implement edit risks
-- Implement delete risks
 - Implement add category
 - Implement edit categories
 - Implement delete categories
