@@ -22,4 +22,8 @@ public class CategoryServiceImpl {
         categoryRepository.findAll().forEach(c -> cs.add(c));
         return cs;
     }
+
+    public void deleteCategory(Long id) {
+        categoryRepository.delete(id);
+    }
 }

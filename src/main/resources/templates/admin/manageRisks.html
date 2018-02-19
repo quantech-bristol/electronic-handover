@@ -13,7 +13,7 @@
             New Risk
         </div>
         <div class="main-box-content">
-            <form action="#" th:action="@{/admin/manageRisks}" th:object="${newRisk}" method="post" class="form-inline">
+            <form action="#" th:action="@{/admin/addRisk}" th:object="${newRisk}" method="post" class="form-inline">
                 <table>
                     <tr>
                         <td><label for="name">Risk name</label></td>
@@ -63,7 +63,6 @@
                 </tbody>
             </table>
             <!--Search for existing risks<br/>-->
-            <!--Edit or delete risk-->
         </div>
     </div>
 </div>

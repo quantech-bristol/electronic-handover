@@ -16,10 +16,8 @@ Create Handover
 - Edit/add patients details whilst creating handover
 
 Admin
-- Implement add category
-- Implement edit categories
-- Implement delete categories
 - Risks a checklist instead of text input
+- Search ward / risk / category
 
 Misc
 - Generic TODO list
