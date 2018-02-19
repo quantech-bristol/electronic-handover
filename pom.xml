@@ -139,6 +139,10 @@
             <artifactId>thymeleaf</artifactId>
             <version>2.1.4.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+        </dependency>
 
     </dependencies>
 
