@@ -15,15 +15,6 @@
         <div class="main-box-content">
             <form action="#" th:action="@{/createHandover}" method="post">
                 <div> <!-- Add or choose patient -->
-                    Create new patient or choose existing patient<br/>
-                    <input type="radio" name="tab" value="new" onclick="show1();" checked="checked" />
-                    New
-                    <input type="radio" name="tab" value="existing" onclick="show2();" />
-                    Existing
-
-                    <div id="newPatient" style="display: block">New Patient Selected</div>
-                    <div id="existingPatient" style="display: none">Existing Patient Selected</div>
-
                     <script>
                         function show1(){
                             document.getElementById('newPatient').style.display = 'block';
@@ -34,21 +25,32 @@
                             document.getElementById('existingPatient').style.display = 'block';
                         }
                     </script>
-
-                    <div class="custom-select">
-                        <select id="title" name="title" th:field = "*{patient.title}">
-                            <option value="" hidden="true">title</option>
-                            <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
+                    <!--Create new patient or choose existing patient<br/>-->
+                    <input type="radio" name="tab" value="new" onclick="show1();" checked="checked" />
+                    Add new patient
+                    <input type="radio" name="tab" value="existing" onclick="show2();" />
+                    Choose existing patient
+                    <div id="newPatient" style="display: block">
+                        <div class="custom-select">
+                            <select id="title" name="title" th:field = "*{patient.title}">
+                                <option value="" hidden="true">title</option>
+                                <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
+                            </select>
+                        </div>
+                        <input type="text" th:field="*{patient.firstName}" id="firstName" name="firstName" placeholder="first name"/>
+                        <input type="text" th:field="*{patient.lastName}" id="lastName" name="lastName" placeholder="last name"/>
+                        <input type="text" th:field="*{patient.day}" id="day" name="day" placeholder="date of birth"/>
+                        <input type="text" th:field="*{patient.month}" id="month" name="month" placeholder="date of birth"/>
+                        <input type="text" th:field="*{patient.year}" id="year" name="year" placeholder="date of birth"/>
+                        <input type="number" th:field="*{patient.hospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
+                        <input type="number" th:field="*{patient.NHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
+                    </div>
+                    <div id="existingPatient" style="display: none">
+                        Existing Patient Selected
+                        <select id="patients" name="patients">
+                            <option th:each="p : ${allPatients}" th:value="${p.id}" th:text="${p.title}+' '+${p.firstName}+' '+${p.lastName}"></option>
                         </select>
                     </div>
-                    <input type="text" th:field="*{patient.firstName}" id="firstName" name="firstName" placeholder="first name"/>
-                    <input type="text" th:field="*{patient.lastName}" id="lastName" name="lastName" placeholder="last name"/>
-                    <!--CHANGE DATE TO THREE TEXT BOXES, DD, MM, YYYY AND CONVERT TO SINGLE DATE-->
-                    <input type="text" th:field="*{patient.day}" id="day" name="day" placeholder="date of birth"/>
-                    <input type="text" th:field="*{patient.month}" id="month" name="month" placeholder="date of birth"/>
-                    <input type="text" th:field="*{patient.year}" id="year" name="year" placeholder="date of birth"/>
-                    <input type="number" th:field="*{patient.hospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
-                    <input type="number" th:field="*{patient.NHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
                 </div>
                 <div> <!-- Add or choose/edit job context -->
                     Clinical information

@@ -28,6 +28,7 @@ public class DoctorController {
     @GetMapping(value="/createHandover")
     public String createHandover(Model model) {
         model.addAttribute("patient", new PatientFormBackingObject());
+        model.addAttribute("allPatients", patientService.getAllPatients());
         return "doctor/handover";
     }
 
