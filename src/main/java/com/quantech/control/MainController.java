@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -36,7 +40,13 @@ public class MainController {
     public String home(Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
         List<Patient> patients = patientService.getAllPatients();
+        List<Integer> ages = new ArrayList<>();
         model.addAttribute("patients", patients);
+        LocalDate nw = LocalDate.now();
+        for (Patient patient : patients) {
+            Integer age = Period.between(patient.getBirthDate(), nw).getYears();
+            ages.add(age);
+        }
         if (user.isDoctor()) {
             return "misc/home";
         } else if (user.isAdmin()) {
