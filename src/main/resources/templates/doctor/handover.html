@@ -7,82 +7,52 @@
 <body>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script th:inline="javascript">
+        function showNewPatient() {
+            document.getElementById('newPatient').style.display = 'block';
+            document.getElementById('existingPatient').style.display = 'none';
+            $("#patients")[0].selectedIndex = 0;
+            populate();
+        }
+        function showExistingPatient() {
+            document.getElementById('newPatient').style.display ='none';
+            document.getElementById('existingPatient').style.display = 'block';
+        }
+        function showPatientDetails() {
+            document.getElementById('patientDetails').style.display = 'block';
+        }
+        /*<![CDATA[*/
+        function populate() {
+            var val = $('#patients').val();
+            if (val == "") {
+                console.log("reset");
+                document.getElementById('existingTitle').value = null;
+                document.getElementById('existingFirstName').value = null;
+                document.getElementById('existingLastName').value = null;
+                document.getElementById('existingBirthDate').value = null;
+                document.getElementById('existingHospitalNumber').value = null;
+                document.getElementById('existingNHSNumber').value = null;
+            } else {
+                for (var i = 0; i < [[${allPatients}]].length; i++) {
+                    if ([[${allPatients}]][i].id == val) {
+                        document.getElementById('existingTitle').value = ([[${allPatients}]][i].title.$name);
+                        document.getElementById('existingFirstName').value = [[${allPatients}]][i].firstName;
+                        document.getElementById('existingLastName').value = [[${allPatients}]][i].lastName;
+                        document.getElementById('existingBirthDate').value = [[${allPatients}]][i].birthDate.dayOfMonth + '/' + [[${allPatients}]][i].birthDate.monthValue + '/' + [[${allPatients}]][i].birthDate.year;
+                        document.getElementById('existingHospitalNumber').value = [[${allPatients}]][i].hospitalNumber;
+                        document.getElementById('existingNHSNumber').value = [[${allPatients}]][i].NHSNumber;
+                    }
+                }
+            }
+        }
+        /*]]>*/
+    </script>
     <div class="main-box">
         <div class="main-box-header">
             Create Handover
         </div>
         <div class="main-box-content">
-            <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-            <script>
-                function showNewPatient() {
-                    document.getElementById('newPatient').style.display = 'block';
-                    document.getElementById('existingPatient').style.display = 'none';
-                }
-                function showExistingPatient() {
-                    document.getElementById('newPatient').style.display ='none';
-                    document.getElementById('existingPatient').style.display = 'block';
-                }
-                function showPatientDetails() {
-                    document.getElementById('patientDetails').style.display = 'block';
-                }
-            </script>
-            <script th:inline="javascript">
-                /*<![CDATA[*/
-                function populate() {
-                    var val = $('#patients').val();
-                    console.log(val);
-                    for (var i = 0; i < [[${allPatients}]].length; i++) {
-                        console.log(i);
-                        console.log([[${allPatients}]][i].id);
-                        if ([[${allPatients}]][i].id == val) {
-                            document.getElementById('existingTitle').value = ([[${allPatients}]][i].title.$name);
-                            document.getElementById('existingFirstName').value = [[${allPatients}]][i].firstName;
-                            document.getElementById('existingLastName').value = [[${allPatients}]][i].lastName;
-                            document.getElementById('existingBirthDate').value = [[${allPatients}]][i].birthDate.dayOfMonth+'/'+[[${allPatients}]][i].birthDate.monthValue+'/'+[[${allPatients}]][i].birthDate.year;
-                            document.getElementById('existingHospitalNumber').value = [[${allPatients}]][i].hospitalNumber;
-                            document.getElementById('existingNHSNumber').value = [[${allPatients}]][i].NHSNumber;
-                        }
-                    }
-                }
-                /*]]>*/
-            </script>
-
-
-            <!--<script>-->
-                <!--$('#patients').change(function(){-->
-                    <!--var val = $('#patients :selected').val();-->
-                    <!--console.log(val);-->
-                <!--});-->
-            <!--</script>-->
-
-            <!--var patients = [[${allPatients}]]-->
-            <!--var patientName = [[${allPatients[0].firstName}]];-->
-
-
-
-            <!--// function showPatientDetails() {-->
-            <!--//     // var selectedPatient = document.getElementById("patients").value;-->
-            <!--//     var firstN = /*[[${existingPatient.firstName}]]*/ null;-->
-            <!--//     document.getElementById("firstName").value = firstN;-->
-            <!--// }-->
-
-            <!--<script>-->
-            <!--function showPatientDetails() {-->
-            <!--document.getElementById('patientDetails').style.display = 'block';-->
-            <!--document.getElementById("existingFirstName").value = document.getElementById("patients").value;-->
-            <!--}-->
-            <!--</script>-->
-
-            <!--<select id="patients" th:field="*{existingPatient}" onchange="showPatientDetails();">-->
-                <!--<option value="" hidden="true">Select a patient</option>-->
-                <!--<option th:each="p : ${allPatients}" th:value="${p}" th:text="${p.firstName}"></option>-->
-            <!--</select>-->
-
-            <!--<input type="text" id="firstName" name="firstName" placeholder="first name"/>-->
-
-
-
-
             <form action="#" th:action="@{/createHandover}" method="post">
                 <input type="radio" name="tab" th:field="*{handover.newPatient}" value="TRUE" onclick="showNewPatient();"/>
                 Add new patient
