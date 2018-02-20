@@ -4,6 +4,7 @@ Patients
 - Turn patient/handover details into a table/excel format instead of accordion
 
 Create User
+- Add text box for confirm password, and validation that both are same
 - Styling
 
 Edit Users

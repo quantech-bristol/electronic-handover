@@ -25,13 +25,13 @@ public class PatientFormBackingObject {
     private String lastName;
 
     @NotNull
-    private int day;
+    private Integer day;
 
     @NotNull
-    private int month;
+    private Integer month;
 
     @NotNull
-    private int year;
+    private Integer year;
 
     private Long hospitalNumber;
 
@@ -43,7 +43,7 @@ public class PatientFormBackingObject {
         this.jobContexts = new ArrayList<>();
     }
 
-    public PatientFormBackingObject(Long id, Title title, String firstName, String lastName, int day, int month, int year, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
+    public PatientFormBackingObject(Long id, Title title, String firstName, String lastName, Integer day, Integer month, Integer year, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
         this.id = id;
         this.title = title;
         this.firstName = firstName;
@@ -88,27 +88,27 @@ public class PatientFormBackingObject {
         this.lastName = lastName;
     }
 
-    public int getDay() {
+    public Integer getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(Integer day) {
         this.day = day;
     }
 
-    public int getMonth() {
+    public Integer getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(Integer month) {
         this.month = month;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
