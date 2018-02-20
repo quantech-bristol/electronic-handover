@@ -10,23 +10,29 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script th:inline="javascript">
         function showNewPatient() {
+            document.getElementById('patient').style.display = 'block';
             document.getElementById('newPatient').style.display = 'block';
             document.getElementById('existingPatient').style.display = 'none';
+            document.getElementById('patientDetails').style.display = 'none';
             $("#patients")[0].selectedIndex = 0;
             populate();
         }
         function showExistingPatient() {
+            document.getElementById('patient').style.display = 'block';
             document.getElementById('newPatient').style.display ='none';
             document.getElementById('existingPatient').style.display = 'block';
         }
         function showPatientDetails() {
             document.getElementById('patientDetails').style.display = 'block';
         }
+        // function showClinicalDetails() {
+        //     document.getElementById('newJobContext').style.display = 'block';
+        // }
         /*<![CDATA[*/
         function populate() {
             var val = $('#patients').val();
             if (val == "") {
-                console.log("reset");
+                // console.log("reset");
                 document.getElementById('existingTitle').value = null;
                 document.getElementById('existingFirstName').value = null;
                 document.getElementById('existingLastName').value = null;
@@ -54,49 +60,56 @@
         </div>
         <div class="main-box-content">
             <form action="#" th:action="@{/createHandover}" method="post">
-                <input type="radio" name="tab" th:field="*{handover.newPatient}" value="TRUE" onclick="showNewPatient();"/>
-                Add new patient
-                <input type="radio" name="tab" th:field="*{handover.newPatient}" value="FALSE" onclick="showExistingPatient();"/>
-                Choose existing patient
-                <div id="newPatient" style="display: none">
-                    <div class="custom-select">
-                        <select id="title" name="title" th:field = "*{newPatient.title}">
-                            <option value="" hidden="true">title</option>
-                            <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
+                <div id="choice">
+                    <input type="radio" name="tab" th:field="*{handover.newPatient}" value="TRUE" onclick="showNewPatient();"/>
+                    Add new patient
+                    <input type="radio" name="tab" th:field="*{handover.newPatient}" value="FALSE" onclick="showExistingPatient();"/>
+                    Choose existing patient
+                </div>
+                <div id="patient" style="display: none;">
+                    <div id="newPatient" style="display: none">
+                        <div class="custom-select">
+                            <select id="title" name="title" th:field = "*{newPatient.title}">
+                                <option value="" hidden="true">title</option>
+                                <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
+                            </select>
+                        </div>
+                        <input type="text" th:field="*{newPatient.firstName}" id="firstName" name="firstName" placeholder="first name"/>
+                        <input type="text" th:field="*{newPatient.lastName}" id="lastName" name="lastName" placeholder="last name"/>
+                        <input type="text" th:field="*{newPatient.day}" id="day" name="day" placeholder="dd"/>
+                        <input type="text" th:field="*{newPatient.month}" id="month" name="month" placeholder="mm"/>
+                        <input type="text" th:field="*{newPatient.year}" id="year" name="year" placeholder="yyyy"/>
+                        <input type="number" th:field="*{newPatient.hospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
+                        <input type="number" th:field="*{newPatient.NHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
+                    </div>
+                    <div id="existingPatient" style="display: none">
+                        <select id="patients" name="patients" onchange="showPatientDetails(); populate();">
+                            <option value="" hidden="true">Choose patient</option>
+                            <option th:each="patient : ${allPatients}" th:value="${patient.id}" th:text="${patient.title}+' '+${patient.firstName}+' '+${patient.lastName}"></option>
                         </select>
-                    </div>
-                    <input type="text" th:field="*{newPatient.firstName}" id="firstName" name="firstName" placeholder="first name"/>
-                    <input type="text" th:field="*{newPatient.lastName}" id="lastName" name="lastName" placeholder="last name"/>
-                    <input type="text" th:field="*{newPatient.day}" id="day" name="day" placeholder="dd"/>
-                    <input type="text" th:field="*{newPatient.month}" id="month" name="month" placeholder="mm"/>
-                    <input type="text" th:field="*{newPatient.year}" id="year" name="year" placeholder="yyyy"/>
-                    <input type="number" th:field="*{newPatient.hospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
-                    <input type="number" th:field="*{newPatient.NHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
-                    <button type="submit" class="orange-button">Submit</button>
-                </div>
-                <div id="existingPatient" style="display: none">
-                    <select id="patients" name="patients" onchange="showPatientDetails(); populate();">
-                        <option value="" hidden="true">Choose patient</option>
-                        <option th:each="patient : ${allPatients}" th:value="${patient.id}" th:text="${patient.title}+' '+${patient.firstName}+' '+${patient.lastName}"></option>
-                    </select>
-                    <div id="patientDetails" style="display: none;">
-                        <div>
-                            <input type="text" id="existingTitle" name="existingTitle" placeholder="title"/>
-                            <input type="text" id="existingFirstName" name="existingFirstName" placeholder="first name"/>
-                            <input type="text" id="existingLastName" name="existingLastName" placeholder="last name"/>
-                        </div>
-                        <div>
-                            <input type="text" id="existingBirthDate" name="existingBirthDate" placeholder="date of birth" disabled="true"/>
-                            <input type="number" id="existingHospitalNumber" name="existingHospitalNumber" placeholder="hospital number" disabled="true"/>
-                            <input type="number" id="existingNHSNumber" name="existingNHSNumber" placeholder="NHS numbers" disabled="true"/>
+                        <div id="patientDetails" style="display: none;">
+                            <div>
+                                <input type="text" id="existingTitle" name="existingTitle" placeholder="title"/>
+                                <input type="text" id="existingFirstName" name="existingFirstName" placeholder="first name"/>
+                                <input type="text" id="existingLastName" name="existingLastName" placeholder="last name"/>
+                            </div>
+                            <div>
+                                <input type="text" id="existingBirthDate" name="existingBirthDate" placeholder="date of birth" disabled="true"/>
+                                <input type="number" id="existingHospitalNumber" name="existingHospitalNumber" placeholder="hospital number" disabled="true"/>
+                                <input type="number" id="existingNHSNumber" name="existingNHSNumber" placeholder="NHS numbers" disabled="true"/>
+                            </div>
                         </div>
                     </div>
-
+                    <!--<button type="button" class="orange-button" onclick="showClinicalDetails();">Next</button>-->
                 </div>
-                <!--</div>-->
-                <!--<div> &lt;!&ndash; Add or choose/edit job context &ndash;&gt;-->
-                    <!--&lt;!&ndash;Clinical information&ndash;&gt;-->
-                <!--</div>-->
+                <div id="jobContext">
+                    <div id="newJobContext">
+                        <!--New clinical info-->
+                    </div>
+                    <div id="newJobContext">
+                        <!--Existing clinical info-->
+                    </div>
+                </div>
                 <!--<div> &lt;!&ndash; Add job &ndash;&gt;-->
                     <!--&lt;!&ndash;Job details<br/>&ndash;&gt;-->
                     <!--&lt;!&ndash;Job notes<br/>&ndash;&gt;-->
@@ -107,7 +120,7 @@
                         <!--&lt;!&ndash;th:text="${doctor.firstName}+' '+${doctor.lastName}"></option>&ndash;&gt;-->
                     <!--&lt;!&ndash;</select>&ndash;&gt;-->
                 <!--</div>-->
-
+                <!--<button type="submit" class="orange-button">Submit</button>-->
             </form>
         </div>
     </div>
