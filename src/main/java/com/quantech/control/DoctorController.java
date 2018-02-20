@@ -1,8 +1,7 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
-import com.quantech.model.Patient;
-import com.quantech.model.PatientFormBackingObject;
+import com.quantech.model.*;
 import com.quantech.model.user.UserCore;
 import com.quantech.service.PatientService.PatientServiceImpl;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -27,8 +26,11 @@ public class DoctorController {
 
     @GetMapping(value="/createHandover")
     public String createHandover(Model model) {
-        model.addAttribute("patient", new PatientFormBackingObject());
+        model.addAttribute("newPatient", new PatientFormBackingObject());
+        model.addAttribute("newJobContext", new JobContext());
         model.addAttribute("allPatients", patientService.getAllPatients());
+        model.addAttribute("handover", new HandoverFormBackingObject());
+        model.addAttribute("job", new Job());
         return "doctor/handover";
     }
 
