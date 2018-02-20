@@ -9,17 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("categoryService")
-public class CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    public void saveCategory(Category category) throws NullPointerException, IllegalArgumentException {
+    @Override
+    public void saveCategory(Category category) throws NullPointerException {
         categoryRepository.save(category);
     }
 
+    @Override
     public List<Category> getAllCategories() {
         List<Category> cs = new ArrayList<>();
         categoryRepository.findAll().forEach(c -> cs.add(c));
         return cs;
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        categoryRepository.delete(id);
     }
 }

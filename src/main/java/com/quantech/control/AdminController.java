@@ -147,6 +147,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    // Wards
 
     @GetMapping(value="/admin/manageWards")
     public String manageWards(Model model) {
@@ -155,7 +156,7 @@ public class AdminController {
         return "admin/manageWards";
     }
 
-    @PostMapping(value="/admin/manageWards")
+    @PostMapping(value="/admin/addWard")
     public String addWard(@ModelAttribute Ward ward) {
         wardService.saveWard(ward);
         return "redirect:/admin/manageWards";
@@ -174,6 +175,8 @@ public class AdminController {
         return "redirect:/admin/manageWards";
     }
 
+    // Categories
+
     @GetMapping(value="/admin/manageCategories")
     public String manageCategories(Model model) {
         model.addAttribute("newCat", new Category());
@@ -187,6 +190,21 @@ public class AdminController {
         return "redirect:/admin/manageCategories";
     }
 
+    @PostMapping(value="/admin/renameCategory")
+    public String renameCategory(@ModelAttribute Category category, @RequestParam(value = "id", required=true) Long id) {
+        category.setId(id);
+        categoryService.saveCategory(category);
+        return "redirect:/admin/manageCategories";
+    }
+
+    @GetMapping(value="/admin/deleteCategory")
+    public String deleteRisk(@ModelAttribute Category category, @RequestParam(value = "id", required=true) Long id) {
+        categoryService.deleteCategory(id);
+        return "redirect:/admin/manageCategories";
+    }
+
+    // Risks
+
     @GetMapping(value="/admin/manageRisks")
     public String manageRisks(Model model) {
         model.addAttribute("newRisk", new Risk());
@@ -194,12 +212,22 @@ public class AdminController {
         return "admin/manageRisks";
     }
 
-    @PostMapping(value="/admin/manageRisks")
-    public String addRisk(@ModelAttribute Risk risk, Model model) {
+    @PostMapping(value="/admin/addRisk")
+    public String addRisk(@ModelAttribute Risk risk) {
         riskService.saveRisk(risk);
-        model.addAttribute("newRisk", new Risk());
-        model.addAttribute("risks", riskService.getAllRisks());
-        return "admin/manageRisks";
+        return "redirect:/admin/manageRisks";
     }
 
+    @PostMapping(value="/admin/renameRisk")
+    public String renameRisk(@ModelAttribute Risk risk, @RequestParam(value = "id", required=true) Long id) {
+        risk.setId(id);
+        riskService.saveRisk(risk);
+        return "redirect:/admin/manageRisks";
+    }
+
+    @GetMapping(value="/admin/deleteRisk")
+    public String deleteRisk(@ModelAttribute Risk risk, @RequestParam(value = "id", required=true) Long id) {
+        riskService.deleteRisk(id);
+        return "redirect:/admin/manageRisks";
+    }
 }
