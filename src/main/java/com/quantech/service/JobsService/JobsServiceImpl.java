@@ -138,9 +138,11 @@ public class JobsServiceImpl implements JobsService {
         }
 
         // Check if the patient is in the repository.
-        if (patientRepository.findById(context.getPatient().getId()) != null) {
-            throw new IllegalArgumentException("Error: patient doesn't already exist in the database.");
-        }
+//        if (patientRepository.findById(context.getPatient().getId()) != null) {
+//            throw new IllegalArgumentException("Error: patient doesn't already exist in the database.");
+//        }
+
+        jobContextRepository.save(context);
     }
 
     @Override

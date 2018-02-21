@@ -9,7 +9,13 @@ import com.quantech.repo.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import javax.transaction.UserTransaction;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;

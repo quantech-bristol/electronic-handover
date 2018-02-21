@@ -40,6 +40,7 @@
         }
         function showJob() {
             document.getElementById('job').style.display = 'block';
+            document.getElementById('submit-button').disabled = false;
         }
         // function showClinicalDetails() {
         //     document.getElementById('newJobContext').style.display = 'block';
@@ -74,7 +75,7 @@
     <form action="#" th:action="@{/createHandover}" method="post">
         <div class="main-box">
             <div class="main-box-header">
-                Patient Details
+                Patient Information
             </div>
             <div class="main-box-content">
                     <div id="choice">
@@ -86,18 +87,18 @@
                     <div id="patient" style="display: none;">
                         <div id="newPatient" style="display: none">
                             <div class="custom-select">
-                                <select id="title" name="title" th:field = "*{newPatient.title}">
+                                <select id="title" name="title" th:field = "*{handover.newTitle}">
                                     <option value="" hidden="true">title</option>
                                     <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
                                 </select>
                             </div>
-                            <input type="text" th:field="*{newPatient.firstName}" id="firstName" name="firstName" placeholder="first name"/>
-                            <input type="text" th:field="*{newPatient.lastName}" id="lastName" name="lastName" placeholder="last name"/>
-                            <input type="text" th:field="*{newPatient.day}" id="day" name="day" placeholder="dd"/>
-                            <input type="text" th:field="*{newPatient.month}" id="month" name="month" placeholder="mm"/>
-                            <input type="text" th:field="*{newPatient.year}" id="year" name="year" placeholder="yyyy"/>
-                            <input type="number" th:field="*{newPatient.hospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
-                            <input type="number" th:field="*{newPatient.NHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
+                            <input type="text" th:field="*{handover.newFirstName}" id="firstName" name="firstName" placeholder="first name"/>
+                            <input type="text" th:field="*{handover.newLastName}" id="lastName" name="lastName" placeholder="last name"/>
+                            <input type="number" th:field="*{handover.newDay}" id="day" name="day" placeholder="dd"/>
+                            <input type="number" th:field="*{handover.newMonth}" id="month" name="month" placeholder="mm"/>
+                            <input type="number" th:field="*{handover.newYear}" id="year" name="year" placeholder="yyyy"/>
+                            <input type="number" th:field="*{handover.newHospitalNumber}" id="hospitalNumber" name="hospitalNumber" placeholder="hospital number"/>
+                            <input type="number" th:field="*{handover.newNHSNumber}" id="NHSNumber" name="NHSNumber" placeholder="NHS number"/>
                             <button type="button" class="orange-button" onclick="showJobContexts();">Next</button>
                         </div>
                         <div id="existingPatient" style="display: none">
@@ -146,10 +147,13 @@
                 </div>
                 <div id="newJobContext" style="display: none;">
                     Add a new diagnosis<br/>
-                    <input type="text" id="newClinicalDetails" name="newClinicalDetails" placeholder="clinical details"/>
-                    <input type="checkbox"  id="newUnwell" name="newUnwell" value="TRUE"/> Unwell<br/>
-                    <input type="number" id="newBedNumber" name="newBedNumber" placeholder="bed"/>
-                    <input type="text" id="newWard" name="newWard" placeholder="ward"/>
+                    <input type="text" th:field="*{handover.newClinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="clinical details"/>
+                    <input type="checkbox"  th:field="*{handover.newUnwell}" id="newUnwell" name="newUnwell" value="TRUE"/> Unwell<br/>
+                    <input type="number" th:field="*{handover.newBed}" id="newBed" name="newBed" placeholder="bed"/>
+                    <select th:field="*{handover.newWardId}">
+                        <option value="" hidden="true">Select ward</option>
+                        <option th:each="ward : ${wards}" th:value="${ward.id}" th:text="${ward.name}"></option>
+                    </select>
                     <div>Risks:</div>
                     <button type="button" class="orange-button" onclick="showJob();">Next</button>
                 </div>
@@ -176,7 +180,7 @@
                 </select>
             </div>
         </div>
-        <button type="submit" class="orange-button" disabled="true">Send</button>
+        <button type="submit" id="submit-button" class="orange-button" disabled="true">Send</button>
     </form>
 </div>
 </body>

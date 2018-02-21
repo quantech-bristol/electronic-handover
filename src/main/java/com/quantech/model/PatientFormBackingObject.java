@@ -56,6 +56,19 @@ public class PatientFormBackingObject {
         this.jobContexts = jobContexts;
     }
 
+    public PatientFormBackingObject(Title title, String firstName, String lastName, Integer day, Integer month, Integer year, Long hospitalNumber, Long nHSNumber) {
+
+        this.title = title;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.hospitalNumber = hospitalNumber;
+        this.nHSNumber = nHSNumber;
+        this.jobContexts = jobContexts;
+    }
+
     public Long getId() {
         return id;
     }

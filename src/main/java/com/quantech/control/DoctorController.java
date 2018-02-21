@@ -2,23 +2,31 @@ package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.*;
+import com.quantech.model.user.Title;
 import com.quantech.model.user.UserCore;
+import com.quantech.repo.PatientRepository;
 import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
 import com.quantech.service.JobsService.JobsServiceImpl;
 import com.quantech.service.PatientService.PatientServiceImpl;
+import com.quantech.service.WardService.WardServiceImpl;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class DoctorController {
@@ -30,6 +38,9 @@ public class DoctorController {
     PatientServiceImpl patientService;
 
     @Autowired
+    PatientRepository patientRepository;
+
+    @Autowired
     CategoryServiceImpl categoryService;
 
     @Autowired
@@ -38,37 +49,34 @@ public class DoctorController {
     @Autowired
     JobsServiceImpl jobsService;
 
+    @Autowired
+    WardServiceImpl wardService;
+
     @GetMapping(value="/createHandover")
     public String createHandover(Model model) {
         model.addAttribute("handover", new HandoverFormBackingObject());
-        model.addAttribute("allPatients", patientService.getAllPatients());
-        model.addAttribute("newPatient", new PatientFormBackingObject());
-        model.addAttribute("allJobContexts", jobsService.getAllJobContexts());
-        model.addAttribute("newJobContext", new JobContext());
-        model.addAttribute("job", new Job());
+//        model.addAttribute("allPatients", patientService.getAllPatients());
+//        model.addAttribute("newPatient", new PatientFormBackingObject());
+//        model.addAttribute("allJobContexts", jobsService.getAllJobContexts());
+//        model.addAttribute("newJobContext", new JobContext());
+//        model.addAttribute("job", new Job());
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("doctors", doctorService.getAllDoctors());
+        model.addAttribute("wards", wardService.getAllWards());
         return "doctor/handover";
     }
 
+    @Transactional
     @PostMapping(value="/createHandover")
     public String createHandover(@ModelAttribute("handover") HandoverFormBackingObject handover) {
-        if (handover.getNewPatient()) {
-            //newPatient validity tests
-            //Save newPatient
-//            Patient pt = patient.toPatient();
-//            patientService.savePatient(pt);
-            //Keep id of new patient
-        } else {
-            //get id of existing patient
-        }
-//        if (handover.getNewJobContext()) {
-//            //Save new job context to patient
-//        } else {
-//            //Get id of existing job context
-//        }
-        //Save new job
-            return "redirect:/";
+        Patient newPatient = new Patient(handover.getNewTitle(), handover.getNewFirstName(), handover.getNewLastName(), LocalDate.of(handover.getNewYear(), handover.getNewMonth(), handover.getNewDay()), handover.getNewHospitalNumber(), handover.getNewNHSNumber(), new ArrayList<>());
+        JobContext newJobContext = new JobContext(handover.getNewClinicalDetails(), handover.getNewUnwell(), new Date(), newPatient, handover.getNewBed(), wardService.getWard(handover.getNewWardId()), new ArrayList<>(), new ArrayList<>());
+        List<JobContext> jobContexts = newPatient.getJobContexts();
+        jobContexts.add(newJobContext);
+        newPatient.setJobContexts(jobContexts);
+        patientService.savePatient(newPatient);
+        jobsService.saveJobContext(newJobContext);
+        return "redirect:/";
     }
 
     @GetMapping("/patient/hospitalNumber={id}")

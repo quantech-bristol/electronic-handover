@@ -37,16 +37,26 @@ public class HandoverFormBackingObject {
 
     private Long existingId;
 
-//    private Patient existingPatient;
-
     private Title updatedTitle;
 
     private String updatedFirstName;
 
     private String updatedLastName;
 
-//    @NotNull
+    @NotNull
     private Boolean newJobContext;
+
+    //New job context info:
+
+    private String newClinicalDetails;
+
+    private Boolean newUnwell;
+
+    private Integer newBed;
+
+    private Long newWardId;
+
+    //Existing job context info:
 
     private String updatedClinicalDetails;
 
@@ -98,10 +108,6 @@ public class HandoverFormBackingObject {
 
     public void setExistingId(Long existingId) { this.existingId = existingId; }
 
-//    public Patient getExistingPatient() { return existingPatient; }
-
-//    public void setExistingPatient(Patient existingId) { this.existingPatient = existingId; }
-
     public Title getUpdatedTitle() { return updatedTitle; }
 
     public void setUpdatedTitle(Title title) {this.updatedTitle = updatedTitle; }
@@ -117,6 +123,22 @@ public class HandoverFormBackingObject {
     public Boolean getNewJobContext() { return newJobContext; }
 
     public void setNewJobContext(Boolean newJobContext) { this.newJobContext = newJobContext; }
+
+    public String getNewClinicalDetails() { return newClinicalDetails; }
+
+    public void setNewClinicalDetails(String newClinicalDetails) { this.newClinicalDetails = newClinicalDetails; }
+
+    public Boolean getNewUnwell() { return newUnwell; }
+
+    public void setNewUnwell(Boolean newUnwell) { this.newUnwell = newUnwell; }
+
+    public Integer getNewBed() { return newBed; }
+
+    public void setNewBed(Integer newBed) { this.newBed = newBed; }
+
+    public Long getNewWardId() { return newWardId; }
+
+    public void setNewWardId(Long newWardId) { this.newWardId = newWardId; }
 
     public String getUpdatedClinicalDetails() { return updatedClinicalDetails; }
 
