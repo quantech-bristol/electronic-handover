@@ -80,6 +80,13 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public List<JobContext> getAllJobContexts() {
+        List<JobContext> jobContexts = new ArrayList<>();
+        jobContextRepository.findAll().forEach(jobContexts::add);
+        return jobContexts;
+    }
+
+    @Override
     public List<Job> getAllJobsOfContext(JobContext context) {
         return jobRepository.findByJobContext(context);
     }
@@ -209,4 +216,5 @@ public class JobsServiceImpl implements JobsService {
     public void CheckValidity(BindingResult result, Job job) {
         // TODO
     }
+
 }

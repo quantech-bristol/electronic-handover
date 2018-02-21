@@ -15,22 +15,22 @@ public class PatientFormBackingObject {
 
     private Long id;
 
-    @NotNull
+//    @NotNull
     private Title title;
 
-    @NotNull
+//    @NotNull
     private String firstName;
 
-    @NotNull
+//    @NotNull
     private String lastName;
 
-    @NotNull
+//    @NotNull
     private Integer day;
 
-    @NotNull
+//    @NotNull
     private Integer month;
 
-    @NotNull
+//    @NotNull
     private Integer year;
 
     private Long hospitalNumber;

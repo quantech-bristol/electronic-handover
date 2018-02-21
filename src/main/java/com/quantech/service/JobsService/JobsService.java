@@ -61,6 +61,12 @@ public interface JobsService {
     public List<Job> getAllCompletedJobsForPatient(Patient patient);
 
     /**
+     * Finds a list of all jobs contexts.
+     * @return A list of all job contexts.
+     */
+    public List<JobContext> getAllJobContexts();
+
+    /**
      * Finds a list of all jobs corresponding to a certain context.
      * @param context The context to use in the search.
      * @return A list of jobs that use the context.
@@ -165,4 +171,5 @@ public interface JobsService {
      * @param job The job object created through the form.
      */
     public void CheckValidity(BindingResult result, Job job);
+
 }
