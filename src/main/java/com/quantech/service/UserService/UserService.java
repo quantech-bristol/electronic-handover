@@ -34,6 +34,8 @@ public interface UserService
 
     public List<UserCore> getAllUsers() ;
 
+    public List<UserCore> getAllDoctorUsers() ;
+
     public UserCore findUserById(long id) ;
 
     public UserCore findUserByUsername(String username);

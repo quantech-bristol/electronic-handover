@@ -15,22 +15,22 @@ public class PatientFormBackingObject {
 
     private Long id;
 
-    @NotNull
+//    @NotNull
     private Title title;
 
-    @NotNull
+//    @NotNull
     private String firstName;
 
-    @NotNull
+//    @NotNull
     private String lastName;
 
-    @NotNull
+//    @NotNull
     private Integer day;
 
-    @NotNull
+//    @NotNull
     private Integer month;
 
-    @NotNull
+//    @NotNull
     private Integer year;
 
     private Long hospitalNumber;
@@ -45,6 +45,19 @@ public class PatientFormBackingObject {
 
     public PatientFormBackingObject(Long id, Title title, String firstName, String lastName, Integer day, Integer month, Integer year, Long hospitalNumber, Long nHSNumber, List<JobContext> jobContexts) {
         this.id = id;
+        this.title = title;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.hospitalNumber = hospitalNumber;
+        this.nHSNumber = nHSNumber;
+        this.jobContexts = jobContexts;
+    }
+
+    public PatientFormBackingObject(Title title, String firstName, String lastName, Integer day, Integer month, Integer year, Long hospitalNumber, Long nHSNumber) {
+
         this.title = title;
         this.firstName = firstName;
         this.lastName = lastName;

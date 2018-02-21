@@ -1,6 +1,7 @@
 package com.quantech.service.CategoryService;
 
 import com.quantech.model.Category;
+import com.quantech.model.Ward;
 import com.quantech.repo.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> cs = new ArrayList<>();
         categoryRepository.findAll().forEach(cs::add);
         return cs;
+    }
+
+    @Override
+    public Category getCategory(Long id) {
+        return categoryRepository.findOne(id);
     }
 
     @Override

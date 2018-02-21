@@ -1,17 +1,42 @@
 package com.quantech.model;
 
 import com.quantech.model.user.Title;
+import com.quantech.model.user.UserInfo;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
+
+import javax.print.Doc;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Component
 public class HandoverFormBackingObject {
 
+    //Are we entering a new patient:
     @NotNull
     private Boolean newPatient;
 
-    private Patient existingPatient;
+    //New patient info:
+
+    private Title newTitle;
+
+    private String newFirstName;
+
+    private String newLastName;
+
+    private Integer newDay;
+
+    private Integer newMonth;
+
+    private Integer newYear;
+
+    private Long newHospitalNumber;
+
+    private Long newNHSNumber;
+
+    //Existing patient info:
+
+    private Long existingId;
 
     private Title updatedTitle;
 
@@ -21,6 +46,18 @@ public class HandoverFormBackingObject {
 
     @NotNull
     private Boolean newJobContext;
+
+    //New job context info:
+
+    private String newClinicalDetails;
+
+    private Boolean newUnwell;
+
+    private Integer newBed;
+
+    private Long newWardId;
+
+    //Existing job context info:
 
     private String updatedClinicalDetails;
 
@@ -32,13 +69,55 @@ public class HandoverFormBackingObject {
 
     private List<Risk> updatedRisks;
 
+    //New job info:
+
+    private String jobDescription;
+
+    private Long categoryId;
+
+    private Long userId;
+
+    //Getters and setters
+
     public Boolean getNewPatient() { return newPatient; }
 
     public void setNewPatient(Boolean newPatient) { this.newPatient = newPatient; }
 
-    public Patient getExistingPatient() { return existingPatient; }
+    public Title getNewTitle() { return newTitle; }
 
-    public void setExistingPatient(Patient existingId) { this.existingPatient = existingId; }
+    public void setNewTitle(Title newTitle) { this.newTitle = newTitle; }
+
+    public String getNewFirstName() { return newFirstName; }
+
+    public void setNewFirstName(String newFirstName) { this.newFirstName = newFirstName; }
+
+    public String getNewLastName() { return newLastName; }
+
+    public void setNewLastName(String newLastName) { this.newLastName = newLastName; }
+
+    public Integer getNewDay() { return newDay; }
+
+    public void setNewDay(Integer newDay) { this.newDay = newDay; }
+
+    public Integer getNewMonth() { return newMonth; }
+
+    public void setNewMonth(Integer newMonth) { this.newMonth = newMonth; }
+
+    public Integer getNewYear() { return newYear; }
+
+    public void setNewYear(Integer newYear) { this.newYear = newYear; }
+
+    public Long getNewHospitalNumber() { return newHospitalNumber; }
+
+    public void setNewHospitalNumber(Long newHospitalNumber) { this.newHospitalNumber = newHospitalNumber; }
+
+    public Long getNewNHSNumber() { return newNHSNumber; }
+
+    public void setNewNHSNumber(Long newNHSNumber) { this.newNHSNumber = newNHSNumber; }
+
+    public Long getExistingId() { return existingId; }
+
+    public void setExistingId(Long existingId) { this.existingId = existingId; }
 
     public Title getUpdatedTitle() { return updatedTitle; }
 
@@ -55,6 +134,22 @@ public class HandoverFormBackingObject {
     public Boolean getNewJobContext() { return newJobContext; }
 
     public void setNewJobContext(Boolean newJobContext) { this.newJobContext = newJobContext; }
+
+    public String getNewClinicalDetails() { return newClinicalDetails; }
+
+    public void setNewClinicalDetails(String newClinicalDetails) { this.newClinicalDetails = newClinicalDetails; }
+
+    public Boolean getNewUnwell() { return newUnwell; }
+
+    public void setNewUnwell(Boolean newUnwell) { this.newUnwell = newUnwell; }
+
+    public Integer getNewBed() { return newBed; }
+
+    public void setNewBed(Integer newBed) { this.newBed = newBed; }
+
+    public Long getNewWardId() { return newWardId; }
+
+    public void setNewWardId(Long newWardId) { this.newWardId = newWardId; }
 
     public String getUpdatedClinicalDetails() { return updatedClinicalDetails; }
 
@@ -75,5 +170,17 @@ public class HandoverFormBackingObject {
     public List<Risk> getUpdatedRisks() { return updatedRisks; }
 
     public void setUpdatedRisks(List<Risk> updatedRisks) { this.updatedRisks = updatedRisks; }
+
+    public String getJobDescription() { return jobDescription; }
+
+    public void setJobDescription(String jobDescription) { this.jobDescription = jobDescription; }
+
+    public Long getCategoryId() { return categoryId; }
+
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
+
+    public Long getUserId() { return userId; }
+
+    public void setUserId(Long userId) { this.userId = userId; }
 
 }
