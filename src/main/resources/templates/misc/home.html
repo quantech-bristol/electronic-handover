@@ -11,32 +11,31 @@
             <tr>
                 <td>Patient Details</td>
                 <td>Inpatient Details</td>
-                <td>Clinical Status</td>
-                <td>Clinical details</td>
+                <td>Clinical Status and Details</td>
                 <td>Jobs</td>
             </tr>
-            <div  th:each="patient,iterStat : ${patients}">
+            <div  th:each="jobContext,iterStat : ${jobContexts}">
                 <!--Thymeleaf for each clause-->
                 <tr>
                     <td>
                         <div class="patient-details">
                             <div class="patient-detail-row">
                                 <span class="patient-detail-title">Name</span>
-                                <span class="patient-detail"><a th:href="@{/patient/hospitalNumber=} + '11111'"><span th:text="${patient.FullName}"/></a></span>
+                                <span class="patient-detail"><a th:href="@{/patient/hospitalNumber=} + '11111'"><span th:text="${jobContext.patient.FullName}"/></a></span>
                             </div>
                             <div class="patient-detail-row">
                                 <span class="patient-detail-title">DoB</span>
-                                <span class="patient-detail"><span th:text="${patient.birthDate}"/></span>
+                                <span class="patient-detail"><span th:text="${jobContext.patient.birthDate}"/></span>
                                 <span class="patient-detail-title">Age</span>
                                 <span class="patient-detail">29</span> <!-- function using age -->
                             </div>
                             <div class="patient-detail-row"> <!-- if not null -->
                                 <span class="patient-detail-title">Hospital Number</span>
-                                <span class="patient-detail"><span th:text="${patient.hospitalNumber}"/></span>
+                                <span class="patient-detail"><span th:text="${jobContext.patient.hospitalNumber}"/></span>
                             </div>
                             <div class="patient-detail-row"> <!-- if not null -->
                                 <span class="patient-detail-title">NHS Number</span>
-                                <span class="patient-detail"><span th:text="${patient.nHSNumber}"/></span>
+                                <span class="patient-detail"><span th:text="${jobContext.patient.nHSNumber}"/></span>
                             </div>
                         </div>
                     </td>
@@ -44,11 +43,11 @@
                         <div class="patient-details">
                             <div class="patient-detail-row">
                                 <span class="patient-detail-title">Ward</span>
-                                <span class="patient-detail">Cotswold</span>
+                                <span class="patient-detail" th:text="${jobContext.getWard().getName()}"></span>
                             </div>
                             <div class="patient-detail-row">
                                 <span class="patient-detail-title">Bed</span>
-                                <span class="patient-detail">7</span>
+                                <span class="patient-detail" th:text="${jobContext.bed}">7</span>
                             </div>
                         </div>
                     </td>
@@ -58,26 +57,30 @@
                                 <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
                             </div>
                         </div>
-                    </td>
-                    <td>
                         <div class="patient-details">
                             <div class="patient-detail-row">
                                 <span class="patient-detail-title" style="color: #DA291C;">Sepsis</span>
                             </div>
                         </div>
                     </td>
-                    <td>Details, category, date/deadline and completed or not</td>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.jobs}">
+                                <span class="patient-detail-title" th:text="${job.getCategory().getName()} + ': '"></span>
+                                <span class="patient-detail" th:text="${job.getDescription()}"></span>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <!--Thymeleaf for each clause-->
                 <tr>
                     <td><!--Patient Details--></td>
                     <td><!--Inpatient Details--></td>
-                    <td><!--Clinical Status--></td>
-                    <td><!--Clinical details--></td>
+                    <td><!--Clinical Status and Details--></td>
                     <td><!--Jobs--></td>
                 </tr>
                 <tr class="line">
-                    <td colspan="5"></td>
+                    <td colspan="4"></td>
                 </tr>
             </div>
         </table>

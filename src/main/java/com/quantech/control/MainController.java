@@ -1,10 +1,14 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
+import com.quantech.model.Doctor;
+import com.quantech.model.JobContext;
 import com.quantech.model.Patient;
 import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
+import com.quantech.service.DoctorService.DoctorService;
+import com.quantech.service.JobsService.JobsService;
 import com.quantech.service.PatientService.PatientServiceImpl;
 import com.quantech.service.UserService.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -36,19 +40,30 @@ public class MainController {
     @Autowired
     PatientServiceImpl patientService;
 
+    @Autowired
+    DoctorService doctorService;
+
+    @Autowired
+    JobsService jobsService;
+
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home(Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
-        List<Patient> patients = patientService.getAllPatients();
-        List<Integer> ages = new ArrayList<>();
-        model.addAttribute("patients", patients);
-        LocalDate nw = LocalDate.now();
-        for (Patient patient : patients) {
-            Integer age = Period.between(patient.getBirthDate(), nw).getYears();
-            ages.add(age);
-        }
+
         if (user.isDoctor()) {
+            Doctor d = doctorService.getDoctor(user);
+            List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);
+            model.addAttribute("jobContexts", jcs);
+
+            List<Integer> ages = new ArrayList<>();
+            LocalDate nw = LocalDate.now();
+            for (JobContext jc : jcs) {
+                Integer age = Period.between(jc.getPatient().getBirthDate(), nw).getYears();
+                ages.add(age);
+            }
+
             return "misc/home";
+
         } else if (user.isAdmin()) {
             return "redirect:/admin";
         } else {

@@ -218,6 +218,19 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public List<JobContext> getJobContextsUnderCareOf(Doctor doctor) {
+        // TODO: Could be sped up by using a hash table.
+        List<Job> js = this.getAllJobsOfDoctor(doctor);
+        List<JobContext> jcs = new ArrayList<>();
+        for (Job j : js) {
+            JobContext jc = j.getJobContext();
+            if (!jcs.contains(jc))
+                jcs.add(jc);
+        }
+        return jcs;
+    }
+
+    @Override
     public void CheckValidity(BindingResult result, Job job) {
         // TODO
     }

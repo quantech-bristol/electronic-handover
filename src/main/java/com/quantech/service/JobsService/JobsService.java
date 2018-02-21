@@ -166,6 +166,13 @@ public interface JobsService {
     public List<Job> sortJobsNewestFirst(List<Job> jobs);
 
     /**
+     * Returns a list of job contexts for patients under the care of a given doctor.
+     * @param doctor The doctor to get job contexts for.
+     * @return A list of job contexts.
+     */
+    public List<JobContext> getJobContextsUnderCareOf(Doctor doctor);
+
+    /**
      * Checks the validity of a patient's fields, and rejects the result value accordingly.
      * @param result The binding result formed from the view template.
      * @param job The job object created through the form.
