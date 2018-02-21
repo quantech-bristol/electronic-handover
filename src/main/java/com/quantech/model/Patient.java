@@ -40,7 +40,7 @@ public class Patient {
     @Column(unique = true,nullable = true)
     private Long nHSNumber;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<JobContext> jobContexts;
 
     public Patient() { this.jobContexts = new ArrayList<>(); }
@@ -52,7 +52,8 @@ public class Patient {
         this.birthDate = birthDate;
         this.hospitalNumber = hospitalNumber;
         this.nHSNumber = nHSNumber;
-        this.jobContexts = jobContexts;
+//        this.jobContexts = jobContexts;
+        this.jobContexts = new ArrayList<>();
     }
 
     /**

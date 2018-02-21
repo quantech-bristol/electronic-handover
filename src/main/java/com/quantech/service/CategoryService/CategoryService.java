@@ -21,6 +21,13 @@ public interface CategoryService {
     public List<Category> getAllCategories();
 
     /**
+     * Finds a category corresponding to the unique id, stored in the repository.
+     * @param id The id for which a category is a associated with.
+     * @return A category corresponding to the id if one exists, null otherwise.
+     */
+    public Category getCategory(Long id);
+
+    /**
      * Deletes the category with the corresponding id from the repository.
      * @param id The id corresponding to the category to be deleted.
      */

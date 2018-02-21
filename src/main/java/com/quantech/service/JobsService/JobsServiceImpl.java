@@ -111,9 +111,12 @@ public class JobsServiceImpl implements JobsService {
         }
 
         // Check if the job context is in the repository.
-        if (jobContextRepository.findById(job.getJobContext().getId()) != null) {
-            throw new IllegalArgumentException("Error: job context doesn't already exist in the database.");
-        }
+//        if (jobContextRepository.findById(job.getJobContext().getId()) != null) {
+//            throw new IllegalArgumentException("Error: job context doesn't already exist in the database.");
+//        }
+
+        jobRepository.save(job);
+
     }
 
     @Override

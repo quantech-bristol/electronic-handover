@@ -5,6 +5,7 @@ import com.quantech.model.user.UserInfo;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
+import javax.print.Doc;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -67,6 +68,16 @@ public class HandoverFormBackingObject {
     private Ward updatedWard;
 
     private List<Risk> updatedRisks;
+
+    //New job info:
+
+    private String jobDescription;
+
+    private Long categoryId;
+
+    private Long userId;
+
+    //Getters and setters
 
     public Boolean getNewPatient() { return newPatient; }
 
@@ -159,5 +170,17 @@ public class HandoverFormBackingObject {
     public List<Risk> getUpdatedRisks() { return updatedRisks; }
 
     public void setUpdatedRisks(List<Risk> updatedRisks) { this.updatedRisks = updatedRisks; }
+
+    public String getJobDescription() { return jobDescription; }
+
+    public void setJobDescription(String jobDescription) { this.jobDescription = jobDescription; }
+
+    public Long getCategoryId() { return categoryId; }
+
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
+
+    public Long getUserId() { return userId; }
+
+    public void setUserId(Long userId) { this.userId = userId; }
 
 }
