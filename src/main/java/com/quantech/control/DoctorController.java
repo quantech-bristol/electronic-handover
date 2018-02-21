@@ -66,23 +66,17 @@ public class DoctorController {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
         model.addAttribute("wards", wardService.getAllWards());
+        model.addAttribute("list", new ArrayList<>());
         return "doctor/handover";
     }
 
     @Transactional
     @PostMapping(value="/createHandover")
     public String createHandover(@ModelAttribute("handover") HandoverFormBackingObject handover) {
-        //Extract patient
         Patient newPatient = new Patient(handover.getNewTitle(), handover.getNewFirstName(), handover.getNewLastName(), LocalDate.of(handover.getNewYear(), handover.getNewMonth(), handover.getNewDay()), handover.getNewHospitalNumber(), handover.getNewNHSNumber(), new ArrayList<>());
-        //Extract job context
         JobContext newJobContext = new JobContext(handover.getNewClinicalDetails(), handover.getNewUnwell(), new Date(), newPatient, handover.getNewBed(), wardService.getWard(handover.getNewWardId()), new ArrayList<>(), new ArrayList<>());
-//        List<JobContext> jobContexts = newPatient.getJobContexts();
-//        jobContexts.add(newJobContext);
-        //Extract job
         Doctor doctor = doctorService.getDoctor(userService.findUserById(handover.getUserId()));
         Job newJob = new Job(handover.getJobDescription(), categoryService.getCategory(handover.getCategoryId()), new Date(), null, newJobContext, doctor);
-//        public Job(String description, Category category, Date creationDate, Date completionDate, JobContext jobContext, Doctor doctor)
-        //Save
         patientService.savePatient(newPatient);
         jobsService.saveJobContext(newJobContext);
         jobsService.saveJob(newJob);
