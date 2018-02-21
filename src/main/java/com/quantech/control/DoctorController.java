@@ -66,6 +66,7 @@ public class DoctorController {
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
         model.addAttribute("wards", wardService.getAllWards());
+        model.addAttribute("list", new ArrayList<>());
         return "doctor/handover";
     }
 
