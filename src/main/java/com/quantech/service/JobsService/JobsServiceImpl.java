@@ -222,9 +222,40 @@ public class JobsServiceImpl implements JobsService {
         return jobs;
     }
 
+    @Override
     public List<JobContext> sortJobContextsByFirstName(List<JobContext> jobContexts) {
         jobContexts.sort((j1,j2) -> -j2.getPatient().getFirstName().compareTo(j1.getPatient().getFirstName()));
         return jobContexts;
+    }
+
+    @Override
+    public List<JobContext> sortJobContextsByLastName(List<JobContext> jobContexts) {
+        jobContexts.sort((j1,j2) -> -j2.getPatient().getLastName().compareTo(j1.getPatient().getLastName()));
+        return jobContexts;
+    }
+
+    @Override
+    public List<JobContext> filterJobContextsBy(List<JobContext> list, Predicate<JobContext> predicate) {
+        return list.stream().filter(predicate).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> predicates) {
+        Stream<JobContext> stream = list.stream();
+        for (Predicate<JobContext> p : predicates) {
+            stream = stream.filter(p);
+        }
+        return stream.collect(Collectors.toList());
+    }
+
+    @Override
+    public Predicate<JobContext> patientIsUnwell() {
+        return (JobContext::getUnwell);
+    }
+
+    @Override
+    public Predicate<JobContext> patientHasRisk(Risk risk) {
+        return (j->j.getRisks().contains(risk));
     }
 
     @Override
