@@ -70,8 +70,9 @@
                             <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.getJobs()}">
                                 <span class="patient-detail-title" th:text="${job.getCategory().getName()} + ': '"></span>
                                 <span class="patient-detail" th:text="${job.getDescription()}"></span>
-                                <a th:href="'/'" id="complete-job-button">Complete</a>
-                                <a th:href="'/'" id="handover-job-button">Handover</a>
+                                <button th:if="${!job.isComplete()}" th:href="'/'" id="complete-job-button">Complete</button>
+                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getId()}"
+                                   th:href="'/handoverJob?jobId=' + ${job.getId()}" id="handover-job-button">Handover</a>
                             </div>
                             <div class="patient-detail-row">
                                 <a th:href="'/createJob?jobContextId='+${jobContext.id}">+ Add new job</a>

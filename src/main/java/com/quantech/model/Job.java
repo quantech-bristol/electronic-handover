@@ -163,4 +163,12 @@ public class Job {
     public Category getCategory() {
         return category;
     }
+
+    /**
+     * Returns whether the given job has been completed.
+     * @return True is the job is complete, false otherwise.
+     */
+    public Boolean isComplete() {
+        return this.completionDate != null;
+    }
 }
