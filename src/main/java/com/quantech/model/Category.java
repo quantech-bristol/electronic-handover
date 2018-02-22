@@ -16,16 +16,16 @@ public class Category {
     private Long id;
 
     @NotNull
-    private String summary;
+    private String name;
 
     @OneToMany(mappedBy = "category")
     private List<Job> jobs;
 
     public Category() { this.jobs = new ArrayList<>();}
 
-    public Category(Long id, String summary, List<Job> jobs) {
+    public Category(Long id, String name, List<Job> jobs) {
         this.id = id;
-        this.summary = summary;
+        this.name = name;
         this.jobs = jobs;
     }
 
@@ -37,12 +37,12 @@ public class Category {
         this.id = id;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getName() {
+        return name;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Job> getJobs() {

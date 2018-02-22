@@ -1,9 +1,15 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
+import com.quantech.model.Doctor;
+import com.quantech.model.JobContext;
+import com.quantech.model.Patient;
 import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
+import com.quantech.service.DoctorService.DoctorService;
+import com.quantech.service.JobsService.JobsService;
+import com.quantech.service.PatientService.PatientServiceImpl;
 import com.quantech.service.UserService.UserService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +22,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -26,11 +37,26 @@ public class MainController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    PatientServiceImpl patientService;
+
+    @Autowired
+    DoctorService doctorService;
+
+    @Autowired
+    JobsService jobsService;
+
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String home() {
+    public String home(Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
+
         if (user.isDoctor()) {
+            Doctor d = doctorService.getDoctor(user);
+            List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);
+            model.addAttribute("jobContexts", jcs);
+
             return "misc/home";
+
         } else if (user.isAdmin()) {
             return "redirect:/admin";
         } else {

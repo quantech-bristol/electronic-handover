@@ -8,16 +8,15 @@ import java.util.List;
 
 @Entity
 public class Doctor {
-
     @Id
-    @GeneratedValue
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY) // Matches ID with UserCore
+    @MapsId
+    private UserCore user;
 
     @OneToMany(mappedBy = "doctor")
     private List<Job> jobs;
-
-    @OneToOne(fetch = FetchType.LAZY) // Matches ID with UserCore
-    private UserCore user;
 
     public Doctor() { this.jobs = new ArrayList<>(); }
 

@@ -16,13 +16,12 @@
             <form action="#" th:action="@{/admin/addCategory}" th:object="${newCat}" method="post" class="form-inline">
                 <table>
                     <tr>
-                        <td><label for="name">Category summary</label></td>
-                        <td><input type="text" th:field="*{summary}" id="name" placeholder="category summary"/></td>
+                        <td><label for="name">Category name</label></td>
+                        <td><input type="text" th:field="*{name}" id="name" placeholder="category name"/></td>
                     </tr>
                     <tr><td><button class="orange-button" type="submit">Submit</button></td></tr>
                 </table>
             </form>
-            Searchable list of categories with option to change name or remove
         </div>
     </div>
     <div class="main-box">
@@ -30,18 +29,32 @@
             Existing Categories
         </div>
         <div class="main-box-content">
-            <table>
-                <tr th:each="cat : ${categories}">
+            <table width="100%">
+                <colgroup>
+                    <col span="1" width="15%" />
+                    <col span="1" width="15%" />
+                </colgroup>
+                <tbody>
+                <tr th:each="cat,iterStat : ${categories}">
                     <td>
-                        <span th:text="${cat.summary}"></span>
+                        <span th:text="${cat.name}"></span>
+                    </td>
+                    <td>
+                        <button th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${categories.size()}+');'" style="display: block">Edit</button>
+                        <form th:action="@{/admin/renameCategory(id=${cat.id})}" method="post" class="form-inline">
+                            <input th:id="input+${iterStat.count}" type="text" style="display: none"
+                                   placeholder="Enter new Category name" th:field="*{newCat.name}" />
+                        </form>
+                    </td>
+                    <td style="text-align: right;">
+                        <a th:href="@{/admin/deleteCategory(id=${cat.id})}">Delete</a>
                     </td>
                 </tr>
+                </tbody>
             </table>
-            <!--Search for existing categories<br/>-->
-            <!--Edit or delete category-->
         </div>
     </div>
 </div>
-
+<script src="/js/editEntries.js"></script>
 </body>
 </html>

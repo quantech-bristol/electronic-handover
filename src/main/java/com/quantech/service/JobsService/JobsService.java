@@ -19,6 +19,13 @@ public interface JobsService {
     public Job getJob(Long id);
 
     /**
+     * Returns the handover stored in the repository corresponding to the unique id.
+     * @param id The id to be used to identify the job context in the repository.
+     * @return The job context corresponding to the id if it exists, or null otherwise.
+     */
+    public JobContext getJobContext(Long id);
+
+    /**
      * Finds a list of all jobs that are currently the responsibility of a certain doctor.
      * @param doctor The doctor to which the job was sent.
      * @return A list of jobs that the doctor is responsible for.
@@ -59,6 +66,12 @@ public interface JobsService {
      * @return A list of complete jobs that involve the input patient.
      */
     public List<Job> getAllCompletedJobsForPatient(Patient patient);
+
+    /**
+     * Finds a list of all jobs contexts.
+     * @return A list of all job contexts.
+     */
+    public List<JobContext> getAllJobContexts();
 
     /**
      * Finds a list of all jobs corresponding to a certain context.
@@ -160,9 +173,17 @@ public interface JobsService {
     public List<Job> sortJobsNewestFirst(List<Job> jobs);
 
     /**
+     * Returns a list of job contexts for patients under the care of a given doctor.
+     * @param doctor The doctor to get job contexts for.
+     * @return A list of job contexts.
+     */
+    public List<JobContext> getJobContextsUnderCareOf(Doctor doctor);
+
+    /**
      * Checks the validity of a patient's fields, and rejects the result value accordingly.
      * @param result The binding result formed from the view template.
      * @param job The job object created through the form.
      */
     public void CheckValidity(BindingResult result, Job job);
+
 }

@@ -13,7 +13,7 @@
             New Ward
         </div>
         <div class="main-box-content">
-            <form action="#" th:action="@{/admin/manageWards}" th:object="${newWard}" method="post" class="form-inline">
+            <form action="#" th:action="@{/admin/addWard}" th:object="${newWard}" method="post" class="form-inline">
                 <table>
                     <tr>
                         <td><label for="name">Ward name</label></td>
@@ -29,18 +29,33 @@
             Existing Wards
         </div>
         <div class="main-box-content">
-            <table>
-                <tr th:each="existingWard : ${wards}">
-                    <td>
-                        <span th:text="${existingWard.name}"></span>
-                    </td>
-                </tr>
+            <table width="100%">
+                <colgroup>
+                    <col span="1" width="15%" />
+                    <col span="1" width="15%" />
+                </colgroup>
+                <tbody>
+                    <tr th:each="existingWard,iterStat : ${wards}">
+                        <td>
+                            <span th:text="${existingWard.name}"></span>
+                        </td>
+                        <td>
+                            <button th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${wards.size()}+');'" style="display: block">Edit</button>
+                            <form th:action="@{/admin/renameWard(id=${existingWard.id})}" method="post" class="form-inline">
+                                <input th:id="input+${iterStat.count}" type="text" style="display: none"
+                                    placeholder="Enter new Ward name" th:field="*{newWard.name}" />
+                            </form>
+                        </td>
+                        <td style="text-align: right;">
+                            <a th:href="@{/admin/deleteWard(id=${existingWard.id})}">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
             <!--Search for existing wards<br/>-->
-            <!--Edit or delete ward-->
         </div>
     </div>
 </div>
-
+<script src="/js/editEntries.js"></script>
 </body>
 </html>

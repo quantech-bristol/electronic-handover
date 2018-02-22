@@ -4,6 +4,7 @@ Patients
 - Turn patient/handover details into a table/excel format instead of accordion
 
 Create User
+- Add text box for confirm password, and validation that both are same
 - Styling
 
 Edit Users
@@ -12,20 +13,12 @@ Edit Users
 Settings
 - Some confirmation of password being successfully changed
 
-Manage Wards
-- Styling
-- Implement edit/delete wards
-
 Create Handover
 - Edit/add patients details whilst creating handover
 
 Admin
-- Implement edit risks
-- Implement delete risks
-- Implement add category
-- Implement edit categories
-- Implement delete categories
 - Risks a checklist instead of text input
+- Search ward / risk / category
 
 Misc
 - Generic TODO list

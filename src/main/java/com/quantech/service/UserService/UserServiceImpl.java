@@ -88,6 +88,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public List<UserCore> getAllDoctorUsers() {
+        List<UserCore> allUsers = new ArrayList<>();
+        userRepository.findAll().forEach(allUsers::add);
+        List<UserCore> doctorUsers = new ArrayList<>();
+        for (UserCore user : allUsers) {
+            if (user.isDoctor()) doctorUsers.add(user);
+        }
+        return doctorUsers;
+    }
+
+    @Override
     public UserCore findUserById(long id) {
         UserCore newUser = userRepository.getUserCoreByIdEquals(id);
         return newUser;

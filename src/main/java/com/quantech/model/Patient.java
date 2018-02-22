@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class Patient {
     @Column(unique = true,nullable = true)
     private Long nHSNumber;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<JobContext> jobContexts;
 
     public Patient() { this.jobContexts = new ArrayList<>(); }
@@ -52,7 +53,8 @@ public class Patient {
         this.birthDate = birthDate;
         this.hospitalNumber = hospitalNumber;
         this.nHSNumber = nHSNumber;
-        this.jobContexts = jobContexts;
+//        this.jobContexts = jobContexts;
+        this.jobContexts = new ArrayList<>();
     }
 
     /**
@@ -193,6 +195,15 @@ public class Patient {
      */
     public String getFullName() {
         return this.title + ". " + this.firstName + " " + this.lastName;
+    }
+
+    /**
+     * Returns the patient's age.
+     * @return patient's age.
+     */
+    public Integer getAge() {
+        LocalDate nw = LocalDate.now();
+        return Period.between(this.getBirthDate(), nw).getYears();
     }
 }
 

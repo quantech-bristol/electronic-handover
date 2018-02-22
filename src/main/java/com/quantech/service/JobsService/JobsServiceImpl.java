@@ -35,6 +35,11 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public JobContext getJobContext(Long id) {
+        return jobContextRepository.findById(id);
+    }
+
+    @Override
     public List<Job> getAllJobsOfDoctor(Doctor doctor) {
         return jobRepository.findByDoctor(doctor);
     }
@@ -80,6 +85,13 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public List<JobContext> getAllJobContexts() {
+        List<JobContext> jobContexts = new ArrayList<>();
+        jobContextRepository.findAll().forEach(jobContexts::add);
+        return jobContexts;
+    }
+
+    @Override
     public List<Job> getAllJobsOfContext(JobContext context) {
         return jobRepository.findByJobContext(context);
     }
@@ -104,9 +116,12 @@ public class JobsServiceImpl implements JobsService {
         }
 
         // Check if the job context is in the repository.
-        if (jobContextRepository.findById(job.getJobContext().getId()) != null) {
-            throw new IllegalArgumentException("Error: job context doesn't already exist in the database.");
-        }
+//        if (jobContextRepository.findById(job.getJobContext().getId()) != null) {
+//            throw new IllegalArgumentException("Error: job context doesn't already exist in the database.");
+//        }
+
+        jobRepository.save(job);
+
     }
 
     @Override
@@ -131,9 +146,11 @@ public class JobsServiceImpl implements JobsService {
         }
 
         // Check if the patient is in the repository.
-        if (patientRepository.findById(context.getPatient().getId()) != null) {
-            throw new IllegalArgumentException("Error: patient doesn't already exist in the database.");
-        }
+//        if (patientRepository.findById(context.getPatient().getId()) != null) {
+//            throw new IllegalArgumentException("Error: patient doesn't already exist in the database.");
+//        }
+
+        jobContextRepository.save(context);
     }
 
     @Override
@@ -206,7 +223,21 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public List<JobContext> getJobContextsUnderCareOf(Doctor doctor) {
+        // TODO: Could be sped up by using a hash table.
+        List<Job> js = this.getAllJobsOfDoctor(doctor);
+        List<JobContext> jcs = new ArrayList<>();
+        for (Job j : js) {
+            JobContext jc = j.getJobContext();
+            if (!jcs.contains(jc))
+                jcs.add(jc);
+        }
+        return jcs;
+    }
+
+    @Override
     public void CheckValidity(BindingResult result, Job job) {
         // TODO
     }
+
 }

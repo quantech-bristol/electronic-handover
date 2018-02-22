@@ -7,75 +7,92 @@
 <body>
     <div th:replace="fragments/header :: header">&nbsp;</div>
     <div id="main">
+        <a href="/">Sort entries</a>
+        <a href="/">Filter entries</a>
         <table id="patient-info">
             <tr>
                 <td>Patient Details</td>
                 <td>Inpatient Details</td>
-                <td>Clinical Status</td>
-                <td>Clinical details</td>
+                <td>Clinical Status and Details</td>
                 <td>Jobs</td>
             </tr>
-            <!--Thymeleaf for each clause-->
-            <tr>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">Name</span>
-                            <span class="patient-detail"><a th:href="@{/patient/hospitalNumber=} + '11111'">Mr John Smith</a></span>
+            <div  th:each="jobContext,iterStat : ${jobContexts}">
+                <!--Thymeleaf for each clause-->
+                <tr>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">Name</span>
+                                <span class="patient-detail"><a th:href="'/patient/id=' + ${jobContext.patient.id}"><span th:text="${jobContext.patient.FullName}"/></a></span>
+                            </div>
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">DoB</span>
+                                <span class="patient-detail"><span th:text="${jobContext.patient.birthDate}"/></span>
+                                <span class="patient-detail-title">Age</span>
+                                <span class="patient-detail" th:text="${jobContext.patient.getAge()}"></span> <!-- function using age -->
+                            </div>
+                            <div class="patient-detail-row"> <!-- if not null -->
+                                <span class="patient-detail-title">Hospital Number</span>
+                                <span class="patient-detail"><span th:text="${jobContext.patient.hospitalNumber}"/></span>
+                            </div>
+                            <div class="patient-detail-row"> <!-- if not null -->
+                                <span class="patient-detail-title">NHS Number</span>
+                                <span class="patient-detail"><span th:text="${jobContext.patient.nHSNumber}"/></span>
+                            </div>
                         </div>
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">DoB</span>
-                            <span class="patient-detail">21/10/89</span>
-                            <span class="patient-detail-title">Age</span>
-                            <span class="patient-detail">29</span> <!-- function using age -->
+                    </td>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">Ward</span>
+                                <span class="patient-detail" th:text="${jobContext.getWard().getName()}"></span>
+                            </div>
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title">Bed</span>
+                                <span class="patient-detail" th:text="${jobContext.bed}">7</span>
+                            </div>
                         </div>
-                        <div class="patient-detail-row"> <!-- if not null -->
-                            <span class="patient-detail-title">Hospital Number</span>
-                            <span class="patient-detail">743210</span>
+                    </td>
+                    <td>
+                        <div class="patient-details">
+                            <div th:if="${jobContext.getUnwell()}" class="patient-detail-row">
+                                <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
+                            </div>
                         </div>
-                        <div class="patient-detail-row"> <!-- if not null -->
-                            <span class="patient-detail-title">NHS Number</span>
-                            <span class="patient-detail">6702915632</span>
+                        <div class="patient-details" th:each="risk,iterStat : ${jobContext.getRisks()}">
+                            <div class="patient-detail-row">
+                                <span class="patient-detail-title" th:text="${risk.getName()}" style="color: #DA291C;"></span>
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">Ward</span>
-                            <span class="patient-detail">Cotswold</span>
+                    </td>
+                    <td>
+                        <div class="patient-details">
+                            <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.getJobs()}">
+                                <span class="patient-detail-title" th:text="${job.getCategory().getName()} + ': '"></span>
+                                <span class="patient-detail" th:text="${job.getDescription()}"></span>
+                                <button th:if="${!job.isComplete()}" th:href="'/'" id="complete-job-button">Complete</button>
+                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getId()}"
+                                   th:href="'/handoverJob?jobId=' + ${job.getId()}" id="handover-job-button">Handover</a>
+                            </div>
+                            <div class="patient-detail-row">
+                                <a th:href="'/createJob?jobContextId='+${jobContext.id}">+ Add new job</a>
+                            </div>
                         </div>
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title">Bed</span>
-                            <span class="patient-detail">7</span>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="patient-details">
-                        <div class="patient-detail-row">
-                            <span class="patient-detail-title" style="color: #DA291C;">Sepsis</span>
-                        </div>
-                    </div>
-                </td>
-                <td>Details, category, date/deadline and completed or not</td>
-            </tr>
-            <!--Thymeleaf for each clause-->
-            <tr>
-                <td><!--Patient Details--></td>
-                <td><!--Inpatient Details--></td>
-                <td><!--Clinical Status--></td>
-                <td><!--Clinical details--></td>
-                <td><!--Jobs--></td>
-            </tr>
+                    </td>
+                </tr>
+                <!--Thymeleaf for each clause-->
+                <tr>
+                    <td><!--Patient Details--></td>
+                    <td><!--Inpatient Details--></td>
+                    <td><!--Clinical Status and Details--></td>
+                    <td><!--Jobs--></td>
+                </tr>
+                <tr class="line">
+                    <td colspan="4"></td>
+                </tr>
+            </div>
         </table>
+
 
     </div>
 

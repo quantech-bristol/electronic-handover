@@ -40,6 +40,7 @@ public class Job {
     private Doctor doctor;
 
     public Job() {
+        this.creationDate = new Date();
     }
 
     public Job(String description, Category category, Date creationDate, Date completionDate, JobContext jobContext, Doctor doctor) {
@@ -161,5 +162,13 @@ public class Job {
      */
     public Category getCategory() {
         return category;
+    }
+
+    /**
+     * Returns whether the given job has been completed.
+     * @return True is the job is complete, false otherwise.
+     */
+    public Boolean isComplete() {
+        return this.completionDate != null;
     }
 }
