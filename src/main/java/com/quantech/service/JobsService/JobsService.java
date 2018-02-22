@@ -154,11 +154,17 @@ public interface JobsService {
 
     /**
      * Predicate that checks if a patient has a given risk.
-     * @param jobContext job context.
      * @param risk risk.
      * @return A predicate.
      */
     public Predicate<JobContext> patientHasRisk(Risk risk);
+
+    /**
+     * Predicate that checks if a patient is in a given ward.
+     * @param ward ward.
+     * @return predicate.
+     */
+    public Predicate<JobContext> patientIsInWard(Ward ward);
 
     /**
      * Filter list of a jobs by a given predicate.

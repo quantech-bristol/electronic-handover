@@ -259,6 +259,11 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public Predicate<JobContext> patientIsInWard(Ward ward) {
+        return j->j.getWard().equals(ward);
+    }
+
+    @Override
     public List<JobContext> getJobContextsUnderCareOf(Doctor doctor) {
         // TODO: Could be sped up by using a hash table.
         List<Job> js = this.getAllJobsOfDoctor(doctor);
