@@ -133,6 +133,12 @@ public class DoctorController {
         return "redirect:/";
     }
 
+    @PostMapping(value="/completeJob")
+    public String completeJob(@RequestParam("job") Job job) {
+        jobsService.completeJob(job);
+        return "redirect:/";
+    }
+
     @GetMapping("/patient/id={id}")
     public String viewPatient(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getPatientById(id));

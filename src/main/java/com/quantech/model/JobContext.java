@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -150,6 +151,14 @@ public class JobContext {
      * @return The jobs with the given context.
      */
     public List<Job> getJobs() {
+        List<Job> j = this.jobs;
+        Comparator<Job> c = (o1, o2) -> {
+            int v = o1.getCategory().getName().compareTo(o2.getCategory().getName());
+            if (v == 0)
+                v = o1.getDescription().compareTo(o2.getDescription());
+            return v;
+        };
+        j.sort(c);
         return jobs;
     }
 

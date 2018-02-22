@@ -222,6 +222,11 @@ public class JobsServiceImpl implements JobsService {
         return jobs;
     }
 
+    public List<JobContext> sortJobContextsByFirstName(List<JobContext> jobContexts) {
+        jobContexts.sort((j1,j2) -> -j2.getPatient().getFirstName().compareTo(j1.getPatient().getFirstName()));
+        return jobContexts;
+    }
+
     @Override
     public List<JobContext> getJobContextsUnderCareOf(Doctor doctor) {
         // TODO: Could be sped up by using a hash table.
@@ -232,6 +237,7 @@ public class JobsServiceImpl implements JobsService {
             if (!jcs.contains(jc))
                 jcs.add(jc);
         }
+        jcs = this.sortJobContextsByFirstName(jcs);
         return jcs;
     }
 
