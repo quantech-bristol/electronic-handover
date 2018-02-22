@@ -53,7 +53,7 @@
                     </td>
                     <td>
                         <div class="patient-details">
-                            <div class="patient-detail-row">
+                            <div th:if="${jobContext.getUnwell()}" class="patient-detail-row">
                                 <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
                             </div>
                         </div>
