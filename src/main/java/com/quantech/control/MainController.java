@@ -67,6 +67,7 @@ public class MainController {
                        @RequestParam(value = "risk", required = false) Long riskId,
                        @RequestParam(value = "category",required = false) Long categoryId,
                        @RequestParam(value = "ward", required = false) Long wardId,
+                       @RequestParam(value = "sort", required = false) String sort,
                        Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
 
@@ -92,6 +93,14 @@ public class MainController {
 
             for (JobContext jc : jcs) {
                 jc.setJobs(jobsService.filterJobsBy(jc.getJobs(),p2));
+            }
+
+            // Now apply sort.
+            if (sort != null) {
+                if (sort.equals("firstName"))
+                    jcs = jobsService.sortJobContextsByFirstName(jcs);
+                if (sort.equals("lastName"))
+                    jcs = jobsService.sortJobContextsByLastName(jcs);
             }
 
             model.addAttribute("jobContexts", jcs);

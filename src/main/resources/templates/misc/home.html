@@ -7,8 +7,9 @@
 <body>
     <div th:replace="fragments/header :: header">&nbsp;</div>
     <div id="main">
-        <a href="/">Sort entries</a>
-        <a href="/">Filter entries</a>
+        <a href="/?sort=firstName">Sort entries (by first name)</a>
+        <a href="/?sort=lastName">Sort entries (by last name)</a>
+        <a href="/?unwell=true">Filter entries (unwell)</a>
         <table id="patient-info">
             <tr>
                 <td>Patient Details</td>
