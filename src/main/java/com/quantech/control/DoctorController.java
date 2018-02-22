@@ -113,9 +113,8 @@ public class DoctorController {
     @GetMapping(value="/handoverJob")
     public String handoverJob(@RequestParam(value = "jobId", required=true) Long id, Model model) {
         UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
-        Job job = jobsService.getJob(id);
-
-        model.addAttribute("job", job);
+        model.addAttribute("jobId",id);
+        model.addAttribute("description",jobsService.getJob(id).getDescription());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
 
         return "doctor/handoverJob";
@@ -123,7 +122,13 @@ public class DoctorController {
 
     @Transactional
     @PostMapping(value="/handoverJob")
-    public String handoverJob(@ModelAttribute("job") Job job) {
+    public String handoverJob(@RequestParam(value = "jobId", required=true) Long id,
+                              @RequestParam("jobDescription") String description,
+                              @RequestParam("doctor") Doctor doctor) {
+        Job job = jobsService.getJob(id);
+        job.setDescription(description);
+        job.setDoctor(doctor);
+
         jobsService.saveJob(job);
         return "redirect:/";
     }

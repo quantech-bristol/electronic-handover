@@ -7,14 +7,14 @@
 <body>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
-    <form action="#" th:action="@{/handoverJob}" method="post" th:object="${job}">
+    <form action="#" th:action="'/handoverJob?jobId=' + ${jobId}" method="post">
         <div class="main-box" id="job">
             <div class="main-box-header">
                 Handover Job
             </div>
             <div class="main-box-content">
-                <input type="text" th:field="*{description}" th:value="${job.getDescription()}" id="jobDescription" name="jobDescription" placeholder="details"/>
-                <select th:field="*{doctor}">
+                <input type="text" name="jobDescription" th:value="${description}" id="jobDescription" placeholder="details"/>
+                <select name="doctor">
                     <option value="" hidden="true">Select doctor</option>
                     <option th:each="user : ${doctorUsers}" th:if="${#authentication.getPrincipal().getId()} != ${user.id}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
                 </select>
