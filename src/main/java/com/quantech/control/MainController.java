@@ -55,13 +55,6 @@ public class MainController {
             List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);
             model.addAttribute("jobContexts", jcs);
 
-            List<Integer> ages = new ArrayList<>();
-            LocalDate nw = LocalDate.now();
-            for (JobContext jc : jcs) {
-                Integer age = Period.between(jc.getPatient().getBirthDate(), nw).getYears();
-                ages.add(age);
-            }
-
             return "misc/home";
 
         } else if (user.isAdmin()) {

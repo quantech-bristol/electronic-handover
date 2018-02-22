@@ -21,13 +21,13 @@
                         <div class="patient-details">
                             <div class="patient-detail-row">
                                 <span class="patient-detail-title">Name</span>
-                                <span class="patient-detail"><a th:href="@{/patient/hospitalNumber=} + '11111'"><span th:text="${jobContext.patient.FullName}"/></a></span>
+                                <span class="patient-detail"><a th:href="'/patient/id=' + ${jobContext.patient.id}"><span th:text="${jobContext.patient.FullName}"/></a></span>
                             </div>
                             <div class="patient-detail-row">
                                 <span class="patient-detail-title">DoB</span>
                                 <span class="patient-detail"><span th:text="${jobContext.patient.birthDate}"/></span>
                                 <span class="patient-detail-title">Age</span>
-                                <span class="patient-detail">29</span> <!-- function using age -->
+                                <span class="patient-detail" th:text="${jobContext.patient.getAge()}"></span> <!-- function using age -->
                             </div>
                             <div class="patient-detail-row"> <!-- if not null -->
                                 <span class="patient-detail-title">Hospital Number</span>
@@ -57,9 +57,9 @@
                                 <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
                             </div>
                         </div>
-                        <div class="patient-details">
+                        <div class="patient-details" th:each="risk,iterStat : ${jobContext.getRisks()}">
                             <div class="patient-detail-row">
-                                <span class="patient-detail-title" style="color: #DA291C;">Sepsis</span>
+                                <span class="patient-detail-title" th:text="${risk.getName()}" style="color: #DA291C;"></span>
                             </div>
                         </div>
                     </td>

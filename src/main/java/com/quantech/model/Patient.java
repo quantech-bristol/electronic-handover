@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -194,6 +195,15 @@ public class Patient {
      */
     public String getFullName() {
         return this.title + ". " + this.firstName + " " + this.lastName;
+    }
+
+    /**
+     * Returns the patient's age.
+     * @return patient's age.
+     */
+    public Integer getAge() {
+        LocalDate nw = LocalDate.now();
+        return Period.between(this.getBirthDate(), nw).getYears();
     }
 }
 
