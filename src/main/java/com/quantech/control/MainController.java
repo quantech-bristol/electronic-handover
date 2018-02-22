@@ -64,11 +64,11 @@ public class MainController {
     }
 
     @PostMapping(value="/settings")
-    public String changePassword(@ModelAttribute ChangePassword user) {
-        UserCore newUser = (UserCore) authenticator.getAuthentication().getPrincipal();
-        if (user.getInitial().equals(user.getConfirm()) && newUser.getPassword().equals(user.getCurrent())) {
-            newUser.setPassword(user.getInitial());
-            userService.saveUser(newUser);
+    public String changePassword(@ModelAttribute ChangePassword returnedUser) {
+        UserCore currentUser = (UserCore) authenticator.getAuthentication().getPrincipal();
+        if (returnedUser.getInitial().equals(returnedUser.getConfirm()) && userService.checkUserPassword(currentUser,returnedUser.getCurrent())) {
+            currentUser.setPassword(returnedUser.getInitial());
+            userService.saveUser(currentUser,true);
             return "redirect:/";
         }
         return "redirect:/settings";

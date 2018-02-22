@@ -44,7 +44,6 @@ public class UserCore implements UserDetails, UserInfo{
     @NotNull
     private boolean enabled = true;
 
-    @Size(min = 4, max = 20)
     @Column
     @NotNull
     private String password;
@@ -123,9 +122,6 @@ public class UserCore implements UserDetails, UserInfo{
     public void setPassword(String password)
     {
         EntityFieldHandler.nullCheck(password,"password");
-        int length = password.length();
-        if (length < 4 || length > 20)
-            throw new IllegalArgumentException("error: password needs to be between 4 and 20 characters long.");
         this.password = password;
     }
 
@@ -180,17 +176,20 @@ public class UserCore implements UserDetails, UserInfo{
         return this.authorityStrings.contains(SecurityRoles.Admin);
     }
 
-    public void updateValues(UserInfo user) {
+    public boolean updateValues(UserInfo user) {
+       boolean passwordChanged = false;
         EntityFieldHandler.nullCheck(user,"user info");
         this.authorityStrings = user.getAuthorityStrings();
         this.username = user.getUsername();
         if (user.getPassword().length() != 0) {
             this.password = user.getPassword();
+            passwordChanged=true;
         }
         this.title= user.getTitle();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
+        return passwordChanged;
     }
 
 

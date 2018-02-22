@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -30,6 +31,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     }
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Value("${spring.profiles.active}")
     private String activeProfile;
@@ -38,12 +41,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @PostConstruct
     public void insertRootUser()
     {
+
         if ((!activeProfile.matches("test")) && (userRepository.count() == 0))
         {
-            userRepository.save(new UserCore("quantech","quantech", SecurityRoles.Admin, Title.Mx, "quan", "tech", "quantech@gmail.com"));
+
+            userRepository.save(new UserCore("quantech",passwordEncoder.encode("quantech"), SecurityRoles.Admin, Title.Mx, "quan", "tech", "quantech@gmail.com"));
         }
     }
-
+    @Override
+    public boolean checkUserPassword (UserCore user, String password)
+    {
+        return passwordEncoder.matches(password,user.getPassword());
+    }
     @Override
     public void deleteUser(String user) {
         userRepository.deleteUserCoreByUsername(user);
@@ -54,20 +63,22 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public void editPassword(String user, String newPass)
     {
         UserCore userToEdit = userRepository.findUserCoreByUsername(user);
-        userToEdit.setPassword(newPass);
+        userToEdit.setPassword(passwordEncoder.encode((newPass)));
         userRepository.save(userToEdit);
 
     }
 
     //TODO add sanity checks
     @Override
-    public boolean saveUser(UserCore user) {
+    public boolean saveUser(UserCore user, boolean hashPassword) {
         if (user.getUsername() != "quantech") {
+            if(hashPassword){user.setPassword(passwordEncoder.encode(user.getPassword()));}
             userRepository.save(user);
             return false;
         }
         return true;
     }
+
 
     @Override
     public List<UserCore> getAllUsers() {

@@ -30,7 +30,9 @@ public interface UserService
      * @throws IllegalArgumentException If the username does not have the correct size.
      * @throws org.springframework.dao.DataIntegrityViolationException IIf the email address or username is not unique.
      */
-    public boolean saveUser(UserCore user);
+    public boolean saveUser(UserCore user, boolean hashPassword);
+
+    public boolean checkUserPassword(UserCore user, String password);
 
     public List<UserCore> getAllUsers() ;
 

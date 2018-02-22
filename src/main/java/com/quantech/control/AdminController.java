@@ -72,7 +72,7 @@ public class AdminController {
             return "admin/createUser";
         } else {
             UserCore newUser = user.ToUserCore();
-            userService.saveUser(newUser);
+            userService.saveUser(newUser, true);
             if (newUser.hasAuth(SecurityRoles.Doctor)) {
                 Doctor newDoc = new Doctor(newUser);
                 doctorService.saveDoctor(newDoc);
@@ -132,8 +132,8 @@ public class AdminController {
             }
             else {
                 UserCore userToEdit = userService.findUserById(user.getId());
-                userToEdit.updateValues(user);
-                userService.saveUser(userToEdit);
+               boolean updatePassword = userToEdit.updateValues(user);
+                userService.saveUser(userToEdit, updatePassword);
                 return "redirect:/admin";
             }
         }
