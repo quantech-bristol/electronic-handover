@@ -11,6 +11,7 @@ import com.quantech.service.JobsService.JobsServiceImpl;
 import com.quantech.service.PatientService.PatientServiceImpl;
 import com.quantech.service.UserService.UserServiceImpl;
 import com.quantech.service.WardService.WardServiceImpl;
+import jdk.nashorn.internal.scripts.JO;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -80,6 +81,32 @@ public class DoctorController {
         patientService.savePatient(newPatient);
         jobsService.saveJobContext(newJobContext);
         jobsService.saveJob(newJob);
+        return "redirect:/";
+    }
+
+    @GetMapping(value="/createJob")
+    public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
+        UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        JobFormBackingObject job = new JobFormBackingObject();
+
+        model.addAttribute("job", job);
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("doctorId",userInfo.getId());
+        model.addAttribute("contextId",id);
+        return "doctor/newJob";
+    }
+
+    @Transactional
+    @PostMapping(value="/createJob")
+    public String createJob(@ModelAttribute("job") JobFormBackingObject job) {
+        Job j = new Job();
+        j.setCategory(categoryService.getCategory(job.getCategoryId()));
+        j.setCreationDate(new Date());
+        j.setDoctor(doctorService.getDoctor(userService.findUserById(job.getDoctorId())));
+        j.setJobContext(jobsService.getJobContext(job.getContextId()));
+        j.setDescription(job.getDescription());
+
+        jobsService.saveJob(j);
         return "redirect:/";
     }
 

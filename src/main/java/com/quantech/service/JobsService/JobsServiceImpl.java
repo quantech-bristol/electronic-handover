@@ -35,6 +35,11 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public JobContext getJobContext(Long id) {
+        return jobContextRepository.findById(id);
+    }
+
+    @Override
     public List<Job> getAllJobsOfDoctor(Doctor doctor) {
         return jobRepository.findByDoctor(doctor);
     }

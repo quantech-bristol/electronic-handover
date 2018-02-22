@@ -65,9 +65,13 @@
                     </td>
                     <td>
                         <div class="patient-details">
-                            <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.jobs}">
+                            <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.getJobs()}">
                                 <span class="patient-detail-title" th:text="${job.getCategory().getName()} + ': '"></span>
                                 <span class="patient-detail" th:text="${job.getDescription()}"></span>
+                                <a th:href="'/'"><i class="job-done far fa-check-circle"></i></a>
+                            </div>
+                            <div class="patient-detail-row">
+                                <a th:href="'/createJob?jobContextId='+${jobContext.id}">+ Add new job</a>
                             </div>
                         </div>
                     </td>

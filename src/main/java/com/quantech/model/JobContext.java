@@ -41,7 +41,7 @@ public class JobContext {
     private Ward ward;
 
     @NotNull
-    @OneToMany(mappedBy = "jobContext", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "jobContext", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Job> jobs;
 
     @ManyToMany
@@ -51,6 +51,7 @@ public class JobContext {
     public JobContext() {
         this.jobs = new ArrayList<>();
         this.risks = new ArrayList<>();
+        this.creationDate = new Date();
     }
 
     public JobContext(String clinicalDetails, Boolean unwell, Date creationDate, Patient patient, Integer bed, Ward ward, List<Job> jobs, List<Risk> risks) {

@@ -40,6 +40,7 @@ public class Job {
     private Doctor doctor;
 
     public Job() {
+        this.creationDate = new Date();
     }
 
     public Job(String description, Category category, Date creationDate, Date completionDate, JobContext jobContext, Doctor doctor) {

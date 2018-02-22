@@ -19,6 +19,13 @@ public interface JobsService {
     public Job getJob(Long id);
 
     /**
+     * Returns the handover stored in the repository corresponding to the unique id.
+     * @param id The id to be used to identify the job context in the repository.
+     * @return The job context corresponding to the id if it exists, or null otherwise.
+     */
+    public JobContext getJobContext(Long id);
+
+    /**
      * Finds a list of all jobs that are currently the responsibility of a certain doctor.
      * @param doctor The doctor to which the job was sent.
      * @return A list of jobs that the doctor is responsible for.
