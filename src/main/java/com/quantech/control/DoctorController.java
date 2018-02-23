@@ -1,6 +1,7 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
+import com.quantech.misc.PdfGenerator;
 import com.quantech.model.*;
 import com.quantech.model.user.Title;
 import com.quantech.model.user.UserCore;
@@ -14,6 +15,7 @@ import com.quantech.service.WardService.WardServiceImpl;
 import jdk.nashorn.internal.scripts.JO;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -143,6 +145,16 @@ public class DoctorController {
     public String viewPatient(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getPatientById(id));
         return "doctor/viewPatient";
+    }
+
+    @RequestMapping(value="/pdf", method=RequestMethod.POST, produces="application/pdf")
+    @ResponseBody
+    public FileSystemResource patientPdf(List<JobContext> jcs) throws Exception {
+        PdfGenerator pdfGen = new PdfGenerator();
+
+        pdfGen.gen(jcs);
+
+        return new FileSystemResource("pdfout.pdf");
     }
 
 }

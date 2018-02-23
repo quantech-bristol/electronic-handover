@@ -109,7 +109,9 @@
                 </tr>
             </div>
         </table>
-
+        <form th:action="@{/pdf}" method="post" th:modelAttribute="${jobContexts}">
+            <input class="btn" style="width: 10vw;" type="submit" value="View all as PDF"/>
+        </form>
 
     </div>
 
