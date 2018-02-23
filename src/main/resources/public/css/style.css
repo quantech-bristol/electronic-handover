@@ -429,24 +429,35 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
     border-bottom: 1px solid #768692;
 }
 
-#complete-job-button, #handover-job-button {
+#complete-job-button, #handover-job-button, #completed-job-icon, #pending-job-icon {
     background-color: transparent;
     display: inline-block;
     font-size: 11px;
     border: 1px solid;
     border-radius: 9px;
-    float: right;
+    text-align: center;
+    width: 100px;
     padding: 0 9px;
-    margin: 0 3px;
+    margin: 0;
 }
 
 #complete-job-button {
     color: #009639;
     border-color: #009639;
 }
+#pending-job-icon {
+    color: #a7aaaf;
+    border-color: #a7aaaf;
+}
 
 #complete-job-button:hover {
     color: #78BE20;
+    border-color: #78BE20;
+}
+
+#completed-job-icon {
+    color: white;
+    background-color: #78BE20;
     border-color: #78BE20;
 }
 

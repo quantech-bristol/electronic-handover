@@ -117,6 +117,56 @@ public interface JobsService {
     public void completeJob(Job job);
 
     /**
+     * Sorts a list of job contexts by the patient's first name.
+     * @param jobContexts List of job contexts.
+     * @return A list of job contexts.
+     */
+    public List<JobContext> sortJobContextsByFirstName(List<JobContext> jobContexts);
+
+    /**
+     * Sorts a list of job contexts by the patient's last name.
+     * @param jobContexts List of job contexts.
+     * @return A list of job contexts.
+     */
+    public List<JobContext> sortJobContextsByLastName(List<JobContext> jobContexts);
+
+    /**
+     * Filter list of job contexts by a given predicate.
+     * @param list A list of jobs contexts.
+     * @param predicate A predicate to test the job contexts against.
+     * @return A list of job contexts filtered by the given predicate.
+     */
+    public List<JobContext> filterJobContextsBy(List<JobContext> list, Predicate<JobContext> predicate);
+
+    /**
+     * Filter list of a job contexts by a given predicate.
+     * @param list A list of job contexts.
+     * @param predicates A collection of predicates to test the job contexts against, conjunctive.
+     * @return A list of job contexts filtered by the given predicate.
+     */
+    public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> predicates);
+
+    /**
+     * Predicate that checks if the patient is unwell.
+     * @return A predicate.
+     */
+    public Predicate<JobContext> patientIsUnwell();
+
+    /**
+     * Predicate that checks if a patient has a given risk.
+     * @param risk risk.
+     * @return A predicate.
+     */
+    public Predicate<JobContext> patientHasRisk(Risk risk);
+
+    /**
+     * Predicate that checks if a patient is in a given ward.
+     * @param ward ward.
+     * @return predicate.
+     */
+    public Predicate<JobContext> patientIsInWard(Ward ward);
+
+    /**
      * Filter list of a jobs by a given predicate.
      * @param list A list of jobs.
      * @param predicate A predicate to test the jobs against.
@@ -178,6 +228,7 @@ public interface JobsService {
      * @return A list of job contexts.
      */
     public List<JobContext> getJobContextsUnderCareOf(Doctor doctor);
+
 
     /**
      * Checks the validity of a patient's fields, and rejects the result value accordingly.

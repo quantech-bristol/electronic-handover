@@ -7,14 +7,16 @@
 <body>
     <div th:replace="fragments/header :: header">&nbsp;</div>
     <div id="main">
-        <a href="/">Sort entries</a>
-        <a href="/">Filter entries</a>
+        <a href="/?sort=firstName">Sort entries (by first name)</a>
+        <a href="/?sort=lastName">Sort entries (by last name)</a>
+        <a href="/?unwell=true">Filter entries (unwell)</a>
         <table id="patient-info">
             <tr>
                 <td>Patient Details</td>
                 <td>Inpatient Details</td>
                 <td>Clinical Status and Details</td>
                 <td>Jobs</td>
+                <td></td>
             </tr>
             <div  th:each="jobContext,iterStat : ${jobContexts}">
                 <!--Thymeleaf for each clause-->
@@ -70,12 +72,26 @@
                             <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.getJobs()}">
                                 <span class="patient-detail-title" th:text="${job.getCategory().getName()} + ': '"></span>
                                 <span class="patient-detail" th:text="${job.getDescription()}"></span>
-                                <button th:if="${!job.isComplete()}" th:href="'/'" id="complete-job-button">Complete</button>
-                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getId()}"
-                                   th:href="'/handoverJob?jobId=' + ${job.getId()}" id="handover-job-button">Handover</a>
                             </div>
                             <div class="patient-detail-row">
                                 <a th:href="'/createJob?jobContextId='+${jobContext.id}">+ Add new job</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 13%;">
+                        <div class="patient-details">
+                            <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.getJobs()}">
+                                <form action="#" th:action="'/completeJob'" method="post" style="display: inline-block;">
+                                    <input type="hidden" name="job" th:value="${job.id}"/>
+                                    <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getId()}"
+                                            type="submit"
+                                            id="complete-job-button"
+                                            style="margin-left: 4px;">Complete Job</button>
+                                </form>
+                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getId()}" id="pending-job-icon">Pending</span>
+                                <span th:if="${job.isComplete()}" id="completed-job-icon">Completed</span>
+                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getId() and !job.isComplete()}"
+                                   th:href="'/handoverJob?jobId=' + ${job.getId()}" id="handover-job-button">Handover</a>
                             </div>
                         </div>
                     </td>
@@ -86,9 +102,10 @@
                     <td><!--Inpatient Details--></td>
                     <td><!--Clinical Status and Details--></td>
                     <td><!--Jobs--></td>
+                    <td><!--Job Icons and Buttons--></td>
                 </tr>
                 <tr class="line">
-                    <td colspan="4"></td>
+                    <td colspan="5"></td>
                 </tr>
             </div>
         </table>

@@ -2,15 +2,19 @@ package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.Doctor;
+import com.quantech.model.Job;
 import com.quantech.model.JobContext;
 import com.quantech.model.Patient;
 import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
+import com.quantech.service.CategoryService.CategoryService;
 import com.quantech.service.DoctorService.DoctorService;
 import com.quantech.service.JobsService.JobsService;
 import com.quantech.service.PatientService.PatientServiceImpl;
+import com.quantech.service.RiskService.RiskService;
 import com.quantech.service.UserService.UserService;
+import com.quantech.service.WardService.WardService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,7 +33,10 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
 @Controller
 public class MainController {
@@ -49,13 +56,56 @@ public class MainController {
     @Autowired
     JobsService jobsService;
 
+    @Autowired
+    RiskService riskService;
+
+    @Autowired
+    CategoryService categoryService;
+
+    @Autowired
+    WardService wardService;
+
     @RequestMapping(value="/", method=RequestMethod.GET)
-    public String home(Model model) {
+    public String home(@RequestParam(value = "unwell", required = false) String unwell,
+                       @RequestParam(value = "risk", required = false) Long riskId,
+                       @RequestParam(value = "category",required = false) Long categoryId,
+                       @RequestParam(value = "ward", required = false) Long wardId,
+                       @RequestParam(value = "sort", required = false) String sort,
+                       Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
 
         if (user.isDoctor()) {
             Doctor d = doctorService.getDoctor(user);
             List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);
+
+            // Applying filters to job contexts themselves.
+            Set<Predicate<JobContext>> p = new HashSet<>();
+            if (unwell != null)
+                p.add(jobsService.patientIsUnwell());
+            if (riskId != null)
+                p.add(jobsService.patientHasRisk(riskService.getRisk(riskId)));
+            if (wardId != null)
+                p.add(jobsService.patientIsInWard(wardService.getWard(wardId)));
+
+            jcs = jobsService.filterJobContextsBy(jcs,p);
+
+            // Now applying filters within job contexts.
+            Set<Predicate<Job>> p2 = new HashSet<>();
+            if (categoryId != null)
+                p2.add(jobsService.jobIsOfCategory(categoryService.getCategory(categoryId)));
+
+            for (JobContext jc : jcs) {
+                jc.setJobs(jobsService.filterJobsBy(jc.getJobs(),p2));
+            }
+
+            // Now apply sort.
+            if (sort != null) {
+                if (sort.equals("firstName"))
+                    jcs = jobsService.sortJobContextsByFirstName(jcs);
+                if (sort.equals("lastName"))
+                    jcs = jobsService.sortJobContextsByLastName(jcs);
+            }
+
             model.addAttribute("jobContexts", jcs);
 
             return "misc/home";
