@@ -18,9 +18,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.Period;
@@ -90,14 +93,15 @@ public class MainController {
     }
 
     @PostMapping(value="/settings")
-    public String changePassword(@ModelAttribute ChangePassword returnedUser) {
+    public String changePassword(@ModelAttribute("change") ChangePassword returnedUser, BindingResult r, Model model, Errors error) {
         UserCore currentUser = (UserCore) authenticator.getAuthentication().getPrincipal();
         if (returnedUser.getInitial().equals(returnedUser.getConfirm()) && userService.checkUserPassword(currentUser,returnedUser.getCurrent())) {
             currentUser.setPassword(returnedUser.getInitial());
             userService.saveUser(currentUser,true);
             return "redirect:/";
         }
-        return "redirect:/settings";
+        r.rejectValue("current","current.change","Either your passwords did not match, or your current password was input incorrectly.");
+        return "user/settings";
     }
 
 }

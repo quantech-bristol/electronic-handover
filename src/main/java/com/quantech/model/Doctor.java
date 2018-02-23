@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 public class Doctor {
+
     @Id
     private Long id;
 

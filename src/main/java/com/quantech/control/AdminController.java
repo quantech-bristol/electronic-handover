@@ -10,15 +10,13 @@ import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
 import com.quantech.model.user.UserInfo;
 import com.quantech.service.CategoryService.CategoryServiceImpl;
-import com.quantech.service.DoctorService.DoctorServiceImpl;
+import com.quantech.service.DoctorService.DoctorService;
 import com.quantech.service.RiskService.RiskServiceImpl;
 import com.quantech.service.UserService.UserServiceImpl;
 import com.quantech.service.WardService.WardServiceImpl;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +24,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -40,7 +37,7 @@ public class AdminController {
     UserServiceImpl userService;
 
     @Autowired
-    DoctorServiceImpl doctorService;
+    DoctorService doctorService;
 
     @Autowired
     WardServiceImpl wardService;
@@ -71,12 +68,7 @@ public class AdminController {
         if (errors.hasErrors()) {
             return "admin/createUser";
         } else {
-            UserCore newUser = user.ToUserCore();
-            userService.saveUser(newUser, true);
-            if (newUser.hasAuth(SecurityRoles.Doctor)) {
-                Doctor newDoc = new Doctor(newUser);
-                doctorService.saveDoctor(newDoc);
-            }
+                userService.createUser(user);
             return "redirect:/admin";
         }
     }
@@ -119,31 +111,26 @@ public class AdminController {
         model.addAttribute("UserFiltering","True");
         model.addAttribute("Title","Edit User");
         model.addAttribute("usercore", new UserFormBackingObject(user));
-        model.addAttribute("postUrl", "/admin/editUser/" + id);
+        model.addAttribute("postUrl", "/admin/editUser");
         return "admin/createUser";
     }
 
-    @PostMapping(value = "/admin/editUser/{id}")
-    public String editUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors, @PathVariable("id") long id)
+    @PostMapping(value = "/admin/editUser")
+    public String editUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors)
         {
             userService.CheckValidity(result, false, user);
             if (errors.hasErrors()) {
                 return "admin/createUser";
             }
             else {
-                UserCore userToEdit = userService.findUserById(user.getId());
-               boolean updatePassword = userToEdit.updateValues(user);
-                userService.saveUser(userToEdit, updatePassword);
+               userService.editUser(user);
                 return "redirect:/admin";
             }
         }
     @DeleteMapping(value = "/admin/deleteUser/{id}")
     public String DeleteUser(@PathVariable("id") long id)
     {
-        UserCore user = userService.findUserById(id);
-        doctorService.deleteDoctor(user);
         userService.deleteUserById(id);
-
         return "redirect:/admin";
     }
 

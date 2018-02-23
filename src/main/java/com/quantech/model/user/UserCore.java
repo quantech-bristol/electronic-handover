@@ -2,7 +2,9 @@ package com.quantech.model.user;
 
 import com.quantech.config.SecurityRoles;
 import com.quantech.misc.EntityFieldHandler;
+import com.quantech.service.UserService.UserService;
 import org.hibernate.validator.constraints.Email;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,7 @@ import java.util.*;
 
 @Entity
 public class UserCore implements UserDetails, UserInfo{
+
     @Size(min = 1)
     @NotNull
     private String firstName;
@@ -179,7 +182,10 @@ public class UserCore implements UserDetails, UserInfo{
     public boolean updateValues(UserInfo user) {
        boolean passwordChanged = false;
         EntityFieldHandler.nullCheck(user,"user info");
-        this.authorityStrings = user.getAuthorityStrings();
+        this.authorityStrings.clear();
+        for (SecurityRoles s:user.getAuthorityStrings()) {
+            authorityStrings.add(s);
+        }
         this.username = user.getUsername();
         if (user.getPassword().length() != 0) {
             this.password = user.getPassword();
@@ -240,6 +246,7 @@ public class UserCore implements UserDetails, UserInfo{
     {
         return title.toString() + " " + firstName + " " + lastName;
     }
+
 
 
 

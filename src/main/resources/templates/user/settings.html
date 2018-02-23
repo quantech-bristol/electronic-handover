@@ -59,6 +59,7 @@
                     <div class="patient-details">
                         <div class="patient-detail-row">
                             <input type="password" th:field="*{current}" id="currentPassword" placeholder="Current Password"/>
+
                         </div>
                     </div>
                 </td>
@@ -66,12 +67,15 @@
                     <div class="patient-details">
                         <div class="patient-detail-row-button">
                             <button class="orange-button" type="submit">Submit</button>
+
                         </div>
                     </div>
                 </td>
+                <span class="error" th:if="${#fields.hasErrors('current')}" th:errors="*{current}"></span>
             </form>
         </tr>
     </table>
+
 </div>
 </body>
 </html>

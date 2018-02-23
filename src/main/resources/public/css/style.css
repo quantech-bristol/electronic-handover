@@ -43,6 +43,12 @@ body {
     transition: all .15s ease-out;
 }
 
+.error {
+    color: red;
+    font-size: 18px;
+    padding-right: 5px;
+}
+
 *:hover {
     -webkit-transition: all .08s ease-out;
     -moz-transition: all .08s ease-out;

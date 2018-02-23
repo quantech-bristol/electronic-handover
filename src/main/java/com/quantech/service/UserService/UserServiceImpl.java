@@ -1,23 +1,29 @@
 package com.quantech.service.UserService;
 
 import com.quantech.config.SecurityRoles;
+import com.quantech.model.Doctor;
 import com.quantech.model.user.Title;
 import com.quantech.model.user.UserCore;
+import com.quantech.model.user.UserFormBackingObject;
 import com.quantech.model.user.UserInfo;
 import com.quantech.repo.UserRepository;
+import com.quantech.service.DoctorService.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.Null;
+import java.util.*;
 import java.util.function.Predicate;
 
 @Service("userService")
@@ -25,6 +31,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DoctorService doctorService;
 
     @Autowired
     public UserServiceImpl() {
@@ -37,6 +46,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Value("${spring.profiles.active}")
     private String activeProfile;
 
+    public UserCore createUser(UserFormBackingObject user)
+    {
+        UserCore newUser = user.ToUserCore();
+        saveUser(newUser, true);
+        if (newUser.hasAuth(SecurityRoles.Doctor)) {
+            Doctor newDoc = new Doctor(newUser);
+            doctorService.saveDoctor(newDoc);
+        }
+        return newUser;
+    }
     @Override
     @PostConstruct
     public void insertRootUser()
@@ -157,7 +176,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         {
             result.rejectValue("password","password.usercore","Passwords should be between 4 and 20 characters!");//Add an error
         }
-        if ((ob.getAuthorityStrings().size() == 0)&&(creating))
+        if ((ob.getAuthorityStrings().size() == 0))
         {
             result.rejectValue("authorityStrings","authorityStrings.usercore","Surely they have some role in this hospital!");//Add an error
         }
@@ -165,7 +184,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         {
             result.rejectValue("email","email.usercore","You must specify an email.");
         }
-
+        if (ob.getFirstName().length() == 0)
+        {
+            result.rejectValue("firstName","firstName.usercore", "Please input the new users first name!");
+        }
+        if (ob.getLastName().length() == 0)
+        {
+            result.rejectValue("lastName","lastName.usercore", "Please input the new users surname!");
+        }
+        if (ob.getTitle() == null)
+        {
+            result.rejectValue("title","title.usercore", "Please select a Title!");
+        }
     }
 
     @Override
@@ -178,8 +208,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     @Transactional
     public boolean deleteUserById(Long id) {
+        doctorService.deleteDoctor(userRepository.getUserCoreByIdEquals(id));
         userRepository.deleteById(id);
         return true;
+    }
+
+    public void editUser(UserFormBackingObject user)
+    {
+        UserCore userToEdit = findUserById(user.getId());
+        boolean isDoctor = userToEdit.isDoctor();
+        boolean updatePassword = userToEdit.updateValues(user);
+        saveUser(userToEdit,updatePassword);
+        if (isDoctor != userToEdit.isDoctor())
+        {
+            if (isDoctor) { doctorService.deleteDoctor(userToEdit);}
+            else
+            {
+                doctorService.saveDoctor(new Doctor(userToEdit));
+            }
+        }
     }
 
     @Override
@@ -237,4 +284,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public Predicate<UserCore> userIsAdmin() {
         return null;
     }
+
+
 }

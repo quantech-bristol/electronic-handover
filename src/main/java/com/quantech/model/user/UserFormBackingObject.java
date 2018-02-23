@@ -12,19 +12,15 @@ import java.util.Set;
 @Component
 public class UserFormBackingObject implements UserInfo
 {
-    @Size(min = 1)
-    @NotNull
+
     private String firstName;
 
-    @Size(min = 1)
-    @NotNull
     private String lastName;
 
     @Email
     @NotNull
     private String email;
 
-    @NotNull
     private Title title;
 
     @Size(min = 4, max = 20)
