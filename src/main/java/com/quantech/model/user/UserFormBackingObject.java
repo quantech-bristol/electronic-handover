@@ -34,6 +34,7 @@ public class UserFormBackingObject implements UserInfo
     //@Size(min = 4, max = 20)
     private String password;
 
+    private String passwordConfirmation;
     private Set<SecurityRoles> authorityStrings;
 
     public UserFormBackingObject(UserInfo core)
@@ -172,4 +173,11 @@ public class UserFormBackingObject implements UserInfo
         return newUser;
     }
 
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+    }
 }

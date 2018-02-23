@@ -161,8 +161,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return false;
     }
 
-    @Override
-    public void CheckValidity(BindingResult result, boolean creating, UserInfo ob)
+
+    public void CheckValidity(BindingResult result, boolean creating, UserFormBackingObject ob)
     {
         if(!nameIsValid(ob.getUsername(),ob.getId()))//If Username is already in use (but not by us)
         {
@@ -175,6 +175,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if ((creating) && (4 > ob.getPassword().length()|| ob.getPassword().length()>20))
         {
             result.rejectValue("password","password.usercore","Passwords should be between 4 and 20 characters!");//Add an error
+        }
+        if (!ob.getPassword().matches(ob.getPasswordConfirmation()))
+        {
+            result.rejectValue("passwordConfirmation","passwordConfirmation.usercore","Passwords do not match!");//Add an error
+
         }
         if ((ob.getAuthorityStrings().size() == 0))
         {

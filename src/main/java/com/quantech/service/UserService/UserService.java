@@ -46,7 +46,7 @@ public interface UserService
 
     public boolean emailIsValid(String s, Long validForUserId);
 
-    public void CheckValidity(BindingResult result, boolean creating, UserInfo ob);
+    public void CheckValidity(BindingResult result, boolean creating, UserFormBackingObject ob);
 
     public List<UserCore> findMatchesFromFilter(UserInfo ob);
 
