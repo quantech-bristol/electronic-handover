@@ -62,19 +62,14 @@
     />
 
     <doctor
-            id="1"
             user_id="1"/>
     <doctor
-            id="2"
             user_id="2"/>
     <doctor
-            id="3"
             user_id="3"/>
     <doctor
-            id="4"
             user_id="4"/>
     <doctor
-            id="5"
             user_id="5"/>
 
     <ward id="1"
@@ -169,24 +164,24 @@
                  ward_id="1"/>
 
     <category    id="1"
-                 summary="category"/>
+                 name="category"/>
     <job         id="1"
                  description="job"
                  category_id="1"
                  creation_date="2018-01-01"
                  job_context_id="1"
-                 doctor_id="1"/>
+                 doctor_user_id="1"/>
     <job         id="2"
                  description="job"
                  category_id="1"
                  creation_date="2018-01-01"
                  job_context_id="2"
-                 doctor_id="1"/>
+                 doctor_user_id="1"/>
     <job         id="3"
                  description="job"
                  category_id="1"
                  creation_date="2018-01-01"
                  job_context_id="3"
-                 doctor_id="1"/>
+                 doctor_user_id="1"/>
     />
 </dataset>
