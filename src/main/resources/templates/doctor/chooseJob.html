@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: head (title='Job Handover')">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="main">
+    <form action="#" th:action="@{/createHandover}" method="post">
+        <div class="main-box">
+            <div class="main-box-header">
+                Patient
+            </div>
+            <div class="main-box-content">
+
+            </div>
+        </div>
+        <div class="main-box" id="jobContext">
+            <div class="main-box-header">
+                Clinical Information
+            </div>
+            <div class="main-box-content">
+
+            </div>
+        </div>
+        <div class="main-box" id="job">
+            <div class="main-box-header">
+                Job Details
+            </div>
+            <div class="main-box-content">
+
+            </div>
+        </div>
+        <button type="button" class="orange-button">Submit</button>
+    </form>
+</div>
+</body>
+</html>

@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
+
 @Controller
 public class DoctorController {
 
@@ -59,7 +61,7 @@ public class DoctorController {
     @Autowired
     UserServiceImpl userService;
 
-    @GetMapping(value="/createHandover")
+    @GetMapping(value="/handover")
     public String createHandover(Model model) {
         UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
         model.addAttribute("currentUserId", userInfo.getId());
@@ -74,7 +76,7 @@ public class DoctorController {
     }
 
     @Transactional
-    @PostMapping(value="/createHandover")
+    @PostMapping(value="/handover")
     public String createHandover(@ModelAttribute("handover") HandoverFormBackingObject handover) {
         Patient newPatient = new Patient(handover.getNewTitle(), handover.getNewFirstName(), handover.getNewLastName(), LocalDate.of(handover.getNewYear(), handover.getNewMonth(), handover.getNewDay()), handover.getNewHospitalNumber(), handover.getNewNHSNumber(), new ArrayList<>());
         JobContext newJobContext = new JobContext(handover.getNewClinicalDetails(), handover.getNewUnwell(), new Date(), newPatient, handover.getNewBed(), wardService.getWard(handover.getNewWardId()), new ArrayList<>(), new ArrayList<>());
@@ -84,6 +86,43 @@ public class DoctorController {
         jobsService.saveJobContext(newJobContext);
         jobsService.saveJob(newJob);
         return "redirect:/";
+    }
+
+    @GetMapping(value="/createHandover")
+    public String choosePatient(Model model) {
+        model.addAttribute("newPatient", new PatientFormBackingObject());
+        model.addAttribute("existingPatient", new PatientFormBackingObject());
+        model.addAttribute("searchFirstName", "");
+        model.addAttribute("searchLastName", "");
+        return "doctor/choosePatient";
+    }
+
+    @PostMapping(value="/createHandover")
+    public String submitPatient(@ModelAttribute("newPatient") PatientFormBackingObject newPatientFBO,
+                                @ModelAttribute("existingPatient") PatientFormBackingObject existingPatientFBO,
+                                @ModelAttribute("searchFirstName") String fName,
+                                @ModelAttribute("searchLastName") String lName,
+                                Model model) {
+        if (true) {
+            //For New Patient
+            Patient newPatient = newPatientFBO.toPatient();
+            patientService.savePatient(newPatient);
+            model.addAttribute("patient", newPatient);
+            return "doctor/chooseJobContext";
+        } else {
+            //For existing patient
+            existingPatientFBO.setFirstName(fName);
+            existingPatientFBO.setLastName(lName);
+            Patient searchPatient = existingPatientFBO.toPatient();
+            patientService.savePatient(searchPatient);
+            model.addAttribute("patient", searchPatient);
+            return "doctor/chooseJobContext";
+        }
+    }
+
+    @GetMapping(value="/createHandover/jobDetails")
+    public String chooseJob(Model model) {
+        return "doctor/chooseJob";
     }
 
     @GetMapping(value="/createJob")

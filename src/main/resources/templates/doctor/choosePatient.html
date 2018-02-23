@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: head (title='Job Handover')">
+</head>
+
+<body>
+<script>
+    function showNew() {
+        document.getElementById("existingPatient").style.display = 'none';
+        document.getElementById("existingTitle").selectedIndex = '0';
+        document.getElementById("choice").selectedIndex = '0';
+        document.getElementById("existingTitle").style.color = '#D1D8DC';
+        document.getElementById("existingFirstName").value = '';
+        document.getElementById("existingLastName").value = '';
+        document.getElementById("existingDay").value = '';
+        document.getElementById("existingMonth").value = '';
+        document.getElementById("existingYear").value = '';
+        document.getElementById("existingHospitalNumber").value = '';
+        document.getElementById("existingNHSNumber").value = '';
+        document.getElementById("newPatient").style.display = 'block';
+    }
+    function showExising() {
+        document.getElementById("newPatient").style.display = 'none';
+        document.getElementById("newTitle").selectedIndex = '0';
+        document.getElementById("choice").selectedIndex = '1';
+        document.getElementById("newTitle").style.color = '#D1D8DC';
+        document.getElementById("newFirstName").value = '';
+        document.getElementById("newLastName").value = '';
+        document.getElementById("newDay").value = '';
+        document.getElementById("newMonth").value = '';
+        document.getElementById("newYear").value = '';
+        document.getElementById("newHospitalNumber").value = '';
+        document.getElementById("newNHSNumber").value = '';
+        document.getElementById("existingPatient").style.display = 'block';
+    }
+    function updateSelectColor(element) {
+        if (element.selectedIndex == '0') {
+            element.style.color = '#D1D8DC';
+        } else {
+            element.style.color = '#000000';
+        }
+    }
+</script>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="main">
+    <form action="#" th:action="@{/createHandover}" method="post">
+        <div class="main-box">
+            <div class="main-box-header">
+                Patient
+            </div>
+            <div class="main-box-content">
+                <div>
+                    <select disabled="true" id="choice">
+                        <option value='true'>New Patient</option>
+                        <option value='false'>Existing Patient</option>
+                    </select>
+                </div>
+                <div id="newPatient" style="display: block;">
+                    <div>
+                        <button type="button" class="orange-button" onclick="showExising();">Switch to existing patients</button>
+                    </div>
+                    <div class="custom-select">
+                        <select id="newTitle" name="newTitle" th:field = "*{newPatient.title}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                            <option value="">Title</option>
+                            <option th:each="t : ${T(com.quantech.model.user.Title).values()}" th:value="${t}" th:text="${t}"></option>
+                        </select>
+                    </div>
+                    <input type="text" th:field="*{newPatient.firstName}" id="newFirstName" name="newFirstName" placeholder="First Name"/>
+                    <input type="text" th:field="*{newPatient.lastName}" id="newLastName" name="newLastName" placeholder="Last Name"/><br/>
+                    <input type="number" th:field="*{newPatient.day}" id="newDay" name="newDay" placeholder="DD"/>
+                    <input type="number" th:field="*{newPatient.month}" id="newMonth" name="newMonth" placeholder="MM"/>
+                    <input type="number" th:field="*{newPatient.year}" id="newYear" name="newYear" placeholder="YYYY"/><br/>
+                    <input type="number" th:field="*{newPatient.hospitalNumber}" id="newHospitalNumber" name="newHospitalNumber" placeholder="Hospital Number"/><br/>
+                    <input type="number" th:field="*{newPatient.NHSNumber}" id="newNHSNumber" name="newNHSNumber" placeholder="NHS Number"/>
+                </div>
+                <div id="existingPatient" style="display: none;">
+                    <div>
+                        <button type="button" class="orange-button" onclick="showNew();">Switch to add new patient</button>
+                    </div>
+                    <div class="custom-select">
+                        <select id="existingTitle" name="existingTitle" th:field = "*{existingPatient.title}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                            <option value="" hidden="true">Title</option>
+                            <option th:each="t : ${T(com.quantech.model.user.Title).values()}" th:value="${t}" th:text="${t}"></option>
+                        </select>
+                    </div>
+                    <input type="text" th:field="*{searchFirstName}" id="existingFirstName" name="existingFirstName" placeholder="First Name"/>
+                    <input type="text" th:field="*{searchLastName}" id="existingLastName" name="existingLastName" placeholder="Last Name"/><br/>
+                    <input type="number" th:field="*{existingPatient.day}" id="existingDay" name="existingDay" placeholder="DD"/>
+                    <input type="number" th:field="*{existingPatient.month}" id="existingMonth" name="existingMonth" placeholder="MM"/>
+                    <input type="number" th:field="*{existingPatient.year}" id="existingYear" name="existingYear" placeholder="YYYY"/><br/>
+                    <input type="number" th:field="*{existingPatient.hospitalNumber}" id="existingHospitalNumber" name="existingHospitalNumber" placeholder="Hospital Number"/><br/>
+                    <input type="number" th:field="*{existingPatient.NHSNumber}" id="existingNHSNumber" name="existingNHSNumber" placeholder="NHS Number"/>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="orange-button">Submit patient</button>
+        <!--<a th:href="@{/createHandover/patientDetails}" class="orange-button">Next</a>-->
+    </form>
+</div>
+</body>
+</html>

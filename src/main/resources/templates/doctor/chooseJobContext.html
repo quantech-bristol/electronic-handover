@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: head (title='Job Handover')">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="main">
+    <form action="#" th:action="@{/createHandover}" method="post">
+        <div class="main-box">
+            <div class="main-box-header">
+                Patient
+            </div>
+            <div class="main-box-content">
+                <!--<div class="custom-select">-->
+                    <!--<select id="newTitle" name="title" th:field = "*{patient.title}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">-->
+                        <!--<option value="">Title</option>-->
+                        <!--<option th:each="t : ${T(com.quantech.model.user.Title).values()}" th:value="${t}" th:text="${t}"></option>-->
+                    <!--</select>-->
+                <!--</div>-->
+                <span th:text="${patient.title}"></span>
+                <span th:text="${patient.firstName}"></span>
+                <span th:text="${patient.lastName}"></span>
+                <span th:text="${patient.birthDate}"></span>
+                <span th:text="${patient.hospitalNumber}"></span>
+                <span th:text="${patient.NHSNumber}"></span>
+                <!--<input type="text" th:field="*{patient.firstName}" id="firstName" name="firstName" placeholder="First name"/>-->
+                <!--<input type="text" th:field="*{patient.lastName}" id="lastName" name="lastName" placeholder="Last name"/><br/>-->
+                <!--<input type="number" th:field="*{patient.day}" id="newDay" name="day" placeholder="DD"/>-->
+                <!--<input type="number" th:field="*{newPatient.month}" id="newMonth" name="month" placeholder="MM"/>-->
+                <!--<input type="number" th:field="*{newPatient.year}" id="newYear" name="year" placeholder="YYYY"/><br/>-->
+                <!--<input type="number" th:field="*{newPatient.hospitalNumber}" id="newHospitalNumber" name="hospitalNumber" placeholder="Hospital number"/><br/>-->
+                <!--<input type="number" th:field="*{newPatient.NHSNumber}" id="newNHSNumber" name="NHSNumber" placeholder="NHS number"/>-->
+            </div>
+        </div>
+        <div class="main-box" id="jobContext">
+            <div class="main-box-header">
+                Clinical Information
+            </div>
+            <div class="main-box-content">
+
+            </div>
+        </div>
+        <a th:href="@{/createHandover/jobDetails}" class="orange-button">Next</a>
+    </form>
+</div>
+</body>
+</html>
