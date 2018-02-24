@@ -9,7 +9,6 @@
     function showNew() {
         document.getElementById("existingPatient").style.display = 'none';
         document.getElementById("existingTitle").selectedIndex = '0';
-        document.getElementById("choice").selectedIndex = '0';
         document.getElementById("existingTitle").style.color = '#D1D8DC';
         document.getElementById("existingFirstName").value = '';
         document.getElementById("existingLastName").value = '';
@@ -23,7 +22,6 @@
     function showExising() {
         document.getElementById("newPatient").style.display = 'none';
         document.getElementById("newTitle").selectedIndex = '0';
-        document.getElementById("choice").selectedIndex = '1';
         document.getElementById("newTitle").style.color = '#D1D8DC';
         document.getElementById("newFirstName").value = '';
         document.getElementById("newLastName").value = '';
@@ -50,15 +48,9 @@
                 Patient
             </div>
             <div class="main-box-content">
-                <div>
-                    <select disabled="true" id="choice">
-                        <option value='true'>New Patient</option>
-                        <option value='false'>Existing Patient</option>
-                    </select>
-                </div>
                 <div id="newPatient" style="display: block;">
                     <div>
-                        <button type="button" class="orange-button" onclick="showExising();">Switch to existing patients</button>
+                        <button type="button" class="custom-button orange-filled" onclick="showExising();">Switch to existing patient</button>
                     </div>
                     <div class="custom-select">
                         <select id="newTitle" name="newTitle" th:field = "*{newPatient.title}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
@@ -66,17 +58,19 @@
                             <option th:each="t : ${T(com.quantech.model.user.Title).values()}" th:value="${t}" th:text="${t}"></option>
                         </select>
                     </div>
-                    <input type="text" th:field="*{newPatient.firstName}" id="newFirstName" name="newFirstName" placeholder="First Name"/>
-                    <input type="text" th:field="*{newPatient.lastName}" id="newLastName" name="newLastName" placeholder="Last Name"/><br/>
-                    <input type="number" th:field="*{newPatient.day}" id="newDay" name="newDay" placeholder="DD"/>
-                    <input type="number" th:field="*{newPatient.month}" id="newMonth" name="newMonth" placeholder="MM"/>
-                    <input type="number" th:field="*{newPatient.year}" id="newYear" name="newYear" placeholder="YYYY"/><br/>
-                    <input type="number" th:field="*{newPatient.hospitalNumber}" id="newHospitalNumber" name="newHospitalNumber" placeholder="Hospital Number"/><br/>
-                    <input type="number" th:field="*{newPatient.NHSNumber}" id="newNHSNumber" name="newNHSNumber" placeholder="NHS Number"/>
+                    <div><input type="text" th:field="*{newPatient.firstName}" id="newFirstName" name="newFirstName" placeholder="First Name"/></div>
+                    <div><input type="text" th:field="*{newPatient.lastName}" id="newLastName" name="newLastName" placeholder="Last Name"/></div>
+                    <div>
+                        <input type="number" th:field="*{newPatient.day}" id="newDay" name="newDay" placeholder="DD"/>
+                        <input type="number" th:field="*{newPatient.month}" id="newMonth" name="newMonth" placeholder="MM"/>
+                        <input type="number" th:field="*{newPatient.year}" id="newYear" name="newYear" placeholder="YYYY"/>
+                    </div>
+                    <div><input type="number" th:field="*{newPatient.hospitalNumber}" id="newHospitalNumber" name="newHospitalNumber" placeholder="Hospital Number"/></div>
+                    <div><input type="number" th:field="*{newPatient.NHSNumber}" id="newNHSNumber" name="newNHSNumber" placeholder="NHS Number"/></div>
                 </div>
                 <div id="existingPatient" style="display: none;">
                     <div>
-                        <button type="button" class="orange-button" onclick="showNew();">Switch to add new patient</button>
+                        <button type="button" class="custom-button orange-filled" onclick="showNew();">Switch to add new patient</button>
                     </div>
                     <div class="custom-select">
                         <select id="existingTitle" name="existingTitle" th:field = "*{existingPatient.title}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
@@ -94,7 +88,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="orange-button">Submit patient</button>
+        <button type="submit" class="custom-button orange-filled">Submit patient</button>
         <!--<a th:href="@{/createHandover/patientDetails}" class="orange-button">Next</a>-->
     </form>
 </div>

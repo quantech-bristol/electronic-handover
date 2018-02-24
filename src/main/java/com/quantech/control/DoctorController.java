@@ -94,6 +94,7 @@ public class DoctorController {
         model.addAttribute("existingPatient", new PatientFormBackingObject());
         model.addAttribute("searchFirstName", "");
         model.addAttribute("searchLastName", "");
+        model.addAttribute("choice", "");
         return "doctor/choosePatient";
     }
 
@@ -103,13 +104,13 @@ public class DoctorController {
                                 @ModelAttribute("searchFirstName") String fName,
                                 @ModelAttribute("searchLastName") String lName,
                                 Model model) {
-        if (true) {
-            //For New Patient
-            Patient newPatient = newPatientFBO.toPatient();
-            patientService.savePatient(newPatient);
-            model.addAttribute("patient", newPatient);
-            return "doctor/chooseJobContext";
-        } else {
+//        if (true) {
+//            //For New Patient
+//            Patient newPatient = newPatientFBO.toPatient();
+//            patientService.savePatient(newPatient);
+//            model.addAttribute("patient", newPatient);
+//            return "doctor/chooseJobContext";
+//        } else {
             //For existing patient
             existingPatientFBO.setFirstName(fName);
             existingPatientFBO.setLastName(lName);
@@ -117,7 +118,7 @@ public class DoctorController {
             patientService.savePatient(searchPatient);
             model.addAttribute("patient", searchPatient);
             return "doctor/chooseJobContext";
-        }
+//        }
     }
 
     @GetMapping(value="/createHandover/jobDetails")
