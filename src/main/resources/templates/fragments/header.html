@@ -65,7 +65,7 @@
                     <a th:href="@{/}">My Jobs</a>
                 </li>
                 <li th:if="${#authentication.principal.isDoctor()}">
-                    <a th:href="@{/createHandover}">Create Handover</a>
+                    <a th:href="@{/createHandover/newPatient}">Create Handover</a>
                 </li>
                 <li th:if="${#authentication.principal.isAdmin()}">
                     <a th:href="@{/admin}">Admin</a>

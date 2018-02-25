@@ -88,37 +88,68 @@ public class DoctorController {
         return "redirect:/";
     }
 
-    @GetMapping(value="/createHandover")
-    public String choosePatient(Model model) {
-        model.addAttribute("newPatient", new PatientFormBackingObject());
+    @GetMapping(value="/createHandover/newPatient")
+    public String newPatient(Model model) {
+        model.addAttribute("patient", new PatientFormBackingObject());
+        return "doctor/newPatient";
+    }
+
+    @PostMapping(value="/createHandover/newPatient")
+    public String addPatient(@ModelAttribute ("patient") PatientFormBackingObject patient, Model model) {
+        Patient newPatient = patient.toPatient();
+        //TODO: Check to see if patient already in database
+        //TODO: If yes, redirect to view and select or go back to patient details
+        patientService.savePatient(newPatient);
+        model.addAttribute("patient", newPatient);
+        model.addAttribute("jobContexts", newPatient.getJobContexts());
+        JobContext newJobContext = new JobContext();
+        newJobContext.setPatient(newPatient);
+        model.addAttribute("newJobContext", newJobContext);
+        model.addAttribute("wards", wardService.getAllWards());
+        return "doctor/chooseJobContext";
+    }
+
+    @PostMapping(value="/createHandover/newJobContext")
+    public String addJobContext(@ModelAttribute ("newJobContext") JobContext newJobContext,
+                                Model model) {
+        UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        jobsService.saveJobContext(newJobContext);
+        model.addAttribute("patient", newJobContext.getPatient());
+        model.addAttribute("jobContext", newJobContext);
+        model.addAttribute("job", new Job());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("currentDoctor", doctorService.getDoctor(userInfo));
+        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
+        model.addAttribute("receivingDoctor", new UserCore());
+        return "doctor/chooseJob";
+    }
+
+    @PostMapping(value="/createHandover/newJob")
+    public String addJob(@ModelAttribute ("newJob") Job newJob,
+                         @ModelAttribute ("receivingDoctor") UserCore receivingUser) {
+        Doctor receivingDoctor = doctorService.getDoctor(receivingUser);
+        newJob.setDoctor(receivingDoctor);
+        jobsService.saveJob(newJob);
+        return "redirect:/";
+    }
+
+
+
+
+
+
+
+
+
+    @GetMapping(value="/createHandover/existingPatient")
+    public String existingPatient(Model model) {
         model.addAttribute("existingPatient", new PatientFormBackingObject());
-        model.addAttribute("searchFirstName", "");
-        model.addAttribute("searchLastName", "");
-        model.addAttribute("choice", "");
         return "doctor/choosePatient";
     }
 
-    @PostMapping(value="/createHandover")
-    public String submitPatient(@ModelAttribute("newPatient") PatientFormBackingObject newPatientFBO,
-                                @ModelAttribute("existingPatient") PatientFormBackingObject existingPatientFBO,
-                                @ModelAttribute("searchFirstName") String fName,
-                                @ModelAttribute("searchLastName") String lName,
-                                Model model) {
-//        if (true) {
-//            //For New Patient
-//            Patient newPatient = newPatientFBO.toPatient();
-//            patientService.savePatient(newPatient);
-//            model.addAttribute("patient", newPatient);
-//            return "doctor/chooseJobContext";
-//        } else {
-            //For existing patient
-            existingPatientFBO.setFirstName(fName);
-            existingPatientFBO.setLastName(lName);
-            Patient searchPatient = existingPatientFBO.toPatient();
-            patientService.savePatient(searchPatient);
-            model.addAttribute("patient", searchPatient);
-            return "doctor/chooseJobContext";
-//        }
+    @PostMapping(value="/createHandover/existingPatient")
+    public String searchPatient(Model model) {
+        return "doctor/choosePatient";
     }
 
     @GetMapping(value="/createHandover/jobDetails")
@@ -147,7 +178,6 @@ public class DoctorController {
         j.setDoctor(doctorService.getDoctor(userService.findUserById(job.getDoctorId())));
         j.setJobContext(jobsService.getJobContext(job.getContextId()));
         j.setDescription(job.getDescription());
-
         jobsService.saveJob(j);
         return "redirect:/";
     }

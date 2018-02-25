@@ -109,7 +109,7 @@ body {
     text-decoration: none;
 }
 
-.blue-outlined {
+.blue-outlined{
     background-color: transparent;
     border-color: #005EB8;
     color: #005EB8;
@@ -299,6 +299,10 @@ input {
     border-bottom: 2px solid #D1D8DC;
     padding-left: 5px;
     font-size: 16px;
+}
+
+*:focus {
+    outline: none;
 }
 
 input:focus {
@@ -652,6 +656,19 @@ input::placeholder {
 #user-details-entry tr td {
     /*border: 1px solid black;*/
     padding: 5px;
+}
+
+/**********************************************************************************************************************/
+/* Create Handover */
+/**********************************************************************************************************************/
+
+#patient-details {
+    /*border: 1px solid hotpink;*/
+}
+
+#patient-details tr td {
+    /*border: 1px solid lawngreen;*/
+    padding: 8px;
 }
 
 /**********************************************************************************************************************/

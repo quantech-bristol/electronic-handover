@@ -5,35 +5,112 @@
 </head>
 
 <body>
+<script>
+    function updateSelectColor(element) {
+        if (element.selectedIndex == '0') {
+            element.style.color = '#D1D8DC';
+        } else {
+            element.style.color = '#000000';
+        }
+    }
+</script>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
-    <form action="#" th:action="@{/createHandover}" method="post">
-        <div class="main-box">
-            <div class="main-box-header">
-                Patient
-            </div>
-            <div class="main-box-content">
-
-            </div>
+    <div class="main-box">
+        <div class="main-box-header">
+            Patient
         </div>
-        <div class="main-box" id="jobContext">
-            <div class="main-box-header">
-                Clinical Information
+        <div class="main-box-content">
+            <div class="patient-details">
+                <div class="patient-detail-row">
+                    <span class="patient-detail-title">Name</span>
+                    <span class="patient-detail"><a th:href="'/patient/id=' + ${patient.id}"><span th:text="${patient.FullName}"/></a></span>
+                </div>
+                <div class="patient-detail-row">
+                    <span class="patient-detail-title">DoB</span>
+                    <span class="patient-detail"><span th:text="${patient.birthDate}"/></span>
+                    <span class="patient-detail-title">Age</span>
+                    <span class="patient-detail" th:text="${patient.getAge()}"></span> <!-- function using age -->
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">Hospital Number</span>
+                    <span class="patient-detail"><span th:text="${patient.hospitalNumber}"/></span>
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">NHS Number</span>
+                    <span class="patient-detail"><span th:text="${patient.nHSNumber}"/></span>
+                </div>
             </div>
-            <div class="main-box-content">
-
-            </div>
+            <button type="button" class="custom-button orange-filled">Edit</button>
         </div>
-        <div class="main-box" id="job">
-            <div class="main-box-header">
-                Job Details
-            </div>
-            <div class="main-box-content">
-
-            </div>
+    </div>
+    <div class="main-box">
+        <div class="main-box-header">
+            Clinical Information
         </div>
-        <button type="button" class="orange-button">Submit</button>
-    </form>
+        <div class="main-box-content">
+            <div class="patient-details">
+                <div th:if="${jobContext.getUnwell()}" class="patient-detail-row">
+                    <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
+                </div>
+                <div class="patient-detail-row">
+                    <span class="patient-detail-title">Details</span>
+                    <span class="patient-detail"><span th:text="${jobContext.clinicalDetails}"/></span>
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">Bed Number</span>
+                    <span class="patient-detail"><span th:text="${jobContext.bed}"/></span>
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">Ward</span>
+                    <span class="patient-detail"><span th:text="${jobContext.ward.name}"/></span>
+                </div>
+            </div>
+            <button type="button" class="custom-button orange-filled">Edit</button>
+        </div>
+    </div>
+    <div class="main-box" id="job">
+        <div class="main-box-header">
+            Job Details
+        </div>
+        <div class="main-box-content">
+            <form action="#" th:action="@{/createHandover/newJob}" method="post">
+                <input type="hidden" th:field="*{job.doctor}" th:value="${currentDoctor}" id="doctor" name="doctor"/>
+                <table id="patient-details" style="width: 150px">
+                    <tr>
+                        <td>
+                            <input type="text" th:field="*{job.description}" id="jobDescription" name="jobDescription" placeholder="Details"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-select">
+                                <select th:field="*{job.category}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                    <option value="" hidden="true">Select category</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-select">
+                                <select th:field="*{receivingDoctor}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                    <option value="" hidden="true">Receiving doctor</option>
+                                    <option th:each="user : ${doctorUsers}" th:if="${currentDoctor.id} != ${user.id}" th:value="${user}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <button type="submit" class="orange-button">Submit</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
