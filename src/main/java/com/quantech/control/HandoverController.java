@@ -93,6 +93,7 @@ public class HandoverController {
         jobContextFormBackingObject.setPatientId(patient.getId());
         model.addAttribute("newJobContext", jobContextFormBackingObject);
         model.addAttribute("wards", wardService.getAllWards());
+        model.addAttribute("jobContexts", patient.getJobContexts());
         return "handover/jobContext";
     }
 

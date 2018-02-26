@@ -13,6 +13,14 @@
             element.style.color = '#000000';
         }
     }
+    function showNewJobContext() {
+        document.getElementById("existingJobContexts").style.display = 'none';
+        document.getElementById("newJobContext").style.display = 'block';
+    }
+    function showExistingJobContexts() {
+        document.getElementById("newJobContext").style.display = 'none';
+        document.getElementById("existingJobContexts").style.display = 'block';
+    }
 </script>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
@@ -44,49 +52,69 @@
             <button type="button" class="custom-button orange-filled">Edit</button>
         </div>
     </div>
-    <div class="main-box" id="jobContext">
+    <div class="main-box" id="existingJobContexts">
         <div class="main-box-header">
-            Clinical Information
+            Previous Clinical Information
+        </div>
+        <button type="button" class="custom-button orange-filled" onclick="showNewJobContext();">Add new clinical information</button>
+        <table id="patient-info">
+            <tr>
+                <td>Clinical Details</td>
+                <td>Start Date</td>
+                <td>Ward</td>
+                <td>Bed</td>
+                <td></td>
+            </tr>
+            <tr th:each="jobContext : ${jobContexts}">
+                <td>
+                    <span th:if="${jobContext.unwell}">UNWELL</span><br/>
+                    <span th:text="${jobContext.clinicalDetails}"></span>
+                </td>
+                <td><span th:text="${jobContext.creationDate}"></span></td>
+                <td><span th:text="${jobContext.ward.name}"></span></td>
+                <td><span th:text="${jobContext.bed}"></span></td>
+                <td><button type="button" class="custom-button orange-button">Select</button></td>
+            </tr>
+        </table>
+    </div>
+    <div class="main-box" id="newJobContext" style="display: none;">
+        <div class="main-box-header">
+            New Clinical Information
         </div>
         <div class="main-box-content">
-            <div>
-                <form action="#" th:action="@{/patient/createHandover/clinicalDetails}" method="post">
-                    <input type="hidden" th:field="*{newJobContext.patientId}" id="patientId" name="patientId"/>
-                    <table id="patient-details" style="width: 150px">
-                        <tr>
-                            <td>
-                                <input type="text" th:field="*{newJobContext.clinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="Clinical details"/>
-                                <input type="text" placeholder="Unwell" style="width: 60px;" disabled="true"/>
-                                <input type="checkbox"  th:field="*{newJobContext.unwell}" id="newUnwell" name="newUnwell" value="TRUE"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="number" th:field="*{newJobContext.bed}" id="newBed" name="newBed" placeholder="Bed number"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="custom-select">
-                                    <select th:field="*{newJobContext.ward}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
-                                        <option value="" hidden="true">Ward</option>
-                                        <option th:each="ward : ${wards}" th:value="${ward.id}" th:text="${ward.name}"></option>
-                                    </select>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: center;">
-                                <button type="submit" class="custom-button orange-filled">Next</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <!--Existing job contexts-->
-            <!--<div  th:each="jobContext,iterStat : ${jobContexts}">-->
-                <!--&lt;!&ndash;&ndash;&gt;-->
-            <!--</div>-->
+            <button type="button" class="custom-button orange-filled" onclick="showExistingJobContexts();">See existing clinical information</button>
+            <form action="#" th:action="@{/patient/createHandover/clinicalDetails}" method="post">
+                <input type="hidden" th:field="*{newJobContext.patientId}" id="patientId" name="patientId"/>
+                <table id="patient-details" style="width: 150px">
+                    <tr>
+                        <td>
+                            <input type="text" th:field="*{newJobContext.clinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="Clinical details"/>
+                            <input type="text" placeholder="Unwell" style="width: 60px;" disabled="true"/>
+                            <input type="checkbox"  th:field="*{newJobContext.unwell}" id="newUnwell" name="newUnwell" value="TRUE"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" th:field="*{newJobContext.bed}" id="newBed" name="newBed" placeholder="Bed number"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-select">
+                                <select th:field="*{newJobContext.ward}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                    <option value="" hidden="true">Ward</option>
+                                    <option th:each="ward : ${wards}" th:value="${ward.id}" th:text="${ward.name}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <button type="submit" class="custom-button orange-filled">Next</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </div>
 </div>
