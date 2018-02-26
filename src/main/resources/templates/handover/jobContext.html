@@ -73,7 +73,11 @@
                 <td><span th:text="${jobContext.creationDate}"></span></td>
                 <td><span th:text="${jobContext.ward.name}"></span></td>
                 <td><span th:text="${jobContext.bed}"></span></td>
-                <td><button type="button" class="custom-button orange-button">Select</button></td>
+                <td>
+                    <form action="#" th:action="@{/selectJobContext/{id}(id=${jobContext.id})}" method="get">
+                        <button type="submit" class="custom-button orange-filled">Select</button>
+                    </form>
+                </td>
             </tr>
         </table>
     </div>

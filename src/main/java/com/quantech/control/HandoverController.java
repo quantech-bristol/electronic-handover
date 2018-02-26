@@ -112,6 +112,16 @@ public class HandoverController {
         return "redirect:/patient/createHandover";
     }
 
+    @GetMapping(value="/selectJobContext/{id}")
+    public String selectJobContext(@PathVariable("id") Long id,
+                                RedirectAttributes redirectAttributes) {
+        JobContext jobContext = jobsService.getJobContext(id);
+        Patient patient = jobContext.getPatient();
+        redirectAttributes.addAttribute("jobContext", jobContext);
+        redirectAttributes.addAttribute("patient", patient);
+        return "redirect:/patient/createHandover";
+    }
+
     @GetMapping(value="/patient/createHandover")
     public String newJob(@RequestParam("patient") Patient patient,
                          @RequestParam("jobContext") JobContext jobContext,

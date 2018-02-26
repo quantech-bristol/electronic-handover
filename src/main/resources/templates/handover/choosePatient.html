@@ -20,7 +20,6 @@
                 <td></td>
             </tr>
             <tr th:each="patient : ${patients}">
-                <!--<form action="#" th:action="@{}" th:object="${}" method="">-->
                 <td>
                     <span th:text="${patient.FullName}"></span>
                 </td>
@@ -33,18 +32,11 @@
                 <td>
                     <span th:text="${patient.nHSNumber}"></span>
                 </td>
-                <!--<form action="#" th:action="@{/admin/editUser/{id}(id=${user.id})}" method="get" class="form-inline">-->
                 <td>
-
-                    <!--/selectPatient/{id}-->
                     <form action="#" th:action="@{/selectPatient/{id}(id=${patient.id})}" method="get">
                         <button type="submit" class="custom-button orange-filled">Select</button>
                     </form>
-
-                    <!--<button class="orange-button"  type="submit" >EditUser</button>-->
-                    <!--<button type="submit" class="custom-button orange-filled">Select</button>-->
                 </td>
-                <!--</form>-->
             </tr>
         </table>
     </div>
