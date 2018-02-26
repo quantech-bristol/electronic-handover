@@ -27,6 +27,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,27 +89,6 @@ public class DoctorController {
         return "redirect:/";
     }
 
-    @GetMapping(value="/createHandover/newPatient")
-    public String newPatient(Model model) {
-        model.addAttribute("patient", new PatientFormBackingObject());
-        return "doctor/newPatient";
-    }
-
-    @PostMapping(value="/createHandover/newPatient")
-    public String addPatient(@ModelAttribute ("patient") PatientFormBackingObject patient, Model model) {
-        Patient newPatient = patient.toPatient();
-        //TODO: Check to see if patient already in database
-        //TODO: If yes, redirect to view and select or go back to patient details
-        patientService.savePatient(newPatient);
-        model.addAttribute("patient", newPatient);
-        model.addAttribute("jobContexts", newPatient.getJobContexts());
-        JobContext newJobContext = new JobContext();
-        newJobContext.setPatient(newPatient);
-        model.addAttribute("newJobContext", newJobContext);
-        model.addAttribute("wards", wardService.getAllWards());
-        return "doctor/chooseJobContext";
-    }
-
     @PostMapping(value="/createHandover/newJobContext")
     public String addJobContext(@ModelAttribute ("newJobContext") JobContext newJobContext,
                                 Model model) {
@@ -141,11 +121,7 @@ public class DoctorController {
 
 
 
-    @GetMapping(value="/createHandover/existingPatient")
-    public String existingPatient(Model model) {
-        model.addAttribute("existingPatient", new PatientFormBackingObject());
-        return "doctor/choosePatient";
-    }
+
 
     @PostMapping(value="/createHandover/existingPatient")
     public String searchPatient(Model model) {
