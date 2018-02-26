@@ -16,17 +16,17 @@
 </script>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
-    <form action="#" th:action="@{/createHandover/newPatient}" method="post">
+    <form action="#" th:action="@{/newPatient}" method="post">
         <div class="main-box">
             <div class="main-box-header">
                 Add new Patient
             </div>
             <div class="main-box-content">
-                <form action="#" th:action="@{/createHandover/newPatient}" method="post">
+                <form action="#" th:action="@{/newPatient}" method="post">
                     <table id="patient-details">
                         <tr>
                             <td style="text-align: center;">
-                                <a th:href="@{/createHandover/existingPatient}"><button type="button" class="custom-button blue-outlined">Search for existing patients</button></a>
+                                <a th:href="@{/searchPatients}"><button type="button" class="custom-button blue-outlined">Search for existing patients</button></a>
                             </td>
                         </tr>
                         <tr>

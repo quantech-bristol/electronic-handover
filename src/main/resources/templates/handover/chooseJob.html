@@ -74,8 +74,9 @@
             Job Details
         </div>
         <div class="main-box-content">
-            <form action="#" th:action="@{/createHandover/newJob}" method="post">
-                <input type="hidden" th:field="*{job.doctor}" th:value="${currentDoctor}" id="doctor" name="doctor"/>
+            <form action="#" th:action="@{/patient/createHandover}" method="post">
+                <!--<input type="hidden" th:field="*{newJobContext.patientId}" id="patientId" name="patientId"/>-->
+                <input type="hidden" th:field="*{job.contextId}" id="contextId" name="contextId"/>
                 <table id="patient-details" style="width: 150px">
                     <tr>
                         <td>
@@ -85,9 +86,9 @@
                     <tr>
                         <td>
                             <div class="custom-select">
-                                <select th:field="*{job.category}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                <select th:field="*{job.categoryId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
                                     <option value="" hidden="true">Select category</option>
-                                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                                 </select>
                             </div>
                         </td>
@@ -95,9 +96,9 @@
                     <tr>
                         <td>
                             <div class="custom-select">
-                                <select th:field="*{receivingDoctor}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                <select th:field="*{job.doctorId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
                                     <option value="" hidden="true">Receiving doctor</option>
-                                    <option th:each="user : ${doctorUsers}" th:if="${currentDoctor.id} != ${user.id}" th:value="${user}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
+                                    <option th:each="user : ${doctorUsers}" th:if="${currentDoctorId} != ${user.id}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
                                 </select>
                             </div>
                         </td>

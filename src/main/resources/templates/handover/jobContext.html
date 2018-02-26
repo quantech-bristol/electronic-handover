@@ -24,21 +24,21 @@
             <div class="patient-details">
                 <div class="patient-detail-row">
                     <span class="patient-detail-title">Name</span>
-                    <span class="patient-detail"><span th:text="${patient.FullName}"/></span>
+                    <span class="patient-detail"><span th:text="${patientInfo.FullName}"/></span>
                 </div>
                 <div class="patient-detail-row">
                     <span class="patient-detail-title">DoB</span>
-                    <span class="patient-detail"><span th:text="${patient.birthDate}"/></span>
+                    <span class="patient-detail"><span th:text="${patientInfo.birthDate}"/></span>
                     <span class="patient-detail-title">Age</span>
-                    <span class="patient-detail" th:text="${patient.getAge()}"></span>
+                    <span class="patient-detail" th:text="${patientInfo.getAge()}"></span>
                 </div>
                 <div class="patient-detail-row"> <!-- if not null -->
                     <span class="patient-detail-title">Hospital Number</span>
-                    <span class="patient-detail"><span th:text="${patient.hospitalNumber}"/></span>
+                    <span class="patient-detail"><span th:text="${patientInfo.hospitalNumber}"/></span>
                 </div>
                 <div class="patient-detail-row"> <!-- if not null -->
                     <span class="patient-detail-title">NHS Number</span>
-                    <span class="patient-detail"><span th:text="${patient.nHSNumber}"/></span>
+                    <span class="patient-detail"><span th:text="${patientInfo.nHSNumber}"/></span>
                 </div>
             </div>
             <button type="button" class="custom-button orange-filled">Edit</button>
@@ -49,10 +49,9 @@
             Clinical Information
         </div>
         <div class="main-box-content">
-            <!--<button type="button" class="custom-button orange-filled">Add new diagnosis</button>-->
             <div>
-                <form action="#" th:action="@{/createHandover/newJobContext}" method="post">
-                    <input type="hidden" th:field="${newJobContext.patient}" th:value="${patient}" id="originDoctor" name="originDoctor"/>
+                <form action="#" th:action="@{/patient/createHandover/clinicalDetails}" method="post">
+                    <input type="hidden" th:field="*{newJobContext.patientId}" id="patientId" name="patientId"/>
                     <table id="patient-details" style="width: 150px">
                         <tr>
                             <td>
@@ -84,11 +83,10 @@
                     </table>
                 </form>
             </div>
-
             <!--Existing job contexts-->
-            <div  th:each="jobContext,iterStat : ${jobContexts}">
-                <!---->
-            </div>
+            <!--<div  th:each="jobContext,iterStat : ${jobContexts}">-->
+                <!--&lt;!&ndash;&ndash;&gt;-->
+            <!--</div>-->
         </div>
     </div>
 </div>
