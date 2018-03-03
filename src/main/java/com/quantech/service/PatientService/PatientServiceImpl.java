@@ -1,10 +1,9 @@
 package com.quantech.service.PatientService;
 
 import com.quantech.misc.EntityFieldHandler;
-import com.quantech.model.Doctor;
-import com.quantech.model.JobContext;
-import com.quantech.model.Patient;
-import com.quantech.model.Ward;
+import com.quantech.model.*;
+import com.quantech.model.user.UserCore;
+import com.quantech.model.user.UserInfo;
 import com.quantech.repo.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -253,4 +252,10 @@ public class PatientServiceImpl implements PatientService {
         list.sort(Comparator.comparing(JobContext::getCreationDate));
         return list;
     }
+
+    public List<Patient> findMatchesFromFilter(PatientFormBackingObject p) {
+        List<Patient> patients = patientRepository.findPatientsByFirstNameContainsAndLastNameContains(p.getFirstName(), p.getLastName());
+        return patients;
+    }
+
 }

@@ -27,10 +27,13 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
 @Controller
 public class DoctorController {
@@ -59,33 +62,6 @@ public class DoctorController {
     @Autowired
     UserServiceImpl userService;
 
-    @GetMapping(value="/createHandover")
-    public String createHandover(Model model) {
-        UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
-        model.addAttribute("currentUserId", userInfo.getId());
-        model.addAttribute("handover", new HandoverFormBackingObject());
-        List<Patient> allPatients = patientService.getAllPatients();
-        model.addAttribute("allPatients", allPatients);
-        model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        model.addAttribute("wards", wardService.getAllWards());
-        model.addAttribute("list", new ArrayList<>());
-        return "doctor/handover";
-    }
-
-    @Transactional
-    @PostMapping(value="/createHandover")
-    public String createHandover(@ModelAttribute("handover") HandoverFormBackingObject handover) {
-        Patient newPatient = new Patient(handover.getNewTitle(), handover.getNewFirstName(), handover.getNewLastName(), LocalDate.of(handover.getNewYear(), handover.getNewMonth(), handover.getNewDay()), handover.getNewHospitalNumber(), handover.getNewNHSNumber(), new ArrayList<>());
-        JobContext newJobContext = new JobContext(handover.getNewClinicalDetails(), handover.getNewUnwell(), new Date(), newPatient, handover.getNewBed(), wardService.getWard(handover.getNewWardId()), new ArrayList<>(), new ArrayList<>());
-        Doctor doctor = doctorService.getDoctor(userService.findUserById(handover.getUserId()));
-        Job newJob = new Job(handover.getJobDescription(), categoryService.getCategory(handover.getCategoryId()), new Date(), null, newJobContext, doctor);
-        patientService.savePatient(newPatient);
-        jobsService.saveJobContext(newJobContext);
-        jobsService.saveJob(newJob);
-        return "redirect:/";
-    }
-
     @GetMapping(value="/createJob")
     public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
         UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
@@ -107,7 +83,6 @@ public class DoctorController {
         j.setDoctor(doctorService.getDoctor(userService.findUserById(job.getDoctorId())));
         j.setJobContext(jobsService.getJobContext(job.getContextId()));
         j.setDescription(job.getDescription());
-
         jobsService.saveJob(j);
         return "redirect:/";
     }

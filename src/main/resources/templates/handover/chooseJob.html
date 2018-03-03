@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: head (title='Job Handover')">
+</head>
+
+<body>
+<script>
+    function updateSelectColor(element) {
+        if (element.selectedIndex == '0') {
+            element.style.color = '#D1D8DC';
+        } else {
+            element.style.color = '#000000';
+        }
+    }
+</script>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="main">
+    <div class="main-box">
+        <div class="main-box-header">
+            Patient
+        </div>
+        <div class="main-box-content">
+            <div class="patient-details">
+                <div class="patient-detail-row">
+                    <span class="patient-detail-title">Name</span>
+                    <span class="patient-detail"><a th:href="'/patient/id=' + ${patient.id}"><span th:text="${patient.FullName}"/></a></span>
+                </div>
+                <div class="patient-detail-row">
+                    <span class="patient-detail-title">DoB</span>
+                    <span class="patient-detail"><span th:text="${patient.birthDate}"/></span>
+                    <span class="patient-detail-title">Age</span>
+                    <span class="patient-detail" th:text="${patient.getAge()}"></span> <!-- function using age -->
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">Hospital Number</span>
+                    <span class="patient-detail"><span th:text="${patient.hospitalNumber}"/></span>
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">NHS Number</span>
+                    <span class="patient-detail"><span th:text="${patient.nHSNumber}"/></span>
+                </div>
+            </div>
+            <button type="button" class="custom-button orange-filled">Edit</button>
+        </div>
+    </div>
+    <div class="main-box">
+        <div class="main-box-header">
+            Clinical Information
+        </div>
+        <div class="main-box-content">
+            <div class="patient-details">
+                <div th:if="${jobContext.getUnwell()}" class="patient-detail-row">
+                    <span class="patient-detail-title" style="color: #ED8B00;">Unwell</span>
+                </div>
+                <div class="patient-detail-row">
+                    <span class="patient-detail-title">Details</span>
+                    <span class="patient-detail"><span th:text="${jobContext.clinicalDetails}"/></span>
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">Bed Number</span>
+                    <span class="patient-detail"><span th:text="${jobContext.bed}"/></span>
+                </div>
+                <div class="patient-detail-row"> <!-- if not null -->
+                    <span class="patient-detail-title">Ward</span>
+                    <span class="patient-detail"><span th:text="${jobContext.ward.name}"/></span>
+                </div>
+            </div>
+            <button type="button" class="custom-button orange-filled">Edit</button>
+        </div>
+    </div>
+    <div class="main-box" id="job">
+        <div class="main-box-header">
+            Job Details
+        </div>
+        <div class="main-box-content">
+            <form action="#" th:action="@{/patient/createHandover}" method="post">
+                <!--<input type="hidden" th:field="*{newJobContext.patientId}" id="patientId" name="patientId"/>-->
+                <input type="hidden" th:field="*{job.contextId}" id="contextId" name="contextId"/>
+                <table id="patient-details" style="width: 150px">
+                    <tr>
+                        <td>
+                            <input type="text" th:field="*{job.description}" id="jobDescription" name="jobDescription" placeholder="Details"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-select">
+                                <select th:field="*{job.categoryId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                    <option value="" hidden="true">Select category</option>
+                                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="custom-select">
+                                <select th:field="*{job.doctorId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                    <option value="" hidden="true">Receiving doctor</option>
+                                    <option th:each="user : ${doctorUsers}" th:if="${currentDoctorId} != ${user.id}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <button type="submit" class="orange-button">Submit</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

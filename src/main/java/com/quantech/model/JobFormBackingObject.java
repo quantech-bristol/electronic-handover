@@ -2,9 +2,13 @@ package com.quantech.model;
 
 // A Job backing object to be used for grabbing information from the form.
 public class JobFormBackingObject {
+
     private Long doctorId;
+
     private Long contextId;
+
     private String description;
+
     private Long categoryId;
 
     public JobFormBackingObject() {}

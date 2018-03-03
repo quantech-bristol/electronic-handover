@@ -13,6 +13,7 @@ LIGHT BLUE #41B6E6
 DARK GREY #425563
 MID GREY #768692
 LIGHT GREY #E8EDEE
+#D1D8DC <-- between mid grey and light grey, using for input placeholders
 
 NHS GREEN #009639
 DARK GREEN #006747
@@ -57,10 +58,156 @@ body {
     transition: all .08s ease-out;
 }
 
+/**********************************************************************************************************************/
+/* Buttons */
+/**********************************************************************************************************************/
+
+.custom-button {
+    padding: 3px 7px;
+    border-radius: 40px;
+    border: 2px solid;
+    font-size: 11px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.orange-filled {
+    background-color: #ED8B00;
+    border-color: #ED8B00;
+    color: white;
+}
+
+.orange-filled:hover {
+    background-color: #FFB81C;
+    border-color: #FFB81C;
+    color: white;
+    text-decoration: none;
+}
+
+.orange-outlined {
+    background-color: transparent;
+    border-color: #ED8B00;
+    color: #ED8B00;
+}
+
+.orange-outlined:hover {
+    border-color: #FFB81C;
+    color: #FFB81C;
+    text-decoration: none;
+}
+
+.blue-filled {
+    background-color: #005EB8;
+    border-color: #005EB8;
+    color: white;
+}
+
+.blue-filled:hover {
+    background-color: #0072CE;
+    border-color: #0072CE;
+    color: white;
+    text-decoration: none;
+}
+
+.blue-outlined{
+    background-color: transparent;
+    border-color: #005EB8;
+    color: #005EB8;
+}
+
+.blue-outlined:hover {
+    border-color: #0072CE;
+    color: #0072CE;
+    text-decoration: none;
+}
+
+.green-filled {
+    background-color: #78BE20;
+    border-color: #78BE20;
+    color: white;
+}
+
+.green-filled:hover {
+    background-color: #009639;
+    border-color: #009639;
+    color: white;
+    text-decoration: none;
+}
+
+.green-outlined {
+    background-color: transparent;
+    border-color: #78BE20;
+    color: #78BE20;
+}
+
+.green-outlined:hover {
+    border-color: #009639;
+    color: #009639;
+    text-decoration: none;
+}
+
+.pink-filled {
+    background-color: #AE2573;
+    border-color: #AE2573;
+    color: white;
+}
+
+.pink-filled:hover {
+    background-color: #7C2855;
+    border-color: #7C2855;
+    color: white;
+    text-decoration: none;
+}
+
+.pink-outlined {
+    background-color: transparent;
+    border-color: #AE2573;
+    color: #AE2573;
+}
+
+.pink-outlined:hover {
+    border-color: #7C2855;
+    color: #7C2855;
+    text-decoration: none;
+}
+
+.red-filled {
+    background-color: #DA291C;
+    border-color: #DA291C;
+    color: white;
+}
+
+.red-filled:hover {
+    background-color: #8A1538;
+    border-color: #8A1538;
+    color: white;
+    text-decoration: none;
+}
+
+.red-outlined {
+    background-color: transparent;
+    border-color: #DA291C;
+    color: #DA291C;
+}
+
+.red-outlined:hover {
+    border-color: #8A1538;
+    color: #8A1538;
+    text-decoration: none;
+}
+
+
+
+
+
+
+
+
+
 .orange-button {
     display: inline;
     background-color: #ED8B00;
-    width: 100%;
+    /*width: 100%;*/
     height: 80%;
     padding: 5px 10px 5px 10px;
     margin-right: 10px;
@@ -77,6 +224,7 @@ body {
 .orange-button:hover {
     text-decoration: none;
     background-color: #FFB81C;
+    color: white;
 }
 
 .back-button {
@@ -89,41 +237,109 @@ body {
     color: #0072CE;
 }
 
-input[type="text"], input[type="number"], input[type="date"], input[type="password"], input[type="email"] {
-    background-color: rgba(255, 255, 255, 1);
-    border: 1px solid #768692;
-    min-width: 120px;
-    width: 12vw;
-    height: 30px;
+#complete-job-button, #handover-job-button, #completed-job-icon, #pending-job-icon {
+    background-color: transparent;
+    display: inline-block;
+    font-size: 11px;
+    border: 1px solid;
+    border-radius: 9px;
+    text-align: center;
+    width: 100px;
+    padding: 0 9px;
+    margin: 0;
 }
 
-input[type="text"]::placeholder, input[type="number"]::placeholder, input[type="date"]::placeholder, input[type="password"]::placeholder, input[type="email"]::placeholder {
-    color: rgba(0, 94, 184, 0.3);
-
+#complete-job-button {
+    color: #009639;
+    border-color: #009639;
+}
+#pending-job-icon {
+    color: #a7aaaf;
+    border-color: #a7aaaf;
 }
 
-input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+#complete-job-button:hover {
+    color: #78BE20;
+    border-color: #78BE20;
+}
+
+#completed-job-icon {
+    color: white;
+    background-color: #78BE20;
+    border-color: #78BE20;
+}
+
+#handover-job-button {
+    color: #ED8B00;
+    border-color: #ED8B00;
+}
+
+#handover-job-button:hover {
+    color: #FFB81C;
+    border-color: #FFB81C;
+    text-decoration: none;
+}
+
+/**********************************************************************************************************************/
+/* Inputs */
+/**********************************************************************************************************************/
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input {
+    height: 35px;
+    /*border-top: 1px solid black;*/
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #D1D8DC;
+    padding-left: 5px;
+    font-size: 16px;
+}
+
+*:focus {
     outline: none;
-    background-color: rgba(255, 255, 255, 1);
+}
+
+input:focus {
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #ED8B00;
+}
+
+input::placeholder {
+    color: #D1D8DC;
 }
 
 .custom-select {
-    border: 1px solid #768692;
-    width: 120px;
-    height: 30px;
+    /*border-top: 1px solid black;*/
+    /*border: 1px solid black;*/
+    height: 35px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #D1D8DC;
     border-radius: 0px;
-    /*overflow: hidden;*/
     background-color: #FFFFFF;
     display: inline-block;
 }
 
 .custom-select select {
-    padding: 5px 8px;
-    width: 130%;
+    padding-left: 5px;
+    height: 35px;
+    /*border: 1px solid black;*/
+    border-radius: 0px;
     border: none;
     box-shadow: none;
     background: transparent;
     -webkit-appearance: none;
+    font-size: 16px;
 }
 
 .custom-select select:focus {
@@ -311,21 +527,21 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
     padding: 0 0.5vw;
 }
 
-#login-container input[type="text"], input[type="password"] {
-    background-color: rgba(255, 255, 255, 0.9);
-    min-width: 120px;
-    width: 12vw;
-}
+/*#login-container input[type="text"], input[type="password"] {*/
+    /*background-color: rgba(255, 255, 255, 0.9);*/
+    /*min-width: 120px;*/
+    /*width: 12vw;*/
+/*}*/
 
-#login-container input[type="text"]::placeholder, input[type="password"]::placeholder {
-    color: rgba(0, 94, 184, 0.3);
+/*#login-container input[type="text"]::placeholder, input[type="password"]::placeholder {*/
+    /*color: rgba(0, 94, 184, 0.3);*/
 
-}
+/*}*/
 
-#login-container input[type="text"]:focus, input[type="password"]:focus {
-    outline: none;
-    background-color: rgba(255, 255, 255, 1);
-}
+/*#login-container input[type="text"]:focus, input[type="password"]:focus {*/
+    /*outline: none;*/
+    /*background-color: rgba(255, 255, 255, 1);*/
+/*}*/
 
 #electronic-handover {
     width: 100%;
@@ -429,49 +645,6 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
     border-bottom: 1px solid #768692;
 }
 
-#complete-job-button, #handover-job-button, #completed-job-icon, #pending-job-icon {
-    background-color: transparent;
-    display: inline-block;
-    font-size: 11px;
-    border: 1px solid;
-    border-radius: 9px;
-    text-align: center;
-    width: 100px;
-    padding: 0 9px;
-    margin: 0;
-}
-
-#complete-job-button {
-    color: #009639;
-    border-color: #009639;
-}
-#pending-job-icon {
-    color: #a7aaaf;
-    border-color: #a7aaaf;
-}
-
-#complete-job-button:hover {
-    color: #78BE20;
-    border-color: #78BE20;
-}
-
-#completed-job-icon {
-    color: white;
-    background-color: #78BE20;
-    border-color: #78BE20;
-}
-
-#handover-job-button {
-    color: #ED8B00;
-    border-color: #ED8B00;
-}
-
-#handover-job-button:hover {
-    color: #FFB81C;
-    border-color: #FFB81C;
-    text-decoration: none;
-}
-
 /**********************************************************************************************************************/
 /* Create/Edit user */
 /**********************************************************************************************************************/
@@ -483,6 +656,19 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
 #user-details-entry tr td {
     /*border: 1px solid black;*/
     padding: 5px;
+}
+
+/**********************************************************************************************************************/
+/* Create Handover */
+/**********************************************************************************************************************/
+
+#patient-details {
+    /*border: 1px solid hotpink;*/
+}
+
+#patient-details tr td {
+    /*border: 1px solid lawngreen;*/
+    padding: 8px;
 }
 
 /**********************************************************************************************************************/
