@@ -124,9 +124,8 @@ public class DoctorController {
                          @RequestParam(name="category", required=false) Long[] categoryIDs,
                          @RequestParam(name="ward", required =false) Long[] wardIDs,
                          @RequestParam(name="complete",required = false) String complete,
-                         @RequestParam(name="incomplete",required = false) String incomplete)  {
-        if (unwell != null)
-            request.addAttribute("unwell","true");
+                         @RequestParam(name="sort",required = false) String sort)  {
+        request.addAttribute("unwell",unwell);
         if (riskIDs != null)
             for (Long id : riskIDs) {
             request.addAttribute("risk",id);
@@ -139,10 +138,8 @@ public class DoctorController {
             for (Long id : categoryIDs) {
                 request.addAttribute("category",id);
             }
-        if (complete != null)
-            request.addAttribute("complete","true");
-        else if (incomplete != null)
-            request.addAttribute("complete","false");
+        request.addAttribute("complete",complete);
+        request.addAttribute("sort",sort);
         return "redirect:/";
     }
 

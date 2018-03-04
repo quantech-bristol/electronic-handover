@@ -101,7 +101,6 @@ public class MainController {
                 if (completed.equals("true"))
                     p2.add(jobsService.jobIsComplete());
                 if (completed.equals("false")) {
-                    System.out.print("here");
                     p2.add(j -> j.getCompletionDate() == null);
                 }
             }
