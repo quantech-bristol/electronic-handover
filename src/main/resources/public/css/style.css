@@ -600,6 +600,30 @@ input::placeholder {
 /* Filtering and Sorting */
 /**********************************************************************************************************************/
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.drop-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    width: 180px;
+}
+
+.drop-content h5, .drop-content h4 {
+    font-size: 12px;
+}
+
+.drop-content h4 {
+    text-decoration: underline;
+}
+
+.dropdown:hover .drop-content {
+    display: block;
+}
+
 .filter-box, .filter-label {
     font-size: 10px;
 }
