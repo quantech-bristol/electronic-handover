@@ -48,7 +48,7 @@
         <div class="header-container" id="user-container">
             <ul>
                 <li>
-                    <span th:text="${#authentication.principal.getFullName()}" id="user-name"></span>
+                    <span th:text="${#authentication.principal.getUserCore().getFullName()}" id="user-name"></span>
                     <a><i class="fa fa-user" id="user-icon"></i></a>
                 </li>
                 <li>
@@ -61,13 +61,13 @@
         </div>
         <div class="header-container" id="menu-container">
             <ul>
-                <li th:if="${#authentication.principal.isDoctor()}">
+                <li th:if="${#authentication.principal.getUserCore().isDoctor()}">
                     <a th:href="@{/}">My Jobs</a>
                 </li>
-                <li th:if="${#authentication.principal.isDoctor()}">
+                <li th:if="${#authentication.principal.getUserCore().isDoctor()}">
                     <a th:href="@{/newPatient}">Create Handover</a>
                 </li>
-                <li th:if="${#authentication.principal.isAdmin()}">
+                <li th:if="${#authentication.principal.getUserCore().isAdmin()}">
                     <a th:href="@{/admin}">Admin</a>
                 </li>
             </ul>

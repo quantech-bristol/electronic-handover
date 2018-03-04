@@ -3,6 +3,7 @@ package com.quantech.control;
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.*;
 import com.quantech.model.user.UserCore;
+import com.quantech.model.user.UserEntry;
 import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
 import com.quantech.service.JobsService.JobsServiceImpl;
@@ -126,7 +127,7 @@ public class HandoverController {
     public String newJob(@RequestParam("patient") Patient patient,
                          @RequestParam("jobContext") JobContext jobContext,
                          Model model) {
-        UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         model.addAttribute("currentDoctorId", doctorService.getDoctor(userInfo).getId());
         model.addAttribute("patient", patient);
         model.addAttribute("jobContext", jobContext);

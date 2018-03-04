@@ -7,6 +7,7 @@ import com.quantech.model.JobContext;
 import com.quantech.model.Patient;
 import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
+import com.quantech.model.user.UserEntry;
 import com.quantech.model.user.UserFormBackingObject;
 import com.quantech.service.CategoryService.CategoryService;
 import com.quantech.service.DoctorService.DoctorService;
@@ -72,7 +73,7 @@ public class MainController {
                        @RequestParam(value = "ward", required = false) Long wardId,
                        @RequestParam(value = "sort", required = false) String sort,
                        Model model) {
-        UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        UserCore user =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
 
         if (user.isDoctor()) {
             Doctor d = doctorService.getDoctor(user);
@@ -144,7 +145,7 @@ public class MainController {
 
     @PostMapping(value="/settings")
     public String changePassword(@ModelAttribute("change") ChangePassword returnedUser, BindingResult r, Model model, Errors error) {
-        UserCore currentUser = (UserCore) authenticator.getAuthentication().getPrincipal();
+        UserCore currentUser = ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         if (returnedUser.getInitial().equals(returnedUser.getConfirm()) && userService.checkUserPassword(currentUser,returnedUser.getCurrent())) {
             currentUser.setPassword(returnedUser.getInitial());
             userService.saveUser(currentUser,true);

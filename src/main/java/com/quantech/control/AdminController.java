@@ -4,6 +4,9 @@ import com.quantech.config.SecurityRoles;
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.Category;
 import com.quantech.model.Doctor;
+import com.quantech.model.Log.Log;
+import com.quantech.model.Log.LogOperations.AddUser;
+import com.quantech.model.Log.LogOperations.LogFilterBackingObject;
 import com.quantech.model.Risk;
 import com.quantech.model.Ward;
 import com.quantech.model.user.UserCore;
@@ -11,6 +14,7 @@ import com.quantech.model.user.UserFormBackingObject;
 import com.quantech.model.user.UserInfo;
 import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorService;
+import com.quantech.service.LoggingService.LogServiceImpl;
 import com.quantech.service.RiskService.RiskServiceImpl;
 import com.quantech.service.UserService.UserServiceImpl;
 import com.quantech.service.WardService.WardServiceImpl;
@@ -25,10 +29,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 @Controller
 public class AdminController {
+
+    @Autowired
+    LogServiceImpl logService;
 
     @Autowired
     IAuthenticationFacade authenticator;
@@ -217,4 +227,46 @@ public class AdminController {
         riskService.deleteRisk(id);
         return "redirect:/admin/manageRisks";
     }
+
+    @GetMapping(value = "/admin/filterLogs")
+    public String filterLogs(Model model)
+    {
+        model.addAttribute("UserFiltering",false);
+        model.addAttribute("Title","FilterLogs");
+        model.addAttribute("usercore", new UserFormBackingObject());
+        model.addAttribute("logObject", new LogFilterBackingObject());
+        model.addAttribute("postUrl", "/admin/filterLogs");
+        return "logging/logFilter";
+    }
+    @PostMapping(value = "/admin/filterLogs")
+    public String filterLogsPost(@ModelAttribute("logObject") LogFilterBackingObject lo, @Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors, RedirectAttributes redirectAttrs)
+    {
+        List<UserCore> matchingUsers = userService.findMatchesFromFilter(user);
+        HashMap<Long, UserCore> test = new HashMap();
+
+        for (UserCore u:matchingUsers) { test.putIfAbsent(u.getId(),u);}
+        List<Log> logs = logService.returnMatchingLogs(lo,new ArrayList<Long>(test.keySet()));
+
+
+        redirectAttrs.addFlashAttribute("logs",logs);
+        redirectAttrs.addFlashAttribute("users",test);
+        if (lo.getOperation() == null){return "redirect:/admin/displayAllLogs";}
+        switch (lo.getOperation())
+        {
+            case AddUser:
+                return "redirect:/admin/displayAddLogs";
+
+        }
+        return "logging/logFilter";
+    }
+
+    @GetMapping(value = "admin/displayAllLogs")
+    public String displayAllLogs(@ModelAttribute("logs") List<Log> logs, @ModelAttribute("users") HashMap<Long,UserCore> users)
+    {
+        //List<AddUser> userLogs = new ArrayList<>();
+       // for (Log l:logs) {userLogs.add((AddUser)l.returnLoggedOperation());}
+
+        return "/logging/displayAllLogs";
+    }
+
 }

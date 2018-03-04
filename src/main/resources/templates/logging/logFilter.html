@@ -6,18 +6,19 @@
 
 <body>
 <div th:replace="fragments/header :: header">&nbsp;</div>
+
 <div id="main">
     <div class="main-box">
         <div class="main-box-header" >
             <a th:href="@{/admin}" class="back-button"><i class="fa fa-arrow-circle-left"></i></a>
-            Insert user details to filter for
+            Insert User Details to filter for
         </div>
         <div class="main-box-content">
-            <form action="#" th:action="${postUrl}" method="post">
-                <div th:object="${usercore}" >
+            <form action="#" th:action="${postUrl}"  method="post">
+                <div th:object="${usercore}">
                 <table id="user-details-entry" >
                     <tr>
-                        <td colspan="3">Name</td>
+                        <td colspan="3">Originating User</td>
                     </tr>
                     <tr>
                         <td>
@@ -40,20 +41,52 @@
                         <td colspan="3"><input type="text" th:field="*{email}" id="email" placeholder="email"/></td>
                     </tr>
                     <tr>
-                        <td colspan="3"><button class="orange-button" type="submit">Submit</button></td>
+                        <td colspan="3"></td>
                     </tr>
                 </table>
-
                 <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                 <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                 <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
                 <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
+
+                <div class="main-box-header" >
+                    Insert log details to filter for
+                </div>
+                <div th:object="${logObject}">
+                <table id="log-details-entry">
+                    <tr>
+                        <td colspan="3">Log Type</td>
+                    </tr>
+                    <tr>
+                    <td>
+                        <div class="custom-select" style="width: 80px;">
+                            Operation:
+                            <select id="operations" name="operations" th:field = "*{operation}">
+                                <option value="" hidden="true">All Operations</option>
+                                <option th:each="op : ${T(com.quantech.model.Log.OperationTypes).values()}" th:value="${op}" th:text="${op}"></option>
+                            </select>
+                        </div>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Time of log</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            After: <input id="beforeDatetime" type="datetime-local" th:field = "*{afterDate}"></input>
+                        </td>
+                        <td>
+                            Before: <input id="afterDatetime" type="datetime-local" th:field = "*{beforeDate}"></input>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <button class="orange-button" type="submit">Submit</button>
             </form>
         </div>
     </div>
 
 </div>
-
 </body>
 </html>

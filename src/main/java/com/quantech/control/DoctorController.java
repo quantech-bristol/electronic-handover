@@ -5,6 +5,7 @@ import com.quantech.misc.PdfGenerator;
 import com.quantech.model.*;
 import com.quantech.model.user.Title;
 import com.quantech.model.user.UserCore;
+import com.quantech.model.user.UserEntry;
 import com.quantech.repo.PatientRepository;
 import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
@@ -64,7 +65,7 @@ public class DoctorController {
 
     @GetMapping(value="/createJob")
     public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
-        UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         JobFormBackingObject job = new JobFormBackingObject();
 
         model.addAttribute("job", job);
@@ -89,7 +90,7 @@ public class DoctorController {
 
     @GetMapping(value="/handoverJob")
     public String handoverJob(@RequestParam(value = "jobId", required=true) Long id, Model model) {
-        UserCore userInfo =  (UserCore)authenticator.getAuthentication().getPrincipal();
+        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         model.addAttribute("jobId",id);
         model.addAttribute("description",jobsService.getJob(id).getDescription());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
