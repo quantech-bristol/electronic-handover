@@ -49,6 +49,8 @@ public class JobsTest {
     CategoryRepository categoryRepository;
     @Autowired
     WardRepository wardRepository;
+    @Autowired
+    RiskRepository riskRepository;
 
     // Making sure the correct list of joba is returned
     @Test
@@ -245,33 +247,105 @@ public class JobsTest {
     public void completeJobTest() {
         Job j = jobRepository.findById(1L);
         jobsService.completeJob(j);
-        //j = jobRepository.findById(1L);
-        //Assert.assertTrue(j.getCompletionDate().compareTo(new Date()) == 0);
-        // TODO
-        // SHouldn't change completed date of finished job!!
-        // SHould doctor entry be null?
+        j = jobRepository.findById(1L);
+        Assert.assertTrue(j.getCompletionDate()!= null);
+
+        // Can't complete completed job.
+        j = jobRepository.findById(7L);
+        jobsService.completeJob(j);
+        j = jobRepository.findById(7L);
+        Assert.assertTrue(j.getCompletionDate().compareTo(new Date()) != 0);
     }
 
     @Test
     public void filterJobsByCategoryTest() {
-        // TODO
-        // Test conjunctive predicates too.
+        List<Job> all = new ArrayList<>();
+        jobRepository.findAll().forEach(all::add);
+
+        List<Job> j1 = getJobsFromRepository(new long[]{3L,4L,6L});
+        Category c = categoryRepository.findOne(2L);
+        List<Job> j2 = jobsService.filterJobsBy(all,jobsService.jobIsOfCategory(c));
+        Assert.assertEquals(j1,j2);
     }
 
     @Test
-    public void filterJobsByUnwellPatientTest(){
-        // TODO
+    public void filterJobContextsByUnwellPatientTest(){
+        List<JobContext> all = new ArrayList<>();
+        jobContextRepository.findAll().forEach(all::add);
+
+        List<JobContext> j1 = getJobContextsFromRepository(new long[]{1L,2L});
+        List<JobContext> j2 = jobsService.filterJobContextsBy(all,jobsService.patientIsUnwell());
+        Assert.assertEquals(j1,j2);
     }
 
     @Test
-    public void filterJobsByWardTest() {
-        // TODO
-        // Filtering multiple wards should yield empty list (conjunctive)
+    public void filterJobsByCompleteTest() {
+        List<Job> all = new ArrayList<>();
+        jobRepository.findAll().forEach(all::add);
+
+        List<Job> j1 = getJobsFromRepository(new long[]{6L,7L});
+        List<Job> j2 = jobsService.filterJobsBy(all,jobsService.jobIsComplete());
+        Assert.assertEquals(j1,j2);
+
+        j1 = getJobsFromRepository(new long[]{1L,2L,3L,4L,5L});
+        j2 = jobsService.filterJobsBy(j1,jobsService.jobIsUncomplete());
+        Assert.assertEquals(j1,j2);
     }
 
     @Test
-    public void sortJobsByAgeTest() {
-        // TODO
+    public void filterJobContextsByRisk() {
+        List<JobContext> all = new ArrayList<>();
+        jobContextRepository.findAll().forEach(all::add);
+
+        JobContext j1 = jobContextRepository.findById(1L);
+        JobContext j2 = jobContextRepository.findById(2L);
+        JobContext j3 = jobContextRepository.findById(3L);
+        Risk r1 = riskRepository.findOne(1L);
+        Risk r2 = riskRepository.findOne(2L);
+        j1.addRisk(r1); j1.addRisk(r2);
+        j2.addRisk(r2);
+        j3.addRisk(r1);
+        jobsService.saveJobContext(j1);
+        jobsService.saveJobContext(j2);
+        jobsService.saveJobContext(j3);
+
+        List<JobContext> jc1 = getJobContextsFromRepository(new long[]{1L,3L});
+        List<JobContext> jc2 = jobsService.filterJobContextsBy(all,jobsService.patientHasRisk(r1));
+        Assert.assertEquals(jc2,jc2);
+        jc1 = getJobContextsFromRepository(new long[]{1L,2L});
+        jc2 = jobsService.filterJobContextsBy(all,jobsService.patientHasRisk(r2));
+        Assert.assertEquals(jc2,jc2);
+    }
+
+    @Test
+    public void filterJobContextsByWard() {
+        List<JobContext> all = new ArrayList<>();
+        jobContextRepository.findAll().forEach(all::add);
+        Ward w = wardRepository.findById(2L);
+
+        List<JobContext> jc1 = getJobContextsFromRepository(new long[]{4L});
+        List<JobContext> jc2 = jobsService.filterJobContextsBy(all,jobsService.patientIsInWard(w));
+        Assert.assertEquals(jc2,jc2);
+    }
+
+    @Test  // Checking combination of job and job context predicates.
+    public void filterWardAndUncompletedJobs() {
+        List<JobContext> all = new ArrayList<>();
+        jobContextRepository.findAll().forEach(all::add);
+        Ward r = wardRepository.findOne(1L);
+
+        List<JobContext> jc1 = getJobContextsFromRepository(new long[]{1L,2L,3L});
+        List<Job> j1 = getJobsFromRepository(new long[]{1L});
+        List<Job> j2 = getJobsFromRepository(new long[]{2L,4L,5L});
+        List<Job> j3 = getJobsFromRepository(new long[]{3L});
+        Set<Predicate<JobContext>> pjc = new HashSet<>(); pjc.add(jobsService.patientIsInWard(r));
+        Set<Predicate<Job>> pj = new HashSet<>(); pj.add(jobsService.jobIsUncomplete());
+
+        List<JobContext> jc2 = jobsService.filterJobContextsBy(all,pjc,pj);
+        Assert.assertEquals(jc1,jc2);
+        Assert.assertEquals(jc1.get(0).getJobs(),j1);
+        Assert.assertTrue(sameContents(jc1.get(1).getJobs(),j2));
+        Assert.assertEquals(jc1.get(2).getJobs(),j3);
     }
 
     // Use this to create a list of jobs with a certain sequence of IDs.

@@ -87,16 +87,13 @@ public class MainController {
             if (wardId != null)
                 p.add(jobsService.patientIsInWard(wardService.getWard(wardId)));
 
-            jcs = jobsService.filterJobContextsBy(jcs,p);
-
             // Compiling job filter predicates.
             Set<Predicate<Job>> p2 = new HashSet<>();
             if (categoryId != null)
                 p2.add(jobsService.jobIsOfCategory(categoryService.getCategory(categoryId)));
 
-            for (JobContext jc : jcs) {
-                jc.setJobs(jobsService.filterJobsBy(jc.getJobs(),p2));
-            }
+            // Applying both sets of predicates to filter the job contexts.
+            jcs = jobsService.filterJobContextsBy(jcs,p,p2);
 
             // Now apply sort.
             if (sort != null) {

@@ -149,7 +149,7 @@ public class JobsServiceImpl implements JobsService {
             throw new NullPointerException("Error: job cannot be null.");
         if (doctor == null)
             throw new NullPointerException("Error: doctor cannot be null.");
-        if (jobIsUncomplete().test(job)) {
+        if (job.getCompletionDate() == null) {
             job.setDoctor(doctor);
             this.saveJob(job);
         }
@@ -164,8 +164,10 @@ public class JobsServiceImpl implements JobsService {
     public void completeJob(Job job) {
         if (job == null)
             throw new NullPointerException("Error: job cannot have null value.");
-        job.setCompletionDate(new Date());
-        this.saveJob(job);
+        if (job.getCompletionDate() == null) {
+            job.setCompletionDate(new Date());
+            this.saveJob(job);
+        }
     }
 
     @Override

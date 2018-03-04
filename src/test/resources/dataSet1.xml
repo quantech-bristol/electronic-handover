@@ -159,22 +159,27 @@
                  bed="2"
                  clinical_details="Ill - headache"
                  creation_date="2018-01-01"
-                 unwell="true"
+                 unwell="false"
                  patient_id="2"
-                 ward_id="1"/>
+                 ward_id="2"/>
     <job_context id="3"
                  bed="3"
                  clinical_details="Ill"
                  creation_date="2018-01-01"
-                 unwell="true"
+                 unwell="false"
                  patient_id="3"
                  ward_id="1"/>
 
     <category    id="1"
                  name="category"/>
+    <category    id="2"
+                 name="category2"/>
     <risk        id="1"
                  acronym="SEP"
                  name="Sepsis"/>
+    <risk        id="2"
+                 acronym="FALL"
+                 name="Falls"/>
     <job         id="1"
                  description="job"
                  category_id="1"
@@ -189,13 +194,13 @@
                  doctor_user_id="1"/>
     <job         id="3"
                  description="job"
-                 category_id="1"
+                 category_id="2"
                  creation_date="2018-01-01"
                  job_context_id="3"
                  doctor_user_id="1"/>
     <job         id="4"
                  description="job"
-                 category_id="1"
+                 category_id="2"
                  creation_date="2018-01-01"
                  job_context_id="2"
                  doctor_user_id="2"/>
@@ -207,7 +212,7 @@
                  doctor_user_id="2"/>
     <job         id="6"
                  description="job"
-                 category_id="1"
+                 category_id="2"
                  creation_date="2018-01-01"
                  completion_date="2018-05-05"
                  job_context_id="3"
@@ -219,5 +224,6 @@
                  completion_date="2018-05-05"
                  job_context_id="4"
                  doctor_user_id="1"/>
+
     />
 </dataset>
