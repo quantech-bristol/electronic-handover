@@ -78,7 +78,7 @@ public class MainController {
             Doctor d = doctorService.getDoctor(user);
             List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);
 
-            // Applying filters to job contexts themselves.
+            // Compiling job context filter predicates
             Set<Predicate<JobContext>> p = new HashSet<>();
             if (unwell != null)
                 p.add(jobsService.patientIsUnwell());
@@ -89,7 +89,7 @@ public class MainController {
 
             jcs = jobsService.filterJobContextsBy(jcs,p);
 
-            // Now applying filters within job contexts.
+            // Compiling job filter predicates.
             Set<Predicate<Job>> p2 = new HashSet<>();
             if (categoryId != null)
                 p2.add(jobsService.jobIsOfCategory(categoryService.getCategory(categoryId)));

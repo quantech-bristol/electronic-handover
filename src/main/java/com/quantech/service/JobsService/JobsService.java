@@ -40,32 +40,11 @@ public interface JobsService {
     // public List<Job> getAllPendingJobsFrom(Doctor doctor);
 
     /**
-     * Get all jobs that a certain doctor has sent that has not yet been completed.
-     * @param doctor Doctor that is responsible for a job.
-     * @return A list of jobs that have yet to be completed.
-     */
-    public List<Job> getAllUncompletedJobsFrom(Doctor doctor);
-
-    /**
      * Finds a list of jobs that concern a specific patient.
      * @param patient The patient for which the jobs concern.
      * @return A list of jobs that involve the input patient.
      */
     public List<Job> getAllJobsForPatient(Patient patient);
-
-    /**
-     * Finds a list of jobs that concern a specific patient that are incomplete.
-     * @param patient The patient for which the jobs concern.
-     * @return A list of incomplete jobs that involve the input patient.
-     */
-    public List<Job> getAllUncompletedJobsForPatient(Patient patient);
-
-    /**
-     * Finds a list of jobs that concern a specific patient that are complete.
-     * @param patient The patient for which the jobs concern.
-     * @return A list of complete jobs that involve the input patient.
-     */
-    public List<Job> getAllCompletedJobsForPatient(Patient patient);
 
     /**
      * Finds a list of all jobs contexts.
@@ -84,7 +63,7 @@ public interface JobsService {
      * Saves the given job into the repository.
      * @param job The handover to be saved.
      * @throws NullPointerException If the job has a null description, category, creation date or job context.
-     * @throws IllegalArgumentException If the corresponding job context isn't in the repository, or is invalid.
+     * @throws IllegalArgumentException If the corresponding job context or doctor isn't in the repository, or is invalid.
      */
     public void saveJob(Job job) throws NullPointerException, IllegalArgumentException;
 
@@ -98,6 +77,7 @@ public interface JobsService {
 
     /**
      * Send a handover using a given job, making another doctor responsible for that job.
+     * A completed job cannot be handed over.
      * @param job The job to send.
      * @param doctor The doctor to handover to.
      */
@@ -145,6 +125,16 @@ public interface JobsService {
      * @return A list of job contexts filtered by the given predicate.
      */
     public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> predicates);
+
+    /**
+     * Filter list of a job contexts and their corresponding jobs by a given predicate.
+     * @param list A list of job contexts.
+     * @param jobContextPredicates A collection of predicates to test the job contexts against, conjunctive.
+     * @param jobPredicates A collection of predicates to test the jobs against, conjunctive.
+     * @return A list of job contexts filtered by the given predicate.
+     */
+    public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> jobContextPredicates, Iterable<Predicate<Job>> jobPredicates);
+
 
     /**
      * Predicate that checks if the patient is unwell.
@@ -207,6 +197,18 @@ public interface JobsService {
      * @return The corresponding predicate object.
      */
     public Predicate<Job> jobIsOfWard(Ward ward);
+
+    /**
+     * A predicate that checks if a given job is complete.
+     * @return A predicate.
+     */
+    public Predicate<Job> jobIsComplete();
+
+    /**
+     * A predicate that checks if a given job is incomplete.
+     * @return A predicate.
+     */
+    public Predicate<Job> jobIsUncomplete();
 
     /**
      * Sorts the given list of jobs into order of creation date, oldest first.
