@@ -7,9 +7,52 @@
 <body>
     <div th:replace="fragments/header :: header">&nbsp;</div>
     <div id="main">
+        <form th:action="'/filterJobContexts'" method="get">
+            <div>
+                <h5>Filter patients by:</h5>
+            </div>
+            <div>
+                <input type="checkbox" name="unwell" id="unwell" value="true" style="border: solid black 1px;"/>
+                <label for="unwell">Unwell</label>
+            </div>
+            <div>
+                Patient has risk:
+                <div th:each="risk,iterStat : ${risks}">
+                    <input type="checkbox" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}" style="padding: 0;"/>
+                    <label th:for="${risk.getId()}" th:text="${risk.getName()}"/>
+                </div>
+            </div>
+            <div>
+                Patient is in ward:
+                <div th:each="ward,iterStat : ${wards}">
+                    <input type="checkbox" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}" style="padding: 0;"/>
+                    <label th:for="${ward.getId()}" th:text="${ward.getName()}"/>
+                </div>
+            </div>
+            <div>
+                <h5>Filter jobs by:</h5>
+            </div>
+            <div>
+                <input type="radio" name="complete" id="complete" value="true" style="padding: 0;"/>
+                <label for="complete">Complete</label>
+            </div>
+            <div>
+                <input type="radio" name="incomplete" id="incomplete" value="true" style="padding: 0;"/>
+                <label for="incomplete">Incomplete</label>
+            </div>
+            <div>
+                Job has category:
+                <div th:each="category,iterStat : ${category}">
+                    <input type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}" style="padding: 0;"/>
+                    <label th:for="${category.getId()}" th:text="${category.getName()}"/>
+                </div>
+            </div>
+            <button type="submit">Apply</button>
+        </form>
+
+
         <a href="/?sort=firstName">Sort entries (by first name)</a>
         <a href="/?sort=lastName">Sort entries (by last name)</a>
-        <a href="/?unwell=true">Filter entries (unwell)</a>
         <table id="patient-info">
             <tr>
                 <td>Patient Details</td>

@@ -1,10 +1,7 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
-import com.quantech.model.Doctor;
-import com.quantech.model.Job;
-import com.quantech.model.JobContext;
-import com.quantech.model.Patient;
+import com.quantech.model.*;
 import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
@@ -67,14 +64,20 @@ public class MainController {
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String home(@RequestParam(value = "unwell", required = false) String unwell,
-                       @RequestParam(value = "risk", required = false) Long riskId,
-                       @RequestParam(value = "category",required = false) Long categoryId,
-                       @RequestParam(value = "ward", required = false) Long wardId,
+                       @RequestParam(value = "risk", required = false) Long[] riskId,
+                       @RequestParam(value = "category",required = false) Long[] categoryId,
+                       @RequestParam(value = "ward", required = false) Long[] wardId,
+                       @RequestParam(value = "complete", required = false) String completed,
                        @RequestParam(value = "sort", required = false) String sort,
                        Model model) {
         UserCore user =  (UserCore)authenticator.getAuthentication().getPrincipal();
 
+
         if (user.isDoctor()) {
+            model.addAttribute("risks",riskService.getAllRisks());
+            model.addAttribute("wards",wardService.getAllWards());
+            model.addAttribute("category",categoryService.getAllCategories());
+
             Doctor d = doctorService.getDoctor(user);
             List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);
 
@@ -83,14 +86,25 @@ public class MainController {
             if (unwell != null)
                 p.add(jobsService.patientIsUnwell());
             if (riskId != null)
-                p.add(jobsService.patientHasRisk(riskService.getRisk(riskId)));
+                for (Long id : riskId)
+                    p.add(jobsService.patientHasRisk(riskService.getRisk(id)));
             if (wardId != null)
-                p.add(jobsService.patientIsInWard(wardService.getWard(wardId)));
+                for (Long id : wardId)
+                    p.add(jobsService.patientIsInWard(wardService.getWard(id)));
 
             // Compiling job filter predicates.
             Set<Predicate<Job>> p2 = new HashSet<>();
             if (categoryId != null)
-                p2.add(jobsService.jobIsOfCategory(categoryService.getCategory(categoryId)));
+                for (Long id : categoryId)
+                     p2.add(jobsService.jobIsOfCategory(categoryService.getCategory(id)));
+            if (completed != null) {
+                if (completed.equals("true"))
+                    p2.add(jobsService.jobIsComplete());
+                if (completed.equals("false")) {
+                    System.out.print("here");
+                    p2.add(j -> j.getCompletionDate() == null);
+                }
+            }
 
             // Applying both sets of predicates to filter the job contexts.
             jcs = jobsService.filterJobContextsBy(jcs,p,p2);
