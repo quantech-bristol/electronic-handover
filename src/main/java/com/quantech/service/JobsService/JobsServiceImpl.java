@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -177,41 +174,58 @@ public class JobsServiceImpl implements JobsService {
 
     @Override
     public List<Job> filterJobsBy(List<Job> list, Iterable<Predicate<Job>> predicates) {
+        Set<Predicate<Job>> category = new HashSet<>();
+        Set<Predicate<Job>> others = new HashSet<>();
         Stream<Job> stream = list.stream();
-        for (Predicate<Job> p : predicates) {
-            stream = stream.filter(p);
+        for (Predicate<Job> predicate : predicates) {
+            if (predicate.getClass().isInstance(new EntityPredicate<Job>()) && ((EntityPredicate<Job>) predicate).field.equals("category"))
+                category.add(predicate);
+            else
+                others.add(predicate);
         }
+        boolean categoryFilter = false;
+        if (!category.isEmpty())
+            categoryFilter = true;
+
+        // Or-ing all category predicates together.
+        Predicate<Job> cp = (categoryFilter) ? p->false : p->true;
+        for (Predicate<Job> p : category)
+            cp = cp.or(p);
+        stream = stream.filter(cp);
+        for (Predicate<Job> p : others)
+            stream = stream.filter(p);
+
         return stream.collect(Collectors.toList());
     }
 
     @Override
-    public Predicate<Job> jobIsOfCategory(Category category) {
-        return job -> job.getCategory().equals(category);
+    public EntityPredicate<Job> jobIsOfCategory(Category category) {
+        return new EntityPredicate<>(job -> job.getCategory().equals(category),"category");
     }
 
     @Override
-    public Predicate<Job> jobWherePatientIsUnwell() {
-        return job -> job.getJobContext().getUnwell();
+    public EntityPredicate<Job> jobWherePatientIsUnwell() {
+        return new EntityPredicate<>(job -> job.getJobContext().getUnwell(),"unwell");
     }
 
     @Override
-    public Predicate<Job> jobWherePatientIsWell() {
-        return job -> !job.getJobContext().getUnwell();
+    public EntityPredicate<Job> jobWherePatientIsWell() {
+        return new EntityPredicate<>(job -> !job.getJobContext().getUnwell(),"unwell");
     }
 
     @Override
-    public Predicate<Job> jobIsOfWard(Ward ward) {
-        return job -> job.getJobContext().getWard().equals(ward);
+    public EntityPredicate<Job> jobIsOfWard(Ward ward) {
+        return new EntityPredicate<>(job -> job.getJobContext().getWard().equals(ward),"ward");
     }
 
     @Override
-    public Predicate<Job> jobIsComplete() {
-        return job -> job.getCompletionDate() != null;
+    public EntityPredicate<Job> jobIsComplete() {
+        return new EntityPredicate<>(job -> job.getCompletionDate() != null,"complete");
     }
 
     @Override
-    public Predicate<Job> jobIsUncomplete() {
-        return job -> job.getCompletionDate() == null;
+    public EntityPredicate<Job> jobIsUncomplete() {
+        return new EntityPredicate<>(job -> job.getCompletionDate() == null,"complete");
     }
 
     @Override
@@ -245,10 +259,38 @@ public class JobsServiceImpl implements JobsService {
 
     @Override
     public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> predicates) {
+        Set<Predicate<JobContext>> risk = new HashSet<>();
+        Set<Predicate<JobContext>> ward = new HashSet<>();
+        Set<Predicate<JobContext>> others = new HashSet<>();
+
         Stream<JobContext> stream = list.stream();
-        for (Predicate<JobContext> p : predicates) {
-            stream = stream.filter(p);
+        for (Predicate<JobContext> predicate : predicates) {
+            if (predicate.getClass().isInstance(new EntityPredicate<JobContext>()) && ((EntityPredicate<JobContext>) predicate).field.equals("risk"))
+                risk.add(predicate);
+            else if (predicate.getClass().isInstance(new EntityPredicate<JobContext>()) && ((EntityPredicate<JobContext>) predicate).field.equals("ward"))
+                ward.add(predicate);
+            else
+                others.add(predicate);
         }
+        boolean wardFilter = false;
+        if (!ward.isEmpty())
+            wardFilter = true;
+        boolean riskFilter = false;
+        if (!risk.isEmpty())
+            riskFilter = true;
+
+        // Or-ing all category predicates together.
+        Predicate<JobContext> wp = (wardFilter) ? p->false : p->true;
+        Predicate<JobContext> rp = (riskFilter) ? p->false : p->true;
+        for (Predicate<JobContext> p : ward)
+            wp = wp.or(p);
+        for (Predicate<JobContext> p : risk)
+            rp = rp.or(p);
+        for (Predicate<JobContext> p : others)
+            stream = stream.filter(p);
+        stream = stream.filter(wp);
+        stream = stream.filter(rp);
+
         return stream.collect(Collectors.toList());
     }
 
@@ -262,18 +304,18 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
-    public Predicate<JobContext> patientIsUnwell() {
-        return (JobContext::getUnwell);
+    public EntityPredicate<JobContext> patientIsUnwell() {
+        return new EntityPredicate<> (JobContext::getUnwell,"unwell");
     }
 
     @Override
-    public Predicate<JobContext> patientHasRisk(Risk risk) {
-        return (j->j.getRisks().contains(risk));
+    public EntityPredicate<JobContext> patientHasRisk(Risk risk) {
+        return new EntityPredicate<>(j->j.getRisks().contains(risk),"risk");
     }
 
     @Override
-    public Predicate<JobContext> patientIsInWard(Ward ward) {
-        return j->j.getWard().equals(ward);
+    public EntityPredicate<JobContext> patientIsInWard(Ward ward) {
+        return new EntityPredicate<>(j->j.getWard().equals(ward),"ward");
     }
 
     @Override
@@ -295,4 +337,20 @@ public class JobsServiceImpl implements JobsService {
         // TODO
     }
 
+    class EntityPredicate<T> implements Predicate<T> {
+        Predicate<T> p;
+        String field;
+
+        EntityPredicate(){}
+
+        EntityPredicate(Predicate<T> p, String field) {
+            this.p = p;
+            this.field = field;
+        }
+
+        @Override
+        public boolean test(T t) {
+            return p.test(t);
+        }
+    }
 }

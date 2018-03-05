@@ -127,17 +127,14 @@ public class DoctorController {
                          @RequestParam(name="sort",required = false) String sort)  {
         request.addAttribute("unwell",unwell);
         if (riskIDs != null)
-            for (Long id : riskIDs) {
-            request.addAttribute("risk",id);
-            }
+            request.addAttribute("risk",riskIDs);
+
         if (wardIDs != null)
-            for (Long id : wardIDs) {
-                request.addAttribute("ward",id);
-            }
+            request.addAttribute("ward",wardIDs);
+
         if (categoryIDs != null)
-            for (Long id : categoryIDs) {
-                request.addAttribute("category",id);
-            }
+            request.addAttribute("category",categoryIDs);
+
         request.addAttribute("complete",complete);
         request.addAttribute("sort",sort);
         return "redirect:/";
