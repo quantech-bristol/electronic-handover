@@ -16,7 +16,7 @@
                 <input type="text" name="jobDescription" th:value="${description}" id="jobDescription" placeholder="details"/>
                 <select name="doctor">
                     <option value="" hidden="true">Select doctor</option>
-                    <option th:each="user : ${doctorUsers}" th:if="${#authentication.getPrincipal().getId()} != ${user.id}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
+                    <option th:each="user : ${doctorUsers}" th:if="${#authentication.getPrincipal().getUserCore().getId()} != ${user.id}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
                 </select>
 
             </div>
