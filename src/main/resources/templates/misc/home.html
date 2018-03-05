@@ -15,39 +15,39 @@
                         <h4>Filter patients by:</h4>
                    </div>
                     <div>
-                        <input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/>
-                     <label class="filter-label" for="unwell">Unwell</label>
+                        <table><td><input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/></td>
+                         <td><label class="filter-label" for="unwell">Unwell</label></td></table>
                    </div>
                     <div>
                         <h5>Patient has risk:</h5>
                         <div th:each="risk,iterStat : ${risks}">
-                            <input type="checkbox" class="filter-box" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}" style="padding: 0;"/>
-                            <label class="filter-label" th:for="${risk.getId()}" th:text="${risk.getName()}"/>
+                            <table><td><input type="checkbox" class="filter-box" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}" style="padding: 0;"/></td>
+                            <td><label class="filter-label" th:for="${risk.getId()}" th:text="${risk.getName()}"/></td></table>
                         </div>
                     </div>
                     <div>
                         <h5>Patient is in ward:</h5>
                         <div th:each="ward,iterStat : ${wards}">
-                            <input type="checkbox" class="filter-box" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}" style="padding: 0;"/>
-                            <label class="filter-label" th:for="${ward.getId()}" th:text="${ward.getName()}"/>
+                            <table><td><input type="checkbox" class="filter-box" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}" style="padding: 0;"/></td>
+                            <td><label class="filter-label" th:for="${ward.getId()}" th:text="${ward.getName()}"/></td></table>
                         </div>
                     </div>
                     <div>
                         <h4>Filter jobs by:</h4>
                     </div>
                     <div>
-                        <input type="radio" class="filter-box" name="complete" id="complete" value="true" style="padding: 0;"/>
-                      <label class="filter-label" for="complete">Complete</label>
+                        <table><td><input type="radio" class="filter-box" name="complete" id="complete" value="true" style="padding: 0;"/></td>
+                        <td><label class="filter-label" for="complete">Complete</label></td></table>
                     </div>
                     <div>
-                       <input type="radio" class="filter-box" name="complete" id="incomplete" value="false" style="padding: 0;"/>
-                        <label class="filter-label" for="incomplete">Incomplete</label>
+                        <table><td><input type="radio" class="filter-box" name="complete" id="incomplete" value="false" style="padding: 0;"/></td>
+                        <td><label class="filter-label" for="incomplete">Incomplete</label></td></table>
                    </div>
                    <div>
                        <h5>Job has category:</h5>
                         <div th:each="category,iterStat : ${category}">
-                            <input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}" style="padding: 0;"/>
-                            <label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/>
+                            <table><td><input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}" style="padding: 0;"/></td>
+                            <td><label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/></td></table>
                         </div>
                     </div>
                 </div>
@@ -58,12 +58,12 @@
                 </div>
                 <div class="drop-content">
                     <div>
-                        <input class="filter-box" type="radio" name="sort" id="firstName" value="firstName" style="padding: 0;"/>
-                        <label class="filter-label" for="firstName">Sort by First Name (A-Z)</label>
+                        <table><td><input class="filter-box" type="radio" name="sort" id="firstName" value="firstName" style="padding: 0;"/></td>
+                        <td><label class="filter-label" for="firstName">Sort by First Name (A-Z)</label></td></table>
                     </div>
                     <div>
-                        <input class="filter-box" type="radio" name="sort" id="lastName" value="lastName" style="padding: 0;"/>
-                        <label class="filter-label" for="lastName">Sort by Last Name (A-Z)</label>
+                        <table><td><input class="filter-box" type="radio" name="sort" id="lastName" value="lastName" style="padding: 0;"/></td>
+                            <td><label class="filter-label" for="lastName">Sort by Last Name (A-Z)</label></td></table>
                     </div>
                 </div>
             </div>
@@ -142,14 +142,14 @@
                             <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.getJobs()}">
                                 <form action="#" th:action="'/completeJob'" method="post" style="display: inline-block;">
                                     <input type="hidden" name="job" th:value="${job.id}"/>
-                                    <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getId()}"
+                                    <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"
                                             type="submit"
                                             id="complete-job-button"
                                             style="margin-left: 4px;">Complete Job</button>
                                 </form>
-                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getId()}" id="pending-job-icon">Pending</span>
+                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" id="pending-job-icon">Pending</span>
                                 <span th:if="${job.isComplete()}" id="completed-job-icon">Completed</span>
-                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getId() and !job.isComplete()}"
+                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"
                                    th:href="'/handoverJob?jobId=' + ${job.getId()}" id="handover-job-button">Handover</a>
                             </div>
                         </div>

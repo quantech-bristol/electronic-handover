@@ -6,33 +6,33 @@ import java.util.Set;
 
 public interface UserInfo {
 
-    public Title getTitle();
-    public void setTitle(Title t);
+    Title getTitle();
+    void setTitle(Title t);
 
-    public String getFirstName();
-    public void setFirstName(String firstName);
+    String getFirstName();
+    void setFirstName(String firstName);
 
-    public String getLastName();
-    public void setLastName(String lastName);
+    String getLastName();
+    void setLastName(String lastName);
 
-    public String getEmail();
-    public void setEmail(String email);
+    String getEmail();
+    void setEmail(String email);
 
-    public String getUsername();
-    public void setUsername(String username);
+    String getUsername();
+    void setUsername(String username);
 
-    public String getPassword();
-    public void setPassword(String password);
+    String getPassword();
+    void setPassword(String password);
 
-    public void addAuth(SecurityRoles auth);
-    public void removeAuth(SecurityRoles auth) ;
-    public boolean hasAuth(SecurityRoles auth) ;
+    void addAuth(SecurityRoles auth);
+    void removeAuth(SecurityRoles auth) ;
+    boolean hasAuth(SecurityRoles auth) ;
 
-    public boolean getEnabled();
-    public void setEnabled(boolean enabled);
+    boolean getEnabled();
+    void setEnabled(boolean enabled);
 
-    public Long getId();
+    Long getId();
 
-    public Set<SecurityRoles> getAuthorityStrings();
-    public void setAuthorityStrings(Set<SecurityRoles> authorityStrings);
+    Set<SecurityRoles> getAuthorityStrings();
+    void setAuthorityStrings(Set<SecurityRoles> authorityStrings);
 }

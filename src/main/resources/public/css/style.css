@@ -44,6 +44,12 @@ body {
     transition: all .15s ease-out;
 }
 
+input[type=checkbox], input[type=radio]{
+    padding: 0;
+    margin: 0;
+    display: inline;
+
+}
 .error {
     color: red;
     font-size: 18px;

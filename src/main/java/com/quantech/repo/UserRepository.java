@@ -7,17 +7,17 @@ import java.util.List;
 
 public interface UserRepository extends CrudRepository<UserCore, Long> {
 
-    public UserCore findUserCoreByUsername(String username);
+    UserCore findUserCoreByUsername(String username);
 
-    public UserCore getUserCoreByIdEquals(long id);
+    UserCore getUserCoreByIdEquals(long id);
 
-    public void deleteUserCoreByUsername(String username);
+    void deleteUserCoreByUsername(String username);
 
-    public int countByUsername(String username);
+    int countByUsername(String username);
 
-    public UserCore findUserCoreByEmail(String email);
+    UserCore findUserCoreByEmail(String email);
 
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
-    public List<UserCore> findUserCoresByFirstNameContainsAndLastNameContainsAndEmailContainsAndUsernameContains(String firstName, String lastName, String email, String username);
+    List<UserCore> findUserCoresByFirstNameContainsAndLastNameContainsAndEmailContainsAndUsernameContains(String firstName, String lastName, String email, String username);
 }

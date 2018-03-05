@@ -11,14 +11,14 @@
 <div id="sidebar" class="sidebar sidebar-open" th:fragment="sidebarstartopen">
     <div id="sidebarwrap">
         <div class="sidebar-row">
-            <h1 th:text="${#authentication.principal.getFullName()}">test</h1>
+            <h1 th:text="${#authentication.principal.getUserCore().getFullName()}">test</h1>
             <h2 style="margin:0;">Cardiology: Bristol Royal Infirmary</h2>
         </div>
         <a class="sidebar-row" th:href="@{/}"><h3>Overview</h3></a>
-        <a th:href="@{/patient/all}" th:if="${#authentication.principal.isDoctor()}" class="sidebar-row">
+        <a th:href="@{/patient/all}" th:if="${#authentication.principal.getUserCore().isDoctor()}" class="sidebar-row">
             <h3>My Patients</h3>
         </a>
-        <a th:href="@{/viewHandovers}" th:if="${#authentication.principal.isDoctor()}" class="sidebar-row">
+        <a th:href="@{/viewHandovers}" th:if="${#authentication.principal.getUserCore().isDoctor()}" class="sidebar-row">
             <h3>Sent Handovers</h3>
         </a>
     </div>
@@ -26,13 +26,13 @@
 
 <div id="sidebar" class="sidebar" th:fragment="sidebar">
     <div id="sidebarwrap">
-        <h1 th:text="${#authentication.principal.getFullName()}">test</h1>
+        <h1 th:text="${#authentication.principal.getUserCore().getFullName()}">test</h1>
         <h2 style="margin:0;">Cardiology: Bristol Royal Infirmary</h2>
         <a class="sidebar-row" th:href="@{/}"><h3>Overview</h3></a>
-        <a th:href="@{/patient/all}" th:if="${#authentication.principal.isDoctor()}" class="sidebar-row">
+        <a th:href="@{/patient/all}" th:if="${#authentication.principal.getUserCore().isDoctor()}" class="sidebar-row">
             <h3>My Patients</h3>
         </a>
-        <a th:href="@{/viewHandovers}" th:if="${#authentication.principal.isDoctor()}" class="sidebar-row">
+        <a th:href="@{/viewHandovers}" th:if="${#authentication.principal.getUserCore().isDoctor()}" class="sidebar-row">
             <h3>Sent Handovers</h3>
         </a>
     </div>
@@ -41,4 +41,4 @@
 </body>
 </html>
 
-<!--      <a th:href="@{/Admin}" th:if="${#authentication.principal.hasAuth(T(com.quantech.config.SecurityRoles).Admin)}"><h3>Go To Admin Page</h3></a> -->
+<!--      <a th:href="@{/Admin}" th:if="${#authentication.principal.getUserCore().hasAuth(T(com.quantech.config.SecurityRoles).Admin)}"><h3>Go To Admin Page</h3></a> -->

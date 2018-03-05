@@ -21,7 +21,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request,
                                 HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+            throws IOException {
 
         // delete the sensitive patient data when user logs out
         File pdf = new File("pdfout.pdf");

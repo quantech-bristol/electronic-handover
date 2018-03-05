@@ -13,11 +13,7 @@ public class EnumValuesValidator implements ConstraintValidator<ValidateEnumValu
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context)
     {
-        if(!acceptedVals.contains(value.toUpperCase()))
-        {
-            return false;
-        }
-        return true;
+        return acceptedVals.contains(value.toUpperCase());
     }
 
 

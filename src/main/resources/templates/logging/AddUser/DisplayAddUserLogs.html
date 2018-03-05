@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:include="fragments/header :: head (title='Logs')">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div class="main-box-header">
+    <a th:href="@{/admin/FilterAddLogs}" class="back-button"><i class="fa fa-arrow-circle-left"></i></a>
+    Change filter settings
+</div>
+
+<table id="patient-info">
+    <tr>
+        <td>Date</td>
+        <td>Creator Username</td>
+        <td>Creator User Email</td>
+        <td>Creator Full Name</td>
+        <td>Created Username</td>
+        <td>Created User Email</td>
+        <td>Created Full Name</td>
+        <td>Authorities</td>
+    </tr>
+
+    <tr th:each="Log : ${addLogs}">
+        <td>
+            <span th:text="${Log.getTimeOfOperation().toString()}"></span>
+        </td>
+        <td>
+            <span th:text="${MatchedUsersMap.get(Log.getOriginatingId()).getUsername()}"></span>
+        </td>
+        <td>
+            <span th:text="${MatchedUsersMap.get(Log.getOriginatingId()).getEmail()}"></span>
+        </td>
+        <td>
+            <span th:text="${MatchedUsersMap.get(Log.getOriginatingId()).getFullName()}"></span>
+        </td>
+        <td>
+            <span th:text="${Log.getUsername()}"></span>
+        </td>
+        <td>
+            <span th:text="${Log.getEmail()}"></span>
+        </td>
+        <td>
+            <span th:text="${Log.getFullName()}"></span>
+        </td>
+        <td>
+            <span th:text="${Log.authoritiesAsString()}"></span>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

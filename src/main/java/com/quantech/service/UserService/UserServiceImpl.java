@@ -2,14 +2,15 @@ package com.quantech.service.UserService;
 
 import com.quantech.config.SecurityRoles;
 import com.quantech.model.Doctor;
-import com.quantech.model.user.Title;
-import com.quantech.model.user.UserCore;
-import com.quantech.model.user.UserFormBackingObject;
-import com.quantech.model.user.UserInfo;
+import com.quantech.model.user.*;
 import com.quantech.repo.UserRepository;
 import com.quantech.service.DoctorService.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,7 @@ import javax.validation.constraints.Null;
 import java.util.*;
 import java.util.function.Predicate;
 
+@EnableCaching
 @Service("userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 
@@ -64,7 +66,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if ((!activeProfile.matches("test")) && (userRepository.count() == 0))
         {
 
-            userRepository.save(new UserCore("quantech",passwordEncoder.encode("quantech"), SecurityRoles.Admin, Title.Mx, "quan", "tech", "quantech@gmail.com"));
+            saveUser(new UserCore("quantech",passwordEncoder.encode("quantech"), SecurityRoles.Admin, Title.Mx, "quan", "tech", "quantech@gmail.com"), false);
         }
     }
     @Override
@@ -82,20 +84,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public void editPassword(String user, String newPass)
     {
         UserCore userToEdit = userRepository.findUserCoreByUsername(user);
-        userToEdit.setPassword(passwordEncoder.encode((newPass)));
-        userRepository.save(userToEdit);
+        saveUser(userToEdit, true);
 
     }
 
     //TODO add sanity checks
     @Override
+    @CachePut(value = "Users", key = "#user.getId()")
     public boolean saveUser(UserCore user, boolean hashPassword) {
-        if (user.getUsername() != "quantech") {
+
             if(hashPassword){user.setPassword(passwordEncoder.encode(user.getPassword()));}
             userRepository.save(user);
             return false;
-        }
-        return true;
     }
 
 
@@ -118,6 +118,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    @Cacheable(value = "Users",key = "#id")
     public UserCore findUserById(long id) {
         UserCore newUser = userRepository.getUserCoreByIdEquals(id);
         return newUser;
@@ -136,7 +137,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (newUser==null) {
             throw new UsernameNotFoundException(s);
         }
-        return newUser;
+        return new UserEntry(newUser.getId(),this);
     }
 
     private UserCore rootUser() {
@@ -149,16 +150,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public boolean nameIsValid(String s, Long id)
     {
         UserCore user = userRepository.findUserCoreByUsername(s);
-        if ((user == null)||(user.getId() == id)){return true;}
-        return false;
+        return (user == null) || (user.getId() == id);
     }
 
     @Override
     public boolean emailIsValid(String s, Long id)
     {
         UserCore user = userRepository.findUserCoreByEmail(s);
-        if ((user == null)||(user.getId() == id)){return true;}
-        return false;
+        return (user == null) || (user.getId() == id);
     }
 
 
@@ -204,14 +203,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<UserCore> findMatchesFromFilter(UserInfo ob)
+    public HashMap<Long,UserCore> findMatchesFromFilter(UserInfo ob)
     {
+
         List<UserCore> userInfo = userRepository.findUserCoresByFirstNameContainsAndLastNameContainsAndEmailContainsAndUsernameContains(ob.getFirstName(), ob.getLastName(), ob.getEmail(), ob.getUsername());
-        return userInfo;
+          HashMap<Long,UserCore> map = new HashMap<>();
+        for (UserCore u:userInfo) { map.put(u.getId(),u);}
+        return map;
     }
 
     @Override
     @Transactional
+    @CacheEvict(value = "Users",key = "#id")//Transactional means this is not altogether safe for reasons I dont understand
     public boolean deleteUserById(Long id) {
         doctorService.deleteDoctor(userRepository.getUserCoreByIdEquals(id));
         userRepository.deleteById(id);

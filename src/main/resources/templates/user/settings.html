@@ -22,21 +22,21 @@
             <td>
                 <div class="patient-details">
                     <div class="patient-detail-row">
-                        <span th:text="${#authentication.principal.getFullName()}" class="patient-detail"></span>
+                        <span th:text="${#authentication.principal.getUserCore().getFullName()}" class="patient-detail"></span>
                     </div>
                 </div>
             </td>
             <td>
                 <div class="patient-details">
                     <div class="patient-detail-row">
-                        <span th:text="${#authentication.principal.getUsername()}" class="patient-detail"></span>
+                        <span th:text="${#authentication.principal.getUserCore().getUsername()}" class="patient-detail"></span>
                     </div>
                 </div>
             </td>
             <td>
                 <div class="patient-details">
                     <div class="patient-detail-row">
-                        <span th:text="${#authentication.principal.getEmail()}" class="patient-detail"></span>
+                        <span th:text="${#authentication.principal.getUserCore().getEmail()}" class="patient-detail"></span>
                     </div>
                 </div>
             </td>

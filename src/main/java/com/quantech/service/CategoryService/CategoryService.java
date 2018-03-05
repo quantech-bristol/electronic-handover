@@ -13,23 +13,23 @@ public interface CategoryService {
      * @param category The category object to save.
      * @throws NullPointerException If the name has not been set, that is, is null.
      */
-    public void saveCategory(Category category) throws NullPointerException;
+    void saveCategory(Category category) throws NullPointerException;
 
     /**
      * @return A list of all categories stored in the category repository.
      */
-    public List<Category> getAllCategories();
+    List<Category> getAllCategories();
 
     /**
      * Finds a category corresponding to the unique id, stored in the repository.
      * @param id The id for which a category is a associated with.
      * @return A category corresponding to the id if one exists, null otherwise.
      */
-    public Category getCategory(Long id);
+    Category getCategory(Long id);
 
     /**
      * Deletes the category with the corresponding id from the repository.
      * @param id The id corresponding to the category to be deleted.
      */
-    public void deleteCategory(Long id);
+    void deleteCategory(Long id);
 }
