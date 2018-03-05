@@ -15,8 +15,8 @@
                         <h4>Filter patients by:</h4>
                    </div>
                     <div>
-                        <input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/>
-                     <label class="filter-label" for="unwell">Unwell</label>
+                     <table><td><input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/></td>
+                     <td><label class="filter-label" for="unwell">Unwell</label></td>
                    </div>
                     <div>
                         <h5>Patient has risk:</h5>
@@ -48,6 +48,7 @@
                         <div th:each="category,iterStat : ${category}">
                             <input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}" style="padding: 0;"/>
                             <label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/>
+                            </table>
                         </div>
                     </div>
                 </div>
