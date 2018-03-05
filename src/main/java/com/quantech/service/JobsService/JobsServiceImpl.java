@@ -3,9 +3,7 @@ package com.quantech.service.JobsService;
 import com.quantech.model.Category;
 import com.quantech.misc.EntityFieldHandler;
 import com.quantech.model.*;
-import com.quantech.repo.JobContextRepository;
-import com.quantech.repo.JobRepository;
-import com.quantech.repo.PatientRepository;
+import com.quantech.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -28,6 +26,12 @@ public class JobsServiceImpl implements JobsService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired
+    private WardRepository wardRepository;
 
     @Override
     public Job getJob(Long id) {
@@ -53,35 +57,10 @@ public class JobsServiceImpl implements JobsService {
     */
 
     @Override
-    public List<Job> getAllUncompletedJobsFrom(Doctor doctor) {
-        return jobRepository.findByDoctor(doctor).stream()
-                .filter(job -> job.getCompletionDate() == null)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<Job> getAllJobsForPatient(Patient patient) {
         List<Job> jobs = new ArrayList<>();
         jobContextRepository.findByPatient(patient).forEach(context -> jobs.addAll(context.getJobs()));
         return jobs;
-    }
-
-    @Override
-    public List<Job> getAllUncompletedJobsForPatient(Patient patient) {
-        List<Job> jobs = new ArrayList<>();
-        jobContextRepository.findByPatient(patient).forEach(context -> jobs.addAll(context.getJobs()));
-        return jobs.stream()
-                .filter(job -> job.getCompletionDate() == null)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Job> getAllCompletedJobsForPatient(Patient patient) {
-        List<Job> jobs = new ArrayList<>();
-        jobContextRepository.findByPatient(patient).forEach(context -> jobs.addAll(context.getJobs()));
-        return jobs.stream()
-                .filter(job -> job.getCompletionDate() != null)
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -116,9 +95,15 @@ public class JobsServiceImpl implements JobsService {
         }
 
         // Check if the job context is in the repository.
-//        if (jobContextRepository.findById(job.getJobContext().getId()) != null) {
-//            throw new IllegalArgumentException("Error: job context doesn't already exist in the database.");
-//        }
+        if (jobContextRepository.findById(job.getJobContext().getId()) == null) {
+            throw new IllegalArgumentException("Error: job context doesn't already exist in the database.");
+        }
+
+        // Same for doctor.
+        if (job.getDoctor() != null && doctorRepository.findById(job.getDoctor().getId()) == null) {
+            throw new IllegalArgumentException("Error: doctor doesn't already exist in the database.");
+        }
+
 
         jobRepository.save(job);
 
@@ -146,9 +131,14 @@ public class JobsServiceImpl implements JobsService {
         }
 
         // Check if the patient is in the repository.
-//        if (patientRepository.findById(context.getPatient().getId()) != null) {
-//            throw new IllegalArgumentException("Error: patient doesn't already exist in the database.");
-//        }
+        if (patientRepository.findById(context.getPatient().getId()) == null) {
+            throw new IllegalArgumentException("Error: patient doesn't already exist in the database.");
+        }
+
+        // Check if the ward is in the repository.
+        if (wardRepository.findById(context.getWard().getId()) == null) {
+            throw new IllegalArgumentException("Error: ward doesn't already exist in the database.");
+        }
 
         jobContextRepository.save(context);
     }
@@ -159,8 +149,10 @@ public class JobsServiceImpl implements JobsService {
             throw new NullPointerException("Error: job cannot be null.");
         if (doctor == null)
             throw new NullPointerException("Error: doctor cannot be null.");
-        job.setDoctor(doctor);
-        this.saveJob(job);
+        if (job.getCompletionDate() == null) {
+            job.setDoctor(doctor);
+            this.saveJob(job);
+        }
     }
 
     @Override
@@ -172,8 +164,10 @@ public class JobsServiceImpl implements JobsService {
     public void completeJob(Job job) {
         if (job == null)
             throw new NullPointerException("Error: job cannot have null value.");
-        job.setCompletionDate(new Date());
-        this.saveJob(job);
+        if (job.getCompletionDate() == null) {
+            job.setCompletionDate(new Date());
+            this.saveJob(job);
+        }
     }
 
     @Override
@@ -208,6 +202,16 @@ public class JobsServiceImpl implements JobsService {
     @Override
     public Predicate<Job> jobIsOfWard(Ward ward) {
         return job -> job.getJobContext().getWard().equals(ward);
+    }
+
+    @Override
+    public Predicate<Job> jobIsComplete() {
+        return job -> job.getCompletionDate() != null;
+    }
+
+    @Override
+    public Predicate<Job> jobIsUncomplete() {
+        return job -> job.getCompletionDate() == null;
     }
 
     @Override
@@ -246,6 +250,15 @@ public class JobsServiceImpl implements JobsService {
             stream = stream.filter(p);
         }
         return stream.collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> jobContextPredicates, Iterable<Predicate<Job>> jobPredicates) {
+        List<JobContext> jcs = filterJobContextsBy(list,jobContextPredicates);
+        for (JobContext jc : jcs) {
+            jc.setJobs(filterJobsBy(jc.getJobs(),jobPredicates));
+        }
+        return jcs;
     }
 
     @Override

@@ -193,4 +193,8 @@ public class JobContext {
     public void setRisks(List<Risk> risks) {
         this.risks = risks;
     }
+
+    public void addRisk(Risk risk) {
+        this.risks.add(risk);
+    }
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.List;
@@ -103,6 +104,32 @@ public class DoctorController {
         return "redirect:/";
     }
 
+    @GetMapping(value="/filterJobContexts")
+    public String filter(RedirectAttributes request,
+                         @RequestParam(name="unwell",required=false) String unwell,
+                         @RequestParam(name="risk", required=false) Long[] riskIDs,
+                         @RequestParam(name="category", required=false) Long[] categoryIDs,
+                         @RequestParam(name="ward", required =false) Long[] wardIDs,
+                         @RequestParam(name="complete",required = false) String complete,
+                         @RequestParam(name="sort",required = false) String sort)  {
+        request.addAttribute("unwell",unwell);
+        if (riskIDs != null)
+            for (Long id : riskIDs) {
+            request.addAttribute("risk",id);
+            }
+        if (wardIDs != null)
+            for (Long id : wardIDs) {
+                request.addAttribute("ward",id);
+            }
+        if (categoryIDs != null)
+            for (Long id : categoryIDs) {
+                request.addAttribute("category",id);
+            }
+        request.addAttribute("complete",complete);
+        request.addAttribute("sort",sort);
+        return "redirect:/";
+    }
+
     @GetMapping("/patient/id={id}")
     public String viewPatient(@PathVariable Long id, Model model) {
         model.addAttribute("patient", patientService.getPatientById(id));
@@ -118,5 +145,6 @@ public class DoctorController {
 
         return new FileSystemResource("pdfout.pdf");
     }
+
 
 }

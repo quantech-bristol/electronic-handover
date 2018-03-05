@@ -7,9 +7,69 @@
 <body>
     <div th:replace="fragments/header :: header">&nbsp;</div>
     <div id="main">
-        <a href="/?sort=firstName">Sort entries (by first name)</a>
-        <a href="/?sort=lastName">Sort entries (by last name)</a>
-        <a href="/?unwell=true">Filter entries (unwell)</a>
+        <form th:action="'/filterJobContexts'" method="get">
+            <div class="dropdown">
+                <div class="drop-btn">Filter</div>
+                <div class="drop-content">
+                   <div>
+                        <h4>Filter patients by:</h4>
+                   </div>
+                    <div>
+                        <input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/>
+                     <label class="filter-label" for="unwell">Unwell</label>
+                   </div>
+                    <div>
+                        <h5>Patient has risk:</h5>
+                        <div th:each="risk,iterStat : ${risks}">
+                            <input type="checkbox" class="filter-box" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}" style="padding: 0;"/>
+                            <label class="filter-label" th:for="${risk.getId()}" th:text="${risk.getName()}"/>
+                        </div>
+                    </div>
+                    <div>
+                        <h5>Patient is in ward:</h5>
+                        <div th:each="ward,iterStat : ${wards}">
+                            <input type="checkbox" class="filter-box" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}" style="padding: 0;"/>
+                            <label class="filter-label" th:for="${ward.getId()}" th:text="${ward.getName()}"/>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Filter jobs by:</h4>
+                    </div>
+                    <div>
+                        <input type="radio" class="filter-box" name="complete" id="complete" value="true" style="padding: 0;"/>
+                      <label class="filter-label" for="complete">Complete</label>
+                    </div>
+                    <div>
+                       <input type="radio" class="filter-box" name="complete" id="incomplete" value="false" style="padding: 0;"/>
+                        <label class="filter-label" for="incomplete">Incomplete</label>
+                   </div>
+                   <div>
+                       <h5>Job has category:</h5>
+                        <div th:each="category,iterStat : ${category}">
+                            <input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}" style="padding: 0;"/>
+                            <label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="drop-btn">
+                    Sort
+                </div>
+                <div class="drop-content">
+                    <div>
+                        <input class="filter-box" type="radio" name="sort" id="firstName" value="firstName" style="padding: 0;"/>
+                        <label class="filter-label" for="firstName">Sort by First Name (A-Z)</label>
+                    </div>
+                    <div>
+                        <input class="filter-box" type="radio" name="sort" id="lastName" value="lastName" style="padding: 0;"/>
+                        <label class="filter-label" for="lastName">Sort by Last Name (A-Z)</label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit">Apply</button>
+        </form>
+
         <table id="patient-info">
             <tr>
                 <td>Patient Details</td>
@@ -108,7 +168,7 @@
                 </tr>
             </div>
         </table>
-        <form th:action="@{/pdf}" method="post" th:modelAttribute="${jobContexts}">
+        <form th:action="@{/pdf}" method="post" name="jobContexts" th:object="${jobContexts}">
             <input class="btn" style="width: 10vw;" type="submit" value="View all as PDF"/>
         </form>
 
