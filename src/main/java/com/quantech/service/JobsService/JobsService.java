@@ -16,21 +16,21 @@ public interface JobsService {
      * @param id The id to be used to identify the job in the repository.
      * @return The job corresponding to the id if it exists, or null otherwise.
      */
-    public Job getJob(Long id);
+    Job getJob(Long id);
 
     /**
      * Returns the handover stored in the repository corresponding to the unique id.
      * @param id The id to be used to identify the job context in the repository.
      * @return The job context corresponding to the id if it exists, or null otherwise.
      */
-    public JobContext getJobContext(Long id);
+    JobContext getJobContext(Long id);
 
     /**
      * Finds a list of all jobs that are currently the responsibility of a certain doctor.
      * @param doctor The doctor to which the job was sent.
      * @return A list of jobs that the doctor is responsible for.
      */
-    public List<Job> getAllJobsOfDoctor(Doctor doctor);
+    List<Job> getAllJobsOfDoctor(Doctor doctor);
 
     /**
      * Get all jobs that a certain doctor has sent that has not yet been accepted.
@@ -44,20 +44,20 @@ public interface JobsService {
      * @param patient The patient for which the jobs concern.
      * @return A list of jobs that involve the input patient.
      */
-    public List<Job> getAllJobsForPatient(Patient patient);
+    List<Job> getAllJobsForPatient(Patient patient);
 
     /**
      * Finds a list of all jobs contexts.
      * @return A list of all job contexts.
      */
-    public List<JobContext> getAllJobContexts();
+    List<JobContext> getAllJobContexts();
 
     /**
      * Finds a list of all jobs corresponding to a certain context.
      * @param context The context to use in the search.
      * @return A list of jobs that use the context.
      */
-    public List<Job> getAllJobsOfContext(JobContext context);
+    List<Job> getAllJobsOfContext(JobContext context);
 
     /**
      * Saves the given job into the repository.
@@ -65,7 +65,7 @@ public interface JobsService {
      * @throws NullPointerException If the job has a null description, category, creation date or job context.
      * @throws IllegalArgumentException If the corresponding job context or doctor isn't in the repository, or is invalid.
      */
-    public void saveJob(Job job) throws NullPointerException, IllegalArgumentException;
+    void saveJob(Job job) throws NullPointerException, IllegalArgumentException;
 
     /**
      * Saves the given job context into the repository.
@@ -73,7 +73,7 @@ public interface JobsService {
      * @throws NullPointerException If the "unwell", creation date, patient, ward or jobs field is null.
      * @throws IllegalArgumentException If the patient isn't already in the database.
      */
-    public void saveJobContext(JobContext context);
+    void saveJobContext(JobContext context);
 
     /**
      * Send a handover using a given job, making another doctor responsible for that job.
@@ -81,34 +81,34 @@ public interface JobsService {
      * @param job The job to send.
      * @param doctor The doctor to handover to.
      */
-    public void handoverJob(Job job, Doctor doctor);
+    void handoverJob(Job job, Doctor doctor);
 
     /**
      * Send a handover using a given iterable of jobs, making that doctor responsible for those jobs.
      * @param job The jobs to send.
      * @param doctor The doctor to handover to.
      */
-    public void handoverJobs(Iterable<Job> job, Doctor doctor);
+    void handoverJobs(Iterable<Job> job, Doctor doctor);
 
     /**
      * Marks a given job as complete.
      * @param job The job to complete.
      */
-    public void completeJob(Job job);
+    void completeJob(Job job);
 
     /**
      * Sorts a list of job contexts by the patient's first name.
      * @param jobContexts List of job contexts.
      * @return A list of job contexts.
      */
-    public List<JobContext> sortJobContextsByFirstName(List<JobContext> jobContexts);
+    List<JobContext> sortJobContextsByFirstName(List<JobContext> jobContexts);
 
     /**
      * Sorts a list of job contexts by the patient's last name.
      * @param jobContexts List of job contexts.
      * @return A list of job contexts.
      */
-    public List<JobContext> sortJobContextsByLastName(List<JobContext> jobContexts);
+    List<JobContext> sortJobContextsByLastName(List<JobContext> jobContexts);
 
     /**
      * Filter list of job contexts by a given predicate.
@@ -116,7 +116,7 @@ public interface JobsService {
      * @param predicate A predicate to test the job contexts against.
      * @return A list of job contexts filtered by the given predicate.
      */
-    public List<JobContext> filterJobContextsBy(List<JobContext> list, Predicate<JobContext> predicate);
+    List<JobContext> filterJobContextsBy(List<JobContext> list, Predicate<JobContext> predicate);
 
     /**
      * Filter list of a job contexts by a given predicate.
@@ -124,7 +124,7 @@ public interface JobsService {
      * @param predicates A collection of predicates to test the job contexts against, conjunctive.
      * @return A list of job contexts filtered by the given predicate.
      */
-    public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> predicates);
+    List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> predicates);
 
     /**
      * Filter list of a job contexts and their corresponding jobs by a given predicate.
@@ -133,28 +133,28 @@ public interface JobsService {
      * @param jobPredicates A collection of predicates to test the jobs against, conjunctive.
      * @return A list of job contexts filtered by the given predicate.
      */
-    public List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> jobContextPredicates, Iterable<Predicate<Job>> jobPredicates);
+    List<JobContext> filterJobContextsBy(List<JobContext> list, Iterable<Predicate<JobContext>> jobContextPredicates, Iterable<Predicate<Job>> jobPredicates);
 
 
     /**
      * Predicate that checks if the patient is unwell.
      * @return A predicate.
      */
-    public Predicate<JobContext> patientIsUnwell();
+    Predicate<JobContext> patientIsUnwell();
 
     /**
      * Predicate that checks if a patient has a given risk.
      * @param risk risk.
      * @return A predicate.
      */
-    public Predicate<JobContext> patientHasRisk(Risk risk);
+    Predicate<JobContext> patientHasRisk(Risk risk);
 
     /**
      * Predicate that checks if a patient is in a given ward.
      * @param ward ward.
      * @return predicate.
      */
-    public Predicate<JobContext> patientIsInWard(Ward ward);
+    Predicate<JobContext> patientIsInWard(Ward ward);
 
     /**
      * Filter list of a jobs by a given predicate.
@@ -162,7 +162,7 @@ public interface JobsService {
      * @param predicate A predicate to test the jobs against.
      * @return A list of jobs filtered by the given predicate.
      */
-    public List<Job> filterJobsBy(List<Job> list, Predicate<Job> predicate);
+    List<Job> filterJobsBy(List<Job> list, Predicate<Job> predicate);
 
     /**
      * Filter list of a jobs by a given predicate.
@@ -170,66 +170,66 @@ public interface JobsService {
      * @param predicates A collection of predicates to test the jobs against, conjunctive.
      * @return A list of jobs filtered by the given predicate.
      */
-    public List<Job> filterJobsBy(List<Job> list, Iterable<Predicate<Job>> predicates);
+    List<Job> filterJobsBy(List<Job> list, Iterable<Predicate<Job>> predicates);
 
     /**
      * A predicate that checks if a job has a specific category.
      * @param category The category to check.
      * @return The corresponding predicate object.
      */
-    public Predicate<Job> jobIsOfCategory(Category category);
+    Predicate<Job> jobIsOfCategory(Category category);
 
     /**
      * A predicate that checks if a job's patient is unwell.
      * @return The corresponding predicate object.
      */
-    public Predicate<Job> jobWherePatientIsUnwell();
+    Predicate<Job> jobWherePatientIsUnwell();
 
     /**
      * A predicate that checks if a job's patient is well.
      * @return The corresponding predicate object.
      */
-    public Predicate<Job> jobWherePatientIsWell();
+    Predicate<Job> jobWherePatientIsWell();
 
     /**
      * A predicate that checks if a job is to be carried out in a certain ward.
      * @param ward A ward.
      * @return The corresponding predicate object.
      */
-    public Predicate<Job> jobIsOfWard(Ward ward);
+    Predicate<Job> jobIsOfWard(Ward ward);
 
     /**
      * A predicate that checks if a given job is complete.
      * @return A predicate.
      */
-    public Predicate<Job> jobIsComplete();
+    Predicate<Job> jobIsComplete();
 
     /**
      * A predicate that checks if a given job is incomplete.
      * @return A predicate.
      */
-    public Predicate<Job> jobIsUncomplete();
+    Predicate<Job> jobIsUncomplete();
 
     /**
      * Sorts the given list of jobs into order of creation date, oldest first.
      * @param jobs List of jobs to be sorted.
      * @return Sorted list of jobs.
      */
-    public List<Job> sortJobsOldestFirst(List<Job> jobs);
+    List<Job> sortJobsOldestFirst(List<Job> jobs);
 
     /**
      * Sorts the given list of jobs into order of creation date, newest first.
      * @param jobs List of jobs to be sorted.
      * @return Sorted list of jobs.
      */
-    public List<Job> sortJobsNewestFirst(List<Job> jobs);
+    List<Job> sortJobsNewestFirst(List<Job> jobs);
 
     /**
      * Returns a list of job contexts for patients under the care of a given doctor.
      * @param doctor The doctor to get job contexts for.
      * @return A list of job contexts.
      */
-    public List<JobContext> getJobContextsUnderCareOf(Doctor doctor);
+    List<JobContext> getJobContextsUnderCareOf(Doctor doctor);
 
 
     /**
@@ -237,6 +237,6 @@ public interface JobsService {
      * @param result The binding result formed from the view template.
      * @param job The job object created through the form.
      */
-    public void CheckValidity(BindingResult result, Job job);
+    void CheckValidity(BindingResult result, Job job);
 
 }

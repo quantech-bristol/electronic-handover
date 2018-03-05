@@ -284,9 +284,7 @@ public class AdminController {
         for (Log l:logs)
         {
             AddUser event = (AddUser)l.returnLoggedOperation();
-
             if (event.meetsFilter(user)){addLogs.add(event);}
-
         }
         flash.addFlashAttribute("addLogs",addLogs);
         return "redirect:/admin/DisplayAddLogs";

@@ -150,16 +150,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public boolean nameIsValid(String s, Long id)
     {
         UserCore user = userRepository.findUserCoreByUsername(s);
-        if ((user == null)||(user.getId() == id)){return true;}
-        return false;
+        return (user == null) || (user.getId() == id);
     }
 
     @Override
     public boolean emailIsValid(String s, Long id)
     {
         UserCore user = userRepository.findUserCoreByEmail(s);
-        if ((user == null)||(user.getId() == id)){return true;}
-        return false;
+        return (user == null) || (user.getId() == id);
     }
 
 

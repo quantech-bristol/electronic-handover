@@ -76,16 +76,12 @@ public class AddUser implements LoggableEvent{
 
     public boolean meetsFilter(UserFormBackingObject user)
     {
-        if (
-
-                (!securityRoles.containsAll(user.getAuthorityStrings()))
-                || (!username.contains(user.getUsername()))
-                || (!email.contains(user.getEmail()))
-                || (!((user.getTitle()== null)||(user.getTitle() == title)))
-                || (!firstName.contains(user.getFirstName()))
-                || (!surname.contains(user.getLastName()))
-                ){return false;}
-        return true;
+        return (securityRoles.containsAll(user.getAuthorityStrings()))
+                && (username.contains(user.getUsername()))
+                && (email.contains(user.getEmail()))
+                && ((user.getTitle() == null) || (user.getTitle() == title))
+                && (firstName.contains(user.getFirstName()))
+                && (surname.contains(user.getLastName()));
     }
 
     public String getUsername() {

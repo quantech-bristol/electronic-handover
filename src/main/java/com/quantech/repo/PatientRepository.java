@@ -11,12 +11,12 @@ import java.util.List;
 
 public interface PatientRepository extends CrudRepository<Patient, Long>, JpaRepository<Patient, Long> {
 
-    public Patient findByHospitalNumber(Long hospNum);
+    Patient findByHospitalNumber(Long hospNum);
 
-    public Patient findByNHSNumber(Long nhsNum);
+    Patient findByNHSNumber(Long nhsNum);
 
-    public Patient findById(Long id);
+    Patient findById(Long id);
 
-    public List<Patient> findPatientsByFirstNameContainsAndLastNameContains(String firstName, String lastName);
+    List<Patient> findPatientsByFirstNameContainsAndLastNameContains(String firstName, String lastName);
 
 }

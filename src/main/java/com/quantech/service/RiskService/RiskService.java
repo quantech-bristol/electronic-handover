@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface RiskService {
 
-    public List<Risk> getAllRisks();
+    List<Risk> getAllRisks();
 
-    public Risk getRisk(Long id);
+    Risk getRisk(Long id);
 
-    public void saveRisk(Risk risk);
+    void saveRisk(Risk risk);
 
-    public void deleteRisk(Long id);
+    void deleteRisk(Long id);
 }

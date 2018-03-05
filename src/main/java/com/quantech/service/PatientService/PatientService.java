@@ -14,42 +14,42 @@ public interface PatientService {
      * Returns all patients currently stored in the repository.
      * @return A list of all patients currently stored in the repository.
      */
-    public List<Patient> getAllPatients();
+    List<Patient> getAllPatients();
 
     /**
      * Sort the given list of patients by their first name, alphabetically.
      * @param list The list of patients.
      * @return A sorted list of patients, by first name.
      */
-    public List<Patient> sortPatientsByFirstName(List<Patient> list);
+    List<Patient> sortPatientsByFirstName(List<Patient> list);
 
     /**
      * Sort the given list of patients by their last name, alphabetically.
      * @param list The list of patients.
      * @return A sorted list of patients, by last name.
      */
-    public List<Patient> sortPatientsByLastName(List<Patient> list);
+    List<Patient> sortPatientsByLastName(List<Patient> list);
 
     /**
      * Finds a patient stored in the repository corresponding to a unique id.
      * @param id The id for which the patient corresponds to.
      * @return  A patient corresponding to the id if it exists, null otherwise.
      */
-    public Patient getPatientById(Long id);
+    Patient getPatientById(Long id);
 
     /**
      * Returns a patient corresponding to their hospital number.
      * @param hospNum The hospital number corresponding to the patient.
      * @return The patient corresponding to the hospital number if they exist, null otherwise.
      */
-    public Patient getPatientByHospitalNumber(Long hospNum);
+    Patient getPatientByHospitalNumber(Long hospNum);
 
     /**
      * Returns a patient corresponding to their hospital number.
      * @param nhsNum The NHS Number corresponding to the patient.
      * @return The patient corresponding to the hospital number if they exist, null otherwise.
      */
-    public Patient getPatientByNHSNumber(Long nhsNum);
+    Patient getPatientByNHSNumber(Long nhsNum);
 
     /**
      * Saves a given patient to the repository.
@@ -61,7 +61,7 @@ public interface PatientService {
      * @throws org.springframework.dao.DataIntegrityViolationException If a patient with a given non-null NHS number already exists.
      * @throws org.springframework.dao.DataIntegrityViolationException If a patient with a given non-null hospital number already exists.
      */
-    public void savePatient(Patient patient) throws NullPointerException, IllegalArgumentException;
+    void savePatient(Patient patient) throws NullPointerException, IllegalArgumentException;
 
     /**
      * Checks if a given NHS number is valid, by checking to see if it has the correct checksum.
@@ -69,19 +69,19 @@ public interface PatientService {
      * @param nhsNumber The NHS number.
      * @return True if it is correct, false otherwise.
      */
-    public boolean checksumCorrect(Long nhsNumber);
+    boolean checksumCorrect(Long nhsNumber);
 
     /**
      * Deletes a given patient from the repository.
      * @param patient The patient to be removed from the repository.
      */
-    public void deletePatient(Patient patient);
+    void deletePatient(Patient patient);
 
     /**
      * Deletes a given patient from the repository.
      * @param id The patient to be removed from the repository.
      */
-    public void deletePatient(Long id);
+    void deletePatient(Long id);
 
     /**
      * Filter list of a patients by a given predicate.
@@ -89,7 +89,7 @@ public interface PatientService {
      * @param predicate A predicate to test the patients against.
      * @return A list of patients filtered by the given predicate.
      */
-    public List<Patient> filterPatientsBy(List<Patient> list, Predicate<Patient> predicate);
+    List<Patient> filterPatientsBy(List<Patient> list, Predicate<Patient> predicate);
 
     /**
      * Filter list of a patients by a given predicate.
@@ -97,41 +97,41 @@ public interface PatientService {
      * @param predicates A collection of predicates to test the patients against.
      * @return A list of patients filtered by the given predicate.
      */
-    public List<Patient> filterPatientsBy(List<Patient> list, Iterable<Predicate<Patient>> predicates);
+    List<Patient> filterPatientsBy(List<Patient> list, Iterable<Predicate<Patient>> predicates);
 
     /**
      * A predicate that checks if the patient's first name begins with the given string.
      * @param str The string to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> patientsFirstNameStartsWith(String str);
+    Predicate<Patient> patientsFirstNameStartsWith(String str);
 
     /**
      * A predicate that checks if the patient's last name begins with the given string.
      * @param str The string to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> patientsLastNameStartsWith(String str);
+    Predicate<Patient> patientsLastNameStartsWith(String str);
 
     /**
      * A predicate that checks if the patient is in a given ward.
      * @param ward The ward to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> patientInWard(Ward ward);
+    Predicate<Patient> patientInWard(Ward ward);
 
     /**
      * A predicate that checks if the patient is on a given bed.
      * @param bed The bed to compare with.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> patientsBedIs(Integer bed);
+    Predicate<Patient> patientsBedIs(Integer bed);
 
     /**
      * A predicate that checks if the patient is unwell.
      * @return The corresponding predicate object.
      */
-    public Predicate<Patient> patientIsUnwell();
+    Predicate<Patient> patientIsUnwell();
 
     /**
      * Checks the validity of a patient's fields, and rejects the result value accordingly.

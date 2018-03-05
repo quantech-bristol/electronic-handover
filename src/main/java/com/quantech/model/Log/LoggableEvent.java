@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public interface LoggableEvent extends Serializable
 {
-    public Long getOriginatingId();
-    public OperationTypes getOperation();
-    public LocalDateTime getTimeOfOperation();
+    Long getOriginatingId();
+    OperationTypes getOperation();
+    LocalDateTime getTimeOfOperation();
 }

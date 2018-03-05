@@ -142,14 +142,14 @@
                             <div class="patient-detail-row" th:each="job,iterStat : ${jobContext.getJobs()}">
                                 <form action="#" th:action="'/completeJob'" method="post" style="display: inline-block;">
                                     <input type="hidden" name="job" th:value="${job.id}"/>
-                                    <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getId()}"
+                                    <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"
                                             type="submit"
                                             id="complete-job-button"
                                             style="margin-left: 4px;">Complete Job</button>
                                 </form>
-                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getId()}" id="pending-job-icon">Pending</span>
+                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" id="pending-job-icon">Pending</span>
                                 <span th:if="${job.isComplete()}" id="completed-job-icon">Completed</span>
-                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getId() and !job.isComplete()}"
+                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"
                                    th:href="'/handoverJob?jobId=' + ${job.getId()}" id="handover-job-button">Handover</a>
                             </div>
                         </div>
