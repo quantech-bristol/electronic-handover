@@ -31,9 +31,9 @@ public class LoggerAspect
     @AfterReturning(value = "classMethod()",returning = "returnValue")
     public void logUserCreation(JoinPoint jp, UserCore returnValue)
     {
-        UserFormBackingObject userAdded = (UserFormBackingObject)jp.getArgs()[0];
         UserEntry user = (UserEntry)auth.getAuthentication().getPrincipal();
-        AddUser op = new AddUser(user.getUserCore().getId(), LocalDateTime.now(), returnValue.getId(),userAdded.getAuthorityStrings() );
+        UserCore userAdded = returnValue;
+        AddUser op = new AddUser(user.getUserCore().getId(), LocalDateTime.now(), userAdded.getId(),userAdded.getAuthorityStrings(), userAdded.getUsername(), userAdded.getEmail(), userAdded.getFirstName(),userAdded.getLastName(), userAdded.getTitle());
         logService.saveLog(op);
     }
 }

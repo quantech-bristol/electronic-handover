@@ -3,7 +3,6 @@ package com.quantech.control;
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.misc.PdfGenerator;
 import com.quantech.model.*;
-import com.quantech.model.user.Title;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserEntry;
 import com.quantech.repo.PatientRepository;
@@ -11,30 +10,17 @@ import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
 import com.quantech.service.JobsService.JobsServiceImpl;
 import com.quantech.service.PatientService.PatientServiceImpl;
-import com.quantech.service.UserService.UserServiceImpl;
+import com.quantech.service.UserService.UserService;
 import com.quantech.service.WardService.WardServiceImpl;
-import jdk.nashorn.internal.scripts.JO;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
 @Controller
 public class DoctorController {
@@ -61,7 +47,7 @@ public class DoctorController {
     WardServiceImpl wardService;
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @GetMapping(value="/createJob")
     public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {

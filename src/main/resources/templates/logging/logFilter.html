@@ -63,7 +63,7 @@
                         <div class="custom-select" style="width: 80px;">
                             Operation:
                             <select id="operations" name="operations" th:field = "*{operation}">
-                                <option value="" hidden="true">All Operations</option>
+                                <option value="">All Operations</option>
                                 <option th:each="op : ${T(com.quantech.model.Log.OperationTypes).values()}" th:value="${op}" th:text="${op}"></option>
                             </select>
                         </div>

@@ -8,19 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service("logService")
-public class LogServiceImpl
-{
+public class LogServiceImpl implements LogService {
     @Autowired
     LogRepository logRepository;
 
+    @Override
     public void saveLog(LoggableEvent logEvent)
     {
         logRepository.save(new Log(logEvent));
     }
 
-    public List<Log> returnMatchingLogs(LogFilterBackingObject lo, List<Long> validIds)
+    @Override
+    public List<Log> returnMatchingLogs(LogFilterBackingObject lo, Set<Long> validIds)
     {
         List<Log> logs;
         if (lo.getOperation() == null){logs = logRepository.getAllByOriginatingUserInAndDateOfEventBetween(validIds,lo.getAfterDate(), lo.getBeforeDate());}

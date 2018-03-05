@@ -60,8 +60,9 @@ public class Log
         }
     }
 
-    public Object returnLoggedOperation()
+    public LoggableEvent returnLoggedOperation()
     {
+        if (loggedEvent != null){return loggedEvent;}
         ByteArrayInputStream bis = new ByteArrayInputStream(serializedObject);
         ObjectInput in = null;
         Object o = null;
@@ -84,7 +85,7 @@ public class Log
                 // ignore close exception
             }
         }
-        return o;
+        return loggedEvent;
 
     }
     public Long getId() {

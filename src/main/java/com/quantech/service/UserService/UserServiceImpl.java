@@ -205,10 +205,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<UserCore> findMatchesFromFilter(UserInfo ob)
+    public HashMap<Long,UserCore> findMatchesFromFilter(UserInfo ob)
     {
+
         List<UserCore> userInfo = userRepository.findUserCoresByFirstNameContainsAndLastNameContainsAndEmailContainsAndUsernameContains(ob.getFirstName(), ob.getLastName(), ob.getEmail(), ob.getUsername());
-        return userInfo;
+          HashMap<Long,UserCore> map = new HashMap<>();
+        for (UserCore u:userInfo) { map.put(u.getId(),u);}
+        return map;
     }
 
     @Override

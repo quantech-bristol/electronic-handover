@@ -180,4 +180,11 @@ public class UserFormBackingObject implements UserInfo
     public void setPasswordConfirmation(String passwordConfirmation) {
         this.passwordConfirmation = passwordConfirmation;
     }
+    public String getFullName()
+    {
+        String s = "";
+        if (title != null){s+=title.toString();}
+        s+= " " + firstName + " " + lastName;
+        return s;
+    }
 }

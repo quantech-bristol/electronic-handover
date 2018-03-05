@@ -8,7 +8,7 @@ import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorServiceImpl;
 import com.quantech.service.JobsService.JobsServiceImpl;
 import com.quantech.service.PatientService.PatientServiceImpl;
-import com.quantech.service.UserService.UserServiceImpl;
+import com.quantech.service.UserService.UserService;
 import com.quantech.service.WardService.WardServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +39,7 @@ public class HandoverController {
     DoctorServiceImpl doctorService;
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @GetMapping(value="/newPatient")
     public String newPatient(Model model) {

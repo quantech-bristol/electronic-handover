@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -19,6 +20,7 @@ public interface UserService
     public void insertRootUser();
 
     public void deleteUser(String user) ;
+
 
     public void editPassword(String user, String newPass);
 
@@ -32,15 +34,18 @@ public interface UserService
      */
     public boolean saveUser(UserCore user, boolean hashPassword);
 
+    public UserCore createUser(UserFormBackingObject user);
+
     public boolean checkUserPassword(UserCore user, String password);
 
     public List<UserCore> getAllUsers() ;
+    public UserCore findUserByUsername(String username);
+
+    public void editUser(UserFormBackingObject user);
 
     public List<UserCore> getAllDoctorUsers() ;
 
     public UserCore findUserById(long id) ;
-
-    public UserCore findUserByUsername(String username);
 
     public boolean nameIsValid(String s, Long validForUserId);
 
@@ -48,7 +53,7 @@ public interface UserService
 
     public void CheckValidity(BindingResult result, boolean creating, UserFormBackingObject ob);
 
-    public List<UserCore> findMatchesFromFilter(UserInfo ob);
+    public HashMap<Long,UserCore> findMatchesFromFilter(UserInfo ob);
 
     public boolean deleteUserById(Long id);
 

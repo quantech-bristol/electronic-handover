@@ -16,6 +16,7 @@ import com.quantech.service.CategoryService.CategoryServiceImpl;
 import com.quantech.service.DoctorService.DoctorService;
 import com.quantech.service.LoggingService.LogServiceImpl;
 import com.quantech.service.RiskService.RiskServiceImpl;
+import com.quantech.service.UserService.UserService;
 import com.quantech.service.UserService.UserServiceImpl;
 import com.quantech.service.WardService.WardServiceImpl;
 
@@ -35,6 +36,7 @@ import java.util.HashSet;
 import java.util.List;
 
 @Controller
+@SessionAttributes({"logList","MatchedUsersMap"})
 public class AdminController {
 
     @Autowired
@@ -44,7 +46,7 @@ public class AdminController {
     IAuthenticationFacade authenticator;
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @Autowired
     DoctorService doctorService;
@@ -99,17 +101,18 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/editUserFilter")
-    public String editUsersFilterPost(@ModelAttribute("usercore") UserFormBackingObject user, RedirectAttributes redirectAttrs)
+    public String editUsersFilterPost(@ModelAttribute("usercore") UserFormBackingObject user, Model model)
     {
-        List<UserCore> matchingUsers = userService.findMatchesFromFilter(user);
-        redirectAttrs.addFlashAttribute("MatchedUsers",matchingUsers);
+        HashMap<Long, UserCore> userCoreHashMap = userService.findMatchesFromFilter(user);
+
+        model.addAttribute("MatchedUsersMap",userCoreHashMap);
         return "redirect:editUserSelect";
     }
 
     @GetMapping(value = "/admin/editUserSelect")
-    public String editUsersSelect(@ModelAttribute("MatchedUsers") List<UserCore> users, Model model)
+    public String editUsersSelect(@SessionAttribute("MatchedUsersMap")  HashMap<Long, UserCore> users, Model model)
     {
-
+        model.addAttribute("MatchedUsers",users.values());
         return "admin/editUserSelect";
     }
 
@@ -239,34 +242,59 @@ public class AdminController {
         return "logging/logFilter";
     }
     @PostMapping(value = "/admin/filterLogs")
-    public String filterLogsPost(@ModelAttribute("logObject") LogFilterBackingObject lo, @Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors, RedirectAttributes redirectAttrs)
+    public String filterLogsPost(@ModelAttribute("logObject") LogFilterBackingObject lo, @Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors, Model model)
     {
-        List<UserCore> matchingUsers = userService.findMatchesFromFilter(user);
-        HashMap<Long, UserCore> test = new HashMap();
+        HashMap<Long, UserCore> userCoreHashMap = userService.findMatchesFromFilter(user);
 
-        for (UserCore u:matchingUsers) { test.putIfAbsent(u.getId(),u);}
-        List<Log> logs = logService.returnMatchingLogs(lo,new ArrayList<Long>(test.keySet()));
+        List<Log> logList = logService.returnMatchingLogs(lo,(userCoreHashMap.keySet()));
+        model.addAttribute("MatchedUsersMap",userCoreHashMap);
+        model.addAttribute("logList",logList);
 
-
-        redirectAttrs.addFlashAttribute("logs",logs);
-        redirectAttrs.addFlashAttribute("users",test);
         if (lo.getOperation() == null){return "redirect:/admin/displayAllLogs";}
         switch (lo.getOperation())
         {
             case AddUser:
-                return "redirect:/admin/displayAddLogs";
+                return "redirect:/admin/FilterAddLogs";
 
         }
         return "logging/logFilter";
     }
 
     @GetMapping(value = "admin/displayAllLogs")
-    public String displayAllLogs(@ModelAttribute("logs") List<Log> logs, @ModelAttribute("users") HashMap<Long,UserCore> users)
+    public String displayAllLogs(@SessionAttribute("logList") List<Log> logs, @SessionAttribute("MatchedUsersMap") HashMap<Long,UserCore> users)
     {
-        //List<AddUser> userLogs = new ArrayList<>();
-       // for (Log l:logs) {userLogs.add((AddUser)l.returnLoggedOperation());}
-
         return "/logging/displayAllLogs";
     }
 
+    @GetMapping(value = "admin/FilterAddLogs")
+    public String filterAddLogs(Model model)
+    {
+
+        model.addAttribute("UserFiltering",true);
+        model.addAttribute("Title","Select Created User Details");
+        model.addAttribute("usercore", new UserFormBackingObject());
+        model.addAttribute("postUrl", "/admin/FilterAddLogs");
+        return "/admin/userFilterFields";
+    }
+
+    @PostMapping(value = "admin/FilterAddLogs")
+    public String FilterAddLogs(@SessionAttribute("logList") List<Log> logs, @ModelAttribute("usercore") UserFormBackingObject user, RedirectAttributes flash)
+    {
+        List<AddUser> addLogs = new ArrayList<>();
+        for (Log l:logs)
+        {
+            AddUser event = (AddUser)l.returnLoggedOperation();
+
+            if (event.meetsFilter(user)){addLogs.add(event);}
+
+        }
+        flash.addFlashAttribute("addLogs",addLogs);
+        return "redirect:/admin/DisplayAddLogs";
+    }
+
+    @GetMapping(value = "admin/DisplayAddLogs")
+    public String DisplayAddLogs(@SessionAttribute("MatchedUsersMap") HashMap<Long, UserCore> matchedUsers,@ModelAttribute("addLogs")List<AddUser> addLogs, Model model)
+    {
+        return "logging/AddUser/DisplayAddUserLogs";
+    }
 }
