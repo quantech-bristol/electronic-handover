@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit">Apply</button>
+            <button type="submit" class="custom-button orange-filled">Apply</button>
         </form>
 
         <table id="patient-info">
@@ -144,13 +144,13 @@
                                     <input type="hidden" name="job" th:value="${job.id}"/>
                                     <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"
                                             type="submit"
-                                            id="complete-job-button"
+                                            class="custom-button green-outlined"
                                             style="margin-left: 4px;">Complete Job</button>
                                 </form>
-                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" id="pending-job-icon">Pending</span>
-                                <span th:if="${job.isComplete()}" id="completed-job-icon">Completed</span>
+                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job">Pending</span>
+                                <span th:if="${job.isComplete()}" class="completed-job">Completed</span>
                                 <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"
-                                   th:href="'/handoverJob?jobId=' + ${job.getId()}" id="handover-job-button">Handover</a>
+                                   th:href="'/handoverJob?jobId=' + ${job.getId()}"><button type="button" class="custom-button orange-outlined">Handover</button></a>
                             </div>
                         </div>
                     </td>

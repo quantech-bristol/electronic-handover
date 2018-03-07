@@ -14,15 +14,9 @@
                 <form th:action="@{/login}" method="post">
                     <table id="login-form-table">
                         <tr>
-                            <td>
-                                <input type="text" name="username" placeholder="Username"/>
-                            </td>
-                            <td>
-                                <input type="password" name="password" placeholder="Password"/>
-                            </td>
-                            <td>
-                                <button class="orange-button" type="submit">Login</button>
-                            </td>
+                            <td><input type="text" name="username" placeholder="Username"/></td>
+                            <td><input type="password" name="password" placeholder="Password"/></td>
+                            <td><button class="custom-button orange-filled" type="submit">Login</button></td>
                         </tr>
                     </table>
                 </form>
@@ -30,14 +24,8 @@
         </nav>
         <div id="login-main">
             <table id="electronic-handover"><tr><td>electronic<br/>handover</td></tr></table>
-            <!--
-            <div th:if="${param.error}">
-                Username or Password is wrong. Please check again
-            </div>
-            <div th:if="${param.logout}">
-                Logged out
-            </div>
-            -->
+            <!--<span th:if="${param.error}">Username or Password is wrong. Please check again</span>-->
+            <!--<span th:if="${param.logout}">Logged out</span>-->
         </div>
     </div>
 </body>

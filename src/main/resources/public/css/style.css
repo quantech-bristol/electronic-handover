@@ -59,6 +59,10 @@ input[type=checkbox], input[type=radio]{
     transition: all .08s ease-out;
 }
 
+table tr td {
+    padding: 5px;
+}
+
 /**********************************************************************************************************************/
 /* Buttons */
 /**********************************************************************************************************************/
@@ -66,10 +70,11 @@ input[type=checkbox], input[type=radio]{
 .custom-button {
     padding: 3px 7px;
     border-radius: 40px;
-    border: 2px solid;
+    border: 1px solid;
     font-size: 11px;
     text-align: center;
     text-decoration: none;
+    /*height: 30px;*/
 }
 
 .orange-filled {
@@ -197,88 +202,14 @@ input[type=checkbox], input[type=radio]{
     text-decoration: none;
 }
 
-
-
-
-
-
-
-
-
-.orange-button {
-    display: inline;
-    background-color: #ED8B00;
-    /*width: 100%;*/
-    height: 80%;
-    padding: 5px 10px 5px 10px;
-    margin-right: 10px;
-    border-radius: 42px;
-    color: white;
-    font-size: 13px;
-    text-align: center;
-    vertical-align: middle;
-    text-decoration: none;
-    border: none;
-}
-
-
-.orange-button:hover {
-    text-decoration: none;
-    background-color: #FFB81C;
-    color: white;
-}
-
-.back-button {
-    font-size: 18px;
-    padding-right: 5px;
-    color: #005EB8;
-}
-
-.back-button:hover {
-    color: #0072CE;
-}
-
-#complete-job-button, #handover-job-button, #completed-job-icon, #pending-job-icon {
-    background-color: transparent;
-    display: inline-block;
+.pending-job {
     font-size: 11px;
-    border: 1px solid;
-    border-radius: 9px;
-    text-align: center;
-    width: 100px;
-    padding: 0 9px;
-    margin: 0;
+    color: #D1D8DC;
 }
 
-#complete-job-button {
-    color: #009639;
-    border-color: #009639;
-}
-#pending-job-icon {
-    color: #a7aaaf;
-    border-color: #a7aaaf;
-}
-
-#complete-job-button:hover {
+.completed-job {
+    font-size: 11px;
     color: #78BE20;
-    border-color: #78BE20;
-}
-
-#completed-job-icon {
-    color: white;
-    background-color: #78BE20;
-    border-color: #78BE20;
-}
-
-#handover-job-button {
-    color: #ED8B00;
-    border-color: #ED8B00;
-}
-
-#handover-job-button:hover {
-    color: #FFB81C;
-    border-color: #FFB81C;
-    text-decoration: none;
 }
 
 /**********************************************************************************************************************/
@@ -287,15 +218,18 @@ input[type=checkbox], input[type=radio]{
 
 .error {
     color: #DA291C;
-    font-size: 14px;
-    padding: 0px;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .input-layout {}
 
+.input-layout tr:last-child {
+    text-align: center;
+}
+
 .input-layout tr td {
     padding: 8px;
-    border: 1px solid black;
 }
 
 .input-layout tr td:first-child {

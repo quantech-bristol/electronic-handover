@@ -165,20 +165,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     {
         if(!nameIsValid(ob.getUsername(),ob.getId()))//If Username is already in use (but not by us)
         {
-            result.rejectValue("username","error.usercore","That username is already in use!");//Add an error
+            result.rejectValue("username","error.usercore","Username already in use");//Add an error
         }
         if(!emailIsValid(ob.getEmail(),ob.getId()))//If Username is already in use (but not by us)
         {
-            result.rejectValue("email","email.usercore","That email is already in use!");//Add an error
+            result.rejectValue("email","email.usercore","Email already in use");//Add an error
         }
         if ((creating) && (4 > ob.getPassword().length()|| ob.getPassword().length()>20))
         {
-            result.rejectValue("password","password.usercore","Passwords should be between 4 and 20 characters!");//Add an error
+            result.rejectValue("password","password.usercore","Passwords must be between 4 and 20 characters");//Add an error
         }
         if (!ob.getPassword().matches(ob.getPasswordConfirmation()))
         {
-            result.rejectValue("passwordConfirmation","passwordConfirmation.usercore","Passwords do not match!");//Add an error
-
+            result.rejectValue("passwordConfirmation","passwordConfirmation.usercore","Passwords do not match");//Add an error
         }
         if ((ob.getAuthorityStrings().size() == 0))
         {
@@ -186,19 +185,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
         if (ob.getEmail().length() == 0)
         {
-            result.rejectValue("email","email.usercore","You must specify an email.");
+            result.rejectValue("email","email.usercore","Email is required");
         }
         if (ob.getFirstName().length() == 0)
         {
-            result.rejectValue("firstName","firstName.usercore", "Please input the new users first name!");
+            result.rejectValue("firstName","firstName.usercore", "First name is required");
         }
         if (ob.getLastName().length() == 0)
         {
-            result.rejectValue("lastName","lastName.usercore", "Please input the new users surname!");
+            result.rejectValue("lastName","lastName.usercore", "Last name is required");
         }
         if (ob.getTitle() == null)
         {
-            result.rejectValue("title","title.usercore", "Please select a Title!");
+            result.rejectValue("title","title.usercore", "Title is required");
         }
     }
 
