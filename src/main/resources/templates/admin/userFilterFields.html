@@ -13,47 +13,37 @@
             Insert user details to filter for
         </div>
         <div class="main-box-content">
-            <form action="#" th:action="${postUrl}" method="post">
-                <div th:object="${usercore}" >
-                <table id="user-details-entry" >
+            <form action="#" th:action="${postUrl}" th:object="${usercore}" method="post">
+                <table class="input-layout">
                     <tr>
-                        <td colspan="3">Name</td>
+                        <td>First name</td>
+                        <td><input type="text" th:field="*{firstName}" id="firstName" placeholder="First name"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span></td>
                     </tr>
                     <tr>
-                        <td>
-                            <input type="text" th:field="*{firstName}" id="firstName" style="width: 110px;" placeholder="first name"/>
-                        </td>
-                        <td>
-                            <input type="text" th:field="*{lastName}" id="lastName" style="width: 110px;" placeholder="last name"/>
-                        </td>
+                        <td>Last name</td>
+                        <td><input type="text" th:field="*{lastName}" id="lastName" placeholder="Last name"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span></td>
                     </tr>
                     <tr>
-                        <td colspan="3">Username</td>
+                        <td>Username</td>
+                        <td><input type="text" th:field="*{username}" id="username" placeholder="Username"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span></td>
                     </tr>
                     <tr>
-                        <td colspan="3"><input type="text" th:field="*{username}" id="username" placeholder="username"/></td>
+                        <td>Email</td>
+                        <td><input type="text" th:field="*{email}" id="email" placeholder="Email"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span></td>
                     </tr>
                     <tr>
-                        <td colspan="3">Email</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><input type="text" th:field="*{email}" id="email" placeholder="email"/></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><button class="orange-button" type="submit">Submit</button></td>
+                        <td></td>
+                        <td><button class="custom-button orange-filled" type="submit">Submit</button></td>
+                        <td></td>
                     </tr>
                 </table>
-
-                <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-                <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-                <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
-                <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                </div>
             </form>
         </div>
     </div>
-
 </div>
-
 </body>
 </html>

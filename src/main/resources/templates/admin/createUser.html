@@ -5,6 +5,15 @@
 </head>
 
 <body>
+<script>
+    function updateSelectColor(element) {
+        if (element.selectedIndex == '0') {
+            element.style.color = '#D1D8DC';
+        } else {
+            element.style.color = '#000000';
+        }
+    }
+</script>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
     <div class="main-box">
@@ -15,87 +24,68 @@
         <div class="main-box-content">
             <form action="#" th:action="${postUrl}" th:object="${usercore}" method="post">
                 <input type="hidden" th:field="*{id}" th:value="*{id}" id="id"/>
-                <table id="user-details-entry">
+                <table class="input-layout">
                     <tr>
-                        <td colspan="3">Name</td>
-                    </tr>
-                    <tr>
+                        <td>Title</td>
                         <td>
-                            <div class="custom-select" style="width: 80px;">
-                                <select id="titles" name="titles" th:field = "*{title}">
-                                    <option value="" hidden="true">title</option>
+                            <div class="custom-select">
+                                <select id="titles" name="titles" th:field = "*{title}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                    <option value="" hidden="true">Title</option>
                                     <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
                                 </select>
                             </div>
-
                         </td>
+                        <td><span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>First name</td>
+                        <td><input type="text" th:field="*{firstName}" id="firstName" placeholder="First name"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Last name</td>
+                        <td><input type="text" th:field="*{lastName}" id="lastName" placeholder="Last name"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Username</td>
+                        <td><input type="text" th:field="*{username}" id="username" placeholder="Username"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input type="email" th:field="*{email}" id="email" placeholder="Email"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type="password"  th:type = "password" th:field="*{password}" id="password" placeholder="Password"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Repeat password</td>
+                        <td><input type="password"  th:type = "password" th:field="*{passwordConfirmation}" id="passwordConfirmation" placeholder="Password"/></td>
+                        <td><span class="error" th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Roles</td>
                         <td>
-                            <input type="text" th:field="*{firstName}" id="firstName" style="width: 110px;" placeholder="first name"/>
+                            <div th:each="role : ${T(com.quantech.config.SecurityRoles).values()}">
+                                <span th:text="${role}"></span>
+                                <input type="checkbox"  id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
+                            </div>
                         </td>
-                        <td>
-                            <input type="text" th:field="*{lastName}" id="lastName" style="width: 110px;" placeholder="last name"/>
-                            <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
-                            <span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-                            <span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
-                        </td>
-
-                    </tr>
-                    <tr><td colspan="3">Username</td></tr>
-                    <tr>
-                        <td colspan="3">
-                            <input type="text" th:field="*{username}" id="username" placeholder="username"/>
-                            <span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="3">Password</td></tr>
-                    <tr>
-                        <td colspan="3">
-                            <input type="password"  th:type = "password" th:field="*{password}" id="password" placeholder="password"/>
-                            <span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-                        </td>
+                        <td><span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span></td>
                     </tr>
                     <tr>
-                        <td colspan="3">Repeat Password</td></tr>
-                    <tr>
-                        <td colspan="3">
-                            <input type="password"  th:type = "password" th:field="*{passwordConfirmation}" id="passwordConfirmation" placeholder="Repeat Password"/>
-                            <span class="error" th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Roles</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <th:block th:each="role : ${T(com.quantech.config.SecurityRoles).values()}">
-                                <div>
-                                    <span th:text="${role}"></span>
-                                    <input type="checkbox"  id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
-                                </div>
-                            </th:block>
-                            <span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">Email</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <input type="email" th:field="*{email}" id="email" placeholder="email"/>
-                            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><button class="orange-button" type="submit">Submit</button></td>
+                        <td></td>
+                        <td><button class="custom-button orange-filled" type="submit">Submit</button></td>
+                        <td></td>
                     </tr>
                 </table>
             </form>
         </div>
     </div>
-
 </div>
-
 </body>
 </html>

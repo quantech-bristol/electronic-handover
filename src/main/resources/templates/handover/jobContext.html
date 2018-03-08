@@ -28,49 +28,40 @@
         <div class="main-box-header">
             Patient
         </div>
-        <div class="main-box-content">
-            <div class="patient-details">
-                <div class="patient-detail-row">
-                    <span class="patient-detail-title">Name</span>
-                    <span class="patient-detail"><span th:text="${patientInfo.FullName}"/></span>
-                </div>
-                <div class="patient-detail-row">
-                    <span class="patient-detail-title">DoB</span>
-                    <span class="patient-detail"><span th:text="${patientInfo.birthDate}"/></span>
-                    <span class="patient-detail-title">Age</span>
-                    <span class="patient-detail" th:text="${patientInfo.getAge()}"></span>
-                </div>
-                <div class="patient-detail-row"> <!-- if not null -->
-                    <span class="patient-detail-title">Hospital Number</span>
-                    <span class="patient-detail"><span th:text="${patientInfo.hospitalNumber}"/></span>
-                </div>
-                <div class="patient-detail-row"> <!-- if not null -->
-                    <span class="patient-detail-title">NHS Number</span>
-                    <span class="patient-detail"><span th:text="${patientInfo.nHSNumber}"/></span>
-                </div>
-            </div>
-            <button type="button" class="custom-button orange-filled">Edit</button>
-        </div>
+        <table id="patient-info">
+            <tr>
+                <td>Name</td>
+                <td>Date of birth</td>
+                <td>Age</td>
+                <td>Hospital number</td>
+                <td>NHS number</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><span class="patient-detail" th:text="${patientInfo.FullName}"/></td>
+                <td><span th:text="${patientInfo.birthDate}"/></td>
+                <td><span th:text="${patientInfo.getAge()}"/></td>
+                <td><span th:text="${patientInfo.hospitalNumber}"/></td>
+                <td><span th:text="${patientInfo.nHSNumber}"/></td>
+                <td><button type="button" class="custom-button orange-filled">Edit</button></td>
+            </tr>
+        </table>
     </div>
     <div class="main-box" id="existingJobContexts">
         <div class="main-box-header">
             Previous Clinical Information
         </div>
-        <button type="button" class="custom-button orange-filled" onclick="showNewJobContext();">Add new clinical information</button>
         <table id="patient-info">
             <tr>
                 <td>Clinical Details</td>
-                <td>Start Date</td>
+                <td>Unwell</td>
                 <td>Ward</td>
                 <td>Bed</td>
                 <td></td>
             </tr>
             <tr th:each="jobContext : ${jobContexts}">
-                <td>
-                    <span th:if="${jobContext.unwell}">UNWELL</span><br/>
-                    <span th:text="${jobContext.clinicalDetails}"></span>
-                </td>
-                <td><span th:text="${jobContext.creationDate}"></span></td>
+                <td><span th:text="${jobContext.clinicalDetails}"></span></td>
+                <td><span th:if="${jobContext.unwell}">UNWELL</span></td>
                 <td><span th:text="${jobContext.ward.name}"></span></td>
                 <td><span th:text="${jobContext.bed}"></span></td>
                 <td>
@@ -80,6 +71,7 @@
                 </td>
             </tr>
         </table>
+        <button type="button" class="custom-button orange-filled" onclick="showNewJobContext();">Add new clinical information</button>
     </div>
     <div class="main-box" id="newJobContext" style="display: none;">
         <div class="main-box-header">

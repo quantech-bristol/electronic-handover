@@ -14,12 +14,17 @@
         </div>
         <div class="main-box-content">
             <form action="#" th:action="@{/admin/addWard}" th:object="${newWard}" method="post" class="form-inline">
-                <table>
+                <table class="input-layout">
                     <tr>
-                        <td><label for="name">Ward name</label></td>
-                        <td><input type="text" th:field="*{name}" id="name" placeholder="ward name"/></td>
+                        <td>Ward name</td>
+                        <td><input type="text" th:field="*{name}" id="name" placeholder="Ward name"/></td>
+                        <td><!--Error message--></td>
                     </tr>
-                    <tr><td><button class="orange-button" type="submit">Submit</button></td></tr>
+                    <tr>
+                        <td></td>
+                        <td><button class="custom-button orange-filled" type="submit">Submit</button></td>
+                        <td></td>
+                    </tr>
                 </table>
             </form>
         </div>
@@ -29,30 +34,21 @@
             Existing Wards
         </div>
         <div class="main-box-content">
-            <table width="100%">
-                <colgroup>
-                    <col span="1" width="15%" />
-                    <col span="1" width="15%" />
-                </colgroup>
-                <tbody>
-                    <tr th:each="existingWard,iterStat : ${wards}">
-                        <td>
-                            <span th:text="${existingWard.name}"></span>
-                        </td>
-                        <td>
-                            <button th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${wards.size()}+');'" style="display: block">Edit</button>
-                            <form th:action="@{/admin/renameWard(id=${existingWard.id})}" method="post" class="form-inline">
-                                <input th:id="input+${iterStat.count}" type="text" style="display: none"
-                                    placeholder="Enter new Ward name" th:field="*{newWard.name}" />
-                            </form>
-                        </td>
-                        <td style="text-align: right;">
-                            <a th:href="@{/admin/deleteWard(id=${existingWard.id})}">Delete</a>
-                        </td>
-                    </tr>
-                </tbody>
+            <table>
+                <tr th:each="existingWard,iterStat : ${wards}">
+                    <td>
+                        <span th:text="${existingWard.name}"></span>
+                    </td>
+                    <td>
+                        <button class="custom-button orange-filled" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${wards.size()}+');'" style="display: block">Edit</button>
+                        <form th:action="@{/admin/renameWard(id=${existingWard.id})}" th:id="input+${iterStat.count}" style="display: none" method="post" class="form-inline">
+                            <input  type="text" placeholder="Enter new ward name" th:field="*{newWard.name}"/>
+                            <button class="custom-button orange-filled" type="submit">Submit</button>
+                        </form>
+                    </td>
+                    <!--<td><a th:href="@{/admin/deleteWard(id=${existingWard.id})}"><button type="button" class="custom-button red-filled">Delete</button></a></td>-->
+                </tr>
             </table>
-            <!--Search for existing wards<br/>-->
         </div>
     </div>
 </div>
