@@ -4,6 +4,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.quantech.repo.UserRepository;
 import com.quantech.service.UserService.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,6 @@ public class UserTest {
 
     @Test
     public void sortUsersByLastNameTest() {
-        // TODO
+        Assert.assertFalse(true);
     }
 }
