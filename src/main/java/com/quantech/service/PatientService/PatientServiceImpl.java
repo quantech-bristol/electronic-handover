@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.validation.BindingResult;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -216,6 +218,59 @@ public class PatientServiceImpl implements PatientService {
             List<JobContext> contexts = sortContextsByDateCreatedMostRecentFirst(p.getJobContexts());
             return contexts.get(0).getUnwell();
         };
+    }
+
+    @Override
+    public void CheckValidity(BindingResult result, PatientFormBackingObject patient) {
+        Patient p = patient.toPatient();
+        // Check if title is present.
+        if (p.getTitle() == null)
+            result.rejectValue("title","title.patient","Please select a title.");
+
+        // Check that first name is valid
+        try {
+            EntityFieldHandler.nameValidityCheck(p.getFirstName());
+        } catch (Exception e) {
+            result.rejectValue("firstName","firstName.patient","Please give a valid first name.");
+        }
+
+        // Check that last name is valid.
+        try {
+            EntityFieldHandler.nameValidityCheck(p.getLastName());
+        } catch (Exception e) {
+            result.rejectValue("lastName","lastName.patient","Please give a valid last name.");
+        }
+
+        // Check that date of birth is valid.
+        if (p.getBirthDate() == null)
+            result.rejectValue("day","day.patient","Please set date of birth");
+        else if (p.getBirthDate().isAfter(LocalDate.now()))
+            result.rejectValue("day","day.patient","Date of birth cannot be in the future");
+
+        // Check that one of id numbers have been set.
+        boolean hasNo = false;
+        if (p.getNHSNumber() == null && p.getHospitalNumber() == null)
+            result.rejectValue("hospitalNumber", "hospitalNumber.patient", "Patient needs to have at least one identification number");
+        else
+            hasNo = true;
+
+        // Check that a valid nhs number is being used, and that it is unique.
+        if (p.getNHSNumber() != null) {
+            boolean valid = true;
+            try {
+                NHSNumberValidityCheck(p.getNHSNumber());
+            } catch (Exception e) {
+                result.rejectValue("NHSNumber","NHSNumber.patient","NHS number is not valid.");
+                valid = false;
+            }
+            if (valid) {
+                if (patientRepository.findByNHSNumber(p.getNHSNumber()) != null)
+                    result.rejectValue("NHSNumber","NHSNumber.patient","NHS number is already assigned to another patient.");
+            }
+        }
+        if (p.getHospitalNumber() != null && patientRepository.findByHospitalNumber(p.getHospitalNumber()) != null)
+            result.rejectValue("hospitalNumber", "hospitalNumber.patient", "Hospital number is already assigned to another patient.");
+
     }
 
     /* Helper Methods */

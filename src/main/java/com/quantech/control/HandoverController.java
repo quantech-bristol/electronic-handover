@@ -57,13 +57,20 @@ public class HandoverController {
     }
 
     @PostMapping(value="/newPatient")
-    public String addPatient(@ModelAttribute("patient") PatientFormBackingObject patientFBO,
+    public String addPatient(@Valid @ModelAttribute("patient") PatientFormBackingObject patientFBO,
                              Model model,
+                             BindingResult result,
+                             Errors errors,
                              RedirectAttributes redirectAttributes) {
-        Patient patient = patientFBO.toPatient();
-        patientService.savePatient(patient);
-        redirectAttributes.addAttribute("patient", patient);
-        return "redirect:/patient/createHandover/clinicalDetails";
+        patientService.CheckValidity(result,patientFBO);
+        if (errors.hasErrors()) {
+            return newPatient(model,patientFBO);
+        } else {
+            Patient patient = patientFBO.toPatient();
+            patientService.savePatient(patient);
+            redirectAttributes.addAttribute("patient", patient);
+            return "redirect:/patient/createHandover/clinicalDetails";
+        }
     }
 
     @GetMapping(value="/searchPatients")

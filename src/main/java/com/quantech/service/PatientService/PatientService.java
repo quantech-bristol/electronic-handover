@@ -2,6 +2,7 @@ package com.quantech.service.PatientService;
 
 import com.quantech.model.Patient;
 import com.quantech.model.Doctor;
+import com.quantech.model.PatientFormBackingObject;
 import com.quantech.model.Ward;
 import org.springframework.validation.BindingResult;
 
@@ -138,5 +139,5 @@ public interface PatientService {
      * @param result The binding result formed from the view template.
      * @param patient The patient object created through the form.
      */
-    // public void CheckValidity(BindingResult result, PatientFormBackingObject patient);
+     public void CheckValidity(BindingResult result, PatientFormBackingObject patient);
 }

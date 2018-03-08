@@ -144,7 +144,9 @@ public class PatientFormBackingObject {
     }
 
     public Patient toPatient() {
-        LocalDate birthDate = LocalDate.of(this.year, this.month, this.day);
+        LocalDate birthDate = null;
+        if (this.year != null && this.month != null && this.day != null)
+            birthDate = LocalDate.of(this.year, this.month, this.day);
         Patient patient = new Patient(this.title, this.firstName, this.lastName, birthDate, this.hospitalNumber, this.nHSNumber, this.jobContexts);
         return patient;
     }
