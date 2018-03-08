@@ -65,24 +65,25 @@
             Job Details
         </div>
         <div class="main-box-content">
-            <form action="#" th:action="@{/patient/createHandover}" method="post">
-                <input type="hidden" th:field="*{job.contextId}" id="contextId" name="contextId"/>
+            <form action="#" th:action="@{/patient/createHandover}" method="post" th:object="${job}">
+                <input type="hidden" th:field="*{contextId}" id="contextId" name="contextId"/>
 
                 <table class="input-layout">
                     <tr>
                         <td>Job description</td>
-                        <td><input type="text" th:field="*{job.description}" id="jobDescription" name="jobDescription" placeholder="Details"/></td>
+                        <td><input type="text" th:field="*{description}" id="jobDescription" name="jobDescription" placeholder="Details"/></td>
                         <td><!--Error message--></td>
                     </tr>
                     <tr>
                         <td>Category</td>
                         <td>
                             <div class="custom-select">
-                                <select th:field="*{job.categoryId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                <select th:field="*{categoryId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
                                     <option value="" hidden="true">Select category</option>
                                     <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                                 </select>
                             </div>
+                            <span class="error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"/>
                         </td>
                         <td><!--Error message--></td>
                     </tr>
@@ -90,11 +91,12 @@
                         <td>Receiving doctor</td>
                         <td>
                             <div class="custom-select">
-                                <select th:field="*{job.doctorId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                <select th:field="*{doctorId}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
                                     <option value="" hidden="true">Receiving doctor</option>
                                     <option th:each="user : ${doctorUsers}" th:if="${currentDoctorId} != ${user.id}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
                                 </select>
                             </div>
+                            <span class="error" th:if="${#fields.hasErrors('doctorId')}" th:errors="*{doctorId}"/>
                         </td>
                         <td><!--Error message--></td>
                     </tr>

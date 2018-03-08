@@ -173,14 +173,27 @@ public class HandoverController {
     }
 
     @PostMapping(value="/patient/createHandover")
-    public String addJob(@ModelAttribute("job") JobFormBackingObject jobFormBackingObject) {
-        Job job = new Job();
-        job.setDescription(jobFormBackingObject.getDescription());
-        job.setCategory(categoryService.getCategory(jobFormBackingObject.getCategoryId()));
-        job.setJobContext(jobsService.getJobContext(jobFormBackingObject.getContextId()));
-        job.setDoctor(doctorService.getDoctor(userService.findUserById(jobFormBackingObject.getDoctorId())));
-        jobsService.saveJob(job);
-        return "redirect:/";
+    public String addJob(@Valid @ModelAttribute("job") JobFormBackingObject jobFormBackingObject,
+                         BindingResult result,
+                         Errors errors,
+                         Model model,
+                         HttpServletRequest request) {
+        jobsService.CheckJobValidity(result,jobFormBackingObject);
+        if (errors.hasErrors()) {
+            JobContext jc = jobsService.getJobContext(jobFormBackingObject.getContextId());
+            Patient p = jc.getPatient();
+            request.setAttribute("patient",p);
+            request.setAttribute("jobContext",jc);
+            return newJob(p,jc,jobFormBackingObject,model);
+        } else {
+            Job job = new Job();
+            job.setDescription(jobFormBackingObject.getDescription());
+            job.setCategory(categoryService.getCategory(jobFormBackingObject.getCategoryId()));
+            job.setJobContext(jobsService.getJobContext(jobFormBackingObject.getContextId()));
+            job.setDoctor(doctorService.getDoctor(userService.findUserById(jobFormBackingObject.getDoctorId())));
+            jobsService.saveJob(job);
+            return "redirect:/";
+        }
     }
 
 }

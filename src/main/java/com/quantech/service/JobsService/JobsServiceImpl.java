@@ -336,6 +336,8 @@ public class JobsServiceImpl implements JobsService {
     public void CheckJobValidity(BindingResult result, JobFormBackingObject job) {
         if (job.getCategoryId() == null)
             result.rejectValue("categoryId","category.job","Please select a category to use.");
+        if (job.getDoctorId() == null)
+            result.rejectValue("doctorId","category.doctor","Please select a doctor to send to.");
     }
 
     @Override
