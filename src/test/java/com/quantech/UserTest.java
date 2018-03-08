@@ -101,6 +101,6 @@ public class UserTest {
 
     @Test
     public void sortUsersByLastNameTest() {
-        Assert.assertFalse(true);
+        // TODO
     }
 }

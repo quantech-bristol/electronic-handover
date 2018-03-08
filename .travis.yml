@@ -1,3 +1,4 @@
 language: java
 sudo: false
+os: windows
 script: mvn clean test
