@@ -237,6 +237,6 @@ public interface JobsService {
      * @param result The binding result formed from the view template.
      * @param job The job object created through the form.
      */
-    void CheckValidity(BindingResult result, Job job);
+    void CheckJobValidity(BindingResult result, JobFormBackingObject job);
 
 }

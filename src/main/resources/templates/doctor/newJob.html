@@ -20,6 +20,7 @@
                     <option value="" hidden="true">Select category</option>
                     <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
                 </select>
+                <span class="error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"/>
 
             </div>
         </div>

@@ -333,8 +333,9 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
-    public void CheckValidity(BindingResult result, Job job) {
-        // TODO
+    public void CheckJobValidity(BindingResult result, JobFormBackingObject job) {
+        if (job.getCategoryId() == null)
+            result.rejectValue("categoryId","category.job","Please select a category to use.");
     }
 
     class EntityPredicate<T> implements Predicate<T> {

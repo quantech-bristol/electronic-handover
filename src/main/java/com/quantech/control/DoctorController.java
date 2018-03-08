@@ -12,14 +12,18 @@ import com.quantech.service.JobsService.JobsServiceImpl;
 import com.quantech.service.PatientService.PatientServiceImpl;
 import com.quantech.service.UserService.UserService;
 import com.quantech.service.WardService.WardServiceImpl;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -52,8 +56,11 @@ public class DoctorController {
 
     @GetMapping(value="/createJob")
     public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
+        return createJob(id, model, new JobFormBackingObject());
+    }
+
+    private String createJob(Long id, Model model, JobFormBackingObject job) {
         UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
-        JobFormBackingObject job = new JobFormBackingObject();
 
         model.addAttribute("job", job);
         model.addAttribute("categories", categoryService.getAllCategories());
@@ -64,15 +71,27 @@ public class DoctorController {
 
     @Transactional
     @PostMapping(value="/createJob")
-    public String createJob(@ModelAttribute("job") JobFormBackingObject job) {
-        Job j = new Job();
-        j.setCategory(categoryService.getCategory(job.getCategoryId()));
-        j.setCreationDate(new Date());
-        j.setDoctor(doctorService.getDoctor(userService.findUserById(job.getDoctorId())));
-        j.setJobContext(jobsService.getJobContext(job.getContextId()));
-        j.setDescription(job.getDescription());
-        jobsService.saveJob(j);
-        return "redirect:/";
+    public String createJob(@Valid @ModelAttribute("job") JobFormBackingObject job,
+                            BindingResult result,
+                            Errors errors,
+                            Model model,
+                            HttpServletRequest request) {
+        jobsService.CheckJobValidity(result,job);
+        if (errors.hasErrors()){
+            request.setAttribute("jobContextId",job.getContextId());
+            return createJob(job.getContextId(),model,job);
+            //return "doctor/newJob";
+        }
+        else {
+            Job j = new Job();
+            j.setCategory(categoryService.getCategory(job.getCategoryId()));
+            j.setCreationDate(new Date());
+            j.setDoctor(doctorService.getDoctor(userService.findUserById(job.getDoctorId())));
+            j.setJobContext(jobsService.getJobContext(job.getContextId()));
+            j.setDescription(job.getDescription());
+            jobsService.saveJob(j);
+            return "redirect:/";
+        }
     }
 
     @GetMapping(value="/handoverJob")
