@@ -338,6 +338,12 @@ public class JobsServiceImpl implements JobsService {
             result.rejectValue("categoryId","category.job","Please select a category to use.");
     }
 
+    @Override
+    public void CheckJobContextFormValidity(BindingResult result, JobContextFormBackingObject jobContext) {
+        if (jobContext.getWard() == null)
+            result.rejectValue("ward","ward.jobContext","Please select a ward to use.");
+    }
+
     class EntityPredicate<T> implements Predicate<T> {
         Predicate<T> p;
         String field;

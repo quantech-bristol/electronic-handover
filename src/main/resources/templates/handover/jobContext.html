@@ -79,28 +79,29 @@
         </div>
         <div class="main-box-content">
             <button type="button" class="custom-button orange-filled" onclick="showExistingJobContexts();">See existing clinical information</button>
-            <form action="#" th:action="@{/patient/createHandover/clinicalDetails}" method="post">
-                <input type="hidden" th:field="*{newJobContext.patientId}" id="patientId" name="patientId"/>
+            <form action="#" th:action="@{/patient/createHandover/clinicalDetails}" method="post" th:object="${newJobContext}">
+                <input type="hidden" th:field="*{patientId}" id="patientId" name="patientId"/>
                 <table id="patient-details" style="width: 150px">
                     <tr>
                         <td>
-                            <input type="text" th:field="*{newJobContext.clinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="Clinical details"/>
+                            <input type="text" th:field="*{clinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="Clinical details"/>
                             <input type="text" placeholder="Unwell" style="width: 60px;" disabled="true"/>
-                            <input type="checkbox"  th:field="*{newJobContext.unwell}" id="newUnwell" name="newUnwell" value="TRUE"/>
+                            <input type="checkbox"  th:field="*{unwell}" id="newUnwell" name="newUnwell" value="TRUE"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="number" th:field="*{newJobContext.bed}" id="newBed" name="newBed" placeholder="Bed number"/>
+                            <input type="number" th:field="*{bed}" id="newBed" name="newBed" placeholder="Bed number"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <div class="custom-select">
-                                <select th:field="*{newJobContext.ward}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
+                                <select th:field="*{ward}" style="color: #D1D8DC;" onchange="updateSelectColor(this);">
                                     <option value="" hidden="true">Ward</option>
                                     <option th:each="ward : ${wards}" th:value="${ward.id}" th:text="${ward.name}"></option>
                                 </select>
+                                <span class="error" th:if="${#fields.hasErrors('ward')}" th:errors="*{ward}"/>
                             </div>
                         </td>
                     </tr>

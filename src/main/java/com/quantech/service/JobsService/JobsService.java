@@ -233,10 +233,16 @@ public interface JobsService {
 
 
     /**
-     * Checks the validity of a patient's fields, and rejects the result value accordingly.
+     * Checks the validity of a job's fields, and rejects the result value accordingly.
      * @param result The binding result formed from the view template.
      * @param job The job object created through the form.
      */
     void CheckJobValidity(BindingResult result, JobFormBackingObject job);
 
+    /**
+     * Checks the validity of a job context's fields, and rejects the result value accordingly.
+     * @param result The binding result formed from the view template.
+     * @param jobContext context The job object created through the form.
+     */
+    void CheckJobContextFormValidity(BindingResult result, JobContextFormBackingObject jobContext);
 }

@@ -10,11 +10,16 @@ import com.quantech.service.JobsService.JobsServiceImpl;
 import com.quantech.service.PatientService.PatientServiceImpl;
 import com.quantech.service.UserService.UserService;
 import com.quantech.service.WardService.WardServiceImpl;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -43,7 +48,11 @@ public class HandoverController {
 
     @GetMapping(value="/newPatient")
     public String newPatient(Model model) {
-        model.addAttribute("patient", new PatientFormBackingObject());
+        return newPatient(model,new PatientFormBackingObject());
+    }
+
+    private String newPatient(Model model, PatientFormBackingObject patient) {
+        model.addAttribute("patient", patient);
         return "handover/newPatient";
     }
 
@@ -89,28 +98,45 @@ public class HandoverController {
     @GetMapping(value="/patient/createHandover/clinicalDetails")
     public String chooseJobContext(@RequestParam("patient") Patient patient,
                                    Model model) {
+        return chooseJobContext(patient,model,new JobContextFormBackingObject());
+    }
+
+    private String chooseJobContext(@RequestParam("patient") Patient patient,
+                                   Model model,
+                                   JobContextFormBackingObject job) {
         model.addAttribute("patientInfo", patient);
-        JobContextFormBackingObject jobContextFormBackingObject = new JobContextFormBackingObject();
-        jobContextFormBackingObject.setPatientId(patient.getId());
-        model.addAttribute("newJobContext", jobContextFormBackingObject);
+        job.setPatientId(patient.getId());
+        model.addAttribute("newJobContext", job);
         model.addAttribute("wards", wardService.getAllWards());
         model.addAttribute("jobContexts", patient.getJobContexts());
         return "handover/jobContext";
     }
 
     @PostMapping(value="/patient/createHandover/clinicalDetails")
-    public String addJobContext(@ModelAttribute("newJobContext") JobContextFormBackingObject jobContextFormBackingObject,
-                                RedirectAttributes redirectAttributes) {
-        JobContext jobContext = new JobContext();
-        jobContext.setClinicalDetails(jobContextFormBackingObject.getClinicalDetails());
-        jobContext.setUnwell(jobContextFormBackingObject.getUnwell());
-        jobContext.setPatient(patientService.getPatientById(jobContextFormBackingObject.getPatientId()));
-        jobContext.setBed(jobContextFormBackingObject.getBed());
-        jobContext.setWard(jobContextFormBackingObject.getWard());
-        jobsService.saveJobContext(jobContext);
-        redirectAttributes.addAttribute("patient", jobContext.getPatient());
-        redirectAttributes.addAttribute("jobContext", jobContext);
-        return "redirect:/patient/createHandover";
+    public String addJobContext(@Valid @ModelAttribute("newJobContext") JobContextFormBackingObject jobContextFormBackingObject,
+                                RedirectAttributes redirectAttributes,
+                                BindingResult result,
+                                Errors errors,
+                                Model model,
+                                HttpServletRequest request
+                                ) {
+        jobsService.CheckJobContextFormValidity(result,jobContextFormBackingObject);
+        if (errors.hasErrors()) {
+            Patient p = patientService.getPatientById(jobContextFormBackingObject.getPatientId());
+            request.setAttribute("patient",p);
+            return chooseJobContext(p,model,jobContextFormBackingObject);
+        } else {
+            JobContext jobContext = new JobContext();
+            jobContext.setClinicalDetails(jobContextFormBackingObject.getClinicalDetails());
+            jobContext.setUnwell(jobContextFormBackingObject.getUnwell());
+            jobContext.setPatient(patientService.getPatientById(jobContextFormBackingObject.getPatientId()));
+            jobContext.setBed(jobContextFormBackingObject.getBed());
+            jobContext.setWard(jobContextFormBackingObject.getWard());
+            jobsService.saveJobContext(jobContext);
+            redirectAttributes.addAttribute("patient", jobContext.getPatient());
+            redirectAttributes.addAttribute("jobContext", jobContext);
+            return "redirect:/patient/createHandover";
+        }
     }
 
     @GetMapping(value="/selectJobContext/{id}")
@@ -127,15 +153,22 @@ public class HandoverController {
     public String newJob(@RequestParam("patient") Patient patient,
                          @RequestParam("jobContext") JobContext jobContext,
                          Model model) {
+        return newJob(patient,jobContext,new JobFormBackingObject(),model);
+    }
+
+    private String newJob(@RequestParam("patient") Patient patient,
+                         @RequestParam("jobContext") JobContext jobContext,
+                         JobFormBackingObject job,
+                         Model model) {
         UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         model.addAttribute("currentDoctorId", doctorService.getDoctor(userInfo).getId());
         model.addAttribute("patient", patient);
         model.addAttribute("jobContext", jobContext);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        JobFormBackingObject jobFormBackingObject = new JobFormBackingObject();
-        jobFormBackingObject.setContextId(jobContext.getId());
-        model.addAttribute("job", jobFormBackingObject);
+
+        job.setContextId(jobContext.getId());
+        model.addAttribute("job", job);
         return "handover/chooseJob";
     }
 
