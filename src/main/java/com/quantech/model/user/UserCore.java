@@ -2,9 +2,7 @@ package com.quantech.model.user;
 
 import com.quantech.config.SecurityRoles;
 import com.quantech.misc.EntityFieldHandler;
-import com.quantech.service.UserService.UserService;
 import org.hibernate.validator.constraints.Email;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
