@@ -26,40 +26,67 @@ YELLOW #FAE100
 
  */
 
-.test-table {
-    border: 1px solid black;
+.patient-table {
     width: 100%;
 }
 
-.test-table tr td {
-    border: 1px solid black;
-    padding: 5px;
-    vertical-align: top;
+.patient-table tr {
+    border: 1px solid #768692;
 }
 
-.test-table tr td:last-child {
+.patient-table tr td {
+    vertical-align: top;
+    padding: 5px 15px;
+}
+
+.patient-table tr:first-child {
+    background-color: #E8EDEE;
+    height: 35px;
+}
+
+.patient-table tr:first-child td {
+    font-size: 16px;
+    color: #005EB8;
+    vertical-align: middle;
+}
+
+.patient-table tr td:last-child {
     padding: 0;
 }
 
-.job-table tr td:last-child, .test-table tr:first-child td:last-child {
+.patient-table tr:first-child td:last-child {
     padding: 5px;
 }
 
-.job-table {
-    border: 1px solid black;
+.patient-table tr td:first-child,
+.patient-table tr td:nth-child(2),
+.patient-table tr td:nth-child(3) {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.patient-table .job-table {
     width: 100%;
 }
 
-.test-table tr td:first-child,
-.test-table tr td:nth-child(2),
-.test-table tr td:nth-child(3),
-.job-table tr td:first-child,
-.job-table tr td:nth-child(2),
-.job-table tr td:nth-child(3),
-.job-table tr td:nth-child(4),
-.job-table tr td:last-child {
+.patient-table .job-table tr {
+    border: none;
+    background: none;
+    height: auto;
+}
+
+.patient-table .job-table tr td {
+    font-size: 14px;
+    color: black;
+    padding: 5px;
+    /*border: 1px solid black;*/
     width: 1px;
     white-space: nowrap;
+}
+
+.patient-table .job-table tr td:nth-child(2) {
+    width: auto;
+    white-space: normal;
 }
 
 /**********************************************************************************************************************/
@@ -75,8 +102,7 @@ YELLOW #FAE100
     display: none;
     position: absolute;
     background-color: white;
-    border: 1px solid black;
-    /*width: 180px;*/
+    border: 1px solid #768692;
 }
 
 .drop-content h5, .drop-content h4 {
@@ -102,8 +128,21 @@ YELLOW #FAE100
     text-decoration: none;
 }
 
-.dropdown-table tr td {
-    padding: 0;
+.patient-table .dropdown-table tr {
+    border: none;
+    background: none;
+    height: auto;
+    /*border: 1px solid #768692;*/
+}
+
+.patient-table .dropdown-table tr td {
+    /*padding: 0;*/
+    font-size: 14px;
+    color: black;
+    padding: 5px;
+    /*!*border: 1px solid black;*!*/
+    /*width: 1px;*/
+    /*white-space: nowrap;*/
 }
 
 /**********************************************************************************************************************/
@@ -169,13 +208,13 @@ label {
 
 .orange-outlined {
     background-color: transparent;
-    border-color: #ED8B00;
-    color: #ED8B00;
+    border-color: #FFB81C;
+    color: #FFB81C;
 }
 
 .orange-outlined:hover {
-    border-color: #FFB81C;
-    color: #FFB81C;
+    border-color: #ED8B00;
+    color: #ED8B00;
     text-decoration: none;
 }
 
