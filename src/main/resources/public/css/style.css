@@ -26,9 +26,90 @@ YELLOW #FAE100
 
  */
 
+.test-table {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.test-table tr td {
+    border: 1px solid black;
+    padding: 5px;
+    vertical-align: top;
+}
+
+.test-table tr td:last-child {
+    padding: 0;
+}
+
+.job-table tr td:last-child, .test-table tr:first-child td:last-child {
+    padding: 5px;
+}
+
+.job-table {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.test-table tr td:first-child,
+.test-table tr td:nth-child(2),
+.test-table tr td:nth-child(3),
+.job-table tr td:first-child,
+.job-table tr td:nth-child(2),
+.job-table tr td:nth-child(3),
+.job-table tr td:nth-child(4),
+.job-table tr td:last-child {
+    width: 1px;
+    white-space: nowrap;
+}
+
+/**********************************************************************************************************************/
+/* Filtering and Sorting */
+/**********************************************************************************************************************/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.drop-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    /*width: 180px;*/
+}
+
+.drop-content h5, .drop-content h4 {
+    font-size: 12px;
+}
+
+.drop-content h4 {
+    text-decoration: underline;
+}
+
+.dropdown:hover .drop-content {
+    display: block;
+}
+
+.filter-box, .filter-label {
+    /*font-size: 10px;*/
+}
+
+.filter-label {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: inherit;
+    text-decoration: none;
+}
+
+.dropdown-table tr td {
+    padding: 0;
+}
+
 /**********************************************************************************************************************/
 /* Misc */
 /**********************************************************************************************************************/
+
 
 body {
     background-color:#FFF;
@@ -44,13 +125,6 @@ body {
     transition: all .15s ease-out;
 }
 
-input[type=checkbox], input[type=radio]{
-    padding: 0;
-    margin: 0;
-    display: inline;
-
-}
-
 *:hover {
     -webkit-transition: all .08s ease-out;
     -moz-transition: all .08s ease-out;
@@ -61,6 +135,10 @@ input[type=checkbox], input[type=radio]{
 
 table tr td {
     padding: 5px;
+}
+
+label {
+    font-weight: normal;
 }
 
 /**********************************************************************************************************************/
@@ -74,7 +152,6 @@ table tr td {
     font-size: 11px;
     text-align: center;
     text-decoration: none;
-    /*height: 30px;*/
 }
 
 .orange-filled {
@@ -557,45 +634,6 @@ input::placeholder {
 }
 
 /**********************************************************************************************************************/
-/* Filtering and Sorting */
-/**********************************************************************************************************************/
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.drop-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    width: 180px;
-}
-
-.drop-content h5, .drop-content h4 {
-    font-size: 12px;
-}
-
-.drop-content h4 {
-    text-decoration: underline;
-}
-
-.dropdown:hover .drop-content {
-    display: block;
-}
-
-.filter-box, .filter-label {
-    font-size: 10px;
-}
-
-.filter-label {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: inherit;
-    text-decoration: none;
-}
-
-/**********************************************************************************************************************/
 /* Patients */
 /**********************************************************************************************************************/
 
@@ -669,158 +707,3 @@ input::placeholder {
     /*border: 1px solid lawngreen;*/
     padding: 8px;
 }
-
-/**********************************************************************************************************************/
-/* Patient titles */
-/**********************************************************************************************************************/
-
-/*
-@media (min-width: 601px) {
-    #patient-title-table-name {
-        display: none;
-    }
-
-    #handover-patient-title-table-name {
-        display: none;
-    }
-}
-
-@media (max-width: 600px) {
-    #patient-title-table-name-bed {
-        display: none;
-    }
-
-    #handover-patient-title-table-name-bed {
-        display: none;
-    }
-}
-
-@media (min-width: 701px) {
-    #patient-title-table-name-bed {
-        display: none;
-    }
-
-    #handover-patient-title-table-name-bed {
-        display: none;
-    }
-}
-
-@media (max-width: 700px) {
-    #patient-title-table-name-bed-ward {
-        display: none;
-    }
-
-    #handover-patient-title-table-name-bed-ward {
-        display: none;
-    }
-}
-
-.patient-title-table {
-    color: #555555;
-    font-size: 14px;
-    width: 100%;
-}
-.patient-title-table tr td {
-    padding: 0 1vw 0 1vw;
-}
-.patient-title-table-bed {
-    width:1px;
-    white-space:nowrap;
-    font-size: 14px;
-}
-.patient-title-table-ward {
-    width:1px;
-    white-space:nowrap;
-    font-size: 14px;
-}
-*/
-
-/**********************************************************************************************************************/
-/* Patient details */
-/**********************************************************************************************************************/
-
-/*
-@media (min-width: 801px) {
-    #patient-info-table-1-col {
-        display: none;
-    }
-
-    #handover-patient-info-table-1-col {
-        display: none;
-    }
-}
-
-@media (max-width: 800px) {
-    #patient-info-table-2-cols {
-        display: none;
-    }
-
-    #handover-patient-info-table-2-cols {
-        display: none;
-    }
-}
-
-@media (min-width: 1101px) {
-    #patient-info-table-2-cols {
-        display: none;
-    }
-
-    #handover-patient-info-table-2-cols {
-        display: none;
-    }
-}
-
-@media (max-width: 1100px) {
-    #patient-info-table-3-cols {
-        display: none;
-    }
-
-    #handover-patient-info-table-3-cols {
-        display: none;
-    }
-}
-
-.patient-info-table {
-    table-layout: fixed;
-    border: none;
-    font-size: 13px;
-    margin: auto;
-    width: calc(100% - 50px);
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: #555555;
-}
-
-.patient-info-table tr td {
-    padding: 0.5vw;
-}
-
-.patient-info-table h1 {
-    font-weight: bold;
-    font-size: 13px;
-    padding: 0px;
-    margin: 0px;
-    color: #555555;
-}
-
-.patient-info-table a {
-    color: #005EB8;
-}
-
-.patient-info-table a:hover {
-    color: #005EB8;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.patient-info-icon {
-    font-size: 20px;
-    padding-right: 5px;
-    color: rgba(85, 85, 85, 0.7);
-}
-
-.patient-info-icon:hover {
-    padding-right: 5px;
-    color: rgba(85, 85, 85, 1);
-}
-*/
