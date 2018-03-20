@@ -1,6 +1,7 @@
 package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
+import com.quantech.misc.PdfGenerator;
 import com.quantech.model.*;
 import com.quantech.model.user.ChangePassword;
 import com.quantech.model.user.UserCore;
@@ -15,6 +16,7 @@ import com.quantech.service.UserService.UserService;
 import com.quantech.service.WardService.WardService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -37,6 +39,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 @Controller
+@SessionAttributes("jobContexts")
 public class MainController {
 
     @Autowired
@@ -118,6 +121,7 @@ public class MainController {
             }
 
             model.addAttribute("jobContexts", jcs);
+            //model.addAttribute("jcsWrapped", new JobContextsWrapper(jcs));
 
             return "misc/home";
 
@@ -165,4 +169,17 @@ public class MainController {
         return "user/settings";
     }
 
+    @RequestMapping(value="/pdf", method=RequestMethod.POST, produces="application/pdf", consumes = "application/x-www-form-urlencoded")
+    @ResponseBody
+    public FileSystemResource patientPdf(@SessionAttribute("jobContexts") List<JobContext> jcs) throws Exception {
+
+        try { System.out.println(jcs); }
+        catch(Exception e)
+        { System.out.println("very null"); }
+
+        PdfGenerator pdfGen = new PdfGenerator();
+        pdfGen.gen(jcs);
+
+        return new FileSystemResource("pdfout.pdf");
+    }
 }

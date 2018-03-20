@@ -168,10 +168,10 @@
                 </tr>
             </div>
         </table>
-        <form th:action="@{/pdf}" method="post" name="jobContexts" th:object="${jobContexts}">
+        <form th:action="@{/pdf}" method="post">
+            <!--<input type="hidden" name="jcs" th:value="${jobContexts}"/>-->
             <input class="btn" style="width: 10vw;" type="submit" value="View all as PDF"/>
         </form>
-
     </div>
 
 </body>

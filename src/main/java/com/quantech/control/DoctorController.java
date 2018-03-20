@@ -151,16 +151,4 @@ public class DoctorController {
         model.addAttribute("patient", patientService.getPatientById(id));
         return "doctor/viewPatient";
     }
-
-    @RequestMapping(value="/pdf", method=RequestMethod.POST, produces="application/pdf")
-    @ResponseBody
-    public FileSystemResource patientPdf(List<JobContext> jcs) throws Exception {
-        PdfGenerator pdfGen = new PdfGenerator();
-
-        pdfGen.gen(jcs);
-
-        return new FileSystemResource("pdfout.pdf");
-    }
-
-
 }
