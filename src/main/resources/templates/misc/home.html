@@ -62,10 +62,6 @@
                         <div class="drop-btn"><i class="fa fa-filter"></i></div>
                         <div class="drop-content">
                             <table class="dropdown-table">
-                                <tr th:each="category,iterStat : ${category}">
-                                    <td><input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}"/></td>
-                                    <td><label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/></td>
-                                </tr>
                                 <tr>
                                     <td><input type="radio" class="filter-box" name="complete" id="complete" value="true"/></td>
                                     <td><label class="filter-label" for="complete">Complete</label></td>
@@ -74,6 +70,10 @@
                                     <td><input type="radio" class="filter-box" name="complete" id="incomplete" value="false"/></td>
                                     <td><label class="filter-label" for="incomplete">Incomplete</label></td>
                                 </tr>
+                                <tr th:each="category,iterStat : ${category}">
+                                    <td><input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}"/></td>
+                                    <td><label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/></td>
+                                </tr>
                                 <tr>
                                     <td>Apply</td>
                                 </tr>
@@ -81,16 +81,16 @@
                         </div>
                     </div>
                     <!--Sort by deadline-->
-                    <div class="dropdown">
-                        <div class="drop-btn"><i class="fa fa-sort"></i></div>
-                        <div class="drop-content">
-                            <table class="dropdown-table">
-                                <tr>
-                                    <td>Apply</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                    <!--<div class="dropdown">-->
+                        <!--<div class="drop-btn"><i class="fa fa-sort"></i></div>-->
+                        <!--<div class="drop-content">-->
+                            <!--<table class="dropdown-table">-->
+                                <!--<tr>-->
+                                    <!--<td>Apply</td>-->
+                                <!--</tr>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </td>
             </tr>
             <tr th:each="jobContext,iterStat : ${jobContexts}">
