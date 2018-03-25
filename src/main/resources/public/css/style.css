@@ -26,151 +26,9 @@ YELLOW #FAE100
 
  */
 
-.patient-table {
-    width: 100%;
-}
-
-.patient-table tr {
-    border: 1px solid #768692;
-}
-
-.patient-table tr td {
-    vertical-align: top;
-    padding: 5px 15px;
-}
-
-.patient-table tr:first-child {
-    background-color: #E8EDEE;
-    height: 35px;
-}
-
-.patient-table tr:first-child td {
-    font-size: 16px;
-    color: #005EB8;
-    vertical-align: middle;
-}
-
-.patient-table tr td:last-child {
-    padding: 0;
-}
-
-.patient-table tr:first-child td:last-child {
-    padding: 5px;
-}
-
-.patient-table tr td:first-child,
-.patient-table tr td:nth-child(2),
-.patient-table tr td:nth-child(3) {
-    width: 1px;
-    white-space: nowrap;
-}
-
-.patient-table .job-table {
-    width: 100%;
-}
-
-.patient-table .job-table tr {
-    border: none;
-    background: none;
-    height: auto;
-}
-
-.patient-table .job-table tr td {
-    font-size: 14px;
-    color: black;
-    padding: 5px;
-    /*border: 1px solid black;*/
-    width: 1px;
-    white-space: nowrap;
-}
-
-.patient-table .job-table tr td:nth-child(2) {
-    width: auto;
-    white-space: normal;
-}
-
-.patient-table .job-table tr td:nth-child(4),
-.patient-table .job-table tr td:nth-child(5),
-.patient-table .job-table tr td:nth-child(6) {
-    text-align: center;
-}
-
-/*Hide text buttons*/
-@media (min-width: 901px) {
-    .job-icon-button {
-        display: none;
-    }
-}
-/*Show icon buttons*/
-@media (max-width: 900px) {
-    .job-text-button {
-        display: none;
-    }
-}
-/**/
-
-
-
-/**********************************************************************************************************************/
-/* Filtering and Sorting */
-/**********************************************************************************************************************/
-
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.drop-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    border: 1px solid #768692;
-}
-
-.drop-content h5, .drop-content h4 {
-    font-size: 12px;
-}
-
-.drop-content h4 {
-    text-decoration: underline;
-}
-
-.dropdown:hover .drop-content {
-    display: block;
-}
-
-.filter-box, .filter-label {
-    /*font-size: 10px;*/
-}
-
-.filter-label {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: inherit;
-    text-decoration: none;
-}
-
-.patient-table .dropdown-table tr {
-    border: none;
-    background: none;
-    height: auto;
-    /*border: 1px solid #768692;*/
-}
-
-.patient-table .dropdown-table tr td {
-    /*padding: 0;*/
-    font-size: 14px;
-    color: black;
-    padding: 5px;
-    /*!*border: 1px solid black;*!*/
-    /*width: 1px;*/
-    /*white-space: nowrap;*/
-}
-
 /**********************************************************************************************************************/
 /* Misc */
 /**********************************************************************************************************************/
-
 
 body {
     background-color:#FFF;
@@ -696,64 +554,204 @@ input::placeholder {
 }
 
 /**********************************************************************************************************************/
-/* Patients */
+/* My Jobs page */
 /**********************************************************************************************************************/
 
-#patient-info {
-    border: 1px solid #768692;
+.patient-table {
     width: 100%;
 }
 
-#patient-info tr td{
+.patient-table tr {
+    border: 1px solid #768692;
+}
+
+.patient-table tr td {
     vertical-align: top;
-    padding: 5px 10px;
+    padding: 5px 15px;
 }
 
-#patient-info tr:first-child {
-    width: 100%;
+.patient-table tr:first-child {
     background-color: #E8EDEE;
-    border: 1px solid #768692;
     height: 35px;
 }
 
-#patient-info tr:first-child td {
+.patient-table tr:first-child td {
     font-size: 16px;
     color: #005EB8;
     vertical-align: middle;
 }
 
-.patient-detail-row {
-    padding: 2px 0;
+.patient-table tr td:last-child {
+    padding: 0;
 }
 
-.patient-detail-title {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 11px;
-    color: #425563;
-    padding-right: 10px;
+.patient-table tr:first-child td:last-child {
+    padding: 5px;
 }
 
-.patient-detail {
+.patient-table tr td:first-child,
+.patient-table tr td:nth-child(2),
+.patient-table tr td:nth-child(3) {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.patient-table .job-table {
+    width: 100%;
+}
+
+.patient-table .job-table tr {
+    border: none;
+    background: none;
+    height: auto;
+}
+
+.patient-table .job-table tr td {
     font-size: 14px;
-    color: #000000;
-    padding-right: 10px;
+    color: black;
+    padding: 5px;
+    /*border: 1px solid black;*/
+    width: 1px;
+    white-space: nowrap;
 }
 
-.line td{
-    border-bottom: 1px solid #768692;
+.patient-table .job-table tr td:nth-child(2) {
+    width: auto;
+    white-space: normal;
 }
+
+.patient-table .job-table tr td:nth-child(4),
+.patient-table .job-table tr td:nth-child(5),
+.patient-table .job-table tr td:nth-child(6) {
+    text-align: center;
+}
+
+/*Hide text buttons*/
+@media (min-width: 901px) {
+    .job-icon-button {
+        display: none;
+    }
+}
+/*Show icon buttons*/
+@media (max-width: 900px) {
+    .job-text-button {
+        display: none;
+    }
+}
+/**/
+
+
+
+/**********************************************************************************************************************/
+/* Filtering and Sorting */
+/**********************************************************************************************************************/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.drop-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #768692;
+}
+
+.drop-content h5, .drop-content h4 {
+    font-size: 12px;
+}
+
+.drop-content h4 {
+    text-decoration: underline;
+}
+
+.dropdown:hover .drop-content {
+    display: block;
+}
+
+.filter-box, .filter-label {
+    /*font-size: 10px;*/
+}
+
+.filter-label {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: inherit;
+    text-decoration: none;
+}
+
+.patient-table .dropdown-table tr {
+    border: none;
+    background: none;
+    height: auto;
+    /*border: 1px solid #768692;*/
+}
+
+.patient-table .dropdown-table tr td {
+    /*padding: 0;*/
+    font-size: 14px;
+    color: black;
+    padding: 5px;
+    /*!*border: 1px solid black;*!*/
+    /*width: 1px;*/
+    /*white-space: nowrap;*/
+}
+
+/*!**********************************************************************************************************************!*/
+/*!* Patients *!*/
+/*!**********************************************************************************************************************!*/
+
+/*#patient-info {*/
+    /*border: 1px solid #768692;*/
+    /*width: 100%;*/
+/*}*/
+
+/*#patient-info tr td{*/
+    /*vertical-align: top;*/
+    /*padding: 5px 10px;*/
+/*}*/
+
+/*#patient-info tr:first-child {*/
+    /*width: 100%;*/
+    /*background-color: #E8EDEE;*/
+    /*border: 1px solid #768692;*/
+    /*height: 35px;*/
+/*}*/
+
+/*#patient-info tr:first-child td {*/
+    /*font-size: 16px;*/
+    /*color: #005EB8;*/
+    /*vertical-align: middle;*/
+/*}*/
+
+/*.patient-detail-row {*/
+    /*padding: 2px 0;*/
+/*}*/
+
+/*.patient-detail-title {*/
+    /*text-transform: uppercase;*/
+    /*font-weight: bold;*/
+    /*font-size: 11px;*/
+    /*color: #425563;*/
+    /*padding-right: 10px;*/
+/*}*/
+
+/*.patient-detail {*/
+    /*font-size: 14px;*/
+    /*color: #000000;*/
+    /*padding-right: 10px;*/
+/*}*/
+
+/*.line td{*/
+    /*border-bottom: 1px solid #768692;*/
+/*}*/
 
 /**********************************************************************************************************************/
 /* Create/Edit user */
 /**********************************************************************************************************************/
 
-#user-details-entry {
-    /*border: 1px solid black;*/
-}
-
 #user-details-entry tr td {
-    /*border: 1px solid black;*/
     padding: 5px;
 }
 
@@ -761,11 +759,6 @@ input::placeholder {
 /* Create Handover */
 /**********************************************************************************************************************/
 
-#patient-details {
-    /*border: 1px solid hotpink;*/
-}
-
 #patient-details tr td {
-    /*border: 1px solid lawngreen;*/
     padding: 8px;
 }
