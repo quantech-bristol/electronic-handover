@@ -89,6 +89,22 @@ YELLOW #FAE100
     white-space: normal;
 }
 
+/*Hide text buttons*/
+@media (min-width: 901px) {
+    .job-icon-button {
+        display: none;
+    }
+}
+/*Show icon buttons*/
+@media (max-width: 900px) {
+    .job-text-button {
+        display: none;
+    }
+}
+/**/
+
+
+
 /**********************************************************************************************************************/
 /* Filtering and Sorting */
 /**********************************************************************************************************************/

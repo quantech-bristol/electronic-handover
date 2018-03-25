@@ -124,27 +124,44 @@
                                     <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"
                                             type="submit"
                                             class="custom-button green-outlined">
-                                        Complete
+                                        <!--Text button-->
+                                        <span class="job-text-button">Complete</span>
+                                        <!--Icon button-->
+                                        <span class="job-icon-button"><i class="fa fa-check"></i></span>
                                     </button>
                                 </form>
-                                <span th:if="${job.isComplete()}" class="completed-job">Completed</span>
-                                <!--<i class="fa fa-check"></i>-->
+                                <span th:if="${job.isComplete()}" class="completed-job job-text-button">Completed</span>
+                                <span th:if="${job.isComplete()}" class="completed-job job-icon-button"><i class="fa fa-check"></i></span>
                             </td>
                             <td>
                                 <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"
-                                   th:href="'/handoverJob?jobId=' + ${job.getId()}"><button type="button" class="custom-button orange-outlined">Handover</button></a>
-                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job">Pending</span>
-                                <!--<i class="fa fa-arrow-right"></i>-->
+                                   th:href="'/handoverJob?jobId=' + ${job.getId()}"><button type="button" class="custom-button orange-outlined">
+                                    <!--Text button-->
+                                    <span class="job-text-button">Handover</span>
+                                    <!--Icon button-->
+                                    <span class="job-icon-button"><i class="fa fa-arrow-right"></i></span>
+                                </button></a>
+                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job job-text-button">Pending</span>
+                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job job-icon-button"><i class="fa fa-arrow-right"></i></span>
+
                             </td>
                             <td>
-                                <button type="button" class="custom-button blue-outlined">Edit</button>
-                                <!--<button type="button" class="custom-button blue-outlined"><i class="fa fa-pencil"></i></button>-->
+                                <button type="button" class="custom-button blue-outlined">
+                                    <!--Text button-->
+                                    <span class="job-text-button">Edit</span>
+                                    <!--Icon button-->
+                                    <span class="job-icon-button"><i class="fa fa-pencil"></i></span>
+                                </button>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <a th:href="'/createJob?jobContextId='+${jobContext.id}"><button type="button" class="custom-button blue-outlined">Add job</button></a>
-                                <!--<button type="button" class="custom-button blue-outlined"><i class="fa fa-plus"></i></button>-->
+                                <a th:href="'/createJob?jobContextId='+${jobContext.id}"><button type="button" class="custom-button blue-outlined">
+                                    <!--Text button-->
+                                    <span class="job-text-button">Add job</span>
+                                    <!--Icon button-->
+                                    <span class="job-icon-button"><i class="fa fa-plus"></i></span>
+                                </button></a>
                             </td>
                         </tr>
                     </table>
@@ -153,7 +170,7 @@
         </table>
         <form th:action="@{/pdf}" method="post">
             <!--<input type="hidden" name="jcs" th:value="${jobContexts}"/>-->
-            <input class="btn" style="width: 10vw;" type="submit" value="View all as PDF"/>
+            <button type="submit" style="width: 10vw;">View all as PDF</button>
         </form>
     </div>
 
