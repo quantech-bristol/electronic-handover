@@ -145,14 +145,14 @@
                                 <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job job-icon-button"><i class="fa fa-arrow-right"></i></span>
 
                             </td>
-                            <td>
-                                <button type="button" class="custom-button blue-outlined">
-                                    <!--Text button-->
-                                    <span class="job-text-button">Edit</span>
-                                    <!--Icon button-->
-                                    <span class="job-icon-button"><i class="fa fa-pencil"></i></span>
-                                </button>
-                            </td>
+                            <!--<td>-->
+                                <!--<button type="button" class="custom-button blue-outlined">-->
+                                    <!--&lt;!&ndash;Text button&ndash;&gt;-->
+                                    <!--<span class="job-text-button">Edit</span>-->
+                                    <!--&lt;!&ndash;Icon button&ndash;&gt;-->
+                                    <!--<span class="job-icon-button"><i class="fa fa-pencil"></i></span>-->
+                                <!--</button>-->
+                            <!--</td>-->
                         </tr>
                         <tr>
                             <td>

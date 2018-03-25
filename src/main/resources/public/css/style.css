@@ -89,6 +89,12 @@ YELLOW #FAE100
     white-space: normal;
 }
 
+.patient-table .job-table tr td:nth-child(4),
+.patient-table .job-table tr td:nth-child(5),
+.patient-table .job-table tr td:nth-child(6) {
+    text-align: center;
+}
+
 /*Hide text buttons*/
 @media (min-width: 901px) {
     .job-icon-button {
@@ -341,7 +347,8 @@ label {
 
 .completed-job {
     font-size: 11px;
-    color: #78BE20;
+    /*color: #78BE20;*/
+    color: #D1D8DC;
 }
 
 /**********************************************************************************************************************/

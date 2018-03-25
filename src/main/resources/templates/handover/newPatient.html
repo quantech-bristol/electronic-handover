@@ -19,11 +19,16 @@
     <form action="#" th:action="@{/newPatient}" method="post">
         <div class="main-box">
             <div class="main-box-header">
-                Add new Patient <a th:href="@{/searchPatients}"><button type="button" class="custom-button blue-outlined">Search for existing patients</button></a>
+                Add new Patient
             </div>
             <div class="main-box-content">
                 <form action="#" th:action="@{/newPatient}" method="post" th:object="${patient}">
                     <table class="input-layout">
+                        <tr>
+                            <td style="text-align: center;">
+                                <a th:href="@{/searchPatients}"><button type="button" class="custom-button blue-outlined">Search for existing patients</button></a>
+                            </td>
+                        </tr>
                         <tr>
                             <td>Title</td>
                             <td>
