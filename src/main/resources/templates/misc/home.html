@@ -94,7 +94,8 @@
                     <span th:text="${jobContext.patient.getAge()}"/><br/>
                     <span th:if="${jobContext.patient.hospitalNumber}">Hospital Number:  <span th:text="${jobContext.patient.hospitalNumber}"/><br/></span>
                     <span th:if="${jobContext.patient.nHSNumber}">NHS Number: <span th:text="${jobContext.patient.nHSNumber}"/><br/></span>
-                    <a th:href="'/patient/id=' + ${jobContext.patient.id}">View details</a></td>
+                    <a th:href="@{/patient/{id}(id=${jobContext.patient.id})}">View details</a>
+                </td>
                 <td>
                     <span th:if="${jobContext.getUnwell()}">
                         Unwell<br/>
@@ -156,12 +157,15 @@
                         </tr>
                         <tr>
                             <td>
-                                <a th:href="'/createJob?jobContextId='+${jobContext.id}"><button type="button" class="custom-button blue-outlined">
-                                    <!--Text button-->
-                                    <span class="job-text-button">Add job</span>
-                                    <!--Icon button-->
-                                    <span class="job-icon-button"><i class="fa fa-plus"></i></span>
-                                </button></a>
+                                <!--<a th:href="'/patient/createHandover?patient='+${jobContext.patient}+'&jobContext='+${jobContext}">Hello</a>-->
+                                <a th:href="'/createJob?jobContextId='+${jobContext.id}">
+                                    <button type="button" class="custom-button blue-outlined">
+                                        <!--Text button-->
+                                        <span class="job-text-button">Add job</span>
+                                        <!--Icon button-->
+                                        <span class="job-icon-button"><i class="fa fa-plus"></i></span>
+                                    </button>
+                                </a>
                             </td>
                         </tr>
                     </table>

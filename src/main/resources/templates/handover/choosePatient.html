@@ -18,6 +18,7 @@
                 <td>Hospital Number</td>
                 <td>NHS Number</td>
                 <td></td>
+                <td></td>
             </tr>
             <tr th:each="patient : ${patients}">
                 <td>
@@ -33,9 +34,9 @@
                     <span th:text="${patient.nHSNumber}"></span>
                 </td>
                 <td>
-                    <form action="#" th:action="@{/selectPatient/{id}(id=${patient.id})}" method="get">
+                    <a th:href="@{/patient/{id}(id=${patient.id})}">
                         <button type="submit" class="custom-button orange-filled">Select</button>
-                    </form>
+                    </a>
                 </td>
             </tr>
         </table>

@@ -7,7 +7,7 @@
 <body>
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
-    <table id="patient-info">
+    <table class="patient-table">
         <tr>
             <td>Patient Details</td>
             <td>Inpatient Details</td>
@@ -15,7 +15,6 @@
             <td>Clinical details</td>
             <td>Jobs</td>
         </tr>
-        <!--Thymeleaf for each clause-->
         <tr>
             <td>
                 <div class="patient-details">
@@ -67,17 +66,7 @@
             </td>
             <td>Details, category, date/deadline and completed or not</td>
         </tr>
-        <!--Thymeleaf for each clause-->
-        <tr>
-            <td><!--Patient Details--></td>
-            <td><!--Inpatient Details--></td>
-            <td><!--Clinical Status--></td>
-            <td><!--Clinical details--></td>
-            <td><!--Jobs--></td>
-        </tr>
     </table>
-
 </div>
-
 </body>
 </html>

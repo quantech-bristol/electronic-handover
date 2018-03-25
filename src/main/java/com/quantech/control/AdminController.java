@@ -1,9 +1,7 @@
 package com.quantech.control;
 
-import com.quantech.config.SecurityRoles;
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.model.Category;
-import com.quantech.model.Doctor;
 import com.quantech.model.Log.Log;
 import com.quantech.model.Log.LogOperations.AddUser;
 import com.quantech.model.Log.LogOperations.LogFilterBackingObject;
@@ -11,17 +9,15 @@ import com.quantech.model.Risk;
 import com.quantech.model.Ward;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserFormBackingObject;
-import com.quantech.model.user.UserInfo;
-import com.quantech.service.CategoryService.CategoryServiceImpl;
+import com.quantech.service.CategoryService.CategoryService;
 import com.quantech.service.DoctorService.DoctorService;
+import com.quantech.service.JobsService.JobsService;
 import com.quantech.service.LoggingService.LogServiceImpl;
-import com.quantech.service.RiskService.RiskServiceImpl;
+import com.quantech.service.PatientService.PatientServiceImpl;
+import com.quantech.service.RiskService.RiskService;
 import com.quantech.service.UserService.UserService;
-import com.quantech.service.UserService.UserServiceImpl;
-import com.quantech.service.WardService.WardServiceImpl;
-
+import com.quantech.service.WardService.WardService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 @Controller
@@ -40,25 +35,31 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    LogServiceImpl logService;
-
-    @Autowired
     IAuthenticationFacade authenticator;
 
     @Autowired
-    UserService userService;
+    CategoryService categoryService;
 
     @Autowired
     DoctorService doctorService;
 
     @Autowired
-    WardServiceImpl wardService;
+    JobsService jobsService;
 
     @Autowired
-    RiskServiceImpl riskService;
+    LogServiceImpl logService;
 
     @Autowired
-    CategoryServiceImpl categoryService;
+    PatientServiceImpl patientService;
+
+    @Autowired
+    RiskService riskService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    WardService wardService;
 
     @GetMapping(value="/admin")
     public String adminPage() {
@@ -80,7 +81,7 @@ public class AdminController {
         if (errors.hasErrors()) {
             return "admin/createUser";
         } else {
-                userService.createUser(user);
+            userService.createUser(user);
             return "redirect:/admin";
         }
     }
@@ -130,16 +131,16 @@ public class AdminController {
 
     @PostMapping(value = "/admin/editUser")
     public String editUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors)
-        {
-            userService.CheckValidity(result, false, user);
-            if (errors.hasErrors()) {
-                return "admin/createUser";
-            }
-            else {
-               userService.editUser(user);
-                return "redirect:/admin";
-            }
+    {
+        userService.CheckValidity(result, false, user);
+        if (errors.hasErrors()) {
+            return "admin/createUser";
         }
+        else {
+            userService.editUser(user);
+            return "redirect:/admin";
+        }
+    }
     @DeleteMapping(value = "/admin/deleteUser/{id}")
     public String DeleteUser(@PathVariable("id") long id)
     {
@@ -295,4 +296,5 @@ public class AdminController {
     {
         return "logging/AddUser/DisplayAddUserLogs";
     }
+
 }

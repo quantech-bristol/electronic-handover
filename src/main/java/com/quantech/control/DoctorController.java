@@ -2,125 +2,114 @@ package com.quantech.control;
 
 import com.quantech.misc.AuthFacade.IAuthenticationFacade;
 import com.quantech.misc.PdfGenerator;
-import com.quantech.model.*;
+import com.quantech.model.Doctor;
+import com.quantech.model.Job;
+import com.quantech.model.JobContext;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserEntry;
-import com.quantech.repo.PatientRepository;
-import com.quantech.service.CategoryService.CategoryServiceImpl;
-import com.quantech.service.DoctorService.DoctorServiceImpl;
-import com.quantech.service.JobsService.JobsServiceImpl;
-import com.quantech.service.PatientService.PatientServiceImpl;
-import com.quantech.service.UserService.UserService;
-import com.quantech.service.WardService.WardServiceImpl;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import com.quantech.service.CategoryService.CategoryService;
+import com.quantech.service.DoctorService.DoctorService;
+import com.quantech.service.JobsService.JobsService;
+import com.quantech.service.RiskService.RiskService;
+import com.quantech.service.WardService.WardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
 @Controller
+@SessionAttributes({"jobContexts"})
 public class DoctorController {
 
     @Autowired
     IAuthenticationFacade authenticator;
 
     @Autowired
-    PatientServiceImpl patientService;
+    CategoryService categoryService;
 
     @Autowired
-    PatientRepository patientRepository;
+    DoctorService doctorService;
 
     @Autowired
-    CategoryServiceImpl categoryService;
+    JobsService jobsService;
 
     @Autowired
-    DoctorServiceImpl doctorService;
+    RiskService riskService;
 
     @Autowired
-    JobsServiceImpl jobsService;
+    WardService wardService;
 
-    @Autowired
-    WardServiceImpl wardService;
+    @RequestMapping(value="/", method= RequestMethod.GET)
+    public String home(@RequestParam(value = "unwell", required = false) String unwell,
+                       @RequestParam(value = "risk", required = false) Long[] riskId,
+                       @RequestParam(value = "category",required = false) Long[] categoryId,
+                       @RequestParam(value = "ward", required = false) Long[] wardId,
+                       @RequestParam(value = "complete", required = false) String completed,
+                       @RequestParam(value = "sort", required = false) String sort,
+                       Model model) {
+        UserCore user =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
 
-    @Autowired
-    UserService userService;
 
-    @GetMapping(value="/createJob")
-    public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
-        return createJob(id, model, new JobFormBackingObject());
-    }
+        if (user.isDoctor()) {
+            model.addAttribute("risks",riskService.getAllRisks());
+            model.addAttribute("wards",wardService.getAllWards());
+            model.addAttribute("category",categoryService.getAllCategories());
 
-    private String createJob(Long id, Model model, JobFormBackingObject job) {
-        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
+            Doctor d = doctorService.getDoctor(user);
+            List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);
 
-        model.addAttribute("job", job);
-        model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("doctorId",userInfo.getId());
-        model.addAttribute("contextId",id);
-        return "doctor/newJob";
-    }
+            // Compiling job context filter predicates
+            Set<Predicate<JobContext>> p = new HashSet<>();
+            if (unwell != null)
+                p.add(jobsService.patientIsUnwell());
+            if (riskId != null)
+                for (Long id : riskId)
+                    p.add(jobsService.patientHasRisk(riskService.getRisk(id)));
+            if (wardId != null)
+                for (Long id : wardId)
+                    p.add(jobsService.patientIsInWard(wardService.getWard(id)));
 
-    @Transactional
-    @PostMapping(value="/createJob")
-    public String createJob(@Valid @ModelAttribute("job") JobFormBackingObject job,
-                            BindingResult result,
-                            Errors errors,
-                            Model model,
-                            HttpServletRequest request) {
-        jobsService.CheckJobValidity(result,job);
-        if (errors.hasErrors()){
-            request.setAttribute("jobContextId",job.getContextId());
-            return createJob(job.getContextId(),model,job);
-            //return "doctor/newJob";
+            // Compiling job filter predicates.
+            Set<Predicate<Job>> p2 = new HashSet<>();
+            if (categoryId != null)
+                for (Long id : categoryId)
+                    p2.add(jobsService.jobIsOfCategory(categoryService.getCategory(id)));
+            if (completed != null) {
+                if (completed.equals("true"))
+                    p2.add(jobsService.jobIsComplete());
+                if (completed.equals("false")) {
+                    p2.add(j -> j.getCompletionDate() == null);
+                }
+            }
+
+            // Applying both sets of predicates to filter the job contexts.
+            jcs = jobsService.filterJobContextsBy(jcs,p,p2);
+
+            // Now apply sort.
+            if (sort != null) {
+                if (sort.equals("firstName"))
+                    jcs = jobsService.sortJobContextsByFirstName(jcs);
+                if (sort.equals("lastName"))
+                    jcs = jobsService.sortJobContextsByLastName(jcs);
+            }
+
+            model.addAttribute("jobContexts", jcs);
+            //model.addAttribute("jcsWrapped", new JobContextsWrapper(jcs));
+
+            return "misc/home";
+
+        } else if (user.isAdmin()) {
+            return "redirect:/admin";
+        } else {
+            return "misc/home";
         }
-        else {
-            Job j = new Job();
-            j.setCategory(categoryService.getCategory(job.getCategoryId()));
-            j.setCreationDate(new Date());
-            j.setDoctor(doctorService.getDoctor(userService.findUserById(job.getDoctorId())));
-            j.setJobContext(jobsService.getJobContext(job.getContextId()));
-            j.setDescription(job.getDescription());
-            jobsService.saveJob(j);
-            return "redirect:/";
-        }
-    }
-
-    @GetMapping(value="/handoverJob")
-    public String handoverJob(@RequestParam(value = "jobId", required=true) Long id, Model model) {
-        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
-        model.addAttribute("jobId",id);
-        model.addAttribute("description",jobsService.getJob(id).getDescription());
-        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-
-        return "doctor/handoverJob";
-    }
-
-    @Transactional
-    @PostMapping(value="/handoverJob")
-    public String handoverJob(@RequestParam(value = "jobId", required=true) Long id,
-                              @RequestParam("jobDescription") String description,
-                              @RequestParam("doctor") Doctor doctor) {
-        Job job = jobsService.getJob(id);
-        job.setDescription(description);
-        job.setDoctor(doctor);
-
-        jobsService.saveJob(job);
-        return "redirect:/";
-    }
-
-    @PostMapping(value="/completeJob")
-    public String completeJob(@RequestParam("job") Job job) {
-        jobsService.completeJob(job);
-        return "redirect:/";
     }
 
     @GetMapping(value="/filterJobContexts")
@@ -146,9 +135,18 @@ public class DoctorController {
         return "redirect:/";
     }
 
-    @GetMapping("/patient/id={id}")
-    public String viewPatient(@PathVariable Long id, Model model) {
-        model.addAttribute("patient", patientService.getPatientById(id));
-        return "doctor/viewPatient";
+    @RequestMapping(value="/pdf", method=RequestMethod.POST, produces="application/pdf", consumes = "application/x-www-form-urlencoded")
+    @ResponseBody
+    public FileSystemResource patientPdf(@SessionAttribute("jobContexts") List<JobContext> jcs) throws Exception {
+
+        try { System.out.println(jcs); }
+        catch(Exception e)
+        { System.out.println("very null"); }
+
+        PdfGenerator pdfGen = new PdfGenerator();
+        pdfGen.gen(jcs);
+
+        return new FileSystemResource("pdfout.pdf");
     }
+
 }

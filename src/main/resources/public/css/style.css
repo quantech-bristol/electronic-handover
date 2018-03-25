@@ -640,8 +640,6 @@ input::placeholder {
 }
 /**/
 
-
-
 /**********************************************************************************************************************/
 /* Filtering and Sorting */
 /**********************************************************************************************************************/
@@ -698,54 +696,77 @@ input::placeholder {
     /*white-space: nowrap;*/
 }
 
-/*!**********************************************************************************************************************!*/
-/*!* Patients *!*/
-/*!**********************************************************************************************************************!*/
+/**********************************************************************************************************************/
+/* View patient */
+/**********************************************************************************************************************/
 
-/*#patient-info {*/
-    /*border: 1px solid #768692;*/
-    /*width: 100%;*/
-/*}*/
+.job-context-table {
+    width: 100%;
+}
 
-/*#patient-info tr td{*/
-    /*vertical-align: top;*/
-    /*padding: 5px 10px;*/
-/*}*/
+.job-context-table tr {
+    border: 1px solid #768692;
+}
 
-/*#patient-info tr:first-child {*/
-    /*width: 100%;*/
-    /*background-color: #E8EDEE;*/
-    /*border: 1px solid #768692;*/
-    /*height: 35px;*/
-/*}*/
+.job-context-table tr td {
+    vertical-align: top;
+    padding: 5px 15px;
+}
 
-/*#patient-info tr:first-child td {*/
-    /*font-size: 16px;*/
-    /*color: #005EB8;*/
-    /*vertical-align: middle;*/
-/*}*/
+.job-context-table tr:first-child {
+    background-color: #E8EDEE;
+    height: 35px;
+}
 
-/*.patient-detail-row {*/
-    /*padding: 2px 0;*/
-/*}*/
+.job-context-table tr:first-child td {
+    font-size: 16px;
+    color: #005EB8;
+    vertical-align: middle;
+}
 
-/*.patient-detail-title {*/
-    /*text-transform: uppercase;*/
-    /*font-weight: bold;*/
-    /*font-size: 11px;*/
-    /*color: #425563;*/
-    /*padding-right: 10px;*/
-/*}*/
+.job-context-table tr td:last-child {
+    padding: 0;
+}
 
-/*.patient-detail {*/
-    /*font-size: 14px;*/
-    /*color: #000000;*/
-    /*padding-right: 10px;*/
-/*}*/
+.job-context-table tr:first-child td:last-child {
+    padding: 5px;
+}
 
-/*.line td{*/
-    /*border-bottom: 1px solid #768692;*/
-/*}*/
+.job-context-table tr td:first-child,
+.job-context-table tr td:nth-child(2) {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.job-context-table .job-table {
+    width: 100%;
+}
+
+.job-context-table .job-table tr {
+    border: none;
+    background: none;
+    height: auto;
+}
+
+.job-context-table .job-table tr td {
+    font-size: 14px;
+    color: black;
+    padding: 5px;
+    /*border: 1px solid black;*/
+    width: 1px;
+    white-space: nowrap;
+}
+
+.job-context-table .job-table tr td:nth-child(2) {
+    width: auto;
+    white-space: normal;
+}
+
+.job-context-table .job-table tr td:nth-child(4),
+.job-context-table .job-table tr td:nth-child(5),
+.job-context-table .job-table tr td:nth-child(6) {
+    text-align: center;
+}
 
 /**********************************************************************************************************************/
 /* Create/Edit user */

@@ -308,8 +308,8 @@ public class PatientServiceImpl implements PatientService {
         return list;
     }
 
-    public List<Patient> findMatchesFromFilter(PatientFormBackingObject p) {
-        List<Patient> patients = patientRepository.findPatientsByFirstNameContainsAndLastNameContains(p.getFirstName(), p.getLastName());
+    public List<Patient> findMatchesFromFilter(String firstName, String lastName) {
+        List<Patient> patients = patientRepository.findPatientsByFirstNameContainsAndLastNameContains(firstName, lastName);
         return patients;
     }
 
