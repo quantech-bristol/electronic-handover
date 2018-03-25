@@ -7,156 +7,156 @@
 <body>
     <div th:replace="fragments/header :: header">&nbsp;</div>
     <div id="main">
-        <table class="patient-table">
-            <tr>
-                <td>Patient Information</td>
-                <td>
-                    Status
-                    <!--Filter unwell-->
-                    <!--Filter risks-->
-                    <div class="dropdown">
-                        <div class="drop-btn"><i class="fa fa-filter"></i></div>
-                        <div class="drop-content">
-                            <table class="dropdown-table">
-                                <tr>
-                                    <td><input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/></td>
-                                    <td><label class="filter-label" for="unwell">Unwell</label></td>
-                                </tr>
-                                <tr th:each="risk,iterStat : ${risks}">
-                                    <td><input type="checkbox" class="filter-box" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}"/></td>
-                                    <td><label class="filter-label" th:for="${risk.getId()}" th:text="${risk.getName()}"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Apply</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    Ward Details
-                    <!--Filter ward -->
-                    <div class="dropdown">
-                        <div class="drop-btn"><i class="fa fa-filter"></i></div>
-                        <div class="drop-content">
-                            <table class="dropdown-table">
-                                <tr th:each="ward,iterStat : ${wards}">
-                                    <td><input type="checkbox" class="filter-box" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}"/></td>
-                                    <td><label class="filter-label" th:for="${ward.getId()}" th:text="${ward.getName()}"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Apply</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    Clinical Details
-                </td>
-                <td>
-                    Jobs
-                    <!--Filter category-->
-                    <!--Filter pending or incomplete-->
-                    <div class="dropdown">
-                        <div class="drop-btn"><i class="fa fa-filter"></i></div>
-                        <div class="drop-content">
-                            <table class="dropdown-table">
-                                <tr>
-                                    <td><input type="radio" class="filter-box" name="complete" id="complete" value="true"/></td>
-                                    <td><label class="filter-label" for="complete">Complete</label></td>
-                                </tr>
-                                <tr>
-                                    <td><input type="radio" class="filter-box" name="complete" id="incomplete" value="false"/></td>
-                                    <td><label class="filter-label" for="incomplete">Incomplete</label></td>
-                                </tr>
-                                <tr th:each="category,iterStat : ${category}">
-                                    <td><input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}"/></td>
-                                    <td><label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Apply</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <!--Sort by deadline-->
+        <!--<table class="patient-table">-->
+            <!--<tr>-->
+                <!--<td>Patient Information</td>-->
+                <!--<td>-->
+                    <!--Status-->
+                    <!--&lt;!&ndash;Filter unwell&ndash;&gt;-->
+                    <!--&lt;!&ndash;Filter risks&ndash;&gt;-->
                     <!--<div class="dropdown">-->
-                        <!--<div class="drop-btn"><i class="fa fa-sort"></i></div>-->
+                        <!--<div class="drop-btn"><i class="fa fa-filter"></i></div>-->
                         <!--<div class="drop-content">-->
                             <!--<table class="dropdown-table">-->
+                                <!--<tr>-->
+                                    <!--<td><input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/></td>-->
+                                    <!--<td><label class="filter-label" for="unwell">Unwell</label></td>-->
+                                <!--</tr>-->
+                                <!--<tr th:each="risk,iterStat : ${risks}">-->
+                                    <!--<td><input type="checkbox" class="filter-box" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}"/></td>-->
+                                    <!--<td><label class="filter-label" th:for="${risk.getId()}" th:text="${risk.getName()}"/></td>-->
+                                <!--</tr>-->
                                 <!--<tr>-->
                                     <!--<td>Apply</td>-->
                                 <!--</tr>-->
                             <!--</table>-->
                         <!--</div>-->
                     <!--</div>-->
-                </td>
-            </tr>
-            <tr th:each="jobContext,iterStat : ${jobContexts}">
-                <td>
-                    <span th:text="${jobContext.patient.FullName}"/><br/>
-                    <span th:text="${jobContext.patient.birthDate}"/><br/>
-                    <span th:text="${jobContext.patient.getAge()}"/><br/>
-                    <span th:if="${jobContext.patient.hospitalNumber}">Hospital Number:  <span th:text="${jobContext.patient.hospitalNumber}"/><br/></span>
-                    <span th:if="${jobContext.patient.nHSNumber}">NHS Number: <span th:text="${jobContext.patient.nHSNumber}"/><br/></span>
-                    <a th:href="'/patient/id=' + ${jobContext.patient.id}">View details</a></td>
-                <td>
-                    <span th:if="${jobContext.getUnwell()}">
-                        Unwell<br/>
-                    </span>
-                    <span th:each="risk,iterStat : ${jobContext.getRisks()}" th:text="${risk.getName()}"/>
-                </td>
-                <td>
-                    <span th:text="${jobContext.getWard().getName()}"/><br/>
-                    Bed <span th:text="${jobContext.bed}"/><br/>
-                </td>
-                <td>
-                    <span th:text="${jobContext.clinicalDetails}"/>
-                </td>
-                <td>
-                    <table class="job-table">
-                        <tr th:each="job,iterStat : ${jobContext.getJobs()}">
-                            <td>
-                                <span th:text="${job.getCategory().getName()}"/>
-                            </td>
-                            <td>
-                                <span th:text="${job.getDescription()}"/>
-                            </td>
-                            <td></td>
-                            <td>
-                                <form action="#" th:action="'/completeJob'" method="post" style="display: inline-block;">
-                                    <input type="hidden" name="job" th:value="${job.id}"/>
-                                    <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"
-                                            type="submit"
-                                            class="custom-button green-outlined">
-                                        Complete
-                                    </button>
-                                </form>
-                                <span th:if="${job.isComplete()}" class="completed-job">Completed</span>
-                                <!--<i class="fa fa-check"></i>-->
-                            </td>
-                            <td>
-                                <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"
-                                   th:href="'/handoverJob?jobId=' + ${job.getId()}"><button type="button" class="custom-button orange-outlined">Handover</button></a>
-                                <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job">Pending</span>
-                                <!--<i class="fa fa-arrow-right"></i>-->
-                            </td>
-                            <td>
-                                <button type="button" class="custom-button blue-outlined">Edit</button>
-                                <!--<button type="button" class="custom-button blue-outlined"><i class="fa fa-pencil"></i></button>-->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a th:href="'/createJob?jobContextId='+${jobContext.id}"><button type="button" class="custom-button blue-outlined">Add job</button></a>
-                                <!--<button type="button" class="custom-button blue-outlined"><i class="fa fa-plus"></i></button>-->
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+                <!--</td>-->
+                <!--<td>-->
+                    <!--Ward Details-->
+                    <!--&lt;!&ndash;Filter ward &ndash;&gt;-->
+                    <!--<div class="dropdown">-->
+                        <!--<div class="drop-btn"><i class="fa fa-filter"></i></div>-->
+                        <!--<div class="drop-content">-->
+                            <!--<table class="dropdown-table">-->
+                                <!--<tr th:each="ward,iterStat : ${wards}">-->
+                                    <!--<td><input type="checkbox" class="filter-box" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}"/></td>-->
+                                    <!--<td><label class="filter-label" th:for="${ward.getId()}" th:text="${ward.getName()}"/></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>Apply</td>-->
+                                <!--</tr>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--Clinical Details-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--Jobs-->
+                    <!--&lt;!&ndash;Filter category&ndash;&gt;-->
+                    <!--&lt;!&ndash;Filter pending or incomplete&ndash;&gt;-->
+                    <!--<div class="dropdown">-->
+                        <!--<div class="drop-btn"><i class="fa fa-filter"></i></div>-->
+                        <!--<div class="drop-content">-->
+                            <!--<table class="dropdown-table">-->
+                                <!--<tr>-->
+                                    <!--<td><input type="radio" class="filter-box" name="complete" id="complete" value="true"/></td>-->
+                                    <!--<td><label class="filter-label" for="complete">Complete</label></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td><input type="radio" class="filter-box" name="complete" id="incomplete" value="false"/></td>-->
+                                    <!--<td><label class="filter-label" for="incomplete">Incomplete</label></td>-->
+                                <!--</tr>-->
+                                <!--<tr th:each="category,iterStat : ${category}">-->
+                                    <!--<td><input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}"/></td>-->
+                                    <!--<td><label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/></td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>Apply</td>-->
+                                <!--</tr>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;Sort by deadline&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="dropdown">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="drop-btn"><i class="fa fa-sort"></i></div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="drop-content">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<table class="dropdown-table">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<td>Apply</td>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</table>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr th:each="jobContext,iterStat : ${jobContexts}">-->
+                <!--<td>-->
+                    <!--<span th:text="${jobContext.patient.FullName}"/><br/>-->
+                    <!--<span th:text="${jobContext.patient.birthDate}"/><br/>-->
+                    <!--<span th:text="${jobContext.patient.getAge()}"/><br/>-->
+                    <!--<span th:if="${jobContext.patient.hospitalNumber}">Hospital Number:  <span th:text="${jobContext.patient.hospitalNumber}"/><br/></span>-->
+                    <!--<span th:if="${jobContext.patient.nHSNumber}">NHS Number: <span th:text="${jobContext.patient.nHSNumber}"/><br/></span>-->
+                    <!--<a th:href="'/patient/id=' + ${jobContext.patient.id}">View details</a></td>-->
+                <!--<td>-->
+                    <!--<span th:if="${jobContext.getUnwell()}">-->
+                        <!--Unwell<br/>-->
+                    <!--</span>-->
+                    <!--<span th:each="risk,iterStat : ${jobContext.getRisks()}" th:text="${risk.getName()}"/>-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--<span th:text="${jobContext.getWard().getName()}"/><br/>-->
+                    <!--Bed <span th:text="${jobContext.bed}"/><br/>-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--<span th:text="${jobContext.clinicalDetails}"/>-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--<table class="job-table">-->
+                        <!--<tr th:each="job,iterStat : ${jobContext.getJobs()}">-->
+                            <!--<td>-->
+                                <!--<span th:text="${job.getCategory().getName()}"/>-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<span th:text="${job.getDescription()}"/>-->
+                            <!--</td>-->
+                            <!--<td></td>-->
+                            <!--<td>-->
+                                <!--<form action="#" th:action="'/completeJob'" method="post" style="display: inline-block;">-->
+                                    <!--<input type="hidden" name="job" th:value="${job.id}"/>-->
+                                    <!--<button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"-->
+                                            <!--type="submit"-->
+                                            <!--class="custom-button green-outlined">-->
+                                        <!--Complete-->
+                                    <!--</button>-->
+                                <!--</form>-->
+                                <!--<span th:if="${job.isComplete()}" class="completed-job">Completed</span>-->
+                                <!--&lt;!&ndash;<i class="fa fa-check"></i>&ndash;&gt;-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"-->
+                                   <!--th:href="'/handoverJob?jobId=' + ${job.getId()}"><button type="button" class="custom-button orange-outlined">Handover</button></a>-->
+                                <!--<span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job">Pending</span>-->
+                                <!--&lt;!&ndash;<i class="fa fa-arrow-right"></i>&ndash;&gt;-->
+                            <!--</td>-->
+                            <!--<td>-->
+                                <!--<button type="button" class="custom-button blue-outlined">Edit</button>-->
+                                <!--&lt;!&ndash;<button type="button" class="custom-button blue-outlined"><i class="fa fa-pencil"></i></button>&ndash;&gt;-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>-->
+                                <!--<a th:href="'/createJob?jobContextId='+${jobContext.id}"><button type="button" class="custom-button blue-outlined">Add job</button></a>-->
+                                <!--&lt;!&ndash;<button type="button" class="custom-button blue-outlined"><i class="fa fa-plus"></i></button>&ndash;&gt;-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</td>-->
+            <!--</tr>-->
+        <!--</table>-->
 
         <form th:action="'/filterJobContexts'" method="get">
             <div class="dropdown">
@@ -311,10 +311,10 @@
                 </tr>
             </div>
         </table>
-        <form th:action="@{/pdf}" method="post" name="jobContexts" th:object="${jobContexts}">
-            <button type="submit" style="width: 10vw;">View as PDF</button>
+        <form th:action="@{/pdf}" method="post">
+            <!--<input type="hidden" name="jcs" th:value="${jobContexts}"/>-->
+            <input class="btn" style="width: 10vw;" type="submit" value="View all as PDF"/>
         </form>
-
     </div>
 
 </body>
