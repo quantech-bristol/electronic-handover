@@ -132,6 +132,9 @@ public class HandoverController {
         }
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+//  ADDING AND PASSING A JOB
+
     @GetMapping(value="/createJob")
     public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
         return createJob(id, model, new JobFormBackingObject());
@@ -143,6 +146,7 @@ public class HandoverController {
         model.addAttribute("job", job);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("doctorId",userInfo.getId());
+        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
         model.addAttribute("contextId",id);
         return "doctor/newJob";
     }
@@ -194,6 +198,9 @@ public class HandoverController {
         jobsService.saveJob(job);
         return "redirect:/";
     }
+
+//----------------------------------------------------------------------------------------------------------------------
+//  COMPLETE JOB
 
     @PostMapping(value="/completeJob")
     public String completeJob(@RequestParam("job") Job job) {
