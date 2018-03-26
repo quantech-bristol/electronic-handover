@@ -63,7 +63,7 @@ public class AdminController {
 
     @GetMapping(value="/admin")
     public String adminPage() {
-        return "admin/admin";
+        return "admin/adminHome";
     }
 
     @GetMapping(value="/admin/createUser")

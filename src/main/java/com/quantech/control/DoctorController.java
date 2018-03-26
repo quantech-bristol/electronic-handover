@@ -103,12 +103,12 @@ public class DoctorController {
             model.addAttribute("jobContexts", jcs);
             //model.addAttribute("jcsWrapped", new JobContextsWrapper(jcs));
 
-            return "misc/home";
+            return "doctor/doctorHome";
 
         } else if (user.isAdmin()) {
             return "redirect:/admin";
         } else {
-            return "misc/home";
+            return "doctor/doctorHome";
         }
     }
 

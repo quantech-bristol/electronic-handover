@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: head (title='Job Handover')">
+</head>
+
+<body>
+
+<script>
+    function updateSelectColor(element) {
+        if (element.selectedIndex == '0') {
+            element.style.color = '#D1D8DC';
+        } else {
+            element.style.color = '#000000';
+        }
+    }
+    function showNewJobContext(id) {
+        document.getElementById("newJobContextForm").style.display = '';
+        document.getElementById("addJobContextButton").style.display = 'none';
+        document.getElementById("cancelJobContextButton").style.display = '';
+        /*<![CDATA[*/
+        for (let i = 1; i < id+1; i++) { hideNewJob(i); }
+        /*]]>*/
+    }
+    function hideNewJobContext() {
+        document.getElementById("newJobContextForm").style.display = 'none';
+        document.getElementById("addJobContextButton").style.display = '';
+        document.getElementById("cancelJobContextButton").style.display = 'none';
+        resetJobContext();
+    }
+    function resetJobContext() {
+        document.getElementById("newWard").selectedIndex = 0;
+        document.getElementById("newBed").value = "";
+        document.getElementById("newUnwell").checked = false;
+        document.getElementById("newClinicalDetails").value = "";
+    }
+    function showNewJob(id) {
+        document.getElementById("newJobForm"+id).style.display = '';
+        document.getElementById("addJobButton"+id).style.display = 'none';
+        document.getElementById("cancelJobButton"+id).style.display = '';
+        /*<![CDATA[*/
+        for (let i = 1; i < id+1; i++) {
+            if (i != id) hideNewJob(i);
+            hideNewJobContext();
+        }
+        /*]]>*/
+    }
+    function hideNewJob(id) {
+        document.getElementById("newJobForm"+id).style.display = 'none';
+        document.getElementById("addJobButton"+id).style.display = '';
+        document.getElementById("cancelJobButton"+id).style.display = 'none';
+        resetJob(id);
+    }
+    function resetJob(id) {
+        document.getElementById("newCategory"+id).selectedIndex = 0;
+        document.getElementById("newDescription"+id).value = "";
+        document.getElementById("newDoctor"+id).selectedIndex = 0;
+    }
+</script>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="main">
+
+    <h2 class="patient-detail" th:text="${patientInfo.FullName}"></h2>
+    <h3>
+        Date of Birth: <span th:text="${patientInfo.birthDate}"/>
+        Age: <span th:text="${patientInfo.getAge()}"/>
+    </h3>
+    <h3 th:if="${patientInfo.hospitalNumber}">
+        Hospital Number: <span th:text="${patientInfo.hospitalNumber}"/>
+    </h3>
+    <h3 th:if="${patientInfo.nHSNumber}">
+        NHS Number: <span th:text="${patientInfo.nHSNumber}"/>
+    </h3>
+    <!--<button type="button" class="custom-button black-outlined">-->
+        <!--Edit-->
+        <!--<i class="fa fa-pencil"></i>-->
+    <!--</button>-->
+
+    <h2>Clinical Information</h2>
+    <table class="border-table">
+        <tr>
+            <td colspan="4">
+                <button id="addJobContextButton" type="button" class="custom-button black-outlined" th:onclick="'showNewJobContext('+${jobContextsCount}+');'">Add new</button>
+                <!--<i class="fa fa-plus"></i>-->
+                <button id="cancelJobContextButton" type="button" class="custom-button black-outlined" onclick="hideNewJobContext();" style="display: none;">Cancel</button>
+                <!--<i class="fa fa-arrow-left"></i>-->
+            </td>
+        </tr>
+        <tr id="newJobContextForm" style="display: none;">
+            <form action="#" th:action="@{/patient/{id}(id=${patientId})}" method="post" th:object="${newJobContext}">
+                <td>
+                    <div>
+                        Ward:
+                        <select th:field="*{ward}" id="newWard">
+                            <option value="" hidden="true">Ward</option>
+                            <option th:each="ward : ${wards}" th:value="${ward.id}" th:text="${ward.name}"></option>
+                        </select>
+                    </div>
+                    <div>
+                        Bed: <input type="number" th:field="*{bed}" id="newBed" name="newBed" placeholder="Bed number"/>
+                    </div>
+                </td>
+                <td>
+                    <input type="checkbox"  th:field="*{unwell}" id="newUnwell" name="newUnwell" value="TRUE"/> Unwell
+                </td>
+                <td>
+                    <textarea rows="4" style="width: 100%;" th:field="*{clinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="Clinical details"/>
+                </td>
+                <td>
+                    <button type="button" class="custom-button black-outlined">Submit</button>
+                </td>
+            </form>
+        </tr>
+        <tr th:each="jobContext,iterStat1 : ${jobContexts}">
+            <td>
+                Ward: <span th:text="${jobContext.getWard().getName()}"/><br/>
+                Bed: <span th:text="${jobContext.bed}"/><br/>
+            </td>
+            <td>
+                    <span th:if="${jobContext.getUnwell()}">
+                        Unwell<br/>
+                    </span>
+                <span th:each="risk,iterStat : ${jobContext.getRisks()}" th:text="${risk.getName()}"/>
+            </td>
+            <td>
+                <span th:text="${jobContext.clinicalDetails}"/>
+            </td>
+            <td>
+                <table style="width: 100%;">
+                    <tr>
+                        <td colspan="4">
+                            <button type="button" th:id="'addJobButton'+${iterStat1.count}" class="custom-button black-outlined" th:onclick="'showNewJob('+${iterStat1.count}+');'">Add job</button>
+                            <button type="button" th:id="'cancelJobButton'+${iterStat1.count}" class="custom-button black-outlined" th:onclick="'hideNewJob('+${iterStat1.count}+');'" style="display: none;">Cancel</button>
+                        </td>
+                    </tr>
+                    <tr th:id="'newJobForm'+${iterStat1.count}" style="display: none;">
+                        <form action="#" th:action="@{/createJob}" method="post" th:object="${newJob}">
+                            <input type="hidden" th:value="${jobContext.id}" id="contextId" name="contextId"/>
+                            <td>
+                                <select th:field="*{categoryId}" th:id="'newCategory'+${iterStat1.count}">
+                                    <option value="" hidden="true">Select category</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                                </select>
+                            </td>
+                            <td>
+                                <textarea rows="4" th:field="*{description}" th:id="'newDescription'+${iterStat1.count}" name="jobDescription" placeholder="Job description" style="width: 100%;"></textarea>
+                            </td>
+                            <td>
+                                <select th:field="*{doctorId}" th:id="'newDoctor'+${iterStat1.count}">
+                                    <option value="" hidden="true">Select doctor</option>
+                                    <option th:each="user : ${doctorUsers}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
+                                </select>
+                            </td>
+                            <td>
+                                <button type="submit" class="custom-button black-outlined">Submit</button>
+                            </td>
+                        </form>
+                    </tr>
+                    <tr th:each="job,iterStat : ${jobContext.getJobs()}">
+                        <td>
+                            <span th:text="${job.getCategory().getName()}"/>
+                        </td>
+                        <td>
+                            <span th:text="${job.getDescription()}"/>
+                        </td>
+                        <td>
+                            <form action="#" th:action="'/completeJob'" method="post">
+                                <input type="hidden" name="job" th:value="${job.id}"/>
+                                <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"
+                                        type="submit"
+                                        class="custom-button black-outlined">
+                                    <!--Text button-->
+                                    <span class="job-text-button">Complete</span>
+                                    <!--Icon button-->
+                                    <span class="job-icon-button"><i class="fa fa-check"></i></span>
+                                </button>
+                            </form>
+                            <span th:if="${job.isComplete()}" class="completed-job job-text-button">Completed</span>
+                            <span th:if="${job.isComplete()}" class="completed-job job-icon-button"><i class="fa fa-check"></i></span>
+                        </td>
+                        <td>
+                            <a th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"
+                               th:href="'/handoverJob?jobId=' + ${job.getId()}"><button type="button" class="custom-button black-outlined">
+                                <!--Text button-->
+                                <span class="job-text-button">Handover</span>
+                                <!--Icon button-->
+                                <span class="job-icon-button"><i class="fa fa-arrow-right"></i></span>
+                            </button></a>
+                            <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job job-text-button">Pending</span>
+                            <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job job-icon-button"><i class="fa fa-arrow-right"></i></span>
+                        </td>
+                        <!--<td>-->
+                        <!--<button type="button" class="custom-button blue-outlined">-->
+                        <!--&lt;!&ndash;Text button&ndash;&gt;-->
+                        <!--<span class="job-text-button">Edit</span>-->
+                        <!--&lt;!&ndash;Icon button&ndash;&gt;-->
+                        <!--<span class="job-icon-button"><i class="fa fa-pencil"></i></span>-->
+                        <!--</button>-->
+                        <!--</td>-->
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>

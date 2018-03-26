@@ -30,7 +30,7 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(value="/login", method= RequestMethod.GET)
-    public String login() { return "misc/login"; }
+    public String login() { return "user/login"; }
 
     @RequestMapping(value="/logout")
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {

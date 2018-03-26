@@ -57,6 +57,41 @@ public class HandoverController {
     @Autowired
     WardService wardService;
 
+    @GetMapping(value="/patient/{patientId}")
+    public String selectPatient(@PathVariable(value="patientId") Long patientId,
+                                Model model) {
+        Patient patient = patientService.getPatientById(patientId);
+        model.addAttribute("patientInfo", patient);
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("newJobContext", new JobContextFormBackingObject());
+        model.addAttribute("newJob", new JobFormBackingObject());
+        model.addAttribute("wards", wardService.getAllWards());
+        model.addAttribute("jobContexts", patient.getJobContexts());
+        model.addAttribute("jobContextsCount", patient.getJobContexts().size());
+        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
+        return "handover/viewPatient";
+    }
+
+    @PostMapping(value="/patient/{patientId}")
+    public String newJobContext(@Valid @ModelAttribute("newJobContext") JobContextFormBackingObject jobContextFormBackingObject,
+                                @PathVariable(value="patientId") Long patientId,
+                                BindingResult result,
+                                Errors errors) {
+        jobsService.CheckJobContextFormValidity(result, jobContextFormBackingObject);
+        if (errors.hasErrors()) {
+            return "redirect:/patient/{patientId}";
+        } else {
+            JobContext jobContext = new JobContext();
+            jobContext.setClinicalDetails(jobContextFormBackingObject.getClinicalDetails());
+            jobContext.setUnwell(jobContextFormBackingObject.getUnwell());
+            jobContext.setPatient(patientService.getPatientById(patientId));
+            jobContext.setBed(jobContextFormBackingObject.getBed());
+            jobContext.setWard(jobContextFormBackingObject.getWard());
+            jobsService.saveJobContext(jobContext);
+            return "redirect:/patient/{patientId}";
+        }
+    }
+
     @GetMapping(value="/newPatient")
     public String newPatient(Model model) {
         return newPatient(model, new PatientFormBackingObject());
@@ -99,42 +134,6 @@ public class HandoverController {
         return "handover/choosePatient";
     }
 
-    @GetMapping(value="/patient/{patientId}")
-    public String selectPatient(@PathVariable(value="patientId") Long patientId,
-                                Model model) {
-        Patient patient = patientService.getPatientById(patientId);
-        model.addAttribute("patientInfo", patient);
-        model.addAttribute("newJobContext", new JobContextFormBackingObject());
-        model.addAttribute("wards", wardService.getAllWards());
-        model.addAttribute("jobContexts", patient.getJobContexts());
-        return "handover/jobContext";
-    }
-
-//    TODO separate adding job context to new page
-    @PostMapping(value="/patient/{patientId}")
-    public String newJobContext(@Valid @ModelAttribute("newJobContext") JobContextFormBackingObject jobContextFormBackingObject,
-                                @PathVariable(value="patientId") Long patientId,
-                                BindingResult result,
-                                Errors errors) {
-        jobsService.CheckJobContextFormValidity(result,jobContextFormBackingObject);
-        if (errors.hasErrors()) {
-            return "redirect:/patient/{patientId}";
-//            TODO error messages once above todo is complete
-        } else {
-            JobContext jobContext = new JobContext();
-            jobContext.setClinicalDetails(jobContextFormBackingObject.getClinicalDetails());
-            jobContext.setUnwell(jobContextFormBackingObject.getUnwell());
-            jobContext.setPatient(patientService.getPatientById(patientId));
-            jobContext.setBed(jobContextFormBackingObject.getBed());
-            jobContext.setWard(jobContextFormBackingObject.getWard());
-            jobsService.saveJobContext(jobContext);
-            return "redirect:/patient/{patientId}";
-        }
-    }
-
-//----------------------------------------------------------------------------------------------------------------------
-//  ADDING AND PASSING A JOB
-
     @GetMapping(value="/createJob")
     public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
         return createJob(id, model, new JobFormBackingObject());
@@ -148,7 +147,7 @@ public class HandoverController {
         model.addAttribute("doctorId",userInfo.getId());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
         model.addAttribute("contextId",id);
-        return "doctor/newJob";
+        return "handover/newJob";
     }
 
     @Transactional
@@ -183,7 +182,7 @@ public class HandoverController {
         model.addAttribute("description",jobsService.getJob(id).getDescription());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
 
-        return "doctor/handoverJob";
+        return "handover/handoverJob";
     }
 
     @Transactional
@@ -198,9 +197,6 @@ public class HandoverController {
         jobsService.saveJob(job);
         return "redirect:/";
     }
-
-//----------------------------------------------------------------------------------------------------------------------
-//  COMPLETE JOB
 
     @PostMapping(value="/completeJob")
     public String completeJob(@RequestParam("job") Job job) {

@@ -26,6 +26,19 @@ YELLOW #FAE100
 
  */
 
+.border-table {
+    width: 100%;
+}
+
+.border-table tr td {
+    border: 1px solid black;
+    vertical-align: top;
+}
+
+.border-table .inner-table {
+    width: 100%;
+}
+
 /**********************************************************************************************************************/
 /* Misc */
 /**********************************************************************************************************************/
@@ -70,6 +83,18 @@ label {
     border: 1px solid;
     font-size: 11px;
     text-align: center;
+    text-decoration: none;
+}
+
+.black-outlined {
+    background-color: transparent;
+    border-color: #555555;
+    color: #555555;
+}
+
+.black-outlined:hover {
+    border-color: #000000;
+    color: #000000;
     text-decoration: none;
 }
 
@@ -219,89 +244,89 @@ label {
     font-weight: bold;
 }
 
-.input-layout {}
+/*.input-layout {}*/
 
-.input-layout tr:last-child {
-    text-align: center;
-}
+/*.input-layout tr:last-child {*/
+    /*text-align: center;*/
+/*}*/
 
-.input-layout tr td {
-    padding: 8px;
-}
+/*.input-layout tr td {*/
+    /*padding: 8px;*/
+/*}*/
 
-.input-layout tr td:first-child {
-    text-align: right;
-}
+/*.input-layout tr td:first-child {*/
+    /*text-align: right;*/
+/*}*/
 
-.input-layout input {
-    width: 200px;
-}
+/*.input-layout input {*/
+    /*width: 200px;*/
+/*}*/
 
-.input-layout input[type=checkbox] {
-    width: 50px;
-}
+/*.input-layout input[type=checkbox] {*/
+    /*width: 50px;*/
+/*}*/
 
-.input-layout select {
-    width: 200px;
-}
+/*.input-layout select {*/
+    /*width: 200px;*/
+/*}*/
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+/*input[type=number]::-webkit-inner-spin-button,*/
+/*input[type=number]::-webkit-outer-spin-button {*/
+    /*-webkit-appearance: none;*/
+    /*margin: 0;*/
+/*}*/
 
-input {
-    height: 35px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid #D1D8DC;
-    padding-left: 5px;
-    font-size: 16px;
-}
+/*input {*/
+    /*height: 35px;*/
+    /*border-top: none;*/
+    /*border-left: none;*/
+    /*border-right: none;*/
+    /*border-bottom: 2px solid #D1D8DC;*/
+    /*padding-left: 5px;*/
+    /*font-size: 16px;*/
+/*}*/
 
-*:focus {
-    outline: none;
-}
+/**:focus {*/
+    /*outline: none;*/
+/*}*/
 
-input:focus {
-    outline: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid #768692;
-}
+/*input:focus {*/
+    /*outline: none;*/
+    /*border-top: none;*/
+    /*border-left: none;*/
+    /*border-right: none;*/
+    /*border-bottom: 2px solid #768692;*/
+/*}*/
 
-input::placeholder {
-    color: #D1D8DC;
-}
+/*input::placeholder {*/
+    /*color: #D1D8DC;*/
+/*}*/
 
-.custom-select {
-    height: 35px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid #D1D8DC;
-    border-radius: 0px;
-    background-color: #FFFFFF;
-    display: inline-block;
-}
+/*.custom-select {*/
+    /*height: 35px;*/
+    /*border-top: none;*/
+    /*border-left: none;*/
+    /*border-right: none;*/
+    /*border-bottom: 2px solid #D1D8DC;*/
+    /*border-radius: 0px;*/
+    /*background-color: #FFFFFF;*/
+    /*display: inline-block;*/
+/*}*/
 
-.custom-select select {
-    padding-left: 5px;
-    height: 35px;
-    border-radius: 0px;
-    border: none;
-    box-shadow: none;
-    background: transparent;
-    -webkit-appearance: none;
-    font-size: 16px;
-}
+/*.custom-select select {*/
+    /*padding-left: 5px;*/
+    /*height: 35px;*/
+    /*border-radius: 0px;*/
+    /*border: none;*/
+    /*box-shadow: none;*/
+    /*background: transparent;*/
+    /*-webkit-appearance: none;*/
+    /*font-size: 16px;*/
+/*}*/
 
-.custom-select select:focus {
-    outline: none;
-}
+/*.custom-select select:focus {*/
+    /*outline: none;*/
+/*}*/
 
 /**********************************************************************************************************************/
 /* Header */
@@ -403,6 +428,12 @@ input::placeholder {
 #user-container ul li a:hover {
     color: rgba(255, 255, 255, 1);
     text-decoration: none;
+}
+
+#menu-container .current-page,
+#user-container .current-page {
+    color: white;
+    pointer-events: none;
 }
 
 #user-name {

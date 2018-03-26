@@ -7,9 +7,6 @@ General
 misc/login
 - Incorrect username/password message
 
-fragments/header
-- Highlight current page in header bar (patients, create handover etc)
-
 misc/home
 - Allow filters to persist, allow user to view which filters are applied, include crosses next to each filter, and a 'clear all' option
 
