@@ -61,23 +61,23 @@
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="main">
 
-    <h2 class="patient-detail" th:text="${patientInfo.FullName}"></h2>
-    <h3>
+    <div class="patient-detail" th:text="${patientInfo.FullName}"/>
+    <div>
         Date of Birth: <span th:text="${patientInfo.birthDate}"/>
         Age: <span th:text="${patientInfo.getAge()}"/>
-    </h3>
-    <h3 th:if="${patientInfo.hospitalNumber}">
+    </div>
+    <div th:if="${patientInfo.hospitalNumber}">
         Hospital Number: <span th:text="${patientInfo.hospitalNumber}"/>
-    </h3>
-    <h3 th:if="${patientInfo.nHSNumber}">
+    </div>
+    <div th:if="${patientInfo.nHSNumber}">
         NHS Number: <span th:text="${patientInfo.nHSNumber}"/>
-    </h3>
+    </div>
     <!--<button type="button" class="custom-button black-outlined">-->
         <!--Edit-->
         <!--<i class="fa fa-pencil"></i>-->
     <!--</button>-->
 
-    <h2>Clinical Information</h2>
+    Clinical Information
     <table class="border-table">
         <tr>
             <td colspan="4">
