@@ -26,19 +26,6 @@ YELLOW #FAE100
 
  */
 
-.border-table {
-    width: 100%;
-}
-
-.border-table tr td {
-    border: 1px solid black;
-    vertical-align: top;
-}
-
-.border-table .inner-table {
-    width: 100%;
-}
-
 /**********************************************************************************************************************/
 /* Misc */
 /**********************************************************************************************************************/
@@ -95,6 +82,18 @@ label {
 .black-outlined:hover {
     border-color: #000000;
     color: #000000;
+    text-decoration: none;
+}
+
+.white-outlined {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.white-outlined:hover {
+    border-color: #ffffff;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -270,25 +269,25 @@ label {
     /*width: 200px;*/
 /*}*/
 
-/*input[type=number]::-webkit-inner-spin-button,*/
-/*input[type=number]::-webkit-outer-spin-button {*/
-    /*-webkit-appearance: none;*/
-    /*margin: 0;*/
-/*}*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
-/*input {*/
-    /*height: 35px;*/
+input {
+    height: 25px;
     /*border-top: none;*/
     /*border-left: none;*/
     /*border-right: none;*/
     /*border-bottom: 2px solid #D1D8DC;*/
     /*padding-left: 5px;*/
     /*font-size: 16px;*/
-/*}*/
+}
 
-/**:focus {*/
-    /*outline: none;*/
-/*}*/
+*:focus {
+    outline: none;
+}
 
 /*input:focus {*/
     /*outline: none;*/
@@ -302,46 +301,61 @@ label {
     /*color: #D1D8DC;*/
 /*}*/
 
-/*.custom-select {*/
-    /*height: 35px;*/
-    /*border-top: none;*/
-    /*border-left: none;*/
-    /*border-right: none;*/
-    /*border-bottom: 2px solid #D1D8DC;*/
-    /*border-radius: 0px;*/
-    /*background-color: #FFFFFF;*/
-    /*display: inline-block;*/
-/*}*/
+.custom-select  {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 100px;
+}
 
-/*.custom-select select {*/
-    /*padding-left: 5px;*/
-    /*height: 35px;*/
-    /*border-radius: 0px;*/
-    /*border: none;*/
-    /*box-shadow: none;*/
-    /*background: transparent;*/
-    /*-webkit-appearance: none;*/
-    /*font-size: 16px;*/
-/*}*/
+.custom-select select {
+    height: 25px;
+    width: 100px;
+    line-height: normal;
+    padding-left: 5px;
+    border: 1px solid #c8c8c8;
+    color: black;
+    -webkit-border-radius: 0px;
+       -moz-border-radius: 0px;
+            border-radius: 0px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+}
 
-/*.custom-select select:focus {*/
-    /*outline: none;*/
-/*}*/
+.custom-select:after{
+    content: "";
+    position: absolute;
+    z-index: 2;
+    right: 8px;
+    top: 50%;
+    margin-top: -3px;
+    height: 0;
+    width: 0;
+    border-top: 6px solid #9f9f9f; /*down arrow color*/
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    pointer-events: none;
+}
 
 /**********************************************************************************************************************/
 /* Header */
 /**********************************************************************************************************************/
 
 #header {
-    background-color: #005EB8;
+    background-color: #005EB8; /*NHS blue*/
+    /*background-color: #33599f; !*NHS dark blue at 80%*!*/
+    /*background-color: #004e99; !*NHS blue made darker*!*/
     height: 50px;
     width: 100%;
-    position: relative;
+    /*position: relative;*/
+    position: fixed;
     top: 0px;
     z-index: 999999;
-    -moz-box-shadow:    0px 0px 4px 1px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
-    box-shadow:         0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow:    0px 0px 4px 2px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.4);
+    box-shadow:         0px 0px 4px 2px rgba(0, 0, 0, 0.4);
     padding: 0px 1vw;
 }
 
@@ -366,7 +380,7 @@ label {
 }
 
 .header-container ul li a {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
 }
 
@@ -731,42 +745,94 @@ label {
 /* View patient */
 /**********************************************************************************************************************/
 
+#patient-info-wrapper {
+    background-color: #30384d;
+    padding: 15px 30px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+}
+
+[data-toggle="collapse"].collapsed .if-not-collapsed {
+    display: none;
+}
+
+[data-toggle="collapse"]:not(.collapsed) .if-collapsed {
+    display: none;
+}
+
+#accordion {
+    z-index: 99999;
+    -moz-box-shadow: 0px -5px 4px -2px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px -5px 4px -2px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px -5px 4px -2px rgba(0, 0, 0, 0.4);
+}
+
 .job-context-table {
     width: 100%;
 }
 
-.job-context-table tr {
-    border: 1px solid #768692;
-}
-
 .job-context-table tr td {
+    padding: 10px 30px;
     vertical-align: top;
-    padding: 5px 15px;
+    /*border: 1px solid blue;*/
 }
 
-.job-context-table tr:first-child {
-    background-color: #E8EDEE;
-    height: 35px;
+.job-context-table tr:nth-child(even) {
+    background-color: #edf2f8;
 }
 
-.job-context-table tr:first-child td {
-    font-size: 16px;
-    color: #005EB8;
-    vertical-align: middle;
+.job-context-table tr:nth-child(odd) {
+    background-color: #f9fafc;
 }
 
-.job-context-table tr td:last-child {
+.job-context-table tr td:first-child {
+    width: 170px;
+    min-width: 170px;
+    max-width: 170px;
+}
+
+.job-context-table tr:not(:first-child) td:last-child {
     padding: 0;
+    /*border: 1px solid green;*/
 }
 
-.job-context-table tr:first-child td:last-child {
-    padding: 5px;
-}
-
-.job-context-table tr td:first-child,
 .job-context-table tr td:nth-child(2) {
     width: 1px;
     white-space: nowrap;
+}
+
+.job-context-table #job-context-form tr {
+    background: none;
+}
+
+.job-context-table #job-context-form tr td {
+    padding: 5px;
+    vertical-align: middle;
+}
+
+.job-context-table #job-context-form tr td:first-child {
+    /*border: 1px solid green;*/
+    text-align: right;
+    width: 1px;
+    white-space: nowrap;
+    min-width: auto;
+    max-width: available;
+}
+
+.job-context-table #job-context-form tr td:nth-child(2) {
+    white-space: normal;
+    width: 20vw;
+}
+
+.job-context-table #job-context-form tr:last-child td {
+    text-align: center;
+}
+
+.job-context-table #job-context-form tr td input,
+.job-context-table #job-context-form tr td .custom-select,
+.job-context-table #job-context-form tr td select,
+.job-context-table #job-context-form tr td textarea {
+    width: 100%;
 }
 
 .job-context-table .job-table {
@@ -774,29 +840,73 @@ label {
 }
 
 .job-context-table .job-table tr {
-    border: none;
     background: none;
-    height: auto;
+    border-bottom: 1px solid #D1D8DC;
+}
+
+.job-context-table .job-table .handover {
+    border: none;
+}
+
+.job-context-table .job-table .handover-form td {
+    padding: 0;
+}
+
+.job-context-table .job-table tr:last-child {
+    border: none;
 }
 
 .job-context-table .job-table tr td {
-    font-size: 14px;
-    color: black;
     padding: 5px;
-    /*border: 1px solid black;*/
+    width: auto;
+    min-width: auto;
+    max-width: available;
+    white-space: normal;
+    vertical-align: middle;
+}
+
+.job-context-table .job-table tr:first-child td {
+    /*border: 1px solid red;*/
+    padding: 10px 5px;
+}
+
+.job-context-table .job-table tr:not(:first-child) td:first-child,
+.job-context-table .job-table tr:not(:first-child) td:nth-child(2) {
+    width: 40px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.job-context-table .job-table tr:not(:first-child) td:nth-child(3) {
+    width: 10vw;
+    min-width: 100px;
+}
+
+.job-table .job-form tr {
+    border: none;
+}
+
+.job-table .job-form tr td {
+    /*border: 1px solid red;*/
+    padding: 5px;
+    background: none;
+}
+
+.job-context-table .job-table .job-form tr td:first-child {
+    text-align: right;
     width: 1px;
     white-space: nowrap;
 }
 
-.job-context-table .job-table tr td:nth-child(2) {
-    width: auto;
-    white-space: normal;
+.job-context-table .job-table .job-form tr td:last-child {
+    width: 20vw;
 }
 
-.job-context-table .job-table tr td:nth-child(4),
-.job-context-table .job-table tr td:nth-child(5),
-.job-context-table .job-table tr td:nth-child(6) {
-    text-align: center;
+.job-context-table .job-table .job-form tr td input,
+.job-context-table .job-table .job-form tr td .custom-select,
+.job-context-table .job-table .job-form tr td select,
+.job-context-table .job-table .job-form tr td textarea {
+    width: 100%;
 }
 
 /**********************************************************************************************************************/

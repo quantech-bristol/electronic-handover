@@ -14,6 +14,7 @@ import com.quantech.service.UserService.UserService;
 import com.quantech.service.WardService.WardService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -75,6 +76,7 @@ public class HandoverController {
     @PostMapping(value="/patient/{patientId}")
     public String newJobContext(@Valid @ModelAttribute("newJobContext") JobContextFormBackingObject jobContextFormBackingObject,
                                 @PathVariable(value="patientId") Long patientId,
+                                @RequestParam("returnTo") String returnTo,
                                 BindingResult result,
                                 Errors errors) {
         jobsService.CheckJobContextFormValidity(result, jobContextFormBackingObject);
@@ -88,7 +90,8 @@ public class HandoverController {
             jobContext.setBed(jobContextFormBackingObject.getBed());
             jobContext.setWard(jobContextFormBackingObject.getWard());
             jobsService.saveJobContext(jobContext);
-            return "redirect:/patient/{patientId}";
+            if (returnTo.equals("patient")) return "redirect:/patient/{patientId}";
+            else return "redirect:/";
         }
     }
 
@@ -153,6 +156,8 @@ public class HandoverController {
     @Transactional
     @PostMapping(value="/createJob")
     public String createJob(@Valid @ModelAttribute("job") JobFormBackingObject job,
+                            @RequestParam("returnTo") String returnTo,
+                            RedirectAttributes redirectAttributes,
                             BindingResult result,
                             Errors errors,
                             Model model,
@@ -161,6 +166,7 @@ public class HandoverController {
         if (errors.hasErrors()){
             request.setAttribute("jobContextId",job.getContextId());
             return createJob(job.getContextId(),model,job);
+//            TODO
             //return "doctor/newJob";
         }
         else {
@@ -171,7 +177,11 @@ public class HandoverController {
             j.setJobContext(jobsService.getJobContext(job.getContextId()));
             j.setDescription(job.getDescription());
             jobsService.saveJob(j);
-            return "redirect:/";
+            if (returnTo.equals("patient")) {
+                redirectAttributes.addAttribute("patientId", j.getJobContext().getPatient().getId());
+                return "redirect:/patient/{patientId}";
+            }
+            else return "redirect:/";
         }
     }
 
@@ -189,19 +199,29 @@ public class HandoverController {
     @PostMapping(value="/handoverJob")
     public String handoverJob(@RequestParam(value = "jobId", required=true) Long id,
                               @RequestParam("jobDescription") String description,
-                              @RequestParam("doctor") Doctor doctor) {
+                              @RequestParam("doctor") Doctor doctor,
+                              RedirectAttributes redirectAttributes,
+                              @RequestParam("returnTo") String returnTo) {
         Job job = jobsService.getJob(id);
         job.setDescription(description);
         job.setDoctor(doctor);
 
         jobsService.saveJob(job);
-        return "redirect:/";
+        if (returnTo.equals("patient")) {
+            redirectAttributes.addAttribute("patientId", job.getJobContext().getPatient().getId());
+            return "redirect:/patient/{patientId}";
+        } else return "redirect:/";
     }
 
     @PostMapping(value="/completeJob")
-    public String completeJob(@RequestParam("job") Job job) {
+    public String completeJob(@RequestParam("job") Job job,
+                              @RequestParam("returnTo") String returnTo,
+                              RedirectAttributes redirectAttributes) {
         jobsService.completeJob(job);
-        return "redirect:/";
+        if (returnTo.equals("patient")) {
+            redirectAttributes.addAttribute("patientId", job.getJobContext().getPatient().getId());
+            return "redirect:/patient/{patientId}";
+        } else return "redirect:/";
     }
 
 }
