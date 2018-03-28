@@ -129,6 +129,7 @@ public class HandoverController {
                                  Model model) {
         List<Patient> patients = patientService.findMatchesFromFilter(firstName, lastName);
         model.addAttribute("patients", patients);
+        model.addAttribute("patient", new PatientFormBackingObject());
         return "handover/patients";
     }
 

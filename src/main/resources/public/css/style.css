@@ -999,6 +999,14 @@ input {
     white-space: nowrap;
 }
 
+#view-patients-table tr:nth-child(2) td:first-child {
+    vertical-align: top;
+}
+
+#view-patients-table .input-layout tr td:first-child {
+    vertical-align: center;
+}
+
 /*#view-patients-table tr:nth-child(odd) {*/
     /*background-color: #edf2f8;*/
 /*}*/

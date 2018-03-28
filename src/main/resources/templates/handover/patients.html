@@ -2,9 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head th:include="fragments/header :: head (title='Select Patient')">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+
 </head>
 
 <body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 <div th:replace="fragments/header :: header">&nbsp;</div>
     <table class="page-table" id="view-patients-table">
         <tr>
@@ -14,6 +23,70 @@
             <td>Age</td>
             <td>Hospital Number</td>
             <td>NHS Number</td>
+        </tr>
+        <tr>
+            <td>
+                <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-patient">
+                    <span class="if-collapsed"><i class="fa fa-plus"></i></span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
+                </button>
+            </td>
+            <td colspan="5">
+                <div class="collapse" id="new-patient">
+                    <form action="#" th:action="@{/newPatient}" method="post" th:object="${patient}">
+                        <table class="input-layout">
+                            <tr>
+                                <td>Title</td>
+                                <td>
+                                    <div class="custom-select">
+                                        <select id="existingTitle" name="existingTitle" th:field = "*{title}">
+                                            <option value="" hidden="true">Title</option>
+                                            <option th:each="t : ${T(com.quantech.model.user.Title).values()}" th:value="${t}" th:text="${t}"></option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td><span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/></td>
+                            </tr>
+                            <tr>
+                                <td>First name</td>
+                                <td><input type="text" th:field="*{firstName}" id="existingFirstName" name="existingFirstName" placeholder="First Name"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Last name</td>
+                                <td><input type="text" th:field="*{lastName}" id="existingLastName" name="existingLastName" placeholder="Last Name"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Date of birth</td>
+                                <td>
+                                    <input type="number" th:field="*{day}" id="existingDay" name="existingDay" placeholder="DD" style="width: 60px"/>
+                                    <input type="number" th:field="*{month}" id="existingMonth" name="existingMonth" placeholder="MM" style="width: 60px"/>
+                                    <input type="number" th:field="*{year}" id="existingYear" name="existingYear" placeholder="YYYY" style="width: 76px"/>
+                                </td>
+                                <td><span class="error" th:if="${#fields.hasErrors('day')}" th:errors="*{day}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Hospital number</td>
+                                <td><input type="number" th:field="*{hospitalNumber}" id="existingHospitalNumber" name="existingHospitalNumber" placeholder="Hospital Number"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('hospitalNumber')}" th:errors="*{hospitalNumber}"/></td>
+                            </tr>
+                            <tr>
+                                <td>NHS number</td>
+                                <td><input type="number" th:field="*{NHSNumber}" id="existingNHSNumber" name="existingNHSNumber" placeholder="NHS Number"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('NHSNumber')}" th:errors="*{NHSNumber}"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </td>
         </tr>
         <tr th:each="patient : ${patients}">
             <td>
