@@ -420,6 +420,11 @@ input {
     overflow: hidden;
 }
 
+#menu-container button {
+    background: none;
+    border: none;
+}
+
 #user-container {
     display: block;
     height: 100%;
@@ -1054,11 +1059,3 @@ input {
 .page-table .input-layout tr td:first-child {
     text-align: right;
 }
-
-/*.input-layout tr td:first-child {*/
-    /*text-align: right;*/
-/*}*/
-
-/*.input-layout tr:last-child td:nth-child(2) {*/
-    /*text-align: center;*/
-/*}*/

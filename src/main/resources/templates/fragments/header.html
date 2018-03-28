@@ -83,13 +83,17 @@
         <div class="header-container" id="menu-container">
             <ul>
                 <li th:if="${#authentication.principal.getUserCore().isDoctor()}">
-                    <a th:href="@{/}">Jobs</a>
+                    <button type="button"><a th:href="@{/}">Jobs</a></button>
                 </li>
                 <li th:if="${#authentication.principal.getUserCore().isDoctor()}">
-                    <a th:href="@{/handover}">Patients</a>
+                    <form action="#" th:action="@{/patients}" method="get">
+                        <input type="hidden" name="firstName" value=""/>
+                        <input type="hidden" name="lastName" value=""/>
+                        <button type="submit"><a>Patients</a></button>
+                    </form>
                 </li>
                 <li th:if="${#authentication.principal.getUserCore().isAdmin()}">
-                    <a th:href="@{/admin}">Admin</a>
+                    <button type="button"><a th:href="@{/admin}">Admin</a></button>
                 </li>
             </ul>
         </div>

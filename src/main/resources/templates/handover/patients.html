@@ -15,6 +15,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="wrapper">
     <table class="page-table" id="view-patients-table">
         <tr>
             <td></td>
@@ -30,9 +31,13 @@
                     <span class="if-collapsed"><i class="fa fa-plus"></i></span>
                     <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
                 </button>
+                <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#filter-patients">
+                    <span class="if-collapsed"><i class="fa fa-filter"></i></span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
+                </button>
             </td>
             <td colspan="5">
-                <div class="collapse" id="new-patient">
+                <div class="collapse" id="new-patient" data-parent="#wrapper">
                     <form action="#" th:action="@{/newPatient}" method="post" th:object="${patient}">
                         <table class="input-layout">
                             <tr>
@@ -86,6 +91,34 @@
                         </table>
                     </form>
                 </div>
+                <div class="collapse" id="filter-patients" data-parent="#wrapper">
+                    <form action="#" th:action="@{/patients}" method="get">
+                        <table class="input-layout">
+                            <tr>
+                                <td>
+                                    First Name
+                                </td>
+                                <td>
+                                    <input type="text" id="existingFirstName" name="firstName" placeholder="First Name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Last Name
+                                </td>
+                                <td>
+                                    <input type="text" id="existingLastName" name="lastName" placeholder="Last Name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </td>
         </tr>
         <tr th:each="patient : ${patients}">
@@ -111,5 +144,6 @@
             </td>
         </tr>
     </table>
+</div>
 </body>
 </html>
