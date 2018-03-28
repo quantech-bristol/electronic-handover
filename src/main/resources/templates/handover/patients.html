@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:include="fragments/header :: head (title='Select Patient')">
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">&nbsp;</div>
+    <table class="page-table" id="view-patients-table">
+        <tr>
+            <td></td>
+            <td>Name</td>
+            <td>Date of Birth</td>
+            <td>Age</td>
+            <td>Hospital Number</td>
+            <td>NHS Number</td>
+        </tr>
+        <tr th:each="patient : ${patients}">
+            <td>
+                <a th:href="@{/patient/{id}(id=${patient.id})}">
+                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
+                </a>
+            </td>
+            <td>
+                <span th:text="${patient.FullName}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.birthDate}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.getAge()}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.hospitalNumber}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.nHSNumber}"></span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

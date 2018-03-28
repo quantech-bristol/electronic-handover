@@ -95,14 +95,10 @@ public class HandoverController {
         }
     }
 
-    @GetMapping(value="/newPatient")
-    public String newPatient(Model model) {
-        return newPatient(model, new PatientFormBackingObject());
-    }
-
-    private String newPatient(Model model, PatientFormBackingObject patient) {
-        model.addAttribute("patient", patient);
-        return "handover/newPatient";
+    @GetMapping(value="/handover")
+    public String searchPatient(Model model) {
+        model.addAttribute("patient", new PatientFormBackingObject());
+        return "handover/createHandover";
     }
 
     @PostMapping(value="/newPatient")
@@ -122,19 +118,18 @@ public class HandoverController {
         }
     }
 
-    @GetMapping(value="/searchPatients")
-    public String searchPatient(Model model) {
-        model.addAttribute("patient", new PatientFormBackingObject());
-        return "handover/searchPatients";
+    private String newPatient(Model model, PatientFormBackingObject patient) {
+        model.addAttribute("patient", patient);
+        return "handover/createHandover";
     }
 
-    @GetMapping(value="/filterPatients")
+    @GetMapping(value="/patients")
     public String filterPatients(@RequestParam(value = "firstName", required = false) String firstName,
                                  @RequestParam(value = "lastName", required = false) String lastName,
                                  Model model) {
         List<Patient> patients = patientService.findMatchesFromFilter(firstName, lastName);
         model.addAttribute("patients", patients);
-        return "handover/choosePatient";
+        return "handover/patients";
     }
 
     @GetMapping(value="/createJob")
@@ -191,7 +186,6 @@ public class HandoverController {
         model.addAttribute("jobId",id);
         model.addAttribute("description",jobsService.getJob(id).getDescription());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-
         return "handover/handoverJob";
     }
 
@@ -205,7 +199,6 @@ public class HandoverController {
         Job job = jobsService.getJob(id);
         job.setDescription(description);
         job.setDoctor(doctor);
-
         jobsService.saveJob(job);
         if (returnTo.equals("patient")) {
             redirectAttributes.addAttribute("patientId", job.getJobContext().getPatient().getId());

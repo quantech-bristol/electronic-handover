@@ -128,15 +128,17 @@
     <tr th:each="jobContext,iterStat1 : ${jobContexts}">
         <td>
             <div>
-                <span th:text="${jobContext.getWard().getName()}"/>
+                <div>
+                    <span th:text="${jobContext.getWard().getName()}"/>
+                </div>
+                <div>
+                    <i class="fa fa-bed"></i> <span th:text="${jobContext.bed}"/>
+                </div>
+                <div th:if="${jobContext.getUnwell()}">
+                    <i class="fa fa-exclamation-circle"></i> Unwell
+                </div>
+                <!--<span th:each="risk,iterStat : ${jobContext.getRisks()}" th:text="${risk.getName()}"/>-->
             </div>
-            <div>
-                <i class="fa fa-bed"></i> <span th:text="${jobContext.bed}"/>
-            </div>
-            <div th:if="${jobContext.getUnwell()}">
-                <i class="fa fa-exclamation-circle"></i> Unwell
-            </div>
-            <!--<span th:each="risk,iterStat : ${jobContext.getRisks()}" th:text="${risk.getName()}"/>-->
         </td>
         <td>
             <span th:text="${jobContext.clinicalDetails}"/>

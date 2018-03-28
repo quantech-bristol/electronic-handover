@@ -31,7 +31,7 @@ YELLOW #FAE100
 /**********************************************************************************************************************/
 
 body {
-    background-color:#FFF;
+    background-color: #f9fafc;
     margin: 0px 0px 0px 0px;
     font-family: 'Roboto', sans-serif;
 }
@@ -253,9 +253,13 @@ label {
     /*padding: 8px;*/
 /*}*/
 
-/*.input-layout tr td:first-child {*/
-    /*text-align: right;*/
-/*}*/
+.input-layout tr td:first-child {
+    text-align: right;
+}
+
+.input-layout tr:last-child td:nth-child(2) {
+    text-align: center;
+}
 
 /*.input-layout input {*/
     /*width: 200px;*/
@@ -337,6 +341,10 @@ input {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     pointer-events: none;
+}
+
+.custom-select select option:first-child {
+    color: red;
 }
 
 /**********************************************************************************************************************/
@@ -932,3 +940,117 @@ input {
 #patient-details tr td {
     padding: 8px;
 }
+
+/**********************************************************************************************************************/
+/* Tooltips */
+/**********************************************************************************************************************/
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/**********************************************************************************************************************/
+/* Filter patients */
+/**********************************************************************************************************************/
+
+/*#view-patients-table {*/
+    /*!*width: 100%;*!*/
+/*}*/
+
+/*#view-patients-table tr td {*/
+    /*!*border: 1px solid red;*!*/
+    /*!*padding: 10px;*!*/
+/*}*/
+
+#view-patients-table tr td:first-child {
+    width: 1px;
+    white-space: nowrap;
+}
+
+/*#view-patients-table tr:nth-child(odd) {*/
+    /*background-color: #edf2f8;*/
+/*}*/
+
+/*#view-patients-table tr:first-child {*/
+    /*background-color: #30384d;*/
+    /*color: rgba(255, 255, 255, 0.8);*/
+    /*font-size: 16px;*/
+/*}*/
+
+/**********************************************************************************************************************/
+/* Page layout */
+/**********************************************************************************************************************/
+
+.page-table {
+    width: 100%;
+}
+
+.page-table tr td {
+    /*border: 1px solid red;*/
+    padding: 10px;
+}
+
+.page-table tr td:first-child {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.page-table tr:nth-child(odd) {
+    background-color: #edf2f8;
+}
+
+.page-table tr:first-child {
+    background-color: #30384d;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+}
+
+.page-table .input-layout tr {
+    background: none;
+    color: black;
+    font-size: 14px;
+}
+
+.page-table .input-layout tr td:first-child {
+    text-align: right;
+}
+
+/*.input-layout tr td:first-child {*/
+    /*text-align: right;*/
+/*}*/
+
+/*.input-layout tr:last-child td:nth-child(2) {*/
+    /*text-align: center;*/
+/*}*/
