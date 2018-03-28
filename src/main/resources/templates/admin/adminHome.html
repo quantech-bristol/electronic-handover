@@ -2,39 +2,91 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head th:include="fragments/header :: head (title='Admin')">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
 </head>
 
 <body style="background-color: #f9fafc;">
-<div th:replace="fragments/header :: header">&nbsp;</div>
-<div id="main">
-    <div class="main-box">
-        <div class="main-box-header">
-            Users
-        </div>
-        <div class="main-box-content">
-            <a th:href="@{/admin/createUser}">Create new user</a><br/>
-            <a th:href="@{/admin/editUserFilter}">Edit existing users</a>
-        </div>
-    </div>
-    <div class="main-box">
-        <div class="main-box-header">
-            Hospital
-        </div>
-        <div class="main-box-content">
-            <a th:href="@{/admin/manageWards}">Manage wards</a><br/>
-            <a th:href="@{/admin/manageCategories}">Manage job categories</a><br/>
-            <a th:href="@{/admin/manageRisks}">Manage risks</a>
-        </div>
-    </div>
-    <div class="main-box">
-        <div class="main-box-header">
-            Logging
-        </div>
-        <div class="main-box-content">
-            <a th:href="@{/admin/filterLogs}">Search Logs</a><br/>
-        </div>
-    </div>
-</div>
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="wrapper">
+    <table class="page-table">
+        <tr>
+            <td>
+                Title
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/admin/createUser}">Create new user</a><br/>
+                <a th:href="@{/admin/editUserFilter}">Edit existing users</a>
+
+                <div>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#users">Users</button>
+                </div>
+                <div class="collapse" id="users" data-parent="#wrapper">
+                    Test
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/admin/manageWards}">Hospital Wards</a>
+
+                <div>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#wards">Hospital Wards</button>
+                </div>
+                <div class="collapse" id="wards" data-parent="#wrapper">
+                    Test
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/admin/manageCategories}">Job Categories</a>
+
+                <div>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#categories">Job Categories</button>
+                </div>
+                <div class="collapse" id="categories" data-parent="#wrapper">
+                    Test
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/admin/manageRisks}">Patient Risks</a>
+
+                <div>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#risks">Patient Risks</button>
+                </div>
+                <div class="collapse" id="risks" data-parent="#wrapper">
+                    Test
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/admin/filterLogs}">Search Logs</a>
+
+                <div>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#logs">Logs</button>
+                </div>
+                <div class="collapse" id="logs" data-parent="#wrapper">
+                    Test
+                </div>
+
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
