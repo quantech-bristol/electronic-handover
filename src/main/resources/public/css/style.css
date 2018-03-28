@@ -748,8 +748,16 @@ input {
 #patient-info-wrapper {
     background-color: #30384d;
     padding: 15px 30px;
+}
+
+.patient-info-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.patient-info-text {
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.8);
-    font-size: 18px;
 }
 
 [data-toggle="collapse"].collapsed .if-not-collapsed {

@@ -42,20 +42,23 @@
 <div th:replace="fragments/header :: header">&nbsp;</div>
 
 <div id="patient-info-wrapper">
-    <div th:text="${patientInfo.FullName}"/>
+    <div th:text="${patientInfo.FullName}" class="patient-info-text" style="font-size: 18px;"/>
     <div>
-        Date of Birth: <span th:text="${patientInfo.birthDate}"/>
-        Age: <span th:text="${patientInfo.getAge()}"/>
+        <span class="patient-info-label">Date of Birth</span>
+        <span class="patient-info-text" th:text="${patientInfo.birthDate}"/>
+    </div>
+    <div>
+        <span class="patient-info-label">Age</span>
+        <span class="patient-info-text" th:text="${patientInfo.getAge()}"/>
     </div>
     <div th:if="${patientInfo.hospitalNumber}">
-        Hospital Number: <span th:text="${patientInfo.hospitalNumber}"/>
+        <span class="patient-info-label">Hospital Number</span>
+        <span class="patient-info-text" th:text="${patientInfo.hospitalNumber}"/>
     </div>
     <div th:if="${patientInfo.nHSNumber}">
-        NHS Number: <span th:text="${patientInfo.nHSNumber}"/>
+        <span class="patient-info-label">NHS Number</span>
+        <span class="patient-info-text" th:text="${patientInfo.nHSNumber}"/>
     </div>
-    <!--<button type="button" class="custom-button white-outlined">-->
-        <!--<i class="fa fa-pencil"></i> Edit-->
-    <!--</button>-->
 </div>
 
 <div id="accordion">
