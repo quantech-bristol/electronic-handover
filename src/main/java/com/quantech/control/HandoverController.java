@@ -70,7 +70,7 @@ public class HandoverController {
         model.addAttribute("jobContexts", patient.getJobContexts());
         model.addAttribute("jobContextsCount", patient.getJobContexts().size());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        return "handover/patient";
+        return "doctor/patient";
     }
 
     @PostMapping(value="/patient/{patientId}")
@@ -120,7 +120,7 @@ public class HandoverController {
         List<Patient> patients = patientService.findMatchesFromFilter(firstName, lastName);
         model.addAttribute("patients", patients);
         model.addAttribute("patient", new PatientFormBackingObject());
-        return "handover/patients";
+        return "doctor/patients";
     }
 
     @Transactional
