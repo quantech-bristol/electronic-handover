@@ -331,7 +331,7 @@ public class JobsServiceImpl implements JobsService {
         List<JobContext> jcs = new ArrayList<>();
         for (Job j : js) {
             JobContext jc = j.getJobContext();
-            if (!jcs.contains(jc))
+            if (!jcs.contains(jc) && j.getCompletionDate() == null)
                 jcs.add(jc);
         }
         jcs = this.sortJobContextsByFirstName(jcs);
