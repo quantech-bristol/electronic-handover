@@ -1,7 +1,7 @@
-<!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head th:include="fragments/header :: head (title='Job Handover')">
+<head th:include="fragments/header :: head (title='Select Patient')">
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
@@ -16,54 +16,26 @@
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
-    <table class="page-table">
+    <table class="page-table" id="view-patients-table">
         <tr>
-            <td>
-                <span>
-                    <button class="custom-button white-outlined collapsed" data-toggle="collapse" data-target="#existing-patient-form">
-                        <span class="if-collapsed">Search patients</span>
-                        <span class="if-not-collapsed" style="font-weight: bold; color: white;">Search patients</span>
-                    </button>
-                </span>
-                <span>
-                    <button class="custom-button white-outlined collapsed" data-toggle="collapse" data-target="#new-patient-form">
-                        <span class="if-collapsed">Add new patient</span>
-                        <span class="if-not-collapsed" style="font-weight: bold; color: white;">Add new patient</span>
-                    </button>
-                </span>
-            </td>
+            <td></td>
+            <td>Name</td>
+            <td>Date of Birth</td>
+            <td>Age</td>
+            <td>Hospital Number</td>
+            <td>NHS Number</td>
         </tr>
         <tr>
-            <td>
-                <div class="collapse" id="existing-patient-form" data-parent="#wrapper">
-                    <form action="#" th:action="@{/patients}" method="get">
-                        <table class="input-layout">
-                            <tr>
-                                <td>
-                                    First Name
-                                </td>
-                                <td>
-                                    <input type="text" id="existingFirstName" name="firstName" placeholder="First Name"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Last Name
-                                </td>
-                                <td>
-                                    <input type="text" id="existingLastName" name="lastName" placeholder="Last Name"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
-                                </td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-                <div class="collapse" id="new-patient-form" data-parent="#wrapper">
+            <td colspan="6">
+                <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-patient">
+                    <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
+                </button>
+                <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#filter-patients">
+                    <span class="if-collapsed"><i class="fa fa-filter"></i> Filter</span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
+                </button>
+                <div class="collapse" id="new-patient" data-parent="#wrapper">
                     <form action="#" th:action="@{/newPatient}" method="post" th:object="${patient}">
                         <table class="input-layout">
                             <tr>
@@ -117,6 +89,56 @@
                         </table>
                     </form>
                 </div>
+                <div class="collapse" id="filter-patients" data-parent="#wrapper">
+                    <form action="#" th:action="@{/patients}" method="get">
+                        <table class="input-layout">
+                            <tr>
+                                <td>
+                                    First Name
+                                </td>
+                                <td>
+                                    <input type="text" id="existingFirstName" name="firstName" placeholder="First Name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Last Name
+                                </td>
+                                <td>
+                                    <input type="text" id="existingLastName" name="lastName" placeholder="Last Name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr th:each="patient : ${patients}">
+            <td>
+                <a th:href="@{/patient/{id}(id=${patient.id})}">
+                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
+                </a>
+            </td>
+            <td>
+                <span th:text="${patient.FullName}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.birthDate}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.getAge()}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.hospitalNumber}"></span>
+            </td>
+            <td>
+                <span th:text="${patient.nHSNumber}"></span>
             </td>
         </tr>
     </table>

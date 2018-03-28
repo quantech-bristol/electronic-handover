@@ -5,12 +5,14 @@ import com.quantech.misc.PdfGenerator;
 import com.quantech.model.Doctor;
 import com.quantech.model.Job;
 import com.quantech.model.JobContext;
+import com.quantech.model.JobFormBackingObject;
 import com.quantech.model.user.UserCore;
 import com.quantech.model.user.UserEntry;
 import com.quantech.service.CategoryService.CategoryService;
 import com.quantech.service.DoctorService.DoctorService;
 import com.quantech.service.JobsService.JobsService;
 import com.quantech.service.RiskService.RiskService;
+import com.quantech.service.UserService.UserService;
 import com.quantech.service.WardService.WardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -44,6 +46,9 @@ public class DoctorController {
     RiskService riskService;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     WardService wardService;
 
     @RequestMapping(value="/", method= RequestMethod.GET)
@@ -60,7 +65,9 @@ public class DoctorController {
         if (user.isDoctor()) {
             model.addAttribute("risks",riskService.getAllRisks());
             model.addAttribute("wards",wardService.getAllWards());
-            model.addAttribute("category",categoryService.getAllCategories());
+            model.addAttribute("categories",categoryService.getAllCategories());
+            model.addAttribute("newJob", new JobFormBackingObject());
+            model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
 
             Doctor d = doctorService.getDoctor(user);
             List<JobContext> jcs = jobsService.getJobContextsUnderCareOf(d);

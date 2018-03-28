@@ -70,7 +70,7 @@ public class HandoverController {
         model.addAttribute("jobContexts", patient.getJobContexts());
         model.addAttribute("jobContextsCount", patient.getJobContexts().size());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        return "handover/viewPatient";
+        return "doctor/patient";
     }
 
     @PostMapping(value="/patient/{patientId}")
@@ -95,12 +95,6 @@ public class HandoverController {
         }
     }
 
-    @GetMapping(value="/handover")
-    public String searchPatient(Model model) {
-        model.addAttribute("patient", new PatientFormBackingObject());
-        return "handover/createHandover";
-    }
-
     @PostMapping(value="/newPatient")
     public String addPatient(@Valid @ModelAttribute("patient") PatientFormBackingObject patientFBO,
                              Model model,
@@ -109,18 +103,14 @@ public class HandoverController {
                              RedirectAttributes redirectAttributes) {
         patientService.CheckValidity(result, patientFBO);
         if (errors.hasErrors()) {
-            return newPatient(model, patientFBO);
+//TODO
+            return "redirect:/";
         } else {
             Patient patient = patientFBO.toPatient();
             patientService.savePatient(patient);
             redirectAttributes.addAttribute("patientId", patient.getId());
             return "redirect:/patient/{patientId}";
         }
-    }
-
-    private String newPatient(Model model, PatientFormBackingObject patient) {
-        model.addAttribute("patient", patient);
-        return "handover/createHandover";
     }
 
     @GetMapping(value="/patients")
@@ -130,23 +120,7 @@ public class HandoverController {
         List<Patient> patients = patientService.findMatchesFromFilter(firstName, lastName);
         model.addAttribute("patients", patients);
         model.addAttribute("patient", new PatientFormBackingObject());
-        return "handover/patients";
-    }
-
-    @GetMapping(value="/createJob")
-    public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
-        return createJob(id, model, new JobFormBackingObject());
-    }
-
-    private String createJob(Long id, Model model, JobFormBackingObject job) {
-        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
-
-        model.addAttribute("job", job);
-        model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("doctorId",userInfo.getId());
-        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        model.addAttribute("contextId",id);
-        return "handover/newJob";
+        return "doctor/patients";
     }
 
     @Transactional
@@ -161,9 +135,8 @@ public class HandoverController {
         jobsService.CheckJobValidity(result,job);
         if (errors.hasErrors()){
             request.setAttribute("jobContextId",job.getContextId());
-            return createJob(job.getContextId(),model,job);
 //            TODO
-            //return "doctor/newJob";
+            return "redirect:/";
         }
         else {
             Job j = new Job();
@@ -179,15 +152,6 @@ public class HandoverController {
             }
             else return "redirect:/";
         }
-    }
-
-    @GetMapping(value="/handoverJob")
-    public String handoverJob(@RequestParam(value = "jobId", required=true) Long id, Model model) {
-        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
-        model.addAttribute("jobId",id);
-        model.addAttribute("description",jobsService.getJob(id).getDescription());
-        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        return "handover/handoverJob";
     }
 
     @Transactional
