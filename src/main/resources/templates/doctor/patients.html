@@ -26,17 +26,15 @@
             <td>NHS Number</td>
         </tr>
         <tr>
-            <td>
+            <td colspan="6">
                 <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-patient">
-                    <span class="if-collapsed"><i class="fa fa-plus"></i></span>
-                    <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
+                    <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                 </button>
                 <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#filter-patients">
-                    <span class="if-collapsed"><i class="fa fa-filter"></i></span>
-                    <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
+                    <span class="if-collapsed"><i class="fa fa-filter"></i> Filter</span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                 </button>
-            </td>
-            <td colspan="5">
                 <div class="collapse" id="new-patient" data-parent="#wrapper">
                     <form action="#" th:action="@{/newPatient}" method="post" th:object="${patient}">
                         <table class="input-layout">

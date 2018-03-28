@@ -60,6 +60,24 @@ label {
     font-weight: normal;
 }
 
+/*Hide text buttons*/
+@media (min-width: 901px) {
+    .job-icon-button {
+        display: none;
+    }
+}
+/*Show icon buttons*/
+@media (max-width: 900px) {
+    .job-text-button {
+        display: none;
+    }
+}
+/**/
+
+.fa-exclamation-circle {
+    color: #DA291C;
+}
+
 /**********************************************************************************************************************/
 /* Buttons */
 /**********************************************************************************************************************/
@@ -243,16 +261,6 @@ label {
     font-weight: bold;
 }
 
-/*.input-layout {}*/
-
-/*.input-layout tr:last-child {*/
-    /*text-align: center;*/
-/*}*/
-
-/*.input-layout tr td {*/
-    /*padding: 8px;*/
-/*}*/
-
 .input-layout tr td:first-child {
     text-align: right;
 }
@@ -261,17 +269,9 @@ label {
     text-align: center;
 }
 
-/*.input-layout input {*/
-    /*width: 200px;*/
-/*}*/
-
-/*.input-layout input[type=checkbox] {*/
-    /*width: 50px;*/
-/*}*/
-
-/*.input-layout select {*/
-    /*width: 200px;*/
-/*}*/
+input[type="checkbox"], input[type="radio"] {
+    height: auto;
+}
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
@@ -281,29 +281,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 input {
     height: 25px;
-    /*border-top: none;*/
-    /*border-left: none;*/
-    /*border-right: none;*/
-    /*border-bottom: 2px solid #D1D8DC;*/
-    /*padding-left: 5px;*/
-    /*font-size: 16px;*/
 }
 
 *:focus {
     outline: none;
 }
-
-/*input:focus {*/
-    /*outline: none;*/
-    /*border-top: none;*/
-    /*border-left: none;*/
-    /*border-right: none;*/
-    /*border-bottom: 2px solid #768692;*/
-/*}*/
-
-/*input::placeholder {*/
-    /*color: #D1D8DC;*/
-/*}*/
 
 .custom-select  {
     display: inline-block;
@@ -341,10 +323,6 @@ input {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     pointer-events: none;
-}
-
-.custom-select select option:first-child {
-    color: red;
 }
 
 /**********************************************************************************************************************/
@@ -568,191 +546,60 @@ input {
 }
 
 /**********************************************************************************************************************/
-/* Main window */
-/**********************************************************************************************************************/
-
-#main {
-    /*border: 1px solid black;*/
-    display: block;
-    height: 100%;
-    width: 100%;
-    padding: 4vh 2vw;
-}
-
-.main-box {
-    border: 1px solid #768692;
-    width: 100%;
-    margin-bottom: 4vh;
-}
-
-.main-box-header {
-    background-color: #E8EDEE;
-    border-bottom: 1px solid #768692;
-    width: 100%;
-    height: 35px;
-    padding: 0px 10px;
-    line-height: 35px;
-    font-size: 16px;
-    color: #005EB8;
-}
-
-.main-box-content {
-    display: block;
-    width: 100%;
-    padding: 5px 10px;
-}
-
-.main-box-content a {
-    color: black;
-}
-
-.main-box-content a:hover {
-    color: rgba(0, 0, 0, 0.5);
-    text-decoration: none;
-}
-
-/**********************************************************************************************************************/
-/* My Jobs page */
-/**********************************************************************************************************************/
-
-.patient-table {
-    width: 100%;
-}
-
-.patient-table tr {
-    border: 1px solid #768692;
-}
-
-.patient-table tr td {
-    vertical-align: top;
-    padding: 5px 15px;
-}
-
-.patient-table tr:first-child {
-    background-color: #E8EDEE;
-    height: 35px;
-}
-
-.patient-table tr:first-child td {
-    font-size: 16px;
-    color: #005EB8;
-    vertical-align: middle;
-}
-
-.patient-table tr td:last-child {
-    padding: 0;
-}
-
-.patient-table tr:first-child td:last-child {
-    padding: 5px;
-}
-
-.patient-table tr td:first-child,
-.patient-table tr td:nth-child(2),
-.patient-table tr td:nth-child(3) {
-    width: 1px;
-    white-space: nowrap;
-}
-
-.patient-table .job-table {
-    width: 100%;
-}
-
-.patient-table .job-table tr {
-    border: none;
-    background: none;
-    height: auto;
-}
-
-.patient-table .job-table tr td {
-    font-size: 14px;
-    color: black;
-    padding: 5px;
-    /*border: 1px solid black;*/
-    width: 1px;
-    white-space: nowrap;
-}
-
-.patient-table .job-table tr td:nth-child(2) {
-    width: auto;
-    white-space: normal;
-}
-
-.patient-table .job-table tr td:nth-child(4),
-.patient-table .job-table tr td:nth-child(5),
-.patient-table .job-table tr td:nth-child(6) {
-    text-align: center;
-}
-
-/*Hide text buttons*/
-@media (min-width: 901px) {
-    .job-icon-button {
-        display: none;
-    }
-}
-/*Show icon buttons*/
-@media (max-width: 900px) {
-    .job-text-button {
-        display: none;
-    }
-}
-/**/
-
-/**********************************************************************************************************************/
 /* Filtering and Sorting */
 /**********************************************************************************************************************/
 
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
+/*.dropdown {*/
+    /*position: relative;*/
+    /*display: inline-block;*/
+/*}*/
 
-.drop-content {
-    display: none;
-    position: absolute;
-    background-color: white;
-    border: 1px solid #768692;
-}
-
-.drop-content h5, .drop-content h4 {
-    font-size: 12px;
-}
-
-.drop-content h4 {
-    text-decoration: underline;
-}
-
-.dropdown:hover .drop-content {
-    display: block;
-}
-
-.filter-box, .filter-label {
-    /*font-size: 10px;*/
-}
-
-.filter-label {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: inherit;
-    text-decoration: none;
-}
-
-.patient-table .dropdown-table tr {
-    border: none;
-    background: none;
-    height: auto;
+/*.drop-content {*/
+    /*display: none;*/
+    /*position: absolute;*/
+    /*background-color: white;*/
     /*border: 1px solid #768692;*/
-}
+/*}*/
 
-.patient-table .dropdown-table tr td {
-    /*padding: 0;*/
-    font-size: 14px;
-    color: black;
-    padding: 5px;
-    /*!*border: 1px solid black;*!*/
-    /*width: 1px;*/
-    /*white-space: nowrap;*/
-}
+/*.drop-content h5, .drop-content h4 {*/
+    /*font-size: 12px;*/
+/*}*/
+
+/*.drop-content h4 {*/
+    /*text-decoration: underline;*/
+/*}*/
+
+/*.dropdown:hover .drop-content {*/
+    /*display: block;*/
+/*}*/
+
+/*.filter-box, .filter-label {*/
+    /*!*font-size: 10px;*!*/
+/*}*/
+
+/*.filter-label {*/
+    /*display: inline-block;*/
+    /*vertical-align: middle;*/
+    /*line-height: inherit;*/
+    /*text-decoration: none;*/
+/*}*/
+
+/*.patient-table .dropdown-table tr {*/
+    /*border: none;*/
+    /*background: none;*/
+    /*height: auto;*/
+    /*!*border: 1px solid #768692;*!*/
+/*}*/
+
+/*.patient-table .dropdown-table tr td {*/
+    /*!*padding: 0;*!*/
+    /*font-size: 14px;*/
+    /*color: black;*/
+    /*padding: 5px;*/
+    /*!*!*border: 1px solid black;*!*!*/
+    /*!*width: 1px;*!*/
+    /*!*white-space: nowrap;*!*/
+/*}*/
 
 /**********************************************************************************************************************/
 /* View patient */
@@ -779,13 +626,6 @@ input {
 
 [data-toggle="collapse"]:not(.collapsed) .if-collapsed {
     display: none;
-}
-
-#accordion {
-    z-index: 99999;
-    -moz-box-shadow: 0px -5px 4px -2px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: 0px -5px 4px -2px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px -5px 4px -2px rgba(0, 0, 0, 0.4);
 }
 
 .job-context-table {
@@ -990,15 +830,6 @@ input {
 /* Filter patients */
 /**********************************************************************************************************************/
 
-/*#view-patients-table {*/
-    /*!*width: 100%;*!*/
-/*}*/
-
-/*#view-patients-table tr td {*/
-    /*!*border: 1px solid red;*!*/
-    /*!*padding: 10px;*!*/
-/*}*/
-
 #view-patients-table tr td:first-child {
     width: 1px;
     white-space: nowrap;
@@ -1011,16 +842,6 @@ input {
 #view-patients-table .input-layout tr td:first-child {
     vertical-align: center;
 }
-
-/*#view-patients-table tr:nth-child(odd) {*/
-    /*background-color: #edf2f8;*/
-/*}*/
-
-/*#view-patients-table tr:first-child {*/
-    /*background-color: #30384d;*/
-    /*color: rgba(255, 255, 255, 0.8);*/
-    /*font-size: 16px;*/
-/*}*/
 
 /**********************************************************************************************************************/
 /* Page layout */
@@ -1059,3 +880,97 @@ input {
 .page-table .input-layout tr td:first-child {
     text-align: right;
 }
+
+/**********************************************************************************************************************/
+/* Jobs page */
+/**********************************************************************************************************************/
+
+#doctor-home tr td {
+    /*border: 1px solid red;*/
+}
+
+#doctor-home tr:not(:first-child, :nth-child(2)) td {
+    vertical-align: top;
+}
+
+#doctor-home tr:not(:first-child, :nth-child(2)) td:last-child {
+    padding: 0;
+}
+
+#doctor-home tr td:nth-child(2) {
+    /*width: 1px;*/
+    /*white-space: nowrap;*/
+}
+
+#doctor-home .patient-info-text {
+    color: black;
+    font-size: 15px;
+}
+
+#doctor-home .patient-info-label {
+    color: rgba(0, 0, 0, 0.7);
+    font-size: 13px;
+}
+
+#doctor-home .job-table {
+    width: 100%;
+}
+
+#doctor-home .job-table tr {
+    background: none;
+    font-size: 14px;
+}
+
+#doctor-home .job-table tr:not(:last-child) {
+    border-bottom: 1px solid #D1D8DC;
+}
+
+
+#doctor-home .job-table tr td,
+#doctor-home .job-table tr:first-child td {
+    padding: 5px;
+    color: black;
+    vertical-align: middle;
+}
+
+#doctor-home .job-table tr:not(:first-child) td:first-child,
+#doctor-home .job-table tr:not(:first-child) td:nth-child(2) {
+    /*border: 1px solid green;*/
+    width: 1px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+#doctor-home .job-table tr:not(:first-child) td:nth-child(3) {
+    width: 10vw;
+    min-width: 100px;
+}
+
+#doctor-home .job-table .job-form tr {
+    border: none;
+}
+
+#doctor-home .job-table .job-form tr td:first-child {
+    text-align: right;
+}
+
+#doctor-home .job-table .job-form tr td:nth-child(2) {
+    width: 10vw;
+    min-width: 100px;
+}
+
+#doctor-home .job-table .job-form tr td input,
+#doctor-home .job-table .job-form tr td .custom-select,
+#doctor-home .job-table .job-form tr td select,
+#doctor-home .job-table .job-form tr td textarea {
+    width: 100%;
+}
+
+#doctor-home .job-table tr.handover {
+    border: none;
+}
+
+#doctor-home .job-table .handover-form td {
+    padding: 0;
+}
+
