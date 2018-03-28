@@ -70,7 +70,7 @@ public class HandoverController {
         model.addAttribute("jobContexts", patient.getJobContexts());
         model.addAttribute("jobContextsCount", patient.getJobContexts().size());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        return "handover/viewPatient";
+        return "handover/patient";
     }
 
     @PostMapping(value="/patient/{patientId}")
@@ -123,22 +123,6 @@ public class HandoverController {
         return "handover/patients";
     }
 
-    @GetMapping(value="/createJob")
-    public String createJob(@RequestParam(value = "jobContextId", required=true) Long id, Model model) {
-        return createJob(id, model, new JobFormBackingObject());
-    }
-
-    private String createJob(Long id, Model model, JobFormBackingObject job) {
-        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
-
-        model.addAttribute("job", job);
-        model.addAttribute("categories", categoryService.getAllCategories());
-        model.addAttribute("doctorId",userInfo.getId());
-        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        model.addAttribute("contextId",id);
-        return "handover/newJob";
-    }
-
     @Transactional
     @PostMapping(value="/createJob")
     public String createJob(@Valid @ModelAttribute("job") JobFormBackingObject job,
@@ -151,9 +135,8 @@ public class HandoverController {
         jobsService.CheckJobValidity(result,job);
         if (errors.hasErrors()){
             request.setAttribute("jobContextId",job.getContextId());
-            return createJob(job.getContextId(),model,job);
 //            TODO
-            //return "doctor/newJob";
+            return "redirect:/";
         }
         else {
             Job j = new Job();
@@ -169,15 +152,6 @@ public class HandoverController {
             }
             else return "redirect:/";
         }
-    }
-
-    @GetMapping(value="/handoverJob")
-    public String handoverJob(@RequestParam(value = "jobId", required=true) Long id, Model model) {
-        UserCore userInfo =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
-        model.addAttribute("jobId",id);
-        model.addAttribute("description",jobsService.getJob(id).getDescription());
-        model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
-        return "handover/handoverJob";
     }
 
     @Transactional
