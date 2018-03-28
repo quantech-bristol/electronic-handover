@@ -169,8 +169,6 @@
                                         </table>
                                     </div>
                                 </form>
-
-
                             </td>
                         </tr>
                         <th:block th:each="job,iterStat : ${jobContext.getJobs()}">
@@ -195,9 +193,6 @@
                                     </button>
                                     <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job"><i class="fa fa-arrow-right"></i></span>
                                 </td>
-                                <!--<td>-->
-                                <!--<button type="button" class="custom-button blue-outlined"><i class="fa fa-pencil"></i> Edit</button>-->
-                                <!--</td>-->
                                 <td>
                                     <span th:text="${job.getCategory().getName()}"/>
                                 </td>
@@ -238,8 +233,6 @@
                                 </td>
                             </tr>
                         </th:block>
-
-
                     </table>
                 </td>
             </tr>
