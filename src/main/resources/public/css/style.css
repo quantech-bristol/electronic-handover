@@ -529,6 +529,55 @@ input {
     float: right;
 }
 
+#login-left {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgb(255, 255, 255), rgb(255, 255, 255), rgba(255, 255, 255, 0.5));
+    padding: auto;
+    text-align:center;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    color: #005EB8;
+}
+
+#login-right {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+}
+
+#login-left-contents {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#login-slogans {
+    text-align: left;
+    margin: auto 20%;
+}
+
+#login-slogans span {
+    padding: 10px 10px 10px 20px;
+}
+
+#login-logo {
+    display: inline-block;
+    width: 200px;
+    margin: 30px auto 40px auto;
+}
+
+#login-left h2 {
+    font-size: 80px;
+    font-weight: 100;
+    color: #005EB8;
+}
+
+#login-slogans h3 {
+    font-size: 28px;
+}
+
 #login-form-table {
     height: 50px;
 }

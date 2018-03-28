@@ -101,6 +101,9 @@ public class DoctorController {
                 if (sort.equals("contextCreationDate"))
                     jcs = jobsService.sortJobContextsByCreationDate(jcs);
             }
+            else {
+                jcs = jobsService.sortJobContextsByCreationDate(jcs);
+            }
 
             // Sort individual jobs by creation date (default).
             for (JobContext jc : jcs) {
