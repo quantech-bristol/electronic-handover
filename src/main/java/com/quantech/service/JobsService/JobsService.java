@@ -111,6 +111,13 @@ public interface JobsService {
     List<JobContext> sortJobContextsByLastName(List<JobContext> jobContexts);
 
     /**
+     * Sorts a list of job contexts by the job context creation date.
+     * @param jobContexts List of job contexts.
+     * @return A list of job contexts.
+     */
+    List<JobContext> sortJobContextsByCreationDate(List<JobContext> jobContexts);
+
+    /**
      * Filter list of job contexts by a given predicate.
      * @param list A list of jobs contexts.
      * @param predicate A predicate to test the job contexts against.
