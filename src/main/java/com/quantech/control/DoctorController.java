@@ -98,6 +98,13 @@ public class DoctorController {
                     jcs = jobsService.sortJobContextsByFirstName(jcs);
                 if (sort.equals("lastName"))
                     jcs = jobsService.sortJobContextsByLastName(jcs);
+                if (sort.equals("contextCreationDate"))
+                    jcs = jobsService.sortJobContextsByCreationDate(jcs);
+            }
+
+            // Sort individual jobs by creation date (default).
+            for (JobContext jc : jcs) {
+                jc.setJobs(jobsService.sortJobsNewestFirst(jc.getJobs()));
             }
 
             model.addAttribute("jobContexts", jcs);

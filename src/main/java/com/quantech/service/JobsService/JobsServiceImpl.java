@@ -253,6 +253,12 @@ public class JobsServiceImpl implements JobsService {
     }
 
     @Override
+    public List<JobContext> sortJobContextsByCreationDate(List<JobContext> jobContexts) {
+        jobContexts.sort((j1,j2) -> -j1.getCreationDate().compareTo(j2.getCreationDate()));
+        return jobContexts;
+    }
+
+    @Override
     public List<JobContext> filterJobContextsBy(List<JobContext> list, Predicate<JobContext> predicate) {
         return list.stream().filter(predicate).collect(Collectors.toList());
     }
