@@ -209,6 +209,7 @@ public class AdminController {
         model.addAttribute("postUrl", "/admin/filterLogs");
         return "logging/logFilter";
     }
+
     @PostMapping(value = "/admin/filterLogs")
     public String filterLogsPost(@ModelAttribute("logObject") LogFilterBackingObject lo, @Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors, Model model)
     {
