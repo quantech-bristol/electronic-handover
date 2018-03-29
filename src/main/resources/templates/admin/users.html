@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:include="fragments/header :: head (title=${Title})">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+</head>
+
+<body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+<div id="wrapper">
+    <table class="page-table">
+        <tr>
+            <td>
+                <a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a>
+            </td>
+            <td colspan="5">
+                Users
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <div>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-user">
+                        <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
+                        <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
+                    </button>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#filter-users">
+                        <span class="if-collapsed"><i class="fa fa-filter"></i> Filter</span>
+                        <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
+                    </button>
+                </div>
+                <div class="collapse" id="new-user" data-parent="#wrapper">
+                    <form action="#" th:action="${postUrl}" th:object="${usercore}" method="post">
+                        <input type="hidden" th:field="*{id}" th:value="*{id}" id="id"/>
+                        <table class="input-layout">
+                            <tr>
+                                <td>Title</td>
+                                <td>
+                                    <div class="custom-select">
+                                        <select id="titles" name="titles" th:field="*{title}">
+                                            <option value="" hidden="true">Title</option>
+                                            <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td><span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>First name</td>
+                                <td><input type="text" th:field="*{firstName}" id="firstName" placeholder="First name"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Last name</td>
+                                <td><input type="text" th:field="*{lastName}" id="lastName" placeholder="Last name"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
+                                <td><input type="text" th:field="*{username}" id="username" placeholder="Username"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td><input type="email" th:field="*{email}" id="email" placeholder="Email"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Password</td>
+                                <td><input type="password"  th:type = "password" th:field="*{password}" id="password" placeholder="Password"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Repeat password</td>
+                                <td><input type="password"  th:type = "password" th:field="*{passwordConfirmation}" id="passwordConfirmation" placeholder="Password"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Roles</td>
+                                <td>
+                                    <div th:each="role : ${T(com.quantech.config.SecurityRoles).values()}">
+                                        <span th:text="${role}"></span>
+                                        <input type="checkbox"  id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
+                                    </div>
+                                </td>
+                                <td><span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="collapse" id="filter-users" data-parent="#wrapper">
+                    <form action="#" th:action="@{/admin/users}" method="get">
+                        <table class="input-layout">
+                            <tr>
+                                <td>First name</td>
+                                <td><input type="text" name="firstName" id="firstName" placeholder="First name"/></td>
+                                <td>
+                                    <!--<span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Last name</td>
+                                <td><input type="text" name="lastName" id="lastName" placeholder="Last name"/></td>
+                                <td>
+                                    <!--<span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Username</td>
+                                <td><input type="text" name="username" id="username" placeholder="Username"/></td>
+                                <td>
+                                    <!--<span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td><input type="text" name="email" id="email" placeholder="Email"/></td>
+                                <td>
+                                    <!--<span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr th:each="user : ${MatchedUsers}">
+            <td>
+                <!--<form action="#" th:action="@{/admin/editUser/{id}(id=${user.id})}" method="get" class="form-inline">-->
+                    <!--<button class="custom-button black-outlined"  type="submit"><i class="fa fa-pencil"></i></button>-->
+                <!--</form>-->
+                <button class="custom-button black-outlined"  type="button"><i class="fa fa-pencil"></i></button>
+            </td>
+            <td><span th:text="${user.title.toString()}"></span>
+                <span th:text="${user.firstName}"></span>
+                <span th:text="${user.lastName}"></span>
+            </td>
+            <td></td>
+            <td></td>
+            <td><span th:text="${user.username}"></span></td>
+            <td><span th:text="${user.email}"></span></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

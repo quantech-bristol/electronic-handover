@@ -212,6 +212,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public HashMap<Long,UserCore> findMatchesFromFilter(String firstName, String lastName, String username, String email) {
+        List<UserCore> userInfo = userRepository.findUserCoresByFirstNameContainsAndLastNameContainsAndEmailContainsAndUsernameContains(firstName, lastName, email, username);
+        HashMap<Long,UserCore> map = new HashMap<>();
+        for (UserCore u:userInfo) { map.put(u.getId(),u);}
+        return map;
+    }
+
+    @Override
     @Transactional
     @CacheEvict(value = "Users",key = "#id")//Transactional means this is not altogether safe for reasons I dont understand
     public boolean deleteUserById(Long id) {

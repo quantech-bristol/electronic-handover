@@ -14,76 +14,41 @@
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
-    <table class="page-table">
+    <table class="page-table" id="admin">
         <tr>
             <td>
-                Title
+                Admin
             </td>
         </tr>
         <tr>
             <td>
-                <a th:href="@{/admin/createUser}">Create new user</a><br/>
-                <a th:href="@{/admin/editUserFilter}">Edit existing users</a>
-
-                <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#users">Users</button>
-                </div>
-                <div class="collapse" id="users" data-parent="#wrapper">
-                    Test
-                </div>
-
+                <form th:action="@{/admin/users}" method="get">
+                    <input type="hidden" name="firstName" value=""/>
+                    <input type="hidden" name="lastName" value=""/>
+                    <input type="hidden" name="username" value=""/>
+                    <input type="hidden" name="email" value=""/>
+                    <button class="custom-button black-outlined" type="submit">Users</button>
+                </form>
             </td>
         </tr>
         <tr>
             <td>
-                <a th:href="@{/admin/manageWards}">Hospital Wards</a>
-
-                <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#wards">Hospital Wards</button>
-                </div>
-                <div class="collapse" id="wards" data-parent="#wrapper">
-                    Test
-                </div>
-
+                <a th:href="@{/admin/wards}"><button class="custom-button black-outlined">Hospital Wards</button></a>
             </td>
         </tr>
         <tr>
             <td>
-                <a th:href="@{/admin/manageCategories}">Job Categories</a>
-
-                <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#categories">Job Categories</button>
-                </div>
-                <div class="collapse" id="categories" data-parent="#wrapper">
-                    Test
-                </div>
-
+                <a th:href="@{/admin/categories}"><button class="custom-button black-outlined">Job Categories</button></a>
             </td>
         </tr>
         <tr>
             <td>
-                <a th:href="@{/admin/manageRisks}">Patient Risks</a>
-
-                <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#risks">Patient Risks</button>
-                </div>
-                <div class="collapse" id="risks" data-parent="#wrapper">
-                    Test
-                </div>
-
+                <a th:href="@{/admin/risks}"><button class="custom-button black-outlined">Patient Risks</button></a>
             </td>
         </tr>
         <tr>
             <td>
-                <a th:href="@{/admin/filterLogs}">Search Logs</a>
-
-                <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#logs">Logs</button>
-                </div>
-                <div class="collapse" id="logs" data-parent="#wrapper">
-                    Test
-                </div>
-
+                <a th:href="@{/admin/filterLogs}"><button class="custom-button black-outlined">Search Logs</button></a>
             </td>
         </tr>
     </table>

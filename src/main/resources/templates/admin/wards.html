@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:include="fragments/header :: head (title='Create Ward')">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+</head>
+
+<body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="/js/editEntries.js"></script>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<div id="wrapper">
+    <table class="page-table">
+        <tr>
+            <td>
+                <a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a>
+            </td>
+            <td>
+                Hospital Wards
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-ward">
+                        <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
+                        <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
+                    </button>
+                </div>
+                <div class="collapse" id="new-ward" data-parent="#wrapper">
+                    <form action="#" th:action="@{/admin/addWard}" th:object="${newWard}" method="post" class="form-inline">
+                        <table class="input-layout">
+                            <tr>
+                                <td>Ward name</td>
+                                <td><input type="text" th:field="*{name}" id="name" placeholder="Ward name"/></td>
+                                <td><!--Error message--></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr th:each="existingWard,iterStat : ${wards}">
+            <td>
+                <button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${wards.size()}+');'">
+                    <i class="fa fa-pencil"></i>
+                </button>
+            </td>
+            <td>
+                <div th:text="${existingWard.name}"></div>
+                <form th:action="@{/admin/renameWard(id=${existingWard.id})}" th:id="input+${iterStat.count}" style="display: none" method="post" class="form-inline">
+                    <input  type="text" placeholder="Enter new ward name" th:field="*{newWard.name}"/>
+                    <button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -55,6 +55,8 @@ public interface UserService
 
     HashMap<Long,UserCore> findMatchesFromFilter(UserInfo ob);
 
+    HashMap<Long,UserCore> findMatchesFromFilter(String firstName, String lastName, String username, String email);
+
     boolean deleteUserById(Long id);
 
     /**

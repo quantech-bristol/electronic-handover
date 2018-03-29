@@ -66,170 +66,137 @@ public class AdminController {
         return "admin/adminHome";
     }
 
-    @GetMapping(value="/admin/createUser")
-    public String createUser(Model model) {
-        model.addAttribute("UserFiltering",false);
-        model.addAttribute("Title","Create User");
+    @GetMapping(value="/admin/users")
+    public String users(@RequestParam("firstName") String firstName,
+                        @RequestParam("lastName") String lastName,
+                        @RequestParam("username") String username,
+                        @RequestParam("email") String email,
+                        Model model) {
         model.addAttribute("usercore", new UserFormBackingObject());
-        model.addAttribute("postUrl", "/admin/createUser");
-        return "admin/createUser";
+        HashMap<Long, UserCore> userCoreHashMap = userService.findMatchesFromFilter(firstName, lastName, username, email);
+        model.addAttribute("MatchedUsers",userCoreHashMap.values());
+        return "admin/users";
     }
 
     @PostMapping(value="/admin/createUser")
     public String createUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors) {
         userService.CheckValidity(result, true, user);
         if (errors.hasErrors()) {
-            return "admin/createUser";
+            return "redirect:/admin/users";
         } else {
             userService.createUser(user);
             return "redirect:/admin";
         }
     }
 
-    @GetMapping(value="/admin/editUsers")
-    public String editUsers() {
-        return "admin/editUsers";
-    }
+//    @GetMapping(value = "/admin/editUser/{id}")
+//    public String editUser(Model model, @PathVariable("id") long id )
+//    {
+//        UserCore user = userService.findUserById(id);
+//
+//        model.addAttribute("UserFiltering","True");
+//        model.addAttribute("Title","Edit User");
+//        model.addAttribute("usercore", new UserFormBackingObject(user));
+//        model.addAttribute("postUrl", "/admin/editUser");
+//        return "admin/createUser";
+//    }
 
-    @GetMapping(value="/admin/editUserFilter")
-    public String editUsersFilter(Model model)
-    {
-        model.addAttribute("UserFiltering",true);
-        model.addAttribute("Title","Select User Details");
-        model.addAttribute("usercore", new UserFormBackingObject());
-        model.addAttribute("postUrl", "/admin/editUserFilter");
-        return "admin/userFilterFields";
-    }
+//    @PostMapping(value = "/admin/editUser")
+//    public String editUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors)
+//    {
+//        userService.CheckValidity(result, false, user);
+//        if (errors.hasErrors()) {
+//            return "admin/createUser";
+//        }
+//        else {
+//            userService.editUser(user);
+//            return "redirect:/admin";
+//        }
+//    }
 
-    @PostMapping(value="/admin/editUserFilter")
-    public String editUsersFilterPost(@ModelAttribute("usercore") UserFormBackingObject user, Model model)
-    {
-        HashMap<Long, UserCore> userCoreHashMap = userService.findMatchesFromFilter(user);
+//    @DeleteMapping(value = "/admin/deleteUser/{id}")
+//    public String DeleteUser(@PathVariable("id") long id)
+//    {
+//        userService.deleteUserById(id);
+//        return "redirect:/admin";
+//    }
 
-        model.addAttribute("MatchedUsersMap",userCoreHashMap);
-        return "redirect:editUserSelect";
-    }
-
-    @GetMapping(value = "/admin/editUserSelect")
-    public String editUsersSelect(@SessionAttribute("MatchedUsersMap")  HashMap<Long, UserCore> users, Model model)
-    {
-        model.addAttribute("MatchedUsers",users.values());
-        return "admin/editUserSelect";
-    }
-
-    @GetMapping(value = "/admin/editUser/{id}")
-    public String editUser(Model model, @PathVariable("id") long id )
-    {
-        UserCore user = userService.findUserById(id);
-
-        model.addAttribute("UserFiltering","True");
-        model.addAttribute("Title","Edit User");
-        model.addAttribute("usercore", new UserFormBackingObject(user));
-        model.addAttribute("postUrl", "/admin/editUser");
-        return "admin/createUser";
-    }
-
-    @PostMapping(value = "/admin/editUser")
-    public String editUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors)
-    {
-        userService.CheckValidity(result, false, user);
-        if (errors.hasErrors()) {
-            return "admin/createUser";
-        }
-        else {
-            userService.editUser(user);
-            return "redirect:/admin";
-        }
-    }
-    @DeleteMapping(value = "/admin/deleteUser/{id}")
-    public String DeleteUser(@PathVariable("id") long id)
-    {
-        userService.deleteUserById(id);
-        return "redirect:/admin";
-    }
-
-    // Wards
-
-    @GetMapping(value="/admin/manageWards")
-    public String manageWards(Model model) {
+    @GetMapping(value="/admin/wards")
+    public String wards(Model model) {
         model.addAttribute("newWard", new Ward());
         model.addAttribute("wards", wardService.getAllWards());
-        return "admin/manageWards";
+        return "admin/wards";
     }
 
     @PostMapping(value="/admin/addWard")
     public String addWard(@ModelAttribute Ward ward) {
         wardService.saveWard(ward);
-        return "redirect:/admin/manageWards";
+        return "redirect:/admin/wards";
     }
 
     @PostMapping(value="/admin/renameWard")
     public String renameWard(@ModelAttribute Ward ward, @RequestParam(value = "id", required=true) Long id) {
         ward.setId(id);
         wardService.saveWard(ward);
-        return "redirect:/admin/manageWards";
+        return "redirect:/admin/wards";
     }
 
     @GetMapping(value="/admin/deleteWard")
     public String deleteWard(@ModelAttribute Ward ward, @RequestParam(value = "id", required=true) Long id) {
         wardService.deleteWard(id);
-        return "redirect:/admin/manageWards";
+        return "redirect:/admin/wards";
     }
 
-    // Categories
-
-    @GetMapping(value="/admin/manageCategories")
-    public String manageCategories(Model model) {
+    @GetMapping(value="/admin/categories")
+    public String categories(Model model) {
         model.addAttribute("newCat", new Category());
         model.addAttribute("categories", categoryService.getAllCategories());
-
-        return "admin/manageCategories";
+        return "admin/categories";
     }
+
     @RequestMapping(value="/admin/addCategory", method=RequestMethod.POST)
     public String addCategory(@ModelAttribute Category category) {
         categoryService.saveCategory(category);
-        return "redirect:/admin/manageCategories";
+        return "redirect:/admin/categories";
     }
 
     @PostMapping(value="/admin/renameCategory")
     public String renameCategory(@ModelAttribute Category category, @RequestParam(value = "id", required=true) Long id) {
         category.setId(id);
         categoryService.saveCategory(category);
-        return "redirect:/admin/manageCategories";
+        return "redirect:/admin/categories";
     }
 
     @GetMapping(value="/admin/deleteCategory")
     public String deleteRisk(@ModelAttribute Category category, @RequestParam(value = "id", required=true) Long id) {
         categoryService.deleteCategory(id);
-        return "redirect:/admin/manageCategories";
+        return "redirect:/admin/categories";
     }
 
-    // Risks
-
-    @GetMapping(value="/admin/manageRisks")
-    public String manageRisks(Model model) {
+    @GetMapping(value="/admin/risks")
+    public String risks(Model model) {
         model.addAttribute("newRisk", new Risk());
         model.addAttribute("risks", riskService.getAllRisks());
-        return "admin/manageRisks";
+        return "admin/risks";
     }
 
     @PostMapping(value="/admin/addRisk")
     public String addRisk(@ModelAttribute Risk risk) {
         riskService.saveRisk(risk);
-        return "redirect:/admin/manageRisks";
+        return "redirect:/admin/risks";
     }
 
     @PostMapping(value="/admin/renameRisk")
     public String renameRisk(@ModelAttribute Risk risk, @RequestParam(value = "id", required=true) Long id) {
         risk.setId(id);
         riskService.saveRisk(risk);
-        return "redirect:/admin/manageRisks";
+        return "redirect:/admin/risks";
     }
 
     @GetMapping(value="/admin/deleteRisk")
     public String deleteRisk(@ModelAttribute Risk risk, @RequestParam(value = "id", required=true) Long id) {
         riskService.deleteRisk(id);
-        return "redirect:/admin/manageRisks";
+        return "redirect:/admin/risks";
     }
 
     @GetMapping(value = "/admin/filterLogs")
