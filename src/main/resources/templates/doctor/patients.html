@@ -2,10 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head th:include="fragments/header :: head (title='Select Patient')">
-
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
-
 </head>
 
 <body>
@@ -13,6 +11,24 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+    function clearPatientForm() {
+        document.getElementById('title').selectedIndex = 0;
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('day').value = '';
+        document.getElementById('month').value = '';
+        document.getElementById('year').value = '';
+        document.getElementById('hospitalNumber').value = '';
+        document.getElementById('nHSNumber').value = '';
+        var errorMessages = document.getElementsByClassName('error');
+        /*<![CDATA[*/
+        for (let i = 0; i < errorMessages.length; i++) {
+            errorMessages[i].style.display = 'none';
+        }
+        /*]]>*/
+    }
+</script>
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
@@ -27,7 +43,8 @@
         </tr>
         <tr>
             <td colspan="6">
-                <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-patient">
+                <button class="custom-button black-outlined" data-toggle="collapse" data-target="#new-patient"
+                        th:classappend="!${errs} ? collapsed" onclick="clearPatientForm();">
                     <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
                     <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                 </button>
@@ -35,14 +52,15 @@
                     <span class="if-collapsed"><i class="fa fa-filter"></i> Filter</span>
                     <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                 </button>
-                <div class="collapse" id="new-patient" data-parent="#wrapper">
-                    <form action="#" th:action="@{/newPatient}" method="post" th:object="${patient}">
+                <div class="collapse" id="new-patient" data-parent="#wrapper"
+                     th:classappend="${errs} ? show">
+                    <form action="#" th:action="@{/patients}" method="post" th:object="${newPatient}">
                         <table class="input-layout">
                             <tr>
                                 <td>Title</td>
                                 <td>
                                     <div class="custom-select">
-                                        <select id="existingTitle" name="existingTitle" th:field = "*{title}">
+                                        <select id="title" th:field="*{title}">
                                             <option value="" hidden="true">Title</option>
                                             <option th:each="t : ${T(com.quantech.model.user.Title).values()}" th:value="${t}" th:text="${t}"></option>
                                         </select>
@@ -52,38 +70,36 @@
                             </tr>
                             <tr>
                                 <td>First name</td>
-                                <td><input type="text" th:field="*{firstName}" id="existingFirstName" name="existingFirstName" placeholder="First Name"/></td>
+                                <td><input type="text" id="firstName" th:field="*{firstName}" placeholder="First Name"/></td>
                                 <td><span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/></td>
                             </tr>
                             <tr>
                                 <td>Last name</td>
-                                <td><input type="text" th:field="*{lastName}" id="existingLastName" name="existingLastName" placeholder="Last Name"/></td>
+                                <td><input type="text" id="lastName" th:field="*{lastName}" placeholder="Last Name"/></td>
                                 <td><span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/></td>
                             </tr>
                             <tr>
                                 <td>Date of birth</td>
                                 <td>
-                                    <input type="number" th:field="*{day}" id="existingDay" name="existingDay" placeholder="DD" style="width: 60px"/>
-                                    <input type="number" th:field="*{month}" id="existingMonth" name="existingMonth" placeholder="MM" style="width: 60px"/>
-                                    <input type="number" th:field="*{year}" id="existingYear" name="existingYear" placeholder="YYYY" style="width: 76px"/>
+                                    <input type="number" id="day" th:field="*{day}" placeholder="DD" style="width: 60px"/>
+                                    <input type="number" id="month" th:field="*{month}" placeholder="MM" style="width: 60px"/>
+                                    <input type="number" id="year" th:field="*{year}" placeholder="YYYY" style="width: 76px"/>
                                 </td>
                                 <td><span class="error" th:if="${#fields.hasErrors('day')}" th:errors="*{day}"/></td>
                             </tr>
                             <tr>
                                 <td>Hospital number</td>
-                                <td><input type="number" th:field="*{hospitalNumber}" id="existingHospitalNumber" name="existingHospitalNumber" placeholder="Hospital Number"/></td>
+                                <td><input type="number" id="hospitalNumber" th:field="*{hospitalNumber}" placeholder="Hospital Number"/></td>
                                 <td><span class="error" th:if="${#fields.hasErrors('hospitalNumber')}" th:errors="*{hospitalNumber}"/></td>
                             </tr>
                             <tr>
                                 <td>NHS number</td>
-                                <td><input type="number" th:field="*{NHSNumber}" id="existingNHSNumber" name="existingNHSNumber" placeholder="NHS Number"/></td>
+                                <td><input type="number" id="nHSNumber" th:field="*{NHSNumber}" placeholder="NHS Number"/></td>
                                 <td><span class="error" th:if="${#fields.hasErrors('NHSNumber')}" th:errors="*{NHSNumber}"/></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>
-                                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
-                                </td>
+                                <td><button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button></td>
                                 <td></td>
                             </tr>
                         </table>
@@ -93,26 +109,16 @@
                     <form action="#" th:action="@{/patients}" method="get">
                         <table class="input-layout">
                             <tr>
-                                <td>
-                                    First Name
-                                </td>
-                                <td>
-                                    <input type="text" id="existingFirstName" name="firstName" placeholder="First Name"/>
-                                </td>
+                                <td>First Name</td>
+                                <td><input type="text" id="existingFirstName" name="firstName" placeholder="First Name"/></td>
                             </tr>
                             <tr>
-                                <td>
-                                    Last Name
-                                </td>
-                                <td>
-                                    <input type="text" id="existingLastName" name="lastName" placeholder="Last Name"/>
-                                </td>
+                                <td>Last Name</td>
+                                <td><input type="text" id="existingLastName" name="lastName" placeholder="Last Name"/></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>
-                                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
-                                </td>
+                                <td><button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button></td>
                             </tr>
                         </table>
                     </form>
@@ -125,21 +131,11 @@
                     <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
                 </a>
             </td>
-            <td>
-                <span th:text="${patient.FullName}"></span>
-            </td>
-            <td>
-                <span th:text="${patient.birthDate}"></span>
-            </td>
-            <td>
-                <span th:text="${patient.getAge()}"></span>
-            </td>
-            <td>
-                <span th:text="${patient.hospitalNumber}"></span>
-            </td>
-            <td>
-                <span th:text="${patient.nHSNumber}"></span>
-            </td>
+            <td><span th:text="${patient.FullName}"></span></td>
+            <td><span th:text="${patient.birthDate}"></span></td>
+            <td><span th:text="${patient.getAge()}"></span></td>
+            <td><span th:text="${patient.hospitalNumber}"></span></td>
+            <td><span th:text="${patient.nHSNumber}"></span></td>
         </tr>
     </table>
 </div>

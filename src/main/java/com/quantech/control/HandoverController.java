@@ -58,30 +58,78 @@ public class HandoverController {
     @Autowired
     WardService wardService;
 
+    @GetMapping(value="/patients")
+    public String viewPatients(@RequestParam(value = "firstName", required = false) String firstName,
+                                 @RequestParam(value = "lastName", required = false) String lastName,
+                                 Model model) {
+        List<Patient> patients = patientService.findMatchesFromFilter(firstName, lastName);
+        model.addAttribute("patients", patients);
+        model.addAttribute("newPatient", new PatientFormBackingObject());
+        model.addAttribute("errs", false);
+        return "doctor/patients";
+    }
+
+    @PostMapping(value="/patients")
+    public String addPatient(@Valid @ModelAttribute("newPatient") PatientFormBackingObject patientFormBackingObject,
+                             Model model,
+                             BindingResult result,
+                             Errors errors,
+                             RedirectAttributes redirectAttributes) {
+        patientService.CheckValidity(result, patientFormBackingObject);
+        if (errors.hasErrors()) {
+            model.addAttribute("patients", patientService.getAllPatients());
+            model.addAttribute("newPatient", patientFormBackingObject);
+            model.addAttribute("errs", true);
+            return "doctor/patients";
+        } else {
+            Patient patient = patientFormBackingObject.toPatient();
+            patientService.savePatient(patient);
+            redirectAttributes.addAttribute("patientId", patient.getId());
+            return "redirect:/patient/{patientId}";
+        }
+    }
+
     @GetMapping(value="/patient/{patientId}")
-    public String selectPatient(@PathVariable(value="patientId") Long patientId,
+    public String viewPatient(@PathVariable(value="patientId") Long patientId,
                                 Model model) {
+        UserCore user =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         Patient patient = patientService.getPatientById(patientId);
         model.addAttribute("patientInfo", patient);
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("newJobContext", new JobContextFormBackingObject());
         model.addAttribute("newJob", new JobFormBackingObject());
         model.addAttribute("wards", wardService.getAllWards());
-        model.addAttribute("jobContexts", patient.getJobContexts());
+        List<JobContext> jobContexts = jobsService.sortJobContextsByCreationDate(patient.getJobContexts());
+        model.addAttribute("jobContexts", jobContexts);
         model.addAttribute("jobContextsCount", patient.getJobContexts().size());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
+        model.addAttribute("currentDoctor", user);
+
         return "doctor/patient";
     }
 
     @PostMapping(value="/patient/{patientId}")
-    public String newJobContext(@Valid @ModelAttribute("newJobContext") JobContextFormBackingObject jobContextFormBackingObject,
+    public String addJobContext(@Valid @ModelAttribute("newJobContext") JobContextFormBackingObject jobContextFormBackingObject,
                                 @PathVariable(value="patientId") Long patientId,
                                 @RequestParam("returnTo") String returnTo,
                                 BindingResult result,
-                                Errors errors) {
+                                Errors errors,
+                                Model model) {
         jobsService.CheckJobContextFormValidity(result, jobContextFormBackingObject);
         if (errors.hasErrors()) {
-            return "redirect:/patient/{patientId}";
+            Patient patient = patientService.getPatientById(patientId);
+            model.addAttribute("patientInfo", patient);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("newJob", new JobFormBackingObject());
+            model.addAttribute("wards", wardService.getAllWards());
+            List<JobContext> jobContexts = jobsService.sortJobContextsByCreationDate(patient.getJobContexts());
+            model.addAttribute("jobContexts", jobContexts);
+            model.addAttribute("jobContextsCount", patient.getJobContexts().size());
+            model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
+            model.addAttribute("newJobContext", jobContextFormBackingObject);
+            model.addAttribute("patientId", patientId);
+            model.addAttribute("errs", "jc");
+            return "doctor/patient";
         } else {
             JobContext jobContext = new JobContext();
             jobContext.setClinicalDetails(jobContextFormBackingObject.getClinicalDetails());
@@ -95,48 +143,28 @@ public class HandoverController {
         }
     }
 
-    @PostMapping(value="/newPatient")
-    public String addPatient(@Valid @ModelAttribute("patient") PatientFormBackingObject patientFBO,
-                             Model model,
-                             BindingResult result,
-                             Errors errors,
-                             RedirectAttributes redirectAttributes) {
-        patientService.CheckValidity(result, patientFBO);
-        if (errors.hasErrors()) {
-//TODO
-            return "redirect:/";
-        } else {
-            Patient patient = patientFBO.toPatient();
-            patientService.savePatient(patient);
-            redirectAttributes.addAttribute("patientId", patient.getId());
-            return "redirect:/patient/{patientId}";
-        }
-    }
-
-    @GetMapping(value="/patients")
-    public String filterPatients(@RequestParam(value = "firstName", required = false) String firstName,
-                                 @RequestParam(value = "lastName", required = false) String lastName,
-                                 Model model) {
-        List<Patient> patients = patientService.findMatchesFromFilter(firstName, lastName);
-        model.addAttribute("patients", patients);
-        model.addAttribute("patient", new PatientFormBackingObject());
-        return "doctor/patients";
-    }
-
     @Transactional
-    @PostMapping(value="/createJob")
-    public String createJob(@Valid @ModelAttribute("job") JobFormBackingObject job,
-                            @RequestParam("returnTo") String returnTo,
-                            RedirectAttributes redirectAttributes,
-                            BindingResult result,
-                            Errors errors,
-                            Model model,
-                            HttpServletRequest request) {
+    @PostMapping(value="/addJob/{jobContextId}")
+    public String addJob(@Valid @ModelAttribute("newJob") JobFormBackingObject job,
+                         @RequestParam("returnTo") String returnTo,
+                         @PathVariable("jobContextId") Long jobContextId,
+                         RedirectAttributes redirectAttributes,
+                         BindingResult result,
+                         Errors errors,
+                         Model model) {
         jobsService.CheckJobValidity(result,job);
-        if (errors.hasErrors()){
-            request.setAttribute("jobContextId",job.getContextId());
-//            TODO
-            return "redirect:/";
+        if (errors.hasErrors()) {
+            Patient patient = jobsService.getJobContext(jobContextId).getPatient();
+            model.addAttribute("patientInfo", patient);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("newJobContext", new JobContextFormBackingObject());
+            model.addAttribute("wards", wardService.getAllWards());
+            List<JobContext> jobContexts = jobsService.sortJobContextsByCreationDate(patient.getJobContexts());
+            model.addAttribute("jobContexts", jobContexts);
+            model.addAttribute("jobContextsCount", patient.getJobContexts().size());
+            model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
+            model.addAttribute("newJob", job);
+            return "doctor/patient";
         }
         else {
             Job j = new Job();

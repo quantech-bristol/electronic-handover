@@ -2,30 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="fragments/header :: head (title='Job Handover')">
-
-    <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"/>-->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
-
 </head>
 
-<body style="background-color: #f9fafc">
+<body>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>-->
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-
 <script>
-    function resetJobContextForm() {
-        document.getElementById("newWard").selectedIndex = 0;
-        document.getElementById("newBed").value = "";
-        document.getElementById("newUnwell").checked = false;
-        document.getElementById("newClinicalDetails").value = "";
-    }
-    function resetJobForms(jobContexts) {
+    function clearForms(jobContexts) {
         /*<![CDATA[*/
         for (let id = 1; id < jobContexts+1; id++) {
             document.getElementById("newCategory"+id).selectedIndex = 0;
@@ -33,9 +20,17 @@
             document.getElementById("newDoctor"+id).selectedIndex = 0;
         }
         /*]]>*/
-    }
-    function resetHandoverForms() {
+        document.getElementById("newWard").selectedIndex = 0;
+        document.getElementById("newBed").value = "";
+        document.getElementById("newUnwell").checked = false;
+        document.getElementById("newClinicalDetails").value = "";
         $("select").each(function() { this.selectedIndex = 0 });
+        var errorMessages = document.getElementsByClassName('error');
+        /*<![CDATA[*/
+        for (let i = 0; i < errorMessages.length; i++) {
+            errorMessages[i].style.display = 'none';
+        }
+        /*]]>*/
     }
 </script>
 
@@ -66,19 +61,19 @@
     <tr>
         <td colspan="3">
             <div>
-                <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target=".newJobContextForm"
-                        th:onclick="'resetJobContextForm(); resetJobForms('+${jobContextsCount}+'); resetHandoverForms();'">
+                <button class="custom-button black-outlined" data-toggle="collapse" data-target="#newJobContextForm"
+                        th:onclick="'clearForms('+${jobContextsCount}+');'"
+                        th:classappend="${errs}!='jc' ? collapsed">
                     <span class="if-collapsed"><i class="fa fa-plus"></i></span>
                     <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
                 </button>
                 <form action="#" th:action="@{/patient/{id}(id=${patientId})}" method="post" th:object="${newJobContext}">
                     <input type="hidden" name="returnTo" value="patient"/>
-                    <div class="collapse newJobContextForm" data-parent="#accordion">
+                    <div class="collapse" data-parent="#accordion" id="newJobContextForm"
+                         th:classappend="${errs}=='jc' ? show">
                         <table id="job-context-form">
                             <tr>
-                                <td>
-                                    Ward
-                                </td>
+                                <td>Ward</td>
                                 <td>
                                     <div class="custom-select">
                                         <select th:field="*{ward}" id="newWard">
@@ -87,114 +82,93 @@
                                         </select>
                                     </div>
                                 </td>
+                                <td><span class="error" th:if="${#fields.hasErrors('ward')}" th:errors="*{ward}"/></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <i class="fa fa-bed"></i>
-                                </td>
-                                <td>
-                                    <input type="number" th:field="*{bed}" id="newBed" name="newBed" placeholder="Bed"/>
-                                </td>
+                                <td><i class="fa fa-bed"></i></td>
+                                <td><input type="number" th:field="*{bed}" id="newBed" name="newBed" placeholder="Bed"/></td>
+                                <td></td>
                             </tr>
                             <tr>
-                                <td>
-                                    Unwell
-                                </td>
-                                <td>
-                                    <input type="checkbox"  th:field="*{unwell}" id="newUnwell" name="newUnwell" value="TRUE"/>
-                                </td>
+                                <td>Unwell</td>
+                                <td><input type="checkbox"  th:field="*{unwell}" id="newUnwell" name="newUnwell" value="TRUE"/></td>
+                                <td></td>
                             </tr>
                             <tr>
-                                <td>
-                                    Clinical details
-                                </td>
-                                <td>
-                                    <textarea rows="4" th:field="*{clinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="Clinical details"/>
-                                </td>
+                                <td>Clinical details</td>
+                                <td><textarea rows="4" th:field="*{clinicalDetails}" id="newClinicalDetails" name="newClinicalDetails" placeholder="Clinical details"/></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td></td>
-                                <td>
-                                    <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
-                                </td>
+                                <td><button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button></td>
+                                <td></td>
                             </tr>
                         </table>
                     </div>
                 </form>
             </div>
-
         </td>
     </tr>
-    <tr th:each="jobContext,iterStat1 : ${jobContexts}">
+    <tr th:each="jobContext,jobContextIterStat : ${jobContexts}">
         <td>
             <div>
-                <div>
-                    <span th:text="${jobContext.getWard().getName()}"/>
-                </div>
-                <div>
-                    <i class="fa fa-bed"></i> <span th:text="${jobContext.bed}"/>
-                </div>
-                <div th:if="${jobContext.getUnwell()}">
-                    <i class="fa fa-exclamation-circle"></i> Unwell
-                </div>
-                <!--<span th:each="risk,iterStat : ${jobContext.getRisks()}" th:text="${risk.getName()}"/>-->
+                <div><span th:text="${jobContext.getWard().getName()}"/></div>
+                <div><i class="fa fa-bed"></i> <span th:text="${jobContext.bed}"/></div>
+                <div th:if="${jobContext.getUnwell()}"><i class="fa fa-exclamation-circle"></i> Unwell</div>
             </div>
         </td>
-        <td>
-            <span th:text="${jobContext.clinicalDetails}"/>
-        </td>
+        <td><span th:text="${jobContext.clinicalDetails}"/></td>
         <td>
             <table class="job-table">
                 <tr>
                     <td colspan="4">
-                        <button class="custom-button black-outlined collapsed" data-toggle="collapse" th:attr="data-target='.newJobForm'+${iterStat1.count}" th:onclick="'resetJobContextForm(); resetJobForms('+${jobContextsCount}+'); resetHandoverForms();'">
+                        <button class="custom-button black-outlined" data-toggle="collapse"
+                                th:attr="data-target='#newJobForm'+${jobContextIterStat.count}"
+                                th:onclick="'clearForms('+${jobContextsCount}+');'"
+                                th:classappend="${jobContextId}!=${jobContext.id} ? collapsed">
                             <span class="if-collapsed"><i class="fa fa-plus"></i></span>
                             <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
                         </button>
-                        <form action="#" th:action="@{/createJob}" method="post" th:object="${newJob}">
+                        <form action="#" th:action="@{/addJob/{id}(id=${jobContext.id})}" method="post" th:object="${newJob}">
                             <input type="hidden" th:value="${jobContext.id}" id="contextId" name="contextId"/>
                             <input type="hidden" name="returnTo" value="patient"/>
-                            <div th:class="'collapse '+'newJobForm'+${iterStat1.count}" data-parent="#accordion">
+                            <div class="collapse" data-parent="#accordion" th:id="'newJobForm'+${jobContextIterStat.count}"
+                                 th:classappend="${jobContextId}==${jobContext.id} ? show">
                                 <table class="job-form">
                                     <tr>
-                                        <td>
-                                            Category
-                                        </td>
+                                        <td>Category</td>
                                         <td>
                                             <div class="custom-select">
-                                                <select th:field="*{categoryId}" th:id="'newCategory'+${iterStat1.count}">
+                                                <select th:field="*{categoryId}" th:id="'newCategory'+${jobContextIterStat.count}">
                                                     <option value="" hidden="true">Category</option>
                                                     <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
                                                 </select>
                                             </div>
                                         </td>
+                                        <td><span class="error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"/></td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            Description
-                                        </td>
-                                        <td>
-                                            <textarea rows="3" th:field="*{description}" th:id="'newDescription'+${iterStat1.count}" name="jobDescription" placeholder="Job description" style="width: 100%;"></textarea>
-                                        </td>
+                                        <td>Description</td>
+                                        <td><textarea rows="3" th:field="*{description}" th:id="'newDescription'+${jobContextIterStat.count}" name="jobDescription" placeholder="Job description"></textarea></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            Doctor
-                                        </td>
+                                        <td>Doctor</td>
                                         <td>
                                             <div class="custom-select">
-                                                <select th:field="*{doctorId}" th:id="'newDoctor'+${iterStat1.count}">
+                                                <select th:field="*{doctorId}" th:id="'newDoctor'+${jobContextIterStat.count}">
                                                     <option value="" hidden="true">Doctor</option>
                                                     <option th:each="user : ${doctorUsers}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
                                                 </select>
                                             </div>
                                         </td>
+                                        <td><span class="error" th:if="${#fields.hasErrors('doctorId')}" th:errors="*{doctorId}"/></td>
                                     </tr>
                                     <tr>
                                         <td></td>
-                                        <td>
-                                            <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
-                                        </td>
+                                        <td><button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button></td>
+                                        <td></td>
                                     </tr>
                                 </table>
                             </div>
@@ -208,8 +182,7 @@
                                 <input type="hidden" name="job" th:value="${job.id}"/>
                                 <input type="hidden" name="returnTo" value="patient"/>
                                 <button th:if="${!job.isComplete() and job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId()}"
-                                        type="submit"
-                                        class="custom-button green-outlined">
+                                        type="submit" class="custom-button green-outlined">
                                     <i class="fa fa-check"></i>
                                 </button>
                             </form>
@@ -217,49 +190,39 @@
                         </td>
                         <td>
                             <button th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}"
-                                    class="custom-button orange-outlined collapsed" data-toggle="collapse" th:attr="data-target='.context'+${iterStat1.count}+'job'+${iterStat.count}"
+                                    class="custom-button orange-outlined collapsed" data-toggle="collapse" th:attr="data-target='.context'+${jobContextIterStat.count}+'job'+${iterStat.count}"
                                     th:onclick="'resetJobContextForm(); resetJobForms('+${jobContextsCount}+'); resetHandoverForms();'">
                                 <span class="if-collapsed"><i class="fa fa-arrow-right"></i></span>
                                 <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
                             </button>
                             <span th:if="${!job.isComplete() and job.getDoctor().getId() != #authentication.getPrincipal().getUserCore().getId()}" class="pending-job"><i class="fa fa-arrow-right"></i></span>
                         </td>
-                        <!--<td>-->
-                            <!--<button type="button" class="custom-button blue-outlined"><i class="fa fa-pencil"></i> Edit</button>-->
-                        <!--</td>-->
-                        <td>
-                            <span th:text="${job.getCategory().getName()}"/>
-                        </td>
-                        <td>
-                            <span th:text="${job.getDescription()}"/>
-                        </td>
+                        <td><span th:text="${job.getCategory().getName()}"/></td>
+                        <td><span th:text="${job.getDescription()}"/></td>
                     </tr>
                     <tr th:if="${job.getDoctor().getId() == #authentication.getPrincipal().getUserCore().getId() and !job.isComplete()}" class="handover-form">
                         <td></td>
                         <td colspan="3" style="text-align: left;">
-                            <div th:class="'collapse '+'context'+${iterStat1.count}+'job'+${iterStat.count}" data-parent="#accordion" >
+                            <div th:class="'collapse '+'context'+${jobContextIterStat.count}+'job'+${iterStat.count}" data-parent="#accordion" >
                                 <form action="#" th:action="'/handoverJob?jobId=' + ${job.id}" method="post">
                                     <input type="hidden" name="jobDescription" th:value="${job.description}"/>
                                     <input type="hidden" name="returnTo" value="patient"/>
                                     <table class="job-form">
                                         <tr>
-                                            <td>
-                                                Doctor
-                                            </td>
+                                            <td>Doctor</td>
                                             <td>
                                                 <div class="custom-select">
                                                     <select name="doctor">
-                                                        <option value="" hidden="true">Select doctor</option>
-                                                        <option th:each="user : ${doctorUsers}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
+                                                        <option th:value="${currentDoctor.id}" th:text="${currentDoctor.title}+' '+${currentDoctor.firstName}+' '+${currentDoctor.lastName}"></option>
+                                                        <option th:each="user : ${doctorUsers}" th:if="${user.id}!=${currentDoctor.id}" th:value="${user.id}"
+                                                                th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
                                                     </select>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td></td>
-                                            <td>
-                                                <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
-                                            </td>
+                                            <td><button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button></td>
                                         </tr>
                                     </table>
                                 </form>
