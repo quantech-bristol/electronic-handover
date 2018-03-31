@@ -14,8 +14,10 @@
                 <form th:action="@{/login}" method="post">
                     <table id="login-form-table">
                         <tr>
-                            <td><input type="text" name="username" placeholder="Username"/></td>
-                            <td><input type="password" name="password" placeholder="Password"/></td>
+                            <td><input type="text" name="username" placeholder="Username"
+                                       th:classappend="${param.error} ? error-input"/></td>
+                            <td><input type="password" name="password" placeholder="Password"
+                                       th:classappend="${param.error} ? error-input"/></td>
                             <td><button class="custom-button orange-filled" type="submit">Login</button></td>
                         </tr>
                     </table>
@@ -35,8 +37,6 @@
                 </div>
             </div>
             <div id="login-right"></div>
-            <!--<span th:if="${param.error}">Username or Password is wrong. Please check again</span>-->
-            <!--<span th:if="${param.logout}">Logged out</span>-->
         </div>
     </div>
 </body>

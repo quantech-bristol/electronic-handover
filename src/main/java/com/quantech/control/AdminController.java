@@ -208,9 +208,20 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/addRisk")
-    public String addRisk(@ModelAttribute Risk risk) {
-        riskService.saveRisk(risk);
-        return "redirect:/admin/risks";
+    public String addRisk(@ModelAttribute("newRisk") Risk risk,
+                          BindingResult result,
+                          Errors errors,
+                          Model model) {
+        riskService.CheckValidity(result, risk);
+        if (errors.hasErrors()) {
+            model.addAttribute("newRisk", risk);
+            model.addAttribute("risks", riskService.getAllRisks());
+            model.addAttribute("errs", true);
+            return "admin/risks";
+        } else {
+            riskService.saveRisk(risk);
+            return "redirect:/admin/risks";
+        }
     }
 
     @PostMapping(value="/admin/renameRisk")

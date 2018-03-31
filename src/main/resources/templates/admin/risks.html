@@ -14,6 +14,19 @@
 
 <script src="/js/editEntries.js"></script>
 
+<script>
+    function clearForms() {
+        document.getElementById('name').value = '';
+        document.getElementById('acronym').value = '';
+        var errorMessages = document.getElementsByClassName('error');
+        /*<![CDATA[*/
+        for (let i = 0; i < errorMessages.length; i++) {
+            errorMessages[i].style.display = 'none';
+        }
+        /*]]>*/
+    }
+</script>
+
 <div th:replace="fragments/header :: header">&nbsp;</div>
 
 <div id="wrapper">
@@ -29,23 +42,24 @@
         <tr>
             <td colspan="3">
                 <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-risk">
+                    <button class="custom-button black-outlined" data-toggle="collapse" data-target="#new-risk"
+                            th:classappend="!${errs} ? collapsed" onclick="clearForms();">
                         <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
                         <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                     </button>
                 </div>
-                <div class="collapse" id="new-risk" data-parent="#wrapper">
+                <div class="collapse" id="new-risk" data-parent="#wrapper" th:classappend="${errs} ? show">
                     <form action="#" th:action="@{/admin/addRisk}" th:object="${newRisk}" method="post" class="form-inline">
                         <table class="input-layout">
                             <tr>
                                 <td>Risk name</td>
                                 <td><input type="text" th:field="*{name}" id="name" placeholder="Risk name"/></td>
-                                <td><!--Error message--></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
                             </tr>
                             <tr>
                                 <td>Risk acronym</td>
-                                <td><input type="text" th:field="*{acronym}" id="name" placeholder="Risk acronym"/></td>
-                                <td><!--Error message--></td>
+                                <td><input type="text" th:field="*{acronym}" id="acronym" placeholder="Risk acronym"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('acronym')}" th:errors="*{acronym}"></span></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -59,9 +73,9 @@
         </tr>
         <tr th:each="risk,iterStat : ${risks}">
             <td>
-                <button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${risks.size()}+');'">
-                    <i class="fa fa-pencil"></i>
-                </button>
+                <!--<button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${risks.size()}+');'">-->
+                    <!--<i class="fa fa-pencil"></i>-->
+                <!--</button>-->
             </td>
             <td><span th:text="${risk.acronym}"></span></td>
             <td>

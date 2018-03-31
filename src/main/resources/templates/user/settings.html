@@ -18,6 +18,7 @@
             <td>Confirm Password</td>
             <td></td>
         </tr>
+        <form action="#" th:action="@{/settings}" th:object="${change}" method="post" class="form-inline">
         <tr>
             <td>
                 <span th:text="${#authentication.principal.getUserCore().getFullName()}" class="patient-detail"></span>
@@ -28,23 +29,23 @@
             <td>
                 <span th:text="${#authentication.principal.getUserCore().getEmail()}" class="patient-detail"></span>
             </td>
-            <form action="#" th:action="@{/settings}" th:object="${change}" method="post" class="form-inline">
-                <td>
-                    <input type="password" th:field="*{current}" id="currentPassword" placeholder="Current Password"/>
-                </td>
-                <td>
-                    <input type="password" th:field="*{initial}" id="initialPassword" placeholder="New Password"/>
-                </td>
-                <td>
-                    <input type="password" th:field="*{confirm}" id="confirmPassword" placeholder="Confirm Password"/>
-                </td>
-
-                <td>
-                    <button class="custom-button black-outlined" type="submit">Change Password</button>
-                </td>
-                <!--<span class="error" th:if="${#fields.hasErrors('current')}" th:errors="*{current}"></span>-->
-            </form>
+            <td>
+                <input type="password" th:field="*{current}" id="currentPassword" placeholder="Current Password"/>
+            </td>
+            <td>
+                <input type="password" th:field="*{initial}" id="initialPassword" placeholder="New Password"/>
+            </td>
+            <td>
+                <input type="password" th:field="*{confirm}" id="confirmPassword" placeholder="Confirm Password"/>
+            </td>
+            <td>
+                <button class="custom-button black-outlined" type="submit">Change Password</button>
+            </td>
         </tr>
+        <tr>
+            <td colspan="6"><span class="error" th:if="${#fields.hasErrors('current')}" th:errors="*{current}"></span></td>
+        </tr>
+        </form>
     </table>
 </div>
 </body>

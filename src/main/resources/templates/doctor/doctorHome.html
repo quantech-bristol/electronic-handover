@@ -14,6 +14,24 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <script>
+        function clearForms(jobContexts) {
+            /*<![CDATA[*/
+            for (let id = 1; id < jobContexts+1; id++) {
+                document.getElementById("newCategory"+id).selectedIndex = 0;
+                document.getElementById("newDescription"+id).value = "";
+                document.getElementById("newDoctor"+id).selectedIndex = 0;
+            }
+            /*]]>*/
+            var errorMessages = document.getElementsByClassName('error');
+            /*<![CDATA[*/
+            for (let i = 0; i < errorMessages.length; i++) {
+                errorMessages[i].style.display = 'none';
+            }
+            /*]]>*/
+        }
+    </script>
+
     <div th:replace="fragments/header :: header">&nbsp;</div>
     <div id="wrapper">
         <table class="page-table" id="doctor-home">
@@ -116,14 +134,18 @@
                     <table class="job-table">
                         <tr>
                             <td colspan="4">
-                                <button class="custom-button black-outlined collapsed" data-toggle="collapse" th:attr="data-target='.newJobForm'+${iterStat1.count}">
+                                <button class="custom-button black-outlined" data-toggle="collapse"
+                                        th:attr="data-target='.newJobForm'+${iterStat1.count}"
+                                        th:classappend="${jobContextId}!=${jobContext.id} ? collapsed"
+                                        th:onclick="'clearForms('+${jobContextsCount}+');'">
                                     <span class="if-collapsed"><i class="fa fa-plus"></i></span>
                                     <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
                                 </button>
-                                <form action="#" th:action="@{/createJob}" method="post" th:object="${newJob}">
+                                <form action="#" th:action="@{/addJob/{id}(id=${jobContext.id})}" method="post" th:object="${newJob}">
                                     <input type="hidden" th:value="${jobContext.id}" id="contextId" name="contextId"/>
                                     <input type="hidden" name="returnTo" value="jobs"/>
-                                    <div th:class="'collapse '+'newJobForm'+${iterStat1.count}" data-parent="#wrapper">
+                                    <div th:class="'collapse '+'newJobForm'+${iterStat1.count}" data-parent="#wrapper"
+                                         th:classappend="${jobContextId}==${jobContext.id} ? show">
                                         <table class="job-form">
                                             <tr>
                                                 <td>
@@ -137,6 +159,7 @@
                                                         </select>
                                                     </div>
                                                 </td>
+                                                <td><span class="error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"/></td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -145,6 +168,7 @@
                                                 <td>
                                                     <textarea rows="3" th:field="*{description}" th:id="'newDescription'+${iterStat1.count}" name="jobDescription" placeholder="Job description" style="width: 100%;"></textarea>
                                                 </td>
+                                                <td></td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -158,6 +182,7 @@
                                                         </select>
                                                     </div>
                                                 </td>
+                                                <td><span class="error" th:if="${#fields.hasErrors('doctorId')}" th:errors="*{doctorId}"/></td>
                                             </tr>
                                             <tr>
                                                 <td></td>
@@ -214,8 +239,9 @@
                                                     <td>
                                                         <div class="custom-select">
                                                             <select name="doctor">
-                                                                <option value="" hidden="true">Select doctor</option>
-                                                                <option th:each="user : ${doctorUsers}" th:value="${user.id}" th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
+                                                                <option th:value="${currentDoctor.id}" th:text="${currentDoctor.title}+' '+${currentDoctor.firstName}+' '+${currentDoctor.lastName}"></option>
+                                                                <option th:each="user : ${doctorUsers}" th:if="${user.id}!=${currentDoctor.id}" th:value="${user.id}"
+                                                                        th:text="${user.title}+' '+${user.firstName}+' '+${user.lastName}"></option>
                                                             </select>
                                                         </div>
                                                     </td>

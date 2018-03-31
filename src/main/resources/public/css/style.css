@@ -261,6 +261,13 @@ label {
     font-weight: bold;
 }
 
+.error-input {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 2px solid #DA291C;
+}
+
 .input-layout tr td:first-child {
     text-align: right;
 }
@@ -1032,4 +1039,8 @@ textarea {
 #risks tr td:nth-child(2) {
     width: 1px;
     white-space: nowrap;
+}
+
+#risks tr td .input-layout tr td:nth-child(2) {
+    width: auto;
 }

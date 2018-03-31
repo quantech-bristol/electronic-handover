@@ -171,7 +171,14 @@ public class HandoverController {
             model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
             model.addAttribute("newJob", job);
             model.addAttribute("currentDoctor", user);
-            return "doctor/patient";
+            if (returnTo.equals("patient")) {
+                return "doctor/patient";
+            } else {
+                model.addAttribute("risks",riskService.getAllRisks());
+                model.addAttribute("wards",wardService.getAllWards());
+                model.addAttribute("categories",categoryService.getAllCategories());
+                return "doctor/doctorHome";
+            }
         }
         else {
             Job j = new Job();

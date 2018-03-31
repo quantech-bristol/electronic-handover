@@ -60,4 +60,5 @@ public class WardServiceImpl implements WardService {
             result.rejectValue("name","name.ward","Ward must have a name.");
         }
     }
+
 }

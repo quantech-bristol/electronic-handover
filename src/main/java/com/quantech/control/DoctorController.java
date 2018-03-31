@@ -61,7 +61,7 @@ public class DoctorController {
                        @RequestParam(value = "sort", required = false) String sort,
                        Model model) {
         UserCore user =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
-
+        model.addAttribute("currentDoctor", user);
 
         if (user.isDoctor()) {
             model.addAttribute("risks",riskService.getAllRisks());
@@ -120,7 +120,6 @@ public class DoctorController {
 
             model.addAttribute("jobContexts", jcs);
             //model.addAttribute("jcsWrapped", new JobContextsWrapper(jcs));
-
             return "doctor/doctorHome";
 
         } else if (user.isAdmin()) {
