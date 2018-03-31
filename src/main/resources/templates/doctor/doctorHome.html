@@ -54,35 +54,39 @@
                     <div class="collapse" id="filters" data-parent="#wrapper">
                         <form th:action="'/filterJobContexts'" method="get">
                             <div>
-                                <input type="checkbox" class="filter-box" name="unwell" id="unwell" value="true"/>
-                                <label class="filter-label" for="unwell">Unwell</label>
+                                Status: 
+                                <input type="checkbox" name="unwell" id="unwell" value="true"/>
+                                <label for="unwell">Unwell</label>
                             </div>
                             <div>
+                                Risks:
                                 <span th:each="risk,iterStat : ${risks}">
-                                    <input type="checkbox" class="filter-box" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}"/>
-                                    <label class="filter-label" th:for="${risk.getId()}" th:text="${risk.getName()}"/>
+                                    <input type="checkbox" name="risk" th:id="${risk.getId()}" th:value="${risk.getId()}"/>
+                                    <label th:for="${risk.getId()}" th:text="${risk.getName()}"/>
                                 </span>
                             </div>
                             <div>
+                                Wards:
                                 <span th:each="ward,iterStat : ${wards}">
-                                    <input type="checkbox" class="filter-box" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}"/>
-                                    <label class="filter-label" th:for="${ward.getId()}" th:text="${ward.getName()}"/>
+                                    <input type="checkbox" name="ward" th:id="${ward.getId()}" th:value="${ward.getId()}"/>
+                                    <label th:for="${ward.getId()}" th:text="${ward.getName()}"/>
+                                </span>
+                            </div>
+                            <div>
+                                Categories:
+                                <span th:each="category,iterStat : ${categories}">
+                                    <input type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}"/>
+                                    <label th:for="${category.getId()}" th:text="${category.getName()}"/>
                                 </span>
                             </div>
                             <div>
                                 <span>
-                                    <input type="radio" class="filter-box" name="complete" id="complete" value="true"/>
-                                    <label class="filter-label" for="complete">Complete</label>
+                                    <input type="radio" name="complete" id="complete" value="true"/>
+                                    <label for="complete">Complete</label>
                                 </span>
                                 <span>
-                                    <input type="radio" class="filter-box" name="complete" id="incomplete" value="false"/>
-                                    <label class="filter-label" for="incomplete">Incomplete</label>
-                                </span>
-                            </div>
-                            <div>
-                                <span th:each="category,iterStat : ${category}">
-                                    <input class="filter-box" type="checkbox" name="category" th:id="${category.getId()}" th:value="${category.getId()}"/>
-                                    <label class="filter-label" th:for="${category.getId()}" th:text="${category.getName()}"/>
+                                    <input type="radio" name="complete" id="incomplete" value="false"/>
+                                    <label for="incomplete">Incomplete</label>
                                 </span>
                             </div>
                             <button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button>
