@@ -797,8 +797,13 @@ textarea {
     white-space: nowrap;
 }
 
-.job-context-table .job-table .job-form tr td:last-child {
+.job-context-table .job-table .job-form tr td:nth-child(2) {
     width: 20vw;
+}
+
+.job-context-table .job-table .job-form tr td:nth-child(3) {
+    width: 1px;
+    white-space: nowrap;
 }
 
 .job-context-table .job-table .job-form tr td input,

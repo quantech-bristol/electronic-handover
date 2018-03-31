@@ -78,11 +78,16 @@ public class AdminController {
         return "admin/users";
     }
 
-    @PostMapping(value="/admin/createUser")
-    public String createUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user, BindingResult result, Errors errors) {
+    @PostMapping(value="/admin/addUser")
+    public String createUser(@Valid @ModelAttribute("usercore") UserFormBackingObject user,
+                             BindingResult result,
+                             Errors errors,
+                             Model model) {
         userService.CheckValidity(result, true, user);
         if (errors.hasErrors()) {
-            return "redirect:/admin/users";
+            model.addAttribute("MatchedUsers", userService.getAllUsers());
+            model.addAttribute("errs", true);
+            return "admin/users";
         } else {
             userService.createUser(user);
             return "redirect:/admin";

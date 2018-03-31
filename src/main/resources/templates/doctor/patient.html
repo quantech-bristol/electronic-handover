@@ -67,7 +67,7 @@
                     <span class="if-collapsed"><i class="fa fa-plus"></i></span>
                     <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
                 </button>
-                <form action="#" th:action="@{/patient/{id}(id=${patientId})}" method="post" th:object="${newJobContext}">
+                <form action="#" th:action="@{/patient/{id}(id=${patientInfo.id})}" method="post" th:object="${newJobContext}">
                     <input type="hidden" name="returnTo" value="patient"/>
                     <div class="collapse" data-parent="#accordion" id="newJobContextForm"
                          th:classappend="${errs}=='jc' ? show">

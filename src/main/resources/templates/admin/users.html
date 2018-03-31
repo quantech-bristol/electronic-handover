@@ -11,6 +11,25 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script>
+    function clearForms() {
+        document.getElementById('title').selectedIndex = 0;
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('passwordConfirmation').value = '';
+        document.getElementById('Doctor').checked = false;
+        document.getElementById('Admin').checked = false;
+        var errorMessages = document.getElementsByClassName('error');
+        /*<![CDATA[*/
+        for (let i = 0; i < errorMessages.length; i++) {
+            errorMessages[i].style.display = 'none';
+        }
+        /*]]>*/
+    }
+</script>
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
@@ -26,7 +45,8 @@
         <tr>
             <td colspan="6">
                 <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-user">
+                    <button class="custom-button black-outlined" data-toggle="collapse" data-target="#new-user"
+                            th:classappend="!${errs} ? collapsed" onclick="clearForms();">
                         <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
                         <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                     </button>
@@ -35,15 +55,16 @@
                         <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                     </button>
                 </div>
-                <div class="collapse" id="new-user" data-parent="#wrapper">
-                    <form action="#" th:action="${postUrl}" th:object="${usercore}" method="post">
+                <div class="collapse" id="new-user" data-parent="#wrapper"
+                     th:classappend="${errs} ? show">
+                    <form action="#" th:action="@{/admin/addUser}" th:object="${usercore}" method="post">
                         <input type="hidden" th:field="*{id}" th:value="*{id}" id="id"/>
                         <table class="input-layout">
                             <tr>
                                 <td>Title</td>
                                 <td>
                                     <div class="custom-select">
-                                        <select id="titles" name="titles" th:field="*{title}">
+                                        <select id="title" name="title" th:field="*{title}">
                                             <option value="" hidden="true">Title</option>
                                             <option th:each="state : ${T(com.quantech.model.user.Title).values()}" th:value="${state}" th:text="${state}"></option>
                                         </select>
@@ -86,7 +107,7 @@
                                 <td>
                                     <div th:each="role : ${T(com.quantech.config.SecurityRoles).values()}">
                                         <span th:text="${role}"></span>
-                                        <input type="checkbox"  id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
+                                        <input type="checkbox"  th:id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
                                     </div>
                                 </td>
                                 <td><span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span></td>
@@ -145,7 +166,7 @@
                 <!--<form action="#" th:action="@{/admin/editUser/{id}(id=${user.id})}" method="get" class="form-inline">-->
                     <!--<button class="custom-button black-outlined"  type="submit"><i class="fa fa-pencil"></i></button>-->
                 <!--</form>-->
-                <button class="custom-button black-outlined"  type="button"><i class="fa fa-pencil"></i></button>
+                <!--<button class="custom-button black-outlined"  type="button"><i class="fa fa-pencil"></i></button>-->
             </td>
             <td><span th:text="${user.title.toString()}"></span>
                 <span th:text="${user.firstName}"></span>

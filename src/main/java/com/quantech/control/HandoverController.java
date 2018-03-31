@@ -75,6 +75,7 @@ public class HandoverController {
                              BindingResult result,
                              Errors errors,
                              RedirectAttributes redirectAttributes) {
+        UserCore user =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         patientService.CheckValidity(result, patientFormBackingObject);
         if (errors.hasErrors()) {
             model.addAttribute("patients", patientService.getAllPatients());
@@ -85,6 +86,7 @@ public class HandoverController {
             Patient patient = patientFormBackingObject.toPatient();
             patientService.savePatient(patient);
             redirectAttributes.addAttribute("patientId", patient.getId());
+            model.addAttribute("currentDoctor", user);
             return "redirect:/patient/{patientId}";
         }
     }
@@ -104,7 +106,6 @@ public class HandoverController {
         model.addAttribute("jobContextsCount", patient.getJobContexts().size());
         model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
         model.addAttribute("currentDoctor", user);
-
         return "doctor/patient";
     }
 
@@ -115,6 +116,7 @@ public class HandoverController {
                                 BindingResult result,
                                 Errors errors,
                                 Model model) {
+        UserCore user =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         jobsService.CheckJobContextFormValidity(result, jobContextFormBackingObject);
         if (errors.hasErrors()) {
             Patient patient = patientService.getPatientById(patientId);
@@ -129,6 +131,7 @@ public class HandoverController {
             model.addAttribute("newJobContext", jobContextFormBackingObject);
             model.addAttribute("patientId", patientId);
             model.addAttribute("errs", "jc");
+            model.addAttribute("currentDoctor", user);
             return "doctor/patient";
         } else {
             JobContext jobContext = new JobContext();
@@ -138,7 +141,9 @@ public class HandoverController {
             jobContext.setBed(jobContextFormBackingObject.getBed());
             jobContext.setWard(jobContextFormBackingObject.getWard());
             jobsService.saveJobContext(jobContext);
-            if (returnTo.equals("patient")) return "redirect:/patient/{patientId}";
+            if (returnTo.equals("patient")) {
+                return "redirect:/patient/{patientId}";
+            }
             else return "redirect:/";
         }
     }
@@ -152,6 +157,7 @@ public class HandoverController {
                          BindingResult result,
                          Errors errors,
                          Model model) {
+        UserCore user =  ((UserEntry)authenticator.getAuthentication().getPrincipal()).getUserCore();
         jobsService.CheckJobValidity(result,job);
         if (errors.hasErrors()) {
             Patient patient = jobsService.getJobContext(jobContextId).getPatient();
@@ -164,6 +170,7 @@ public class HandoverController {
             model.addAttribute("jobContextsCount", patient.getJobContexts().size());
             model.addAttribute("doctorUsers", userService.getAllDoctorUsers());
             model.addAttribute("newJob", job);
+            model.addAttribute("currentDoctor", user);
             return "doctor/patient";
         }
         else {
