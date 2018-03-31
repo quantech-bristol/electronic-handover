@@ -134,9 +134,20 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/addWard")
-    public String addWard(@ModelAttribute Ward ward) {
-        wardService.saveWard(ward);
-        return "redirect:/admin/wards";
+    public String addWard(@ModelAttribute("newWard") Ward ward,
+                          BindingResult result,
+                          Errors errors,
+                          Model model) {
+        wardService.CheckValidity(result, ward);
+        if (errors.hasErrors()) {
+            model.addAttribute("newWard", ward);
+            model.addAttribute("wards", wardService.getAllWards());
+            model.addAttribute("errs", true);
+            return "admin/wards";
+        } else {
+            wardService.saveWard(ward);
+            return "redirect:/admin/wards";
+        }
     }
 
     @PostMapping(value="/admin/renameWard")
@@ -160,9 +171,20 @@ public class AdminController {
     }
 
     @RequestMapping(value="/admin/addCategory", method=RequestMethod.POST)
-    public String addCategory(@ModelAttribute Category category) {
-        categoryService.saveCategory(category);
-        return "redirect:/admin/categories";
+    public String addCategory(@ModelAttribute("newCat") Category category,
+                              Errors errors,
+                              Model model,
+                              BindingResult result) {
+        categoryService.CheckValidity(result, category);
+        if (errors.hasErrors()) {
+            model.addAttribute("newCat", category);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("errs", true);
+            return "admin/categories";
+        } else {
+            categoryService.saveCategory(category);
+            return "redirect:/admin/categories";
+        }
     }
 
     @PostMapping(value="/admin/renameCategory")

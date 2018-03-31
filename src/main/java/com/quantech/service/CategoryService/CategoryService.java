@@ -2,6 +2,7 @@ package com.quantech.service.CategoryService;
 
 import com.quantech.model.Category;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface CategoryService {
      * @param id The id corresponding to the category to be deleted.
      */
     void deleteCategory(Long id);
+
+    void CheckValidity(BindingResult result, Category category);
 }

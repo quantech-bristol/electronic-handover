@@ -1,6 +1,7 @@
 package com.quantech.service.WardService;
 
 import com.quantech.model.Ward;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +33,7 @@ public interface WardService
      * @param id The id corresponding to the ward that is to be deleted.
      */
     void deleteWard(Long id);
+
+    void CheckValidity(BindingResult result, Ward ward);
 
 }

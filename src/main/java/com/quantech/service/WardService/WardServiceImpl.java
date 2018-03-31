@@ -4,6 +4,7 @@ import com.quantech.model.Ward;
 import com.quantech.repo.WardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,4 +54,10 @@ public class WardServiceImpl implements WardService {
         wardRepository.delete(id);
     }
 
+    @Override
+    public void CheckValidity(BindingResult result, Ward ward) {
+        if (ward.getName().equals("")) {
+            result.rejectValue("name","name.ward","Ward must have a name.");
+        }
+    }
 }

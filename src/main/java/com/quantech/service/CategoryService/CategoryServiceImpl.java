@@ -5,6 +5,7 @@ import com.quantech.model.Ward;
 import com.quantech.repo.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,4 +36,12 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(Long id) {
         categoryRepository.delete(id);
     }
+
+    @Override
+    public void CheckValidity(BindingResult result, Category category) {
+        if (category.getName().equals("")) {
+            result.rejectValue("name","name.category","Category must have a name.");
+        }
+    }
+
 }

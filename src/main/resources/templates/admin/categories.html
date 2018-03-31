@@ -15,6 +15,18 @@
 
 <script src="/js/editEntries.js"></script>
 
+<script>
+    function clearForms() {
+        document.getElementById('name').value = '';
+        var errorMessages = document.getElementsByClassName('error');
+        /*<![CDATA[*/
+        for (let i = 0; i < errorMessages.length; i++) {
+            errorMessages[i].style.display = 'none';
+        }
+        /*]]>*/
+    }
+</script>
+
 <div id="wrapper">
     <table class="page-table">
         <tr>
@@ -28,18 +40,19 @@
         <tr>
             <td colspan="2">
                 <div>
-                    <button class="custom-button black-outlined collapsed" data-toggle="collapse" data-target="#new-category">
+                    <button class="custom-button black-outlined" data-toggle="collapse" data-target="#new-category"
+                            th:classappend="!${errs} ? collapsed" onclick="clearForms();">
                         <span class="if-collapsed"><i class="fa fa-plus"></i> New</span>
                         <span class="if-not-collapsed"><i class="fa fa-times"></i> Cancel</span>
                     </button>
                 </div>
-                <div class="collapse" id="new-category" data-parent="#wrapper">
+                <div class="collapse" id="new-category" data-parent="#wrapper" th:classappend="${errs} ? show">
                     <form action="#" th:action="@{/admin/addCategory}" th:object="${newCat}" method="post" class="form-inline">
                         <table class="input-layout">
                             <tr>
                                 <td>Category name</td>
                                 <td><input type="text" th:field="*{name}" id="name" placeholder="Category name"/></td>
-                                <td><!--Error message--></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -53,9 +66,9 @@
         </tr>
         <tr th:each="cat,iterStat : ${categories}">
             <td>
-                <button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${categories.size()}+');'">
-                    <i class="fa fa-pencil"></i>
-                </button>
+                <!--<button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${categories.size()}+');'">-->
+                    <!--<i class="fa fa-pencil"></i>-->
+                <!--</button>-->
             </td>
             <td>
                 <div th:text="${cat.name}"></div>
