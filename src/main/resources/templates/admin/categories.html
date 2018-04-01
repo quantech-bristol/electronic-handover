@@ -28,7 +28,7 @@
 </script>
 
 <div id="wrapper">
-    <table class="page-table">
+    <table class="page-table" id="admin">
         <tr>
             <td>
                 <a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a>
@@ -66,16 +66,33 @@
         </tr>
         <tr th:each="cat,iterStat : ${categories}">
             <td>
-                <!--<button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${categories.size()}+');'">-->
-                    <!--<i class="fa fa-pencil"></i>-->
-                <!--</button>-->
+                <button class="custom-button black-outlined" data-toggle="collapse"
+                        th:attr="data-target='#editCategory'+${iterStat.count}"
+                        th:classappend="${categoryId}!=${cat.id} ? collapsed"
+                        onclick="clearForms();">
+                    <span class="if-collapsed"><i class="fa fa-pencil"></i></span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
+                </button>
             </td>
             <td>
                 <div th:text="${cat.name}"></div>
-                <form th:action="@{/admin/renameCategory(id=${cat.id})}" th:id="input+${iterStat.count}" style="display: none;" method="post" class="form-inline">
-                    <input type="text" placeholder="Enter new category name" th:field="*{newCat.name}" />
-                    <button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button>
-                </form>
+                <div th:id="'editCategory'+${iterStat.count}" class="collapse" data-parent="#wrapper"
+                     th:classappend="${categoryId}==${cat.id} ? show">
+                    <form th:action="@{/admin/renameCategory(id=${cat.id})}" th:id="input+${iterStat.count}" method="post" th:object="${newCat}">
+                        <table class="input-layout">
+                            <tr>
+                                <td>Rename category</td>
+                                <td><input type="text" placeholder="Enter new category name" th:field="*{name}" /></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </td>
         </tr>
     </table>

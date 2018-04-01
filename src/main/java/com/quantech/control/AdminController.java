@@ -200,10 +200,21 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/renameCategory")
-    public String renameCategory(@ModelAttribute Category category, @RequestParam(value = "id", required=true) Long id) {
-        category.setId(id);
-        categoryService.saveCategory(category);
-        return "redirect:/admin/categories";
+    public String renameCategory(@ModelAttribute("newCat") Category category, @RequestParam(value = "id", required=true) Long id,
+                                 BindingResult result,
+                                 Errors errors,
+                                 Model model) {
+        categoryService.CheckValidity(result, category);
+        if (errors.hasErrors()) {
+            model.addAttribute("newCat", category);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("categoryId", id);
+            return "admin/categories";
+        } else {
+            category.setId(id);
+            categoryService.saveCategory(category);
+            return "redirect:/admin/categories";
+        }
     }
 
     @GetMapping(value="/admin/deleteCategory")
