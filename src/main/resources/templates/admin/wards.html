@@ -29,7 +29,7 @@
 <div th:replace="fragments/header :: header">&nbsp;</div>
 
 <div id="wrapper">
-    <table class="page-table">
+    <table class="page-table" id="admin">
         <tr>
             <td>
                 <a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a>
@@ -48,7 +48,7 @@
                     </button>
                 </div>
                 <div class="collapse" id="new-ward" data-parent="#wrapper" th:classappend="${errs} ? show">
-                    <form action="#" th:action="@{/admin/addWard}" th:object="${newWard}" method="post" class="form-inline">
+                    <form action="#" th:action="@{/admin/addWard}" th:object="${newWard}" method="post">
                         <table class="input-layout">
                             <tr>
                                 <td>Ward name</td>
@@ -67,16 +67,33 @@
         </tr>
         <tr th:each="existingWard,iterStat : ${wards}">
             <td>
-                <!--<button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${wards.size()}+');'">-->
-                    <!--<i class="fa fa-pencil"></i>-->
-                <!--</button>-->
+                <button class="custom-button black-outlined" data-toggle="collapse"
+                        th:attr="data-target='#editWard'+${iterStat.count}"
+                        th:classappend="${wardId}!=${existingWard.id} ? collapsed"
+                        onclick="clearForms();">
+                    <span class="if-collapsed"><i class="fa fa-pencil"></i></span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
+                </button>
             </td>
             <td>
                 <div th:text="${existingWard.name}"></div>
-                <form th:action="@{/admin/renameWard(id=${existingWard.id})}" th:id="input+${iterStat.count}" style="display: none" method="post" class="form-inline">
-                    <input  type="text" placeholder="Enter new ward name" th:field="*{newWard.name}"/>
-                    <button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button>
-                </form>
+                <div th:id="'editWard'+${iterStat.count}" class="collapse" data-parent="#wrapper"
+                     th:classappend="${wardId}==${existingWard.id} ? show">
+                    <form th:action="@{/admin/renameWard(id=${existingWard.id})}" method="post" th:object="${newWard}">
+                        <table class="input-layout">
+                            <tr>
+                                <td>Rename ward</td>
+                                <td><input  type="text" placeholder="Enter new ward name" th:field="*{name}"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </td>
         </tr>
     </table>

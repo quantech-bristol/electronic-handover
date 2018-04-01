@@ -130,6 +130,7 @@ public class AdminController {
     public String wards(Model model) {
         model.addAttribute("newWard", new Ward());
         model.addAttribute("wards", wardService.getAllWards());
+        model.addAttribute("errs", false);
         return "admin/wards";
     }
 
@@ -140,8 +141,8 @@ public class AdminController {
                           Model model) {
         wardService.CheckValidity(result, ward);
         if (errors.hasErrors()) {
-            model.addAttribute("newWard", ward);
             model.addAttribute("wards", wardService.getAllWards());
+            model.addAttribute("newWard", ward);
             model.addAttribute("errs", true);
             return "admin/wards";
         } else {
@@ -151,10 +152,21 @@ public class AdminController {
     }
 
     @PostMapping(value="/admin/renameWard")
-    public String renameWard(@ModelAttribute Ward ward, @RequestParam(value = "id", required=true) Long id) {
-        ward.setId(id);
-        wardService.saveWard(ward);
-        return "redirect:/admin/wards";
+    public String renameWard(@ModelAttribute("newWard") Ward ward, @RequestParam(value = "id", required=true) Long id,
+                             Errors errors,
+                             Model model,
+                             BindingResult result) {
+        wardService.CheckValidity(result, ward);
+        if (errors.hasErrors()) {
+            model.addAttribute("newWard", ward);
+            model.addAttribute("wards", wardService.getAllWards());
+            model.addAttribute("wardId", id);
+            return "admin/wards";
+        } else {
+            ward.setId(id);
+            wardService.saveWard(ward);
+            return "redirect:/admin/wards";
+        }
     }
 
     @GetMapping(value="/admin/deleteWard")
