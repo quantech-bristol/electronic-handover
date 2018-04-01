@@ -33,17 +33,13 @@
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
-    <table class="page-table">
+    <table id="main-layout">
         <tr>
-            <td>
-                <a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a>
-            </td>
-            <td colspan="5">
-                Users
-            </td>
+            <td><a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a></td>
+            <td colspan="3">Users</td>
         </tr>
         <tr>
-            <td colspan="6">
+            <td colspan="4">
                 <div>
                     <button class="custom-button black-outlined" data-toggle="collapse" data-target="#new-user"
                             th:classappend="!${errs} ? collapsed" onclick="clearForms();">
@@ -102,15 +98,10 @@
                                 <td><input type="password"  th:type = "password" th:field="*{passwordConfirmation}" id="passwordConfirmation" placeholder="Password"/></td>
                                 <td><span class="error" th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}"></span></td>
                             </tr>
-                            <tr>
-                                <td>Roles</td>
-                                <td>
-                                    <div th:each="role : ${T(com.quantech.config.SecurityRoles).values()}">
-                                        <span th:text="${role}"></span>
-                                        <input type="checkbox"  th:id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/>
-                                    </div>
-                                </td>
-                                <td><span class="error" th:if="${#fields.hasErrors('authorityStrings')}" th:errors="*{authorityStrings}"></span></td>
+                            <tr th:each="role,iterStat : ${T(com.quantech.config.SecurityRoles).values()}">
+                                <td><span th:text="${role}"></span></td>
+                                <td style="text-align: left;"><input type="checkbox" th:id="${role}" name="roles" th:field="*{authorityStrings}" th:value="${role}"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('authorityStrings')} and ${iterStat.index} == 0" th:errors="*{authorityStrings}"></span></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -126,30 +117,22 @@
                             <tr>
                                 <td>First name</td>
                                 <td><input type="text" name="firstName" id="firstName" placeholder="First name"/></td>
-                                <td>
-                                    <!--<span class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>-->
-                                </td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Last name</td>
                                 <td><input type="text" name="lastName" id="lastName" placeholder="Last name"/></td>
-                                <td>
-                                    <!--<span class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>-->
-                                </td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Username</td>
                                 <td><input type="text" name="username" id="username" placeholder="Username"/></td>
-                                <td>
-                                    <!--<span class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>-->
-                                </td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Email</td>
                                 <td><input type="text" name="email" id="email" placeholder="Email"/></td>
-                                <td>
-                                    <!--<span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
-                                </td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -168,12 +151,11 @@
                 <!--</form>-->
                 <!--<button class="custom-button black-outlined"  type="button"><i class="fa fa-pencil"></i></button>-->
             </td>
-            <td><span th:text="${user.title.toString()}"></span>
+            <td>
+                <span th:text="${user.title.toString()}"></span>
                 <span th:text="${user.firstName}"></span>
                 <span th:text="${user.lastName}"></span>
             </td>
-            <td></td>
-            <td></td>
             <td><span th:text="${user.username}"></span></td>
             <td><span th:text="${user.email}"></span></td>
         </tr>

@@ -7,14 +7,11 @@
 </head>
 
 <body>
-<div th:replace="fragments/header :: header">&nbsp;</div>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 <script src="/js/editEntries.js"></script>
-
 <script>
     function clearForms() {
         document.getElementById('name').value = '';
@@ -27,15 +24,12 @@
     }
 </script>
 
+<div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
-    <table class="page-table" id="admin">
+    <table id="main-layout">
         <tr>
-            <td>
-                <a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a>
-            </td>
-            <td>
-                Job Categories
-            </td>
+            <td><a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a></td>
+            <td>Job Categories</td>
         </tr>
         <tr>
             <td colspan="2">
@@ -97,6 +91,5 @@
         </tr>
     </table>
 </div>
-
 </body>
 </html>

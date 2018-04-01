@@ -7,7 +7,6 @@
 </head>
 
 <body>
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -32,7 +31,7 @@
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
-    <table class="page-table" id="view-patients-table">
+    <table id="main-layout">
         <tr>
             <td></td>
             <td>Name</td>
@@ -80,7 +79,7 @@
                             </tr>
                             <tr>
                                 <td>Date of birth</td>
-                                <td>
+                                <td style="text-align: left;">
                                     <input type="number" id="day" th:field="*{day}" placeholder="DD" style="width: 60px"/>
                                     <input type="number" id="month" th:field="*{month}" placeholder="MM" style="width: 60px"/>
                                     <input type="number" id="year" th:field="*{year}" placeholder="YYYY" style="width: 76px"/>
@@ -111,14 +110,17 @@
                             <tr>
                                 <td>First Name</td>
                                 <td><input type="text" id="existingFirstName" name="firstName" placeholder="First Name"/></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
                                 <td><input type="text" id="existingLastName" name="lastName" placeholder="Last Name"/></td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td></td>
                                 <td><button type="submit" class="custom-button black-outlined"><i class="fa fa-check"></i></button></td>
+                                <td></td>
                             </tr>
                         </table>
                     </form>

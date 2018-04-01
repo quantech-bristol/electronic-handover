@@ -13,7 +13,6 @@ LIGHT BLUE #41B6E6
 DARK GREY #425563
 MID GREY #768692
 LIGHT GREY #E8EDEE
-#D1D8DC <-- between mid grey and light grey, using for input placeholders
 
 NHS GREEN #009639
 DARK GREEN #006747
@@ -34,6 +33,7 @@ body {
     background-color: #f9fafc;
     margin: 0px 0px 0px 0px;
     font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 
 * {
@@ -52,27 +52,16 @@ body {
     transition: all .08s ease-out;
 }
 
-table tr td {
-    padding: 5px;
+.pending-job {
+    font-size: 11px;
+    color: #D1D8DC;
 }
 
-label {
-    font-weight: normal;
+.completed-job {
+    font-size: 11px;
+    /*color: #78BE20;*/
+    color: #D1D8DC;
 }
-
-/*Hide text buttons*/
-@media (min-width: 901px) {
-    .job-icon-button {
-        display: none;
-    }
-}
-/*Show icon buttons*/
-@media (max-width: 900px) {
-    .job-text-button {
-        display: none;
-    }
-}
-/**/
 
 .fa-exclamation-circle {
     color: #DA291C;
@@ -140,31 +129,6 @@ label {
     text-decoration: none;
 }
 
-.blue-filled {
-    background-color: #005EB8;
-    border-color: #005EB8;
-    color: white;
-}
-
-.blue-filled:hover {
-    background-color: #0072CE;
-    border-color: #0072CE;
-    color: white;
-    text-decoration: none;
-}
-
-.blue-outlined{
-    background-color: transparent;
-    border-color: #005EB8;
-    color: #005EB8;
-}
-
-.blue-outlined:hover {
-    border-color: #0072CE;
-    color: #0072CE;
-    text-decoration: none;
-}
-
 .green-filled {
     background-color: #78BE20;
     border-color: #78BE20;
@@ -190,171 +154,14 @@ label {
     text-decoration: none;
 }
 
-.pink-filled {
-    background-color: #AE2573;
-    border-color: #AE2573;
-    color: white;
-}
-
-.pink-filled:hover {
-    background-color: #7C2855;
-    border-color: #7C2855;
-    color: white;
-    text-decoration: none;
-}
-
-.pink-outlined {
-    background-color: transparent;
-    border-color: #AE2573;
-    color: #AE2573;
-}
-
-.pink-outlined:hover {
-    border-color: #7C2855;
-    color: #7C2855;
-    text-decoration: none;
-}
-
-.red-filled {
-    background-color: #DA291C;
-    border-color: #DA291C;
-    color: white;
-}
-
-.red-filled:hover {
-    background-color: #8A1538;
-    border-color: #8A1538;
-    color: white;
-    text-decoration: none;
-}
-
-.red-outlined {
-    background-color: transparent;
-    border-color: #DA291C;
-    color: #DA291C;
-}
-
-.red-outlined:hover {
-    border-color: #8A1538;
-    color: #8A1538;
-    text-decoration: none;
-}
-
-.pending-job {
-    font-size: 11px;
-    color: #D1D8DC;
-}
-
-.completed-job {
-    font-size: 11px;
-    /*color: #78BE20;*/
-    color: #D1D8DC;
-}
-
-/**********************************************************************************************************************/
-/* Inputs */
-/**********************************************************************************************************************/
-
-.error {
-    color: #DA291C;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.error-input {
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    border-bottom: 2px solid #DA291C;
-}
-
-.input-layout tr td:first-child {
-    text-align: right;
-}
-
-.input-layout tr:last-child td:nth-child(2) {
-    text-align: center;
-}
-
-input[type="checkbox"], input[type="radio"] {
-    height: auto;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input {
-    height: 25px;
-}
-
-*:focus {
-    outline: none;
-}
-
-.custom-select  {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    width: 100%;
-}
-
-.custom-select select {
-    height: 25px;
-    width: 100%;
-    line-height: normal;
-    padding-left: 5px;
-    border: 1px solid #c8c8c8;
-    color: black;
-    -webkit-border-radius: 0px;
-       -moz-border-radius: 0px;
-            border-radius: 0px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    -ms-appearance: none;
-    appearance: none;
-}
-
-.custom-select:after{
-    content: "";
-    position: absolute;
-    z-index: 2;
-    right: 8px;
-    top: 50%;
-    margin-top: -3px;
-    height: 0;
-    width: 0;
-    border-top: 6px solid #9f9f9f; /*down arrow color*/
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    pointer-events: none;
-}
-
-input,
-.custom-select,
-select,
-textarea {
-    width: 100%;
-}
-
-input[type=checkbox],
-input[type=radio] {
-    width: auto;
-}
-
 /**********************************************************************************************************************/
 /* Header */
 /**********************************************************************************************************************/
 
 #header {
-    background-color: #005EB8; /*NHS blue*/
-    /*background-color: #33599f; !*NHS dark blue at 80%*!*/
-    /*background-color: #004e99; !*NHS blue made darker*!*/
+    background-color: #005EB8;
     height: 50px;
     width: 100%;
-    /*position: relative;*/
     position: fixed;
     top: 0px;
     z-index: 999999;
@@ -570,104 +377,105 @@ input[type=radio] {
     padding: 0 0.5vw;
 }
 
-/*#login-container input[type="text"], input[type="password"] {*/
-    /*background-color: rgba(255, 255, 255, 0.9);*/
-    /*min-width: 120px;*/
-    /*width: 12vw;*/
-/*}*/
+/**********************************************************************************************************************/
+/* Layout */
+/**********************************************************************************************************************/
 
-/*#login-container input[type="text"]::placeholder, input[type="password"]::placeholder {*/
-    /*color: rgba(0, 94, 184, 0.3);*/
-
-/*}*/
-
-/*#login-container input[type="text"]:focus, input[type="password"]:focus {*/
-    /*outline: none;*/
-    /*background-color: rgba(255, 255, 255, 1);*/
-/*}*/
-
-#electronic-handover {
+#main-layout {
     width: 100%;
-    height: 80%;
-    text-align: center;
-    color: white;
-    font-size: 8vh;
-    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
 }
 
-/**********************************************************************************************************************/
-/* Filtering and Sorting */
-/**********************************************************************************************************************/
+#main-layout tr td {
+    padding: 10px;
+    color: black;
+    vertical-align: top;
+    text-align: left;
+}
 
-/*.dropdown {*/
-    /*position: relative;*/
-    /*display: inline-block;*/
-/*}*/
+#main-layout tr:nth-child(odd) {
+    background-color: #edf2f8;
+}
 
-/*.drop-content {*/
-    /*display: none;*/
-    /*position: absolute;*/
-    /*background-color: white;*/
-    /*border: 1px solid #768692;*/
-/*}*/
-
-/*.drop-content h5, .drop-content h4 {*/
-    /*font-size: 12px;*/
-/*}*/
-
-/*.drop-content h4 {*/
-    /*text-decoration: underline;*/
-/*}*/
-
-/*.dropdown:hover .drop-content {*/
-    /*display: block;*/
-/*}*/
-
-/*.filter-box, .filter-label {*/
-    /*!*font-size: 10px;*!*/
-/*}*/
-
-/*.filter-label {*/
-    /*display: inline-block;*/
-    /*vertical-align: middle;*/
-    /*line-height: inherit;*/
-    /*text-decoration: none;*/
-/*}*/
-
-/*.patient-table .dropdown-table tr {*/
-    /*border: none;*/
-    /*background: none;*/
-    /*height: auto;*/
-    /*!*border: 1px solid #768692;*!*/
-/*}*/
-
-/*.patient-table .dropdown-table tr td {*/
-    /*!*padding: 0;*!*/
-    /*font-size: 14px;*/
-    /*color: black;*/
-    /*padding: 5px;*/
-    /*!*!*border: 1px solid black;*!*!*/
-    /*!*width: 1px;*!*/
-    /*!*white-space: nowrap;*!*/
-/*}*/
-
-/**********************************************************************************************************************/
-/* View patient */
-/**********************************************************************************************************************/
-
-#patient-info-wrapper {
+#main-layout tr:first-child td {
     background-color: #30384d;
-    padding: 15px 30px;
-}
-
-.patient-info-label {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.patient-info-text {
-    font-size: 15px;
     color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+}
+
+#main-layout tr td:first-child {
+    width: 1px;
+    white-space: nowrap;
+    min-width: 40px;
+}
+
+#main-layout tr td.no-padding {
+    padding: 0;
+}
+
+#main-layout .job-table,
+#main-layout .input-layout {
+    width: 100%;
+}
+
+#main-layout .job-table tr,
+#main-layout .job-table tr td,
+#main-layout .input-layout tr,
+#main-layout .input-layout tr td {
+    background: none;
+}
+
+#main-layout .job-table tr:not(.handover, :last-child, :first-child) {
+    border-bottom: 1px solid #D1D8DC;
+}
+
+#main-layout .job-table tr:not(:first-child) td:first-child,
+#main-layout .job-table tr:not(:first-child) td:nth-child(2) {
+    width: 1px;
+    white-space: nowrap;
+    text-align: center;
+    min-width: 40px;
+}
+
+#main-layout .job-table tr:not(:first-child) td:nth-child(3) {
+    width: 8vw;
+    min-width: 100px;
+}
+
+#main-layout .input-layout {
+    width: 100%;
+}
+
+#main-layout .input-layout tr,
+#main-layout .job-table .input-layout tr {
+    border: none;
+}
+
+#main-layout .input-layout tr td,
+#main-layout .job-table .input-layout tr td {
+    color: black;
+    font-size: 14px;
+    padding: 10px;
+}
+
+#main-layout .input-layout tr td:first-child,
+#main-layout .job-table .input-layout tr td:first-child {
+    text-align: right;
+    width: 1px;
+    white-space: nowrap;
+}
+
+#main-layout .input-layout tr td:nth-child(2),
+#main-layout .job-table .input-layout tr td:nth-child(2) {
+    text-align: center;
+    width: 20vw;
+    white-space: normal;
+}
+
+#main-layout .input-layout tr td:nth-child(3),
+#main-layout .job-table .input-layout tr td:nth-child(3) {
+    text-align: left;
+    width: auto;
+    white-space: normal;
 }
 
 [data-toggle="collapse"].collapsed .if-not-collapsed {
@@ -678,167 +486,94 @@ input[type=radio] {
     display: none;
 }
 
-.job-context-table {
+/**********************************************************************************************************************/
+/* Inputs */
+/**********************************************************************************************************************/
+
+input {
+    height: 25px;
+}
+
+*:focus {
+    outline: none;
+}
+
+input,
+.custom-select,
+select,
+textarea {
     width: 100%;
 }
 
-.job-context-table tr td {
-    padding: 10px 30px;
-    vertical-align: top;
-    /*border: 1px solid blue;*/
-}
-
-.job-context-table tr:nth-child(even) {
-    background-color: #edf2f8;
-}
-
-.job-context-table tr:nth-child(odd) {
-    background-color: #f9fafc;
-}
-
-.job-context-table tr td:first-child {
-    width: 170px;
-    min-width: 170px;
-    max-width: 170px;
-}
-
-.job-context-table tr:not(:first-child) td:last-child {
-    padding: 0;
-    /*border: 1px solid green;*/
-}
-
-.job-context-table tr td:nth-child(2) {
-    width: 1px;
-    white-space: nowrap;
-}
-
-.job-context-table #job-context-form tr {
-    background: none;
-}
-
-.job-context-table #job-context-form tr td {
-    padding: 5px;
-    vertical-align: middle;
-}
-
-.job-context-table #job-context-form tr td:first-child {
-    /*border: 1px solid green;*/
-    text-align: right;
-    width: 1px;
-    white-space: nowrap;
-    min-width: auto;
-    max-width: available;
-}
-
-.job-context-table #job-context-form tr td:nth-child(2) {
-    white-space: normal;
-    width: 20vw;
-}
-
-.job-context-table #job-context-form tr:last-child td {
-    text-align: center;
-}
-
-.job-context-table #job-context-form tr td input,
-.job-context-table #job-context-form tr td .custom-select,
-.job-context-table #job-context-form tr td select,
-.job-context-table #job-context-form tr td textarea {
-    width: 100%;
-}
-
-.job-context-table .job-table {
-    width: 100%;
-}
-
-.job-context-table .job-table tr {
-    background: none;
-    border-bottom: 1px solid #D1D8DC;
-}
-
-.job-context-table .job-table .handover {
-    border: none;
-}
-
-.job-context-table .job-table .handover-form td {
-    padding: 0;
-}
-
-.job-context-table .job-table tr:last-child {
-    border: none;
-}
-
-.job-context-table .job-table tr td {
-    padding: 5px;
+input[type=checkbox],
+input[type=radio] {
     width: auto;
-    min-width: auto;
-    max-width: available;
-    white-space: normal;
+    height: auto;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.custom-select  {
+    display: inline-block;
     vertical-align: middle;
-}
-
-.job-context-table .job-table tr:first-child td {
-    /*border: 1px solid red;*/
-    padding: 10px 5px;
-}
-
-.job-context-table .job-table tr:not(:first-child) td:first-child,
-.job-context-table .job-table tr:not(:first-child) td:nth-child(2) {
-    width: 40px;
-    min-width: 40px;
-    text-align: center;
-}
-
-.job-context-table .job-table tr:not(:first-child) td:nth-child(3) {
-    width: 10vw;
-    min-width: 100px;
-}
-
-.job-table .job-form tr {
-    border: none;
-}
-
-.job-table .job-form tr td {
-    /*border: 1px solid red;*/
-    padding: 5px;
-    background: none;
-}
-
-.job-context-table .job-table .job-form tr td:first-child {
-    text-align: right;
-    width: 1px;
-    white-space: nowrap;
-}
-
-.job-context-table .job-table .job-form tr td:nth-child(2) {
-    width: 20vw;
-}
-
-.job-context-table .job-table .job-form tr td:nth-child(3) {
-    width: 1px;
-    white-space: nowrap;
-}
-
-.job-context-table .job-table .job-form tr td input,
-.job-context-table .job-table .job-form tr td .custom-select,
-.job-context-table .job-table .job-form tr td select,
-.job-context-table .job-table .job-form tr td textarea {
+    position: relative;
     width: 100%;
 }
 
-/**********************************************************************************************************************/
-/* Create/Edit user */
-/**********************************************************************************************************************/
-
-#user-details-entry tr td {
-    padding: 5px;
+.custom-select select {
+    height: 25px;
+    width: 100%;
+    line-height: normal;
+    padding-left: 5px;
+    border: 1px solid #c8c8c8;
+    color: black;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
 }
 
-/**********************************************************************************************************************/
-/* Create Handover */
-/**********************************************************************************************************************/
+.custom-select:after{
+    content: "";
+    position: absolute;
+    z-index: 2;
+    right: 8px;
+    top: 50%;
+    margin-top: -3px;
+    height: 0;
+    width: 0;
+    border-top: 6px solid #9f9f9f; /*down arrow color*/
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    pointer-events: none;
+}
 
-#patient-details tr td {
-    padding: 8px;
+.input-layout tr td:first-child {
+    text-align: right;
+}
+
+.input-layout tr:last-child td:nth-child(2) {
+    text-align: center;
+}
+
+.error {
+    color: #DA291C;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.error-input {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 2px solid #DA291C;
 }
 
 /**********************************************************************************************************************/
@@ -879,177 +614,4 @@ input[type=radio] {
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
-}
-
-/**********************************************************************************************************************/
-/* Filter patients */
-/**********************************************************************************************************************/
-
-#view-patients-table tr td:first-child {
-    width: 1px;
-    white-space: nowrap;
-}
-
-#view-patients-table tr:nth-child(2) td:first-child {
-    vertical-align: top;
-}
-
-#view-patients-table .input-layout tr td:first-child {
-    vertical-align: center;
-}
-
-/**********************************************************************************************************************/
-/* Page layout */
-/**********************************************************************************************************************/
-
-.page-table {
-    width: 100%;
-}
-
-.page-table tr td {
-    /*border: 1px solid red;*/
-    padding: 10px;
-}
-
-.page-table tr td:first-child {
-    width: 1px;
-    white-space: nowrap;
-}
-
-.page-table tr:nth-child(odd) {
-    background-color: #edf2f8;
-}
-
-.page-table tr:first-child {
-    background-color: #30384d;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 16px;
-}
-
-.page-table .input-layout tr {
-    background: none;
-    color: black;
-    font-size: 14px;
-}
-
-.page-table .input-layout tr td:first-child {
-    text-align: right;
-}
-
-/**********************************************************************************************************************/
-/* Jobs page */
-/**********************************************************************************************************************/
-
-#doctor-home tr td {
-    /*border: 1px solid red;*/
-}
-
-#doctor-home tr:not(:first-child, :nth-child(2)) td {
-    vertical-align: top;
-}
-
-#doctor-home tr:not(:first-child, :nth-child(2)) td:last-child {
-    padding: 0;
-}
-
-#doctor-home tr td:nth-child(2) {
-    /*width: 1px;*/
-    /*white-space: nowrap;*/
-}
-
-#doctor-home .patient-info-text {
-    color: black;
-    font-size: 15px;
-}
-
-#doctor-home .patient-info-label {
-    color: rgba(0, 0, 0, 0.7);
-    font-size: 13px;
-}
-
-#doctor-home .job-table {
-    width: 100%;
-}
-
-#doctor-home .job-table tr {
-    background: none;
-    font-size: 14px;
-}
-
-#doctor-home .job-table tr:not(:last-child) {
-    border-bottom: 1px solid #D1D8DC;
-}
-
-
-#doctor-home .job-table tr td,
-#doctor-home .job-table tr:first-child td {
-    padding: 5px;
-    color: black;
-    vertical-align: middle;
-}
-
-#doctor-home .job-table tr:not(:first-child) td:first-child,
-#doctor-home .job-table tr:not(:first-child) td:nth-child(2) {
-    /*border: 1px solid green;*/
-    width: 1px;
-    white-space: nowrap;
-    text-align: center;
-}
-
-#doctor-home .job-table tr:not(:first-child) td:nth-child(3) {
-    width: 10vw;
-    min-width: 100px;
-}
-
-#doctor-home .job-table .job-form tr {
-    border: none;
-}
-
-#doctor-home .job-table .job-form tr td:first-child {
-    text-align: right;
-}
-
-#doctor-home .job-table .job-form tr td:nth-child(2) {
-    width: 10vw;
-    min-width: 100px;
-}
-
-#doctor-home .job-table .job-form tr td input,
-#doctor-home .job-table .job-form tr td .custom-select,
-#doctor-home .job-table .job-form tr td select,
-#doctor-home .job-table .job-form tr td textarea {
-    width: 100%;
-}
-
-#doctor-home .job-table tr.handover {
-    border: none;
-}
-
-#doctor-home .job-table .handover-form td {
-    padding: 0;
-}
-
-/**********************************************************************************************************************/
-/* Admin page */
-/**********************************************************************************************************************/
-
-#admin tr td {
-    vertical-align: top;
-}
-
-/**********************************************************************************************************************/
-/* Risks */
-/**********************************************************************************************************************/
-
-#risks tr td {
-    text-align: left;
-}
-
-#risks tr td:nth-child(2) {
-    width: 1px;
-    white-space: nowrap;
-}
-
-#risks tr td .input-layout tr td:nth-child(2) {
-    width: auto;
 }

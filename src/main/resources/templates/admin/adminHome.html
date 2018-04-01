@@ -6,47 +6,42 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
 </head>
 
-<body style="background-color: #f9fafc;">
-
+<body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <div th:replace="fragments/header :: header">&nbsp;</div>
 <div id="wrapper">
-    <table class="page-table" id="admin">
+    <table id="main-layout">
         <tr>
-            <td>
-                Admin
-            </td>
+            <td></td>
+            <td>Admin</td>
         </tr>
         <tr>
-            <td>
-                <form th:action="@{/admin/users}" method="get">
-                    <input type="hidden" name="firstName" value=""/>
-                    <input type="hidden" name="lastName" value=""/>
-                    <input type="hidden" name="username" value=""/>
-                    <input type="hidden" name="email" value=""/>
-                    <button class="custom-button black-outlined" type="submit">Users</button>
-                </form>
-            </td>
+            <td><form th:action="@{/admin/users}" method="get">
+                <input type="hidden" name="firstName" value=""/>
+                <input type="hidden" name="lastName" value=""/>
+                <input type="hidden" name="username" value=""/>
+                <input type="hidden" name="email" value=""/>
+                <button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button>
+            </form></td>
+            <td>Users</td>
         </tr>
         <tr>
-            <td>
-                <a th:href="@{/admin/wards}"><button class="custom-button black-outlined">Hospital Wards</button></a>
-            </td>
+            <td><a th:href="@{/admin/wards}"><button class="custom-button black-outlined"><i class="fa fa-check"></i></button></a></td>
+            <td>Hospital Wards</td>
         </tr>
         <tr>
-            <td>
-                <a th:href="@{/admin/categories}"><button class="custom-button black-outlined">Job Categories</button></a>
-            </td>
+            <td><a th:href="@{/admin/categories}"><button class="custom-button black-outlined"><i class="fa fa-check"></i></button></a></td>
+            <td>Job Categories</td>
         </tr>
         <tr>
-            <td>
-                <a th:href="@{/admin/risks}"><button class="custom-button black-outlined">Patient Risks</button></a>
-            </td>
+            <td><a th:href="@{/admin/risks}"><button class="custom-button black-outlined"><i class="fa fa-check"></i></button></a></td>
+            <td>Patient Risks</td>
         </tr>
         <!--<tr>-->
+            <!--<td></td>-->
             <!--<td>-->
                 <!--<a th:href="@{/admin/filterLogs}"><button class="custom-button black-outlined">Search Logs</button></a>-->
             <!--</td>-->
