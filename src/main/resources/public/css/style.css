@@ -1041,6 +1041,10 @@ input[type=radio] {
 /* Risks */
 /**********************************************************************************************************************/
 
+#risks tr td {
+    text-align: left;
+}
+
 #risks tr td:nth-child(2) {
     width: 1px;
     white-space: nowrap;

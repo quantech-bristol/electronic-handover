@@ -30,7 +30,7 @@
 <div th:replace="fragments/header :: header">&nbsp;</div>
 
 <div id="wrapper">
-    <table class="page-table" id="risks">
+    <table class="page-table" id="admin">
         <tr>
             <td>
                 <a th:href="@{/admin}" class="custom-button white-outlined"><i class="fa fa-arrow-left"></i></a>
@@ -73,19 +73,39 @@
         </tr>
         <tr th:each="risk,iterStat : ${risks}">
             <td>
-                <!--<button class="custom-button black-outlined" th:id="link+${iterStat.count}" th:onclick="'show('+${iterStat.count}+','+${risks.size()}+');'">-->
-                    <!--<i class="fa fa-pencil"></i>-->
-                <!--</button>-->
+                <button class="custom-button black-outlined" data-toggle="collapse"
+                        th:attr="data-target='#editRisk'+${iterStat.count}"
+                        th:classappend="${riskId}!=${risk.id} ? collapsed"
+                        onclick="clearForms();">
+                    <span class="if-collapsed"><i class="fa fa-pencil"></i></span>
+                    <span class="if-not-collapsed"><i class="fa fa-times"></i></span>
+                </button>
             </td>
-            <td><span th:text="${risk.acronym}"></span></td>
+            <td style="width: 1px; white-space: nowrap;"><span th:text="${risk.acronym}"></span></td>
             <td>
                 <div th:text="${risk.name}"></div>
-                <form th:action="@{/admin/renameRisk(id=${risk.id})}" method="post" class="form-inline"
-                      th:id="input+${iterStat.count}" style="display: none">
-                    <input type="text" placeholder="new name" th:field="*{newRisk.name}"/>
-                    <input type="text" placeholder="new acronym" th:field="*{newRisk.acronym}"/>
-                    <button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button>
-                </form>
+                <div th:id="'editRisk'+${iterStat.count}" class="collapse" data-parent="#wrapper"
+                     th:classappend="${riskId}==${risk.id} ? show">
+                    <form th:action="@{/admin/renameRisk(id=${risk.id})}" method="post" th:object="${newRisk}">
+                        <table class="input-layout">
+                            <tr>
+                                <td>Rename risk</td>
+                                <td><input type="text" placeholder="new name" th:field="*{name}"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></td>
+                            </tr>
+                            <tr>
+                                <td>New acronym</td>
+                                <td><input type="text" placeholder="new acronym" th:field="*{acronym}"/></td>
+                                <td><span class="error" th:if="${#fields.hasErrors('acronym')}" th:errors="*{acronym}"></span></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><button class="custom-button black-outlined" type="submit"><i class="fa fa-check"></i></button></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
             </td>
         </tr>
     </table>
