@@ -15,15 +15,17 @@
 <body>
     <table width="100%">
         <colgroup>
-            <col span="1" style="width: 30%;" />
+            <col span="1" style="width: 25%;" />
             <col span="1" style="width: 10%;" />
-            <col span="1" style="width: 50%;" />
+            <col span="1" style="width: 25%;" />
+            <col span="1" style="width: 30%;" />
         </colgroup>
 
         <thead>
             <tr>
                 <th>Patient Details</th>
                 <th>Unwell</th>
+                <th>Clinical Details</th>
                 <th>Jobs</th>
                 <th>Done</th>
             </tr>
@@ -38,6 +40,7 @@
                         Age: <span th:text="${jc.patient.getAge()}" />
                     </p>
                     <p>Hosp. #: <span th:text="${jc.patient.hospitalNumber}"/></p>
+                    <p>NHS #: <span th:text="${jc.patient.getNHSNumber()}"/></p>
                     <p>Ward: <span th:text="${jc.ward.name}"/></p>
                     <p>Bed: <span th:text="${jc.bed}"/></p>
                 </td>
@@ -48,6 +51,9 @@
                             <!--<span th:text="${risk.name}" style="color: #DA291C;" />-->
                         <!--</p>-->
                     <!--</div>-->
+                </td>
+                <td>
+                    <p><span th:text="${jc.getClinicalDetails()}"/></p>
                 </td>
                 <td>
                     <div th:each="job : ${jc.jobs}">
