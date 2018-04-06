@@ -42,11 +42,11 @@ CREATE ROLE quantech WITH LOGIN PASSWORD 'quantech';
 ALTER ROLE quantech CREATEDB;
 ```
 You can quit psql using the `\q` command.
-We advise you change the password of this user once you have everything installed. You can do this in psql:
+We recommend you change the password for _quantech_ once you have everything installed and running. You can do this in psql:
 ```bash
 \password quantech
 ```
-Then enter a password. You'll also need to change line 13 of [application-dev.yml](src/main/resources/application-dev.yml) to your new password.
+Then enter a new password. You'll also need to change line 13 of [application-dev.yml](src/main/resources/application-dev.yml) to your new password.
 
 6. Using psql, create a new database and give _quantech_ all privileges:
 ```bash
