@@ -6,23 +6,23 @@ Electronic Handover Installation Instructions
 These instructions will show you how to install all dependencies and run the system on your local machine.
 
 Our project is dependent on the following programs:
-* Java SE SDK 8 or later
+* Java 8 or later
 * Maven 3.5.2 or later
 * PostgreSQL 10.1 or later
 
-Throughout this instruction set we will assume you are using a Unix based OS and have Homebrew/Linuxbrew installed. If you don't have brew installed you can find instructions at the following links:
+**Throughout this instruction set we will assume you are using a Unix based OS and have Homebrew/Linuxbrew installed.** If you don't have brew installed you can find instructions at the following links:
 
 Homebrew: https://brew.sh/
 
 Linuxbrew: http://linuxbrew.sh/
 
-1. Install the latest version of the Java SE SDK which can be found at the following address:
+1. Install the latest version of Java which can be found at the following address:
 
    http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
    Follow the instructions there to download and install the relevant version for your system.
 
-2. Install the latest version of Maven using brew:
+2. Install Maven using brew:
 ```bash
 brew install maven
 ```
@@ -54,8 +54,9 @@ CREATE DATABASE handoverdb;
 GRANT ALL PRIVILEGES ON DATABASE handoverdb TO quantech;
 ```
 
-7. In a terminal window, run the Spring Boot Web Application:
+7. In a terminal window, navigate to electronic-handover and run the Spring Boot Web Application:
 ```bash
+cd electronic-handover
 mvn spring-boot:run
 ```
 8. In your web browser go to:
